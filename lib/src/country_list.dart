@@ -1,0 +1,46 @@
+import 'package:circle_flags/circle_flags.dart';
+import 'package:flutter/material.dart';
+import 'package:phone_numbers_parser/phone_numbers_parser.dart';
+
+class CountryList extends StatelessWidget {
+  final bool showFlags;
+  final bool useEmoji;
+  final Function(Country) onTap;
+  final List<Country> countries;
+
+  const CountryList({
+    required this.countries,
+    required this.onTap,
+    this.showFlags = true,
+    this.useEmoji = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      // controller: widget.scrollController,
+      shrinkWrap: true,
+      itemCount: countries.length,
+      itemBuilder: (BuildContext context, int index) {
+        Country country = countries[index];
+        return ListTile(
+          key: Key(country.isoCode),
+          leading: showFlags ? CircleFlag(country.isoCode) : null,
+          title: Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(country.name, textAlign: TextAlign.start),
+          ),
+          subtitle: Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              '+ ${country.dialCode} ${country.phone.leadingDigits}',
+              textDirection: TextDirection.ltr,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          onTap: () => onTap(country),
+        );
+      },
+    );
+  }
+}
