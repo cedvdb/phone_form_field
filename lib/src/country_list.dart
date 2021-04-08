@@ -33,7 +33,7 @@ class CountryList extends StatelessWidget {
           subtitle: Align(
             alignment: AlignmentDirectional.centerStart,
             child: Text(
-              '+ ${country.dialCode} ${country.phone.leadingDigits}',
+              country.displayDialCode,
               textDirection: TextDirection.ltr,
               textAlign: TextAlign.start,
             ),

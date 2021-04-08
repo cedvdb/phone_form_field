@@ -3,6 +3,7 @@ description: A new Flutter package project.
 version: 0.0.1
 author:
 homepage:
+publish_to: none
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -12,7 +13,8 @@ dependencies:
   flutter:
     sdk: flutter
   circle_flags: ^0.0.1
-  phone_numbers_parser: ^0.0.2
+  phone_numbers_parser: 
+    git: https://github.com/cedvdb/phone_number_parser.git
   font_awesome_flutter: ^9.0.0
 
 dev_dependencies:

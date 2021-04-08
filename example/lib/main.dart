@@ -11,7 +11,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('us', '');
+  PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('us', '011');
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,11 @@ class _MyAppState extends State<MyApp> {
           child: Center(
             child: Column(
               children: [
-                PhoneInput(
+                PhoneFormField(
                   phoneNumber: phoneNumber,
-                  onChange: (p) => setState(() => phoneNumber = p),
+                  onChange: (p) {
+                    setState(() => phoneNumber = p);
+                  },
                 ),
                 TextFormField(),
               ],
