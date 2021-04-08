@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 class CountryList extends StatelessWidget {
-  final bool showFlags;
-  final bool useEmoji;
+  final bool displayLeadingDigitsInDialCode;
   final Function(Country) onTap;
   final List<Country> countries;
 
   const CountryList({
     required this.countries,
     required this.onTap,
-    this.showFlags = true,
-    this.useEmoji = false,
+    required this.displayLeadingDigitsInDialCode,
   });
 
   @override
@@ -25,7 +23,7 @@ class CountryList extends StatelessWidget {
         Country country = countries[index];
         return ListTile(
           key: Key(country.isoCode),
-          leading: showFlags ? CircleFlag(country.isoCode) : null,
+          leading: CircleFlag(country.isoCode),
           title: Align(
             alignment: AlignmentDirectional.centerStart,
             child: Text(country.name, textAlign: TextAlign.start),
@@ -33,7 +31,9 @@ class CountryList extends StatelessWidget {
           subtitle: Align(
             alignment: AlignmentDirectional.centerStart,
             child: Text(
-              country.displayDialCode,
+              country.getDialCodeForDisplay(
+                withLeadingDigits: displayLeadingDigitsInDialCode,
+              ),
               textDirection: TextDirection.ltr,
               textAlign: TextAlign.start,
             ),

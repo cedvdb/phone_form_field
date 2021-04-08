@@ -5,8 +5,12 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 class CountrySelector extends StatefulWidget {
   final Function(Country) onCountrySelected;
+  final bool displayLeadingDigitsInDialCode;
 
-  CountrySelector({required this.onCountrySelected});
+  CountrySelector({
+    required this.onCountrySelected,
+    required this.displayLeadingDigitsInDialCode,
+  });
 
   @override
   _CountrySelectorState createState() => _CountrySelectorState();
@@ -41,6 +45,8 @@ class _CountrySelectorState extends State<CountrySelector> {
           flex: 9,
           child: CountryList(
             countries: _filteredCountries,
+            displayLeadingDigitsInDialCode:
+                widget.displayLeadingDigitsInDialCode,
             onTap: (country) {
               widget.onCountrySelected(country);
               Navigator.pop(context);

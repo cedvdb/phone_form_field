@@ -27,8 +27,10 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               children: [
                 PhoneFormField(
-                  phoneNumber: phoneNumber,
-                  onChange: (p) {
+                  initialValue: phoneNumber,
+                  autofocus: true,
+                  onChanged: (p) => print(p),
+                  onSaved: (p) {
                     setState(() => phoneNumber = p);
                   },
                 ),

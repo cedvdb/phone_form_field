@@ -7,19 +7,22 @@ class CountryButton extends StatelessWidget {
   final bool showFlag;
   final Function() onPressed;
   final TextStyle textStyle;
+  final bool displayLeadingDigitsInDialCode;
 
   CountryButton({
     required this.country,
     required this.onPressed,
     required this.showFlag,
     required this.textStyle,
+    required this.displayLeadingDigitsInDialCode,
   });
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      minWidth: 50,
       onPressed: onPressed,
-      padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+      padding: const EdgeInsets.all(20),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -33,7 +36,9 @@ class CountryButton extends StatelessWidget {
             ),
           ],
           Text(
-            country.dialCode,
+            country.getDialCodeForDisplay(
+              withLeadingDigits: displayLeadingDigitsInDialCode,
+            ),
             style: textStyle,
           ),
         ],

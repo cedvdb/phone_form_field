@@ -4,14 +4,12 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'country_button.dart';
 
-enum DialCodeType { withLeadingDigits, dialCodeOnly }
-
 class PhoneFormField extends FormField<PhoneNumber> {
-  final DialCodeType dialCodeType;
+  final bool displayLeadingDigitsInDialCode;
   final bool autofocus;
-  final bool showFlagInCountrySelection;
   final bool showFlagInInput;
   final TextStyle inputTextStyle;
+  final ValueChanged<PhoneNumber?>? onChanged;
 
   static String _defaultValidator(PhoneNumber? phoneNumber) {
     return phoneNumber == null || phoneNumber.valid
@@ -22,21 +20,21 @@ class PhoneFormField extends FormField<PhoneNumber> {
   PhoneFormField({
     // form field params
     Key? key,
-    void Function(PhoneNumber?)? onSaved,
+    void Function(PhoneNumber)? onSaved,
     PhoneNumber? initialValue,
     bool enabled = true,
     String? Function(PhoneNumber?)? validator = _defaultValidator,
     AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
     // our params
-    this.dialCodeType = DialCodeType.withLeadingDigits,
+    this.onChanged,
+    this.displayLeadingDigitsInDialCode = true,
     this.autofocus = false,
-    this.showFlagInCountrySelection = true,
     this.showFlagInInput = true,
     this.inputTextStyle = const TextStyle(),
   }) : super(
           key: key,
           initialValue: initialValue,
-          onSaved: onSaved,
+          onSaved: (p) => onSaved != null ? onSaved(p!) : (p) {},
           enabled: enabled,
           autovalidateMode: autovalidateMode,
           validator: validator,
@@ -52,6 +50,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
 
 class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   final TextEditingController _controller = TextEditingController();
+  Country _selectedCountry = Country.fromIsoCode('us');
 
   _PhoneFormFieldState();
 
@@ -59,9 +58,17 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   PhoneFormField get widget => super.widget as PhoneFormField;
 
   @override
+  void didChange(PhoneNumber? phoneNumber) {
+    super.didChange(phoneNumber);
+    if (widget.onChanged != null) {
+      widget.onChanged!(value);
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
-    _controller.text = widget.initialValue?.nsn ?? '';
+    _controller.addListener(_onNationalNumberChanges);
   }
 
   @override
@@ -70,10 +77,19 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     super.dispose();
   }
 
+  _onNationalNumberChanges() {
+    final phoneNumber = PhoneNumber.fromIsoCode(
+      _selectedCountry.isoCode,
+      _controller.text,
+    );
+    didChange(phoneNumber);
+  }
+
   _onCountrySelected(Country country) {
+    _selectedCountry = country;
     PhoneNumber newPhoneNumber;
-    if (widget.initialValue != null) {
-      newPhoneNumber = widget.initialValue!.copyWithIsoCode(
+    if (value != null) {
+      newPhoneNumber = value!.copyWithIsoCode(
         country.isoCode,
       );
     } else {
@@ -85,7 +101,10 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   openCountrySelection() {
     showModalBottomSheet(
       context: context,
-      builder: (_) => CountrySelector(onCountrySelected: _onCountrySelected),
+      builder: (_) => CountrySelector(
+        onCountrySelected: _onCountrySelected,
+        displayLeadingDigitsInDialCode: widget.displayLeadingDigitsInDialCode,
+      ),
     );
   }
 
@@ -95,19 +114,17 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       decoration: InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.all(0),
-        border: UnderlineInputBorder(),
+        border: OutlineInputBorder(),
       ),
       child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CountryButton(
-              country:
-                  widget.initialValue?.country ?? Country.fromIsoCode('us'),
-              onPressed: () => widget.enabled ? openCountrySelection() : () {},
-              showFlag: widget.showFlagInInput,
-              textStyle: widget.inputTextStyle,
-            ),
+          CountryButton(
+            country: _selectedCountry,
+            onPressed: () => widget.enabled ? openCountrySelection() : () {},
+            showFlag: widget.showFlagInInput,
+            textStyle: widget.inputTextStyle,
+            displayLeadingDigitsInDialCode:
+                widget.displayLeadingDigitsInDialCode,
           ),
           // need to use expanded to make the text field fill the remaining space
           Expanded(

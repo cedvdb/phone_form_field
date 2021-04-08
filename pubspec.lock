@@ -100,10 +100,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: fa7a985419628799641cccc2fe27028159d4ca7f
+      resolved-ref: e1ebc590f2f4c2d71ef7c619d24b86deea2f5ecd
       url: "https://github.com/cedvdb/phone_number_parser.git"
     source: git
-    version: "0.0.2"
+    version: "0.0.4"
   sky_engine:
     dependency: transitive
     description: flutter
