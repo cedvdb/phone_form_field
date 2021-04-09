@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:phone_number_input/phone_number_input.dart';
+import 'package:phone_form_field/phone_form_field.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +13,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('us', '011');
+  bool outlineBorder = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,25 +31,51 @@ class _MyAppState extends State<MyApp> {
         const Locale('ru', ''),
         // ...
       ],
-      title: 'Flutter Demo',
+      title: 'Phone field demo',
       theme: ThemeData(
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        body: Container(
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Column(
               children: [
+                Row(
+                  children: [
+                    Switch(
+                      value: outlineBorder,
+                      onChanged: (v) => setState(() => outlineBorder = v),
+                    ),
+                    Text('Outlined border'),
+                  ],
+                ),
+                SizedBox(
+                  height: 40,
+                ),
                 PhoneFormField(
                   initialValue: phoneNumber,
                   autofocus: true,
-                  onChanged: (p) => print(p),
+                  inputBorder: outlineBorder
+                      ? OutlineInputBorder()
+                      : UnderlineInputBorder(),
+                  onChanged: (p) => setState(() => phoneNumber = p!),
                   onSaved: (p) {
                     setState(() => phoneNumber = p);
                   },
                 ),
-                TextFormField(),
+                SizedBox(
+                  height: 40,
+                ),
+                ElevatedButton(
+                  onPressed: phoneNumber.valid ? () {} : null,
+                  child: Text('next'),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Text(phoneNumber.toString()),
               ],
             ),
           ),

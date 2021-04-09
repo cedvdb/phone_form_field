@@ -114,7 +114,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  phone_number_input:
+  phone_form_field:
     dependency: "direct main"
     description:
       path: ".."

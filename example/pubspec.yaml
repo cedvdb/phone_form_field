@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  phone_number_input:
+  phone_form_field:
     path: ../
 
   flutter_localizations: # Add this line

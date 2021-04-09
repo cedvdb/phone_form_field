@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_number_input/phone_number_input.dart';
-import 'package:phone_number_input/src/country_selector.dart';
+import 'package:phone_form_field/phone_form_field.dart';
+import 'package:phone_form_field/src/country_selector.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'country_button.dart';

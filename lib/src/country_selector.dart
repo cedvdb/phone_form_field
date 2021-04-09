@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:phone_number_input/phone_number_input.dart';
-import 'package:phone_number_input/src/search_box.dart';
+import 'package:phone_form_field/phone_form_field.dart';
+import 'package:phone_form_field/src/search_box.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 class CountrySelector extends StatefulWidget {

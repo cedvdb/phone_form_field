@@ -1,8 +1,18 @@
-# phone_number_input
+# phone_form_field
 
 A new Flutter package project.
 
-## Getting Started
+## Features
+
+- Totally cross platform, this is a dart only package / dependencies
+- Internationalization support, without bloated json with all translations.
+- Phone number validation
+- Extends Flutter's FormField
+- 
+- Uses dart phone_number_parser for parsing
+
+
+## Demo
 
 This project is a starting point for a Dart
 [package](https://flutter.dev/developing-packages/),

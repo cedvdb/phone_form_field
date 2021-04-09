@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phone_number_input/src/localization/phone_field_localization.dart';
+import 'package:phone_form_field/src/localization/phone_field_localization.dart';
 
 class PhoneFieldLocalizationDelegate
     extends LocalizationsDelegate<PhoneFieldLocalization> {
