@@ -13,11 +13,12 @@ Flutter phone input integrated with flutter internationalization
 
 ## Demo
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+Demo available at https://cedvdb.github.io/phone_number_input/
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+![demo img](https://raw.githubusercontent.com/cedvdb/phone_number_input/main/demo_image.png)
+
+## Usage
+
+```dart
+
+```
