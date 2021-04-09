@@ -2,6 +2,8 @@ import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
+import 'localization/phone_field_localization.dart';
+
 class CountryList extends StatelessWidget {
   final bool displayLeadingDigitsInDialCode;
   final Function(Country) onTap;
@@ -26,7 +28,11 @@ class CountryList extends StatelessWidget {
           leading: CircleFlag(country.isoCode),
           title: Align(
             alignment: AlignmentDirectional.centerStart,
-            child: Text(country.name, textAlign: TextAlign.start),
+            child: Text(
+              PhoneFieldLocalization.of(context)?.translate(country.isoCode) ??
+                  country.name,
+              textAlign: TextAlign.start,
+            ),
           ),
           subtitle: Align(
             alignment: AlignmentDirectional.centerStart,

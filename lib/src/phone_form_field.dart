@@ -24,7 +24,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     void Function(PhoneNumber)? onSaved,
     PhoneNumber? initialValue,
     bool enabled = true,
-    String? Function(PhoneNumber?)? validator = _defaultValidator,
+    String? Function(PhoneNumber?)? validator,
     AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
     // our params
     this.onChanged,
@@ -39,7 +39,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           onSaved: (p) => onSaved != null ? onSaved(p!) : (p) {},
           enabled: enabled,
           autovalidateMode: autovalidateMode,
-          validator: validator,
+          validator: (p) => _defaultValidator(p),
           builder: (field) {
             final state = field as _PhoneFormFieldState;
             return state.builder();

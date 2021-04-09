@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:phone_number_input/phone_number_input.dart';
 
 void main() {
@@ -16,6 +17,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        ...GlobalMaterialLocalizations.delegates,
+        PhoneFieldLocalization.delegate
+      ],
+      supportedLocales: [
+        const Locale('en', ''),
+        const Locale('es', ''),
+      ],
       title: 'Flutter Demo',
       theme: ThemeData(
         brightness: Brightness.dark,
