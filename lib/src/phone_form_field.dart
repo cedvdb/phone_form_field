@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:phone_number_input/phone_number_input.dart';
 import 'package:phone_number_input/src/country_selector.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
@@ -13,9 +14,9 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final TextStyle inputTextStyle;
   final ValueChanged<PhoneNumber?>? onChanged;
 
-  static String _defaultValidator(PhoneNumber? phoneNumber) {
-    return phoneNumber == null || phoneNumber.valid
-        ? 'eee'
+  static String? _defaultValidator(PhoneNumber? phoneNumber) {
+    return phoneNumber == null || phoneNumber.valid || phoneNumber.nsn == ''
+        ? null
         : 'Invalid phone number';
   }
 
@@ -25,8 +26,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     void Function(PhoneNumber)? onSaved,
     PhoneNumber? initialValue,
     bool enabled = true,
-    String? Function(PhoneNumber?)? validator,
-    AutovalidateMode autovalidateMode = AutovalidateMode.always,
+    AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
     // our params
     this.onChanged,
     this.displayLeadingDigitsInDialCode = true,
@@ -52,6 +52,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
 }
 
 class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
+  final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
   Country _selectedCountry = Country.fromIsoCode('us');
 
@@ -111,49 +112,63 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     );
   }
 
+  String? _getErrorText() {
+    if (errorText == null) return null;
+    return PhoneFieldLocalization.of(context)?.translate(errorText!) ??
+        errorText;
+  }
+
   Widget builder() {
-    return InputDecorator(
-      // when the input has focus
-      decoration: InputDecoration(
-        isDense: true,
-        contentPadding: EdgeInsets.all(0),
-        border: widget.inputBorder,
-      ),
-      child: Row(
-        children: [
-          CountryButton(
-            country: _selectedCountry,
-            onPressed: () => widget.enabled ? openCountrySelection() : () {},
-            showFlag: widget.showFlagInInput,
-            textStyle: widget.inputTextStyle,
-            displayLeadingDigitsInDialCode:
-                widget.displayLeadingDigitsInDialCode,
+    return Column(
+      children: [
+        InputDecorator(
+          // when the input has focus
+          isFocused: _focusNode.hasFocus,
+          decoration: InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.all(0),
+            border: widget.inputBorder,
+            errorText: _getErrorText(),
           ),
-          // need to use expanded to make the text field fill the remaining space
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: TextField(
-                controller: _controller,
-                cursorColor: Theme.of(context).accentColor,
-                style: widget.inputTextStyle,
-                autofocus: widget.autofocus,
-                autofillHints: ['telephoneNumberNational'],
-                enabled: widget.enabled,
-                textDirection: TextDirection.ltr,
-                keyboardType: TextInputType.phone,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d{0,30}$'))
-                ],
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  isDense: true,
-                ),
+          child: Row(
+            children: [
+              CountryButton(
+                country: _selectedCountry,
+                onPressed: () =>
+                    widget.enabled ? openCountrySelection() : () {},
+                showFlag: widget.showFlagInInput,
+                textStyle: widget.inputTextStyle,
+                displayLeadingDigitsInDialCode:
+                    widget.displayLeadingDigitsInDialCode,
               ),
-            ),
-          )
-        ],
-      ),
+              // need to use expanded to make the text field fill the remaining space
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextField(
+                    focusNode: _focusNode,
+                    controller: _controller,
+                    cursorColor: Theme.of(context).accentColor,
+                    style: widget.inputTextStyle,
+                    autofocus: widget.autofocus,
+                    autofillHints: ['telephoneNumberNational'],
+                    enabled: widget.enabled,
+                    textDirection: TextDirection.ltr,
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d{0,30}$'))
+                    ],
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      isDense: true,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
