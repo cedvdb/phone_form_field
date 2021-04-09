@@ -8,6 +8,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool displayLeadingDigitsInDialCode;
   final bool autofocus;
   final bool showFlagInInput;
+  final InputBorder inputBorder;
   final TextStyle inputTextStyle;
   final ValueChanged<PhoneNumber?>? onChanged;
 
@@ -30,6 +31,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.displayLeadingDigitsInDialCode = true,
     this.autofocus = false,
     this.showFlagInInput = true,
+    this.inputBorder = const UnderlineInputBorder(),
     this.inputTextStyle = const TextStyle(),
   }) : super(
           key: key,
@@ -114,7 +116,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       decoration: InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.all(0),
-        border: OutlineInputBorder(),
+        border: widget.inputBorder,
       ),
       child: Row(
         children: [
