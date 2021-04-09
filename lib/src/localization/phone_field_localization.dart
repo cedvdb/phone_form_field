@@ -21,7 +21,7 @@ class PhoneFieldLocalization {
 
   Future load() async {
     String jsonString = await rootBundle.loadString(
-        'packages/phone_number_input/assets/translations/${locale.languageCode}.json');
+        'packages/phone_form_field/assets/translations/${locale.languageCode}.json');
     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
     translations = jsonMap.map((k, v) => MapEntry(k, v.toString()));
   }

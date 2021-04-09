@@ -1,6 +1,6 @@
 # phone_form_field
 
-A new Flutter package project.
+Flutter phone input integrated with flutter internationalization
 
 ## Features
 
@@ -8,7 +8,6 @@ A new Flutter package project.
 - Internationalization support, without bloated json with all translations.
 - Phone number validation
 - Extends Flutter's FormField
-- 
 - Uses dart phone_number_parser for parsing
 
 

@@ -29,8 +29,7 @@
 .packages
 .pub-cache/
 .pub/
-/build/
-
+/build/android/
 # Web related
 lib/generated_plugin_registrant.dart
 

@@ -37,46 +37,51 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Column(
-              children: [
-                Row(
+        body: Center(
+          child: Container(
+            constraints: BoxConstraints(maxWidth: 600),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
                   children: [
-                    Switch(
-                      value: outlineBorder,
-                      onChanged: (v) => setState(() => outlineBorder = v),
+                    Row(
+                      children: [
+                        Switch(
+                          value: outlineBorder,
+                          onChanged: (v) => setState(() => outlineBorder = v),
+                        ),
+                        Text('Outlined border'),
+                      ],
                     ),
-                    Text('Outlined border'),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    PhoneFormField(
+                      initialValue: phoneNumber,
+                      autofocus: true,
+                      inputBorder: outlineBorder
+                          ? OutlineInputBorder()
+                          : UnderlineInputBorder(),
+                      onChanged: (p) => setState(() => phoneNumber = p!),
+                      onSaved: (p) {
+                        setState(() => phoneNumber = p);
+                      },
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    ElevatedButton(
+                      onPressed: phoneNumber.valid ? () {} : null,
+                      child: Text('next'),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(phoneNumber.toString()),
                   ],
                 ),
-                SizedBox(
-                  height: 40,
-                ),
-                PhoneFormField(
-                  initialValue: phoneNumber,
-                  autofocus: true,
-                  inputBorder: outlineBorder
-                      ? OutlineInputBorder()
-                      : UnderlineInputBorder(),
-                  onChanged: (p) => setState(() => phoneNumber = p!),
-                  onSaved: (p) {
-                    setState(() => phoneNumber = p);
-                  },
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                ElevatedButton(
-                  onPressed: phoneNumber.valid ? () {} : null,
-                  child: Text('next'),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                Text(phoneNumber.toString()),
-              ],
+              ),
             ),
           ),
         ),
