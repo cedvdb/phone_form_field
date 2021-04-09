@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:phone_number_input/src/localization/phone_field_localization.dart';
 
@@ -9,7 +7,20 @@ class PhoneFieldLocalizationDelegate
 
   @override
   bool isSupported(Locale locale) {
-    return ['en'].contains(locale.languageCode);
+    return [
+      'ar',
+      'ara',
+      'de',
+      'en',
+      'es',
+      'fr',
+      'hin',
+      'it',
+      'nl',
+      'pt',
+      'ru',
+      'zh',
+    ].contains(locale.languageCode);
   }
 
   @override

@@ -24,6 +24,11 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: [
         const Locale('en', ''),
         const Locale('es', ''),
+        const Locale('de', ''),
+        const Locale('fr', ''),
+        const Locale('it', ''),
+        const Locale('ru', ''),
+        // ...
       ],
       title: 'Flutter Demo',
       theme: ThemeData(
