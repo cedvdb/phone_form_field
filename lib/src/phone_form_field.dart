@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:phone_number_input/src/country_selector.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
@@ -14,7 +15,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
 
   static String _defaultValidator(PhoneNumber? phoneNumber) {
     return phoneNumber == null || phoneNumber.valid
-        ? ''
+        ? 'eee'
         : 'Invalid phone number';
   }
 
@@ -25,7 +26,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     PhoneNumber? initialValue,
     bool enabled = true,
     String? Function(PhoneNumber?)? validator,
-    AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
+    AutovalidateMode autovalidateMode = AutovalidateMode.always,
     // our params
     this.onChanged,
     this.displayLeadingDigitsInDialCode = true,
@@ -141,6 +142,9 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
                 enabled: widget.enabled,
                 textDirection: TextDirection.ltr,
                 keyboardType: TextInputType.phone,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d{0,30}$'))
+                ],
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   isDense: true,
