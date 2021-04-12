@@ -5,12 +5,14 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 class CountryButton extends StatelessWidget {
   final Country country;
   final bool showFlag;
+  final bool enabled;
   final Function() onPressed;
   final TextStyle textStyle;
   final bool displayLeadingDigitsInDialCode;
 
   CountryButton({
     required this.country,
+    required this.enabled,
     required this.onPressed,
     required this.showFlag,
     required this.textStyle,
@@ -21,7 +23,7 @@ class CountryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       minWidth: 50,
-      onPressed: onPressed,
+      onPressed: enabled ? onPressed : null,
       padding: const EdgeInsets.all(20),
       child: Row(
         mainAxisSize: MainAxisSize.min,
