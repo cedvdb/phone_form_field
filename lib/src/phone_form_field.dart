@@ -143,6 +143,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
                   child: TextField(
                     focusNode: _focusNode,
                     controller: _controller,
+                    onSubmitted: (p) => widget.onSaved!(value),
                     cursorColor: Theme.of(context).accentColor,
                     style: widget.inputTextStyle,
                     autofocus: widget.autofocus,
