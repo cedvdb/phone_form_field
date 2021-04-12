@@ -13,7 +13,7 @@ Flutter phone input integrated with flutter internationalization
 
 ## Demo
 
-Demo available at https://cedvdb.github.io/phone_number_input/
+Demo available at https://cedvdb.github.io/phone_form_field/
 
 ![demo img](https://raw.githubusercontent.com/cedvdb/phone_number_input/main/demo_image.png)
 
