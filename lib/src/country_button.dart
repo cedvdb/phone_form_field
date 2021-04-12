@@ -8,7 +8,6 @@ class CountryButton extends StatelessWidget {
   final bool enabled;
   final Function() onPressed;
   final TextStyle textStyle;
-  final bool displayLeadingDigitsInDialCode;
 
   CountryButton({
     required this.country,
@@ -16,7 +15,6 @@ class CountryButton extends StatelessWidget {
     required this.onPressed,
     required this.showFlag,
     required this.textStyle,
-    required this.displayLeadingDigitsInDialCode,
   });
 
   @override
@@ -38,9 +36,7 @@ class CountryButton extends StatelessWidget {
             ),
           ],
           Text(
-            country.getDialCodeForDisplay(
-              withLeadingDigits: displayLeadingDigitsInDialCode,
-            ),
+            country.getDialCodeForDisplay(),
             style: textStyle,
           ),
         ],

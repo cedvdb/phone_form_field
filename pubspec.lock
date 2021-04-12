@@ -98,12 +98,10 @@ packages:
   phone_numbers_parser:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: e1ebc590f2f4c2d71ef7c619d24b86deea2f5ecd
-      url: "https://github.com/cedvdb/phone_number_parser.git"
-    source: git
-    version: "0.0.4"
+      name: phone_numbers_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   sky_engine:
     dependency: transitive
     description: flutter

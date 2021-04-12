@@ -66,7 +66,6 @@ class _MyAppState extends State<MyApp> {
                       onChanged: (p) => setState(() => phoneNumber = p!),
                       onSaved: (p) => setState(() => phoneNumber = p),
                       enabled: true,
-                      displayLeadingDigitsInDialCode: true,
                       showFlagInInput: true,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),

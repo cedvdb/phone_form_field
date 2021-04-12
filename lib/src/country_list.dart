@@ -5,14 +5,12 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 import 'localization/phone_field_localization.dart';
 
 class CountryList extends StatelessWidget {
-  final bool displayLeadingDigitsInDialCode;
   final Function(Country) onTap;
   final List<Country> countries;
 
   const CountryList({
     required this.countries,
     required this.onTap,
-    required this.displayLeadingDigitsInDialCode,
   });
 
   @override
@@ -37,9 +35,7 @@ class CountryList extends StatelessWidget {
           subtitle: Align(
             alignment: AlignmentDirectional.centerStart,
             child: Text(
-              country.getDialCodeForDisplay(
-                withLeadingDigits: displayLeadingDigitsInDialCode,
-              ),
+              country.getDialCodeForDisplay(),
               textDirection: TextDirection.ltr,
               textAlign: TextAlign.start,
             ),

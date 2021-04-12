@@ -7,7 +7,6 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 import 'country_button.dart';
 
 class PhoneFormField extends FormField<PhoneNumber> {
-  final bool displayLeadingDigitsInDialCode;
   final bool autofocus;
   final bool showFlagInInput;
   final InputBorder inputBorder;
@@ -29,7 +28,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
     AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
     // our params
     this.onChanged,
-    this.displayLeadingDigitsInDialCode = true,
     this.autofocus = false,
     this.showFlagInInput = true,
     this.inputBorder = const UnderlineInputBorder(),
@@ -107,7 +105,6 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       context: context,
       builder: (_) => CountrySelector(
         onCountrySelected: _onCountrySelected,
-        displayLeadingDigitsInDialCode: widget.displayLeadingDigitsInDialCode,
       ),
     );
   }
@@ -138,8 +135,6 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
                 onPressed: openCountrySelection,
                 showFlag: widget.showFlagInInput,
                 textStyle: widget.inputTextStyle,
-                displayLeadingDigitsInDialCode:
-                    widget.displayLeadingDigitsInDialCode,
               ),
               // need to use expanded to make the text field fill the remaining space
               Expanded(

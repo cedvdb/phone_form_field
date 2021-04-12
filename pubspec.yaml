@@ -13,8 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   circle_flags: ^0.0.2
-  phone_numbers_parser: 
-    git: https://github.com/cedvdb/phone_number_parser.git
+  phone_numbers_parser: ^0.0.5
   font_awesome_flutter: ^9.0.0
   
 

@@ -28,7 +28,6 @@ PhoneFormField(
   onSaved: (p) => setState(() => phoneNumber = p),
   // inputTextStyle: TextStyle(color: Colors.red),
   // enabled: true,
-  // displayLeadingDigitsInDialCode: true,
   // showFlagInInput: true,
   // autovalidateMode: AutovalidateMode.onUserInteraction,
 ),
