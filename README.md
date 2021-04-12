@@ -20,5 +20,57 @@ Demo available at https://cedvdb.github.io/phone_number_input/
 ## Usage
 
 ```dart
+PhoneFormField(
+  autofocus: true,
+  initialValue: PhoneNumber.fromIsoCode('us', ''),
+  inputBorder: OutlineInputBorder(),
+  onChanged: (p) => setState(() => phoneNumber = p!),
+  onSaved: (p) => setState(() => phoneNumber = p),
+  // inputTextStyle: TextStyle(color: Colors.red),
+  // enabled: true,
+  // displayLeadingDigitsInDialCode: true,
+  // showFlagInInput: true,
+  // autovalidateMode: AutovalidateMode.onUserInteraction,
+),
 
 ```
+
+## Internationalization
+
+  Include the delegate
+
+  ```dart
+    return MaterialApp(
+      localizationsDelegates: [
+        ...GlobalMaterialLocalizations.delegates,
+        PhoneFieldLocalization.delegate
+      ],
+      supportedLocales: [
+        const Locale('en', ''),
+        const Locale('es', ''),
+        const Locale('fr', ''),
+        const Locale('ru', ''),
+        // ...
+      ],
+  ```
+
+  Tnat's it.
+
+  
+  A bunch of languages are built-in:
+
+    - 'ar',
+    - 'de',
+    - 'en',
+    - 'es',
+    - 'fr',
+    - 'hin',
+    - 'it',
+    - 'nl',
+    - 'pt',
+    - 'ru',
+    - 'zh',
+  
+  
+   If one of the language you target is not supported you can submit a
+  pull request with the translated file in assets/translation
