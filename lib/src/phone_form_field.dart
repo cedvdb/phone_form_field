@@ -134,8 +134,8 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
             children: [
               CountryButton(
                 country: _selectedCountry,
-                onPressed: () =>
-                    widget.enabled ? openCountrySelection() : () {},
+                enabled: widget.enabled,
+                onPressed: openCountrySelection,
                 showFlag: widget.showFlagInInput,
                 textStyle: widget.inputTextStyle,
                 displayLeadingDigitsInDialCode:
@@ -151,7 +151,8 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
                     cursorColor: Theme.of(context).accentColor,
                     style: widget.inputTextStyle,
                     autofocus: widget.autofocus,
-                    autofillHints: ['telephoneNumberNational'],
+                    autofillHints:
+                        widget.enabled ? ['telephoneNumberNational'] : null,
                     enabled: widget.enabled,
                     textDirection: TextDirection.ltr,
                     keyboardType: TextInputType.phone,
