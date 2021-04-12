@@ -64,9 +64,11 @@ class _MyAppState extends State<MyApp> {
                           ? OutlineInputBorder()
                           : UnderlineInputBorder(),
                       onChanged: (p) => setState(() => phoneNumber = p!),
-                      onSaved: (p) {
-                        setState(() => phoneNumber = p);
-                      },
+                      onSaved: (p) => setState(() => phoneNumber = p),
+                      enabled: true,
+                      displayLeadingDigitsInDialCode: true,
+                      showFlagInInput: true,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
                     SizedBox(
                       height: 40,
