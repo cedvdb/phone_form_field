@@ -1,4 +1,8 @@
-## [0.0.2] - 13 / 04 / 2021
+## [0.0.3] - 13 / 04 / 2021
+
+* Default font size 14
+
+## [0.0.3] - 13 / 04 / 2021
 
 * Breaking: inputBorder parameter replaced by inputDecoration for more maneability
 

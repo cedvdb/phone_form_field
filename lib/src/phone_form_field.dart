@@ -32,7 +32,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.showFlagInInput = true,
     this.inputDecoration =
         const InputDecoration(border: UnderlineInputBorder()),
-    this.inputTextStyle = const TextStyle(),
+    this.inputTextStyle = const TextStyle(fontSize: 14),
   }) : super(
           key: key,
           initialValue: initialValue,
