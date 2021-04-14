@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,7 +14,10 @@ class SearchBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: TextField(
-        autofocus: true,
+        // autofocussing the search field here displays the keyboard on phones
+        // and it looks ugly. On bigger screen it looks better. We will just
+        // test if it's web
+        autofocus: kIsWeb,
         onChanged: onChanged,
         decoration: InputDecoration(
           prefixIcon: Icon(

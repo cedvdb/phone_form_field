@@ -9,7 +9,7 @@ import 'country_button.dart';
 class PhoneFormField extends FormField<PhoneNumber> {
   final bool autofocus;
   final bool showFlagInInput;
-  final InputBorder inputBorder;
+  final InputDecoration inputDecoration;
   final TextStyle inputTextStyle;
   final ValueChanged<PhoneNumber?>? onChanged;
 
@@ -30,7 +30,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.onChanged,
     this.autofocus = false,
     this.showFlagInInput = true,
-    this.inputBorder = const UnderlineInputBorder(),
+    this.inputDecoration =
+        const InputDecoration(border: UnderlineInputBorder()),
     this.inputTextStyle = const TextStyle(),
   }) : super(
           key: key,
@@ -121,51 +122,68 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         InputDecorator(
           // when the input has focus
           isFocused: _focusNode.hasFocus,
-          decoration: InputDecoration(
-            isDense: true,
-            contentPadding: EdgeInsets.all(0),
-            border: widget.inputBorder,
-            errorText: _getErrorText(),
-          ),
+          decoration: _outterInputDecoration(),
           child: Row(
             children: [
-              CountryButton(
-                country: _selectedCountry,
-                enabled: widget.enabled,
-                onPressed: openCountrySelection,
-                showFlag: widget.showFlagInInput,
-                textStyle: widget.inputTextStyle,
-              ),
+              _countryButton(),
               // need to use expanded to make the text field fill the remaining space
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: TextField(
-                    focusNode: _focusNode,
-                    controller: _controller,
-                    onSubmitted: (p) => widget.onSaved!(value),
-                    cursorColor: Theme.of(context).accentColor,
-                    style: widget.inputTextStyle,
-                    autofocus: widget.autofocus,
-                    autofillHints:
-                        widget.enabled ? ['telephoneNumberNational'] : null,
-                    enabled: widget.enabled,
-                    textDirection: TextDirection.ltr,
-                    keyboardType: TextInputType.phone,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d{0,30}$'))
-                    ],
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      isDense: true,
-                    ),
-                  ),
+                  child: _textField(),
                 ),
               )
             ],
           ),
         ),
       ],
+    );
+  }
+
+  CountryButton _countryButton() {
+    return CountryButton(
+      country: _selectedCountry,
+      enabled: widget.enabled,
+      onPressed: openCountrySelection,
+      showFlag: widget.showFlagInInput,
+      textStyle: widget.inputTextStyle,
+    );
+  }
+
+  TextField _textField() {
+    return TextField(
+      focusNode: _focusNode,
+      controller: _controller,
+      onSubmitted: (p) => widget.onSaved!(value),
+      cursorColor: Theme.of(context).accentColor,
+      style: widget.inputTextStyle,
+      autofocus: widget.autofocus,
+      autofillHints: widget.enabled ? ['telephoneNumberNational'] : null,
+      enabled: widget.enabled,
+      textDirection: TextDirection.ltr,
+      keyboardType: TextInputType.phone,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.allow(RegExp(r'^\d{0,30}$'))
+      ],
+      decoration: _innerInputDecoration(),
+    );
+  }
+
+  InputDecoration _outterInputDecoration() {
+    return widget.inputDecoration.copyWith(
+      isDense: true,
+      contentPadding: EdgeInsets.all(0),
+      errorText: _getErrorText(),
+    );
+  }
+
+  InputDecoration _innerInputDecoration() {
+    return const InputDecoration(
+      border: InputBorder.none,
+      focusedBorder: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      errorBorder: InputBorder.none,
+      isDense: true,
     );
   }
 }

@@ -23,9 +23,9 @@ Demo available at https://cedvdb.github.io/phone_form_field/
 PhoneFormField(
   autofocus: true,
   initialValue: PhoneNumber.fromIsoCode('us', ''),
-  inputBorder: OutlineInputBorder(),
   onChanged: (p) => setState(() => phoneNumber = p!),
   onSaved: (p) => setState(() => phoneNumber = p),
+  inputDecoration: InputDecoration(border: UnderlineInputBorder(),),
   // inputTextStyle: TextStyle(color: Colors.red),
   // enabled: true,
   // showFlagInInput: true,

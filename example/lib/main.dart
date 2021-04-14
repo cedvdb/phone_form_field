@@ -60,9 +60,19 @@ class _MyAppState extends State<MyApp> {
                     PhoneFormField(
                       initialValue: phoneNumber,
                       autofocus: true,
-                      inputBorder: outlineBorder
-                          ? OutlineInputBorder()
-                          : UnderlineInputBorder(),
+                      inputDecoration: InputDecoration(
+                        border: outlineBorder
+                            ? OutlineInputBorder()
+                            : UnderlineInputBorder(),
+                        focusedBorder: outlineBorder
+                            ? OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.orange),
+                              )
+                            : UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.blue.shade600),
+                              ),
+                      ),
                       onChanged: (p) => setState(() => phoneNumber = p!),
                       onSaved: (p) => setState(() => phoneNumber = p),
                       enabled: true,
