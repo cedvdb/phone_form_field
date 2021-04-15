@@ -119,7 +119,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   Color? _getCursorColor() {
     if (errorText != null) {
       return _outterInputDecoration().border?.borderSide.color ??
-          Colors.red.shade700;
+          Colors.red.shade800;
     }
     return _outterInputDecoration().focusedBorder?.borderSide.color;
   }
