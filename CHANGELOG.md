@@ -1,6 +1,3 @@
-## [0.0.6] - 15 / 04 / 2021
-
-* Closer Match cursor color on error
 
 ## [0.0.5] - 15 / 04 / 2021
 
