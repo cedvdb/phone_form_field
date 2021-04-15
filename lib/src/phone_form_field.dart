@@ -116,6 +116,14 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         errorText;
   }
 
+  Color? _getCursorColor() {
+    if (errorText != null) {
+      return _outterInputDecoration().border?.borderSide.color ??
+          Colors.red.shade700;
+    }
+    return _outterInputDecoration().focusedBorder?.borderSide.color;
+  }
+
   Widget builder() {
     return Column(
       children: [
@@ -154,8 +162,8 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     return TextField(
       focusNode: _focusNode,
       controller: _controller,
+      cursorColor: _getCursorColor(),
       onSubmitted: (p) => widget.onSaved!(value),
-      cursorColor: Theme.of(context).accentColor,
       style: widget.inputTextStyle,
       autofocus: widget.autofocus,
       autofillHints: widget.enabled ? ['telephoneNumberNational'] : null,

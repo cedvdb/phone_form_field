@@ -14,6 +14,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('us', '011');
   bool outlineBorder = false;
+  bool autovalidate = true;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +55,15 @@ class _MyAppState extends State<MyApp> {
                         Text('Outlined border'),
                       ],
                     ),
+                    Row(
+                      children: [
+                        Switch(
+                          value: autovalidate,
+                          onChanged: (v) => setState(() => autovalidate = v),
+                        ),
+                        Text('Autovalidate'),
+                      ],
+                    ),
                     SizedBox(
                       height: 40,
                     ),
@@ -61,23 +71,20 @@ class _MyAppState extends State<MyApp> {
                       initialValue: phoneNumber,
                       autofocus: true,
                       inputDecoration: InputDecoration(
-                        border: outlineBorder
-                            ? OutlineInputBorder()
-                            : UnderlineInputBorder(),
+                        border: outlineBorder ? OutlineInputBorder() : null,
                         focusedBorder: outlineBorder
                             ? OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.orange),
+                                borderSide: BorderSide(color: Colors.cyan),
                               )
-                            : UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.blue.shade600),
-                              ),
+                            : null,
                       ),
                       onChanged: (p) => setState(() => phoneNumber = p!),
                       onSaved: (p) => setState(() => phoneNumber = p),
                       enabled: true,
                       showFlagInInput: true,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autovalidateMode: autovalidate
+                          ? AutovalidateMode.onUserInteraction
+                          : AutovalidateMode.disabled,
                     ),
                     SizedBox(
                       height: 40,

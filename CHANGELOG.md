@@ -1,4 +1,8 @@
-## [0.0.3] - 13 / 04 / 2021
+## [0.0.5] - 15 / 04 / 2021
+
+* Match cursor color with border color
+
+## [0.0.4] - 13 / 04 / 2021
 
 * Default font size 14
 
