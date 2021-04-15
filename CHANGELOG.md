@@ -1,4 +1,8 @@
 
+## [0.0.6] - 15 / 04 / 2021
+
+* InputDecoration renamed to decoration to match formField
+
 ## [0.0.5] - 15 / 04 / 2021
 
 * Match cursor color with border color

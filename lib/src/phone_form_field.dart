@@ -9,7 +9,7 @@ import 'country_button.dart';
 class PhoneFormField extends FormField<PhoneNumber> {
   final bool autofocus;
   final bool showFlagInInput;
-  final InputDecoration inputDecoration;
+  final InputDecoration decoration;
   final TextStyle inputTextStyle;
   final ValueChanged<PhoneNumber?>? onChanged;
 
@@ -30,8 +30,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.onChanged,
     this.autofocus = false,
     this.showFlagInInput = true,
-    this.inputDecoration =
-        const InputDecoration(border: UnderlineInputBorder()),
+    this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.inputTextStyle = const TextStyle(fontSize: 14),
   }) : super(
           key: key,
@@ -178,7 +177,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   InputDecoration _outterInputDecoration() {
-    return widget.inputDecoration.copyWith(
+    return widget.decoration.copyWith(
       isDense: true,
       contentPadding: EdgeInsets.all(0),
       errorText: _getErrorText(),

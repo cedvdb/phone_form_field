@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
                     PhoneFormField(
                       initialValue: phoneNumber,
                       autofocus: true,
-                      inputDecoration: InputDecoration(
+                      decoration: InputDecoration(
                         border: outlineBorder ? OutlineInputBorder() : null,
                         focusedBorder: outlineBorder
                             ? OutlineInputBorder(
