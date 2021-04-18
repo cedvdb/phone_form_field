@@ -31,7 +31,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.autofocus = false,
     this.showFlagInInput = true,
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
-    this.inputTextStyle = const TextStyle(fontSize: 14),
+    this.inputTextStyle = const TextStyle(),
   }) : super(
           key: key,
           initialValue: initialValue,
@@ -147,13 +147,16 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     );
   }
 
-  CountryButton _countryButton() {
-    return CountryButton(
-      country: _selectedCountry,
-      enabled: widget.enabled,
-      onPressed: openCountrySelection,
-      showFlag: widget.showFlagInInput,
-      textStyle: widget.inputTextStyle,
+  SizedOverflowBox _countryButton() {
+    return SizedOverflowBox(
+      size: Size(24, 24),
+      child: CountryButton(
+        country: _selectedCountry,
+        enabled: widget.enabled,
+        onPressed: openCountrySelection,
+        showFlag: widget.showFlagInInput,
+        textStyle: widget.inputTextStyle,
+      ),
     );
   }
 
@@ -179,7 +182,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   InputDecoration _outterInputDecoration() {
     return widget.decoration.copyWith(
       isDense: true,
-      contentPadding: EdgeInsets.all(0),
+      // contentPadding: EdgeInsets.all(0),
       errorText: _getErrorText(),
     );
   }
@@ -191,6 +194,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       enabledBorder: InputBorder.none,
       errorBorder: InputBorder.none,
       isDense: true,
+      contentPadding: EdgeInsets.all(0),
     );
   }
 }
