@@ -134,12 +134,13 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
             children: [
               _countryButton(),
               // need to use expanded to make the text field fill the remaining space
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: _textField(),
-                ),
-              )
+              // Expanded(
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(12.0),
+              //     child: _textField(),
+              //   ),
+              // )
+              Expanded(child: _textField())
             ],
           ),
         ),
@@ -181,7 +182,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
   InputDecoration _outterInputDecoration() {
     return widget.decoration.copyWith(
-      isDense: true,
+      // isDense: true,
       // contentPadding: EdgeInsets.all(0),
       errorText: _getErrorText(),
     );
@@ -194,7 +195,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       enabledBorder: InputBorder.none,
       errorBorder: InputBorder.none,
       isDense: true,
-      contentPadding: EdgeInsets.all(0),
+      contentPadding: const EdgeInsets.all(0),
     );
   }
 }
