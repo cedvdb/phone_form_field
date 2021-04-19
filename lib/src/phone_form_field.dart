@@ -70,6 +70,9 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   @override
   void initState() {
     super.initState();
+    if (value != null) {
+      this._selectedCountry = value!.country;
+    }
     _controller.addListener(_onNationalNumberChanges);
   }
 
@@ -130,7 +133,9 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
           // when the input has focus
           isFocused: _focusNode.hasFocus,
           decoration: _outterInputDecoration(),
+
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               _countryButton(),
               // need to use expanded to make the text field fill the remaining space
@@ -148,17 +153,26 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     );
   }
 
-  SizedOverflowBox _countryButton() {
-    return SizedOverflowBox(
-      size: Size(24, 24),
-      child: CountryButton(
-        country: _selectedCountry,
-        enabled: widget.enabled,
-        onPressed: openCountrySelection,
-        showFlag: widget.showFlagInInput,
-        textStyle: widget.inputTextStyle,
-      ),
+  Widget _countryButton() {
+    return CountryButton(
+      country: _selectedCountry,
+      enabled: widget.enabled,
+      onPressed: openCountrySelection,
+      showFlag: widget.showFlagInInput,
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+      textStyle: TextStyle(fontSize: 16),
+      flagSize: 16,
     );
+    // return SizedOverflowBox(
+    //   size: Size(80, 20),
+    //   child: CountryButton(
+    //     country: _selectedCountry,
+    //     enabled: widget.enabled,
+    //     onPressed: openCountrySelection,
+    //     showFlag: true,
+    //     textStyle: TextStyle(fontSize: 16),
+    //   ),
+    // );
   }
 
   TextField _textField() {
@@ -182,8 +196,6 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
   InputDecoration _outterInputDecoration() {
     return widget.decoration.copyWith(
-      // isDense: true,
-      // contentPadding: EdgeInsets.all(0),
       errorText: _getErrorText(),
     );
   }

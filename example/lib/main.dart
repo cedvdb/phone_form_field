@@ -13,7 +13,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('be', '');
+  PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('BE', '');
   bool outlineBorder = false;
   bool withLabel = true;
   bool autovalidate = true;
@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
       ],
       title: 'Phone field demo',
       theme: ThemeData(
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
@@ -74,6 +74,7 @@ class _MyAppState extends State<MyApp> {
                         ],
                         decoration: InputDecoration(
                           labelText: withLabel ? 'Name' : null,
+                          prefixIcon: Icon(Icons.phone),
                           border: outlineBorder
                               ? OutlineInputBorder()
                               : UnderlineInputBorder(),

@@ -8,6 +8,8 @@ class CountryButton extends StatelessWidget {
   final bool enabled;
   final Function() onPressed;
   final TextStyle textStyle;
+  final EdgeInsets padding;
+  final double flagSize;
 
   CountryButton({
     required this.country,
@@ -15,31 +17,34 @@ class CountryButton extends StatelessWidget {
     required this.onPressed,
     required this.showFlag,
     required this.textStyle,
+    this.padding = const EdgeInsets.all(20),
+    this.flagSize = 20,
   });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      minWidth: 50,
-      onPressed: enabled ? onPressed : null,
-      padding: const EdgeInsets.all(20),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (showFlag) ...[
-            CircleFlag(
-              country.isoCode,
-              size: 20,
-            ),
-            SizedBox(
-              width: 8,
+    return InkWell(
+      onTap: enabled ? onPressed : null,
+      child: Padding(
+        padding: this.padding,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (showFlag) ...[
+              CircleFlag(
+                country.isoCode,
+                size: this.flagSize,
+              ),
+              SizedBox(
+                width: 8,
+              ),
+            ],
+            Text(
+              country.getDialCodeForDisplay(),
+              style: textStyle,
             ),
           ],
-          Text(
-            country.getDialCodeForDisplay(),
-            style: textStyle,
-          ),
-        ],
+        ),
       ),
     );
   }
