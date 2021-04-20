@@ -101,13 +101,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget builder() {
-    return Stack(
-      children: [
-        _textField(),
-        // _getCountryButton(EdgeInsets.all(8)),
-        Positioned(top: 0, child: _getCountryButton(EdgeInsets.all(16))),
-      ],
-    );
+    return _textField();
   }
 
   Widget _textField() {
@@ -149,7 +143,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   InputDecoration _getEffectiveDecoration() {
     return widget.decoration.copyWith(
       errorText: getErrorText(),
-      prefix: Opacity(opacity: 0, child: _getCountryButton()),
+      prefix: _getCountryButton(),
     );
   }
 
