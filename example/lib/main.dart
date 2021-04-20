@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                          icon: Icon(Icons.phone),
+                          // icon: Icon(Icons.phone),
                           labelText: withLabel ? 'Name' : null,
                           border: outlineBorder
                               ? OutlineInputBorder()

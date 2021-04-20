@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/country_selector.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
+import 'base_form_field.dart';
 import 'country_button.dart';
 
-class PhoneFormField extends FormField<PhoneNumber> {
+class PhoneFormField extends BaseFormField<PhoneNumber> {
   final bool autofocus;
   final bool showFlagInInput;
   final InputDecoration decoration;
@@ -41,7 +43,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           validator: (p) => _defaultValidator(p),
           builder: (field) {
             final state = field as _PhoneFormFieldState;
-            return state.builder();
+            return state.wrapper(state.builder());
           },
         );
 
@@ -49,49 +51,33 @@ class PhoneFormField extends FormField<PhoneNumber> {
   _PhoneFormFieldState createState() => _PhoneFormFieldState();
 }
 
-class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
-  final FocusNode _focusNode = FocusNode();
-  final TextEditingController _controller = TextEditingController();
-  Country _selectedCountry = Country.fromIsoCode('us');
-
+class _PhoneFormFieldState extends BaseFormFieldState<PhoneNumber> {
   _PhoneFormFieldState();
+
+  get country => value?.country ?? Country.fromIsoCode('us');
 
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
 
+  // tells the InputDecorator where to put the label
   @override
-  void didChange(PhoneNumber? phoneNumber) {
-    super.didChange(phoneNumber);
-    if (widget.onChanged != null) {
-      widget.onChanged!(value);
-    }
-  }
+  bool get isEmpty => value == null || value!.nsn == '';
 
   @override
   void initState() {
     super.initState();
-    if (value != null) {
-      this._selectedCountry = value!.country;
-    }
-    _controller.addListener(_onNationalNumberChanges);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+    controller.addListener(_onNationalNumberChanges);
   }
 
   _onNationalNumberChanges() {
-    final phoneNumber = PhoneNumber.fromIsoCode(
-      _selectedCountry.isoCode,
-      _controller.text,
+    final newPhoneNumber = PhoneNumber.fromIsoCode(
+      country.isoCode,
+      controller.text,
     );
-    didChange(phoneNumber);
+    didChange(newPhoneNumber);
   }
 
   _onCountrySelected(Country country) {
-    _selectedCountry = country;
     PhoneNumber newPhoneNumber;
     if (value != null) {
       newPhoneNumber = value!.copyWithIsoCode(
@@ -118,44 +104,17 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         errorText;
   }
 
-  Color? _getCursorColor() {
-    if (errorText != null) {
-      return _outterInputDecoration().border?.borderSide.color ??
-          Colors.red.shade800;
-    }
-    return _outterInputDecoration().focusedBorder?.borderSide.color;
-  }
-
   Widget builder() {
-    return Column(
+    return Row(
       children: [
-        InputDecorator(
-          // when the input has focus
-          isFocused: _focusNode.hasFocus,
-          decoration: _outterInputDecoration(),
-
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _countryButton(),
-              // need to use expanded to make the text field fill the remaining space
-              // Expanded(
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(12.0),
-              //     child: _textField(),
-              //   ),
-              // )
-              Expanded(child: _textField())
-            ],
-          ),
-        ),
+        Expanded(child: _textField()),
       ],
     );
   }
 
   Widget _countryButton() {
     return CountryButton(
-      country: _selectedCountry,
+      country: country,
       enabled: widget.enabled,
       onPressed: openCountrySelection,
       showFlag: widget.showFlagInInput,
@@ -163,27 +122,17 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       textStyle: TextStyle(fontSize: 16),
       flagSize: 16,
     );
-    // return SizedOverflowBox(
-    //   size: Size(80, 20),
-    //   child: CountryButton(
-    //     country: _selectedCountry,
-    //     enabled: widget.enabled,
-    //     onPressed: openCountrySelection,
-    //     showFlag: true,
-    //     textStyle: TextStyle(fontSize: 16),
-    //   ),
-    // );
   }
 
-  TextField _textField() {
+  Widget _textField() {
     return TextField(
-      focusNode: _focusNode,
-      controller: _controller,
-      cursorColor: _getCursorColor(),
+      focusNode: focusNode,
+      controller: controller,
       onSubmitted: (p) => widget.onSaved!(value),
       style: widget.inputTextStyle,
       autofocus: widget.autofocus,
-      autofillHints: widget.enabled ? ['telephoneNumberNational'] : null,
+      autofillHints:
+          widget.enabled ? [AutofillHints.telephoneNumberNational] : null,
       enabled: widget.enabled,
       textDirection: TextDirection.ltr,
       keyboardType: TextInputType.phone,
@@ -196,6 +145,8 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
   InputDecoration _outterInputDecoration() {
     return widget.decoration.copyWith(
+      // isDense: true,
+      // contentPadding: const EdgeInsets.all(0),
       errorText: _getErrorText(),
     );
   }
