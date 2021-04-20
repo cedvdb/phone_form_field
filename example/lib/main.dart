@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
       ],
       title: 'Phone field demo',
       theme: ThemeData(
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
@@ -67,39 +67,11 @@ class _MyAppState extends State<MyApp> {
                       SizedBox(
                         height: 40,
                       ),
-                      TextFormField(
-                        autofillHints: [
-                          AutofillHints.name,
-                          AutofillHints.email
-                        ],
-                        decoration: InputDecoration(
-                          labelText: withLabel ? 'Name' : null,
-                          prefixIcon: Icon(Icons.phone),
-                          border: outlineBorder
-                              ? OutlineInputBorder()
-                              : UnderlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          // icon: Icon(Icons.phone),
-                          labelText: withLabel ? 'Name' : null,
-                          border: outlineBorder
-                              ? OutlineInputBorder()
-                              : UnderlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
                       PhoneFormField(
                         initialValue: phoneNumber,
                         autofocus: true,
                         decoration: InputDecoration(
-                          labelText: withLabel ? 'icon' : null,
+                          labelText: withLabel ? 'Phone' : null,
                           border: outlineBorder
                               ? OutlineInputBorder()
                               : UnderlineInputBorder(),
@@ -113,13 +85,13 @@ class _MyAppState extends State<MyApp> {
                             : AutovalidateMode.disabled,
                       ),
                       SizedBox(
-                        height: 12,
+                        height: 40,
                       ),
                       PhoneFormField(
                         initialValue: phoneNumber,
-                        autofocus: true,
+                        autofocus: false,
                         decoration: InputDecoration(
-                          labelText: withLabel ? 'Prefix' : null,
+                          labelText: withLabel ? 'Phone 2' : null,
                           border: outlineBorder
                               ? OutlineInputBorder()
                               : UnderlineInputBorder(),
@@ -131,37 +103,6 @@ class _MyAppState extends State<MyApp> {
                         autovalidateMode: autovalidate
                             ? AutovalidateMode.onUserInteraction
                             : AutovalidateMode.disabled,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      PhoneFormField(
-                        initialValue: phoneNumber,
-                        autofocus: true,
-                        decoration: InputDecoration(
-                          labelText: withLabel ? 'prefixIcon' : null,
-                          border: outlineBorder
-                              ? OutlineInputBorder()
-                              : UnderlineInputBorder(),
-                        ),
-                        onChanged: (p) => setState(() => phoneNumber = p!),
-                        onSaved: (p) => setState(() => phoneNumber = p),
-                        enabled: true,
-                        showFlagInInput: true,
-                        autovalidateMode: autovalidate
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: withLabel ? 'Name' : null,
-                          border: outlineBorder
-                              ? OutlineInputBorder()
-                              : UnderlineInputBorder(),
-                        ),
                       ),
                       SizedBox(
                         height: 40,

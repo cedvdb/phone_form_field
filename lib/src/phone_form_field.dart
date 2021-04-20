@@ -5,14 +5,15 @@ import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/country_selector.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import 'base_form_field.dart';
 import 'country_button.dart';
 
-class PhoneFormField extends BaseFormField<PhoneNumber> {
+class PhoneFormField extends FormField<PhoneNumber> {
   final bool autofocus;
   final bool showFlagInInput;
   final InputDecoration decoration;
   final TextStyle inputTextStyle;
+  final Color? cursorColor;
+  final bool withHint;
   final ValueChanged<PhoneNumber?>? onChanged;
 
   static String? _defaultValidator(PhoneNumber? phoneNumber) {
@@ -34,6 +35,8 @@ class PhoneFormField extends BaseFormField<PhoneNumber> {
     this.showFlagInInput = true,
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.inputTextStyle = const TextStyle(),
+    this.cursorColor,
+    this.withHint = true,
   }) : super(
           key: key,
           initialValue: initialValue,
@@ -43,7 +46,7 @@ class PhoneFormField extends BaseFormField<PhoneNumber> {
           validator: (p) => _defaultValidator(p),
           builder: (field) {
             final state = field as _PhoneFormFieldState;
-            return state.wrapper(state.builder());
+            return state.builder();
           },
         );
 
@@ -51,7 +54,10 @@ class PhoneFormField extends BaseFormField<PhoneNumber> {
   _PhoneFormFieldState createState() => _PhoneFormFieldState();
 }
 
-class _PhoneFormFieldState extends BaseFormFieldState<PhoneNumber> {
+class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
+  FocusNode _focusNode = FocusNode();
+  TextEditingController _controller = TextEditingController();
+
   _PhoneFormFieldState();
 
   get country => value?.country ?? Country.fromIsoCode('us');
@@ -59,28 +65,16 @@ class _PhoneFormFieldState extends BaseFormFieldState<PhoneNumber> {
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
 
-  // tells the InputDecorator where to put the label
-  @override
-  bool get isEmpty => value == null || value!.nsn == '';
-
-  // which error text to show
-  @override
-  String? getErrorText() {
-    if (!hasError) return null;
-    return PhoneFieldLocalization.of(context)?.translate(errorText!) ??
-        errorText;
-  }
-
   @override
   void initState() {
     super.initState();
-    controller.addListener(_onNationalNumberChanges);
+    _controller.addListener(_onNationalNumberChanges);
   }
 
   _onNationalNumberChanges() {
     final newPhoneNumber = PhoneNumber.fromIsoCode(
       country.isoCode,
-      controller.text,
+      _controller.text,
     );
     didChange(newPhoneNumber);
   }
@@ -107,53 +101,62 @@ class _PhoneFormFieldState extends BaseFormFieldState<PhoneNumber> {
   }
 
   Widget builder() {
-    return Row(
+    return Stack(
       children: [
-        Expanded(child: _textField()),
+        _textField(),
+        // _getCountryButton(EdgeInsets.all(8)),
+        Positioned(top: 0, child: _getCountryButton(EdgeInsets.all(16))),
       ],
-    );
-  }
-
-  Widget _countryButton() {
-    return CountryButton(
-      country: country,
-      enabled: widget.enabled,
-      onPressed: openCountrySelection,
-      showFlag: widget.showFlagInInput,
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-      textStyle: TextStyle(fontSize: 16),
-      flagSize: 16,
     );
   }
 
   Widget _textField() {
     return TextField(
-      focusNode: focusNode,
-      controller: controller,
+      focusNode: _focusNode,
+      controller: _controller,
       onSubmitted: (p) => widget.onSaved!(value),
       style: widget.inputTextStyle,
       autofocus: widget.autofocus,
-      autofillHints:
-          widget.enabled ? [AutofillHints.telephoneNumberNational] : null,
+      autofillHints: widget.enabled && widget.withHint
+          ? [AutofillHints.telephoneNumberNational]
+          : null,
       enabled: widget.enabled,
       textDirection: TextDirection.ltr,
       keyboardType: TextInputType.phone,
+      cursorColor: widget.cursorColor,
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.allow(RegExp(r'^\d{0,30}$'))
       ],
-      decoration: _innerInputDecoration(),
+      decoration: _getEffectiveDecoration(),
     );
   }
 
-  InputDecoration _innerInputDecoration() {
-    return InputDecoration(
-      border: InputBorder.none,
-      focusedBorder: InputBorder.none,
-      enabledBorder: InputBorder.none,
-      errorBorder: InputBorder.none,
-      isDense: true,
-      contentPadding: const EdgeInsets.all(0),
-      icon: _countryButton(),
+  Widget _getCountryButton([EdgeInsets? padding]) {
+    return IgnorePointer(
+      ignoring: !_focusNode.hasFocus,
+      child: CountryButton(
+        country: country,
+        enabled: widget.enabled,
+        onPressed: openCountrySelection,
+        showFlag: widget.showFlagInInput,
+        padding: padding ?? const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        textStyle: TextStyle(fontSize: 16),
+        flagSize: 16,
+      ),
     );
+  }
+
+  InputDecoration _getEffectiveDecoration() {
+    return widget.decoration.copyWith(
+      errorText: getErrorText(),
+      prefix: Opacity(opacity: 0, child: _getCountryButton()),
+    );
+  }
+
+  // which error text to show
+  String? getErrorText() {
+    if (!hasError) return null;
+    return PhoneFieldLocalization.of(context)?.translate(errorText!) ??
+        errorText;
   }
 }
