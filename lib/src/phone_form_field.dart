@@ -63,6 +63,14 @@ class _PhoneFormFieldState extends BaseFormFieldState<PhoneNumber> {
   @override
   bool get isEmpty => value == null || value!.nsn == '';
 
+  // which error text to show
+  @override
+  String? getErrorText() {
+    if (!hasError) return null;
+    return PhoneFieldLocalization.of(context)?.translate(errorText!) ??
+        errorText;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -96,12 +104,6 @@ class _PhoneFormFieldState extends BaseFormFieldState<PhoneNumber> {
         onCountrySelected: _onCountrySelected,
       ),
     );
-  }
-
-  String? _getErrorText() {
-    if (errorText == null) return null;
-    return PhoneFieldLocalization.of(context)?.translate(errorText!) ??
-        errorText;
   }
 
   Widget builder() {
@@ -143,22 +145,15 @@ class _PhoneFormFieldState extends BaseFormFieldState<PhoneNumber> {
     );
   }
 
-  InputDecoration _outterInputDecoration() {
-    return widget.decoration.copyWith(
-      // isDense: true,
-      // contentPadding: const EdgeInsets.all(0),
-      errorText: _getErrorText(),
-    );
-  }
-
   InputDecoration _innerInputDecoration() {
-    return const InputDecoration(
+    return InputDecoration(
       border: InputBorder.none,
       focusedBorder: InputBorder.none,
       enabledBorder: InputBorder.none,
       errorBorder: InputBorder.none,
       isDense: true,
       contentPadding: const EdgeInsets.all(0),
+      icon: _countryButton(),
     );
   }
 }

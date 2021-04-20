@@ -35,11 +35,16 @@ class BaseFormFieldState<T> extends FormFieldState<T> {
   FocusNode focusNode = FocusNode();
   TextEditingController controller = TextEditingController();
   bool get hasError => (widget as dynamic).decoration?.errorText != null;
-  bool get isEmpty => value == null;
   bool _isHovering = false;
 
   @override
   BaseFormField<T> get widget => super.widget as BaseFormField<T>;
+
+  /// descendants can override this move the label
+  bool get isEmpty => value == null;
+
+  /// descendants can override this to show another text
+  getErrorText() => errorText;
 
   @override
   void initState() {
@@ -102,7 +107,7 @@ class BaseFormFieldState<T> extends FormFieldState<T> {
 
   InputDecoration _getInputDecoration() {
     return widget.decoration.copyWith(
-      errorText: errorText,
+      errorText: getErrorText(),
     );
   }
 }
