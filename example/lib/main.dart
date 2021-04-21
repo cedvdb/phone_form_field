@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('BE', '');
-  bool outlineBorder = false;
+  bool outlineBorder = true;
   bool withLabel = true;
   bool autovalidate = true;
 
@@ -72,26 +72,6 @@ class _MyAppState extends State<MyApp> {
                         autofocus: true,
                         decoration: InputDecoration(
                           labelText: withLabel ? 'Phone' : null,
-                          border: outlineBorder
-                              ? OutlineInputBorder()
-                              : UnderlineInputBorder(),
-                        ),
-                        onChanged: (p) => setState(() => phoneNumber = p!),
-                        onSaved: (p) => setState(() => phoneNumber = p),
-                        enabled: true,
-                        showFlagInInput: true,
-                        autovalidateMode: autovalidate
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      PhoneFormField(
-                        initialValue: phoneNumber,
-                        autofocus: false,
-                        decoration: InputDecoration(
-                          labelText: withLabel ? 'Phone 2' : null,
                           border: outlineBorder
                               ? OutlineInputBorder()
                               : UnderlineInputBorder(),

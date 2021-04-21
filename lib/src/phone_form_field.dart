@@ -5,7 +5,7 @@ import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/country_selector.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import 'country_button.dart';
+import 'flag_dial_code_chip.dart';
 
 class PhoneFormField extends FormField<PhoneNumber> {
   final bool autofocus;
@@ -62,6 +62,8 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
   get country => value?.country ?? Country.fromIsoCode('us');
 
+  get isOutlineBorder => widget.decoration.border is OutlineInputBorder;
+
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
 
@@ -101,7 +103,18 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget builder() {
-    return _textField();
+    // the idea here is to have a TextField with a prefix where the prefix
+    // is the flag + dial code which is the same height as text so it's well
+    // aligned with the typed text. It also does not push labels etc
+    // around and keep the same form factor as TextFormField.
+    //
+    // Then we stack an InkWell on top of that to add the clickable part
+    return Stack(
+      children: [
+        _textField(),
+        if (_focusNode.hasFocus) _inkWellOverlay(),
+      ],
+    );
   }
 
   Widget _textField() {
@@ -119,23 +132,45 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       keyboardType: TextInputType.phone,
       cursorColor: widget.cursorColor,
       inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.allow(RegExp(r'^\d{0,30}$'))
+        FilteringTextInputFormatter.digitsOnly,
+        FilteringTextInputFormatter.singleLineFormatter,
+        // FilteringTextInputFormatter.allow(RegExp(r'^\d{0,30}$'))
       ],
       decoration: _getEffectiveDecoration(),
     );
   }
 
-  Widget _getCountryButton([EdgeInsets? padding]) {
-    return IgnorePointer(
-      ignoring: !_focusNode.hasFocus,
-      child: CountryButton(
+  Widget _inkWellOverlay() {
+    return InkWell(
+      onTap: openCountrySelection,
+      // we make the country dial code
+      // invisible but we still have to put it here
+      // to have the correct width
+      child: Opacity(
+        opacity: 0,
+        child: Padding(
+          // outline border has padding on the left
+          // so we need to make it a 12 bigger
+          // and we add 16 horizontally to make it the whole height
+          padding: isOutlineBorder
+              ? const EdgeInsets.fromLTRB(12, 16, 0, 16)
+              : const EdgeInsets.fromLTRB(0, 16, 0, 16),
+          child: _getDialCode(),
+        ),
+      ),
+    );
+  }
+
+  Widget _getDialCode() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      child: FlagDialCodeChip(
         country: country,
         enabled: widget.enabled,
         onPressed: openCountrySelection,
         showFlag: widget.showFlagInInput,
-        padding: padding ?? const EdgeInsets.fromLTRB(10, 0, 10, 0),
         textStyle: TextStyle(fontSize: 16),
-        flagSize: 16,
+        flagSize: 20,
       ),
     );
   }
@@ -143,7 +178,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   InputDecoration _getEffectiveDecoration() {
     return widget.decoration.copyWith(
       errorText: getErrorText(),
-      prefix: _getCountryButton(),
+      prefix: _getDialCode(),
     );
   }
 

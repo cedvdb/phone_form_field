@@ -25,9 +25,9 @@ PhoneFormField(
   initialValue: PhoneNumber.fromIsoCode('us', ''),
   onChanged: (p) => setState(() => phoneNumber = p!),
   onSaved: (p) => setState(() => phoneNumber = p),
-  decoration: InputDecoration(border: UnderlineInputBorder(),),
-  enabled: true,
-  autovalidateMode: AutovalidateMode.onUserInteraction,
+  // decoration: InputDecoration(border: OutlineInputBorder(),),
+  // enabled: true,
+  // autovalidateMode: AutovalidateMode.onUserInteraction,
 ),
 
 ```
