@@ -73,6 +73,21 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     _controller.addListener(_onNationalNumberChanges);
   }
 
+  @override
+  void didChange(PhoneNumber? value) {
+    super.didChange(value);
+    if (widget.onChanged != null) {
+      widget.onChanged!(value);
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
   _onNationalNumberChanges() {
     final newPhoneNumber = PhoneNumber.fromIsoCode(
       country.isoCode,
