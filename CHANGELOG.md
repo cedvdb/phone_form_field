@@ -1,3 +1,6 @@
+## [1.0.0] - 21 / 04 / 2021
+
+* Reworked internal so the PhoneFormField behaves exactly like a TextFormField
 
 ## [0.0.6] - 15 / 04 / 2021
 

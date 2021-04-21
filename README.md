@@ -21,13 +21,15 @@ Demo available at https://cedvdb.github.io/phone_form_field/
 
 ```dart
 PhoneFormField(
+  initialValue: phoneNumber,
   autofocus: true,
-  initialValue: PhoneNumber.fromIsoCode('us', ''),
+  decoration: InputDecoration(
+    labelText: 'Phone',
+    border: OutlineInputBorder(),
+    // ...
+  ),
   onChanged: (p) => setState(() => phoneNumber = p!),
   onSaved: (p) => setState(() => phoneNumber = p),
-  // decoration: InputDecoration(border: OutlineInputBorder(),),
-  // enabled: true,
-  // autovalidateMode: AutovalidateMode.onUserInteraction,
 ),
 
 ```
