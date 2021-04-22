@@ -8,7 +8,7 @@ Flutter phone input integrated with flutter internationalization
 - Internationalization support, without bloated json with all translations.
 - Phone number validation
 - Extends Flutter's FormField
-- Uses dart phone_number_parser for parsing
+- Uses dart phone_numbers_parser for parsing
 
 
 ## Demo

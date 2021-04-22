@@ -18,14 +18,41 @@ class _CountrySelectorState extends State<CountrySelector> {
   List<Country> _filteredCountries = countries;
 
   _onSearch(String txt) {
-    final filtered = countries
-        .where(
-          (c) =>
-              c.name.toLowerCase().contains(txt.toLowerCase()) ||
-              c.isoCode.toLowerCase().contains(txt.toLowerCase()),
-        )
-        .toList();
+    // if the txt is a number we check the dial code instead
+    final asInt = int.tryParse(txt);
+    final isNum = asInt != null;
+    var filtered;
+    if (isNum) {
+      // toString to remove any + in front if its an int
+      filtered = _filterByDialCode(asInt!.toString());
+    } else {
+      filtered = _filterByName(txt);
+    }
     setState(() => _filteredCountries = filtered);
+  }
+
+  List<Country> _filterByDialCode(String dialCode) {
+    final getSortPoint =
+        (Country c) => c.dialCode.length == dialCode.length ? 1 : 0;
+    return countries.where((c) => c.dialCode.contains(dialCode)).toList()
+      // puts the closest match at the top
+      ..sort((a, b) => getSortPoint(b) - getSortPoint(a));
+  }
+
+  List<Country> _filterByName(String txt) {
+    final lowerCaseTxt = txt.toLowerCase();
+    final getSortPoint = (Country c) =>
+        c.name.toLowerCase().startsWith(lowerCaseTxt) ||
+                c.isoCode.toLowerCase().startsWith(lowerCaseTxt)
+            ? 1
+            : 0;
+    return countries
+        .where((c) =>
+            c.name.toLowerCase().contains(lowerCaseTxt) ||
+            c.isoCode.toLowerCase().contains(lowerCaseTxt))
+        .toList()
+          // puts the ones that begin by txt first
+          ..sort((a, b) => getSortPoint(b) - getSortPoint(a));
   }
 
   @override

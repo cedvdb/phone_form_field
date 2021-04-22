@@ -1,3 +1,9 @@
+## [1.0.1] - 23 / 04 / 2021
+* Fixed validity issue (issue #1)
+* Allow country to be searched by dial code (issue #2)
+* Sort country search results to have more meaningful results at the top
+* Upped dependency phone_numbers_parser to 0.1.0
+
 ## [1.0.0] - 21 / 04 / 2021
 
 * Reworked internal so the PhoneFormField behaves exactly like a TextFormField
