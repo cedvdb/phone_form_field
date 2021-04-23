@@ -17,6 +17,13 @@ class _MyAppState extends State<MyApp> {
   bool outlineBorder = true;
   bool withLabel = true;
   bool autovalidate = true;
+  bool mobileOnly = false;
+
+  _getSubmitState() {
+    if (mobileOnly)
+      return phoneNumber.validate(PhoneNumberType.mobile) ? () {} : null;
+    return phoneNumber.validate(null) ? () {} : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +71,11 @@ class _MyAppState extends State<MyApp> {
                         onChanged: (v) => setState(() => withLabel = v),
                         title: 'Label',
                       ),
+                      SwitchEl(
+                        value: mobileOnly,
+                        onChanged: (v) => setState(() => mobileOnly = v),
+                        title: 'Mobile phone number only',
+                      ),
                       SizedBox(
                         height: 40,
                       ),
@@ -81,7 +93,7 @@ class _MyAppState extends State<MyApp> {
                         enabled: true,
                         showFlagInInput: true,
                         phoneNumberType:
-                            null, // could be PhoneNumberType.mobile or phoneNumberType.fixed
+                            mobileOnly ? PhoneNumberType.mobile : null,
                         autovalidateMode: autovalidate
                             ? AutovalidateMode.onUserInteraction
                             : AutovalidateMode.disabled,
@@ -90,7 +102,7 @@ class _MyAppState extends State<MyApp> {
                         height: 40,
                       ),
                       ElevatedButton(
-                        onPressed: phoneNumber.valid ? () {} : null,
+                        onPressed: _getSubmitState(),
                         child: Text('next'),
                       ),
                       SizedBox(
