@@ -16,8 +16,11 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool withHint;
   final ValueChanged<PhoneNumber?>? onChanged;
 
-  static String? _defaultValidator(PhoneNumber? phoneNumber) {
-    return phoneNumber == null || phoneNumber.valid || phoneNumber.nsn == ''
+  static String? Function(PhoneNumber?) _getDefaultValidator(
+      PhoneNumberType? type) {
+    return (PhoneNumber? phoneNumber) => phoneNumber == null ||
+            phoneNumber.validate(type) ||
+            phoneNumber.nsn == ''
         ? null
         : 'Invalid phone number';
   }
@@ -37,13 +40,14 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.inputTextStyle = const TextStyle(),
     this.cursorColor,
     this.withHint = true,
+    PhoneNumberType? phoneNumberType,
   }) : super(
           key: key,
           initialValue: initialValue,
           onSaved: (p) => onSaved != null ? onSaved(p!) : (p) {},
           enabled: enabled,
           autovalidateMode: autovalidateMode,
-          validator: (p) => _defaultValidator(p),
+          validator: _getDefaultValidator(phoneNumberType),
           builder: (field) {
             final state = field as _PhoneFormFieldState;
             return state.builder();

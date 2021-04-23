@@ -80,6 +80,8 @@ class _MyAppState extends State<MyApp> {
                         onSaved: (p) => setState(() => phoneNumber = p),
                         enabled: true,
                         showFlagInInput: true,
+                        phoneNumberType:
+                            null, // could be PhoneNumberType.mobile or phoneNumberType.fixed
                         autovalidateMode: autovalidate
                             ? AutovalidateMode.onUserInteraction
                             : AutovalidateMode.disabled,

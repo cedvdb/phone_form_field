@@ -1,3 +1,7 @@
+## [1.0.2] - 23 / 04 / 2021
+* Upped dependency phone_numbers_parser to 0.1.3
+* Added phoneNumberType input to validate against specific types (mobile, fixed line)
+
 ## [1.0.1] - 23 / 04 / 2021
 * Fixed validity issue (issue #1)
 * Allow country to be searched by dial code (issue #2)

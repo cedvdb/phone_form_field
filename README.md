@@ -30,6 +30,8 @@ PhoneFormField(
   ),
   onChanged: (p) => setState(() => phoneNumber = p!),
   onSaved: (p) => setState(() => phoneNumber = p),
+  phoneNumberType: null, // could be PhoneNumberType.mobile or phoneNumberType.fixed for more specific validation
+
 ),
 
 ```
