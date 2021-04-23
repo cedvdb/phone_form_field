@@ -95,6 +95,10 @@ class _MyAppState extends State<MyApp> {
                         height: 40,
                       ),
                       Text(phoneNumber.toString()),
+                      Text(
+                          'is valid mobile number ${phoneNumber.validate(PhoneNumberType.mobile)}'),
+                      Text(
+                          'is valid fixed line number ${phoneNumber.validate(PhoneNumberType.fixedLine)}'),
                     ],
                   ),
                 ),
