@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/search_box.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
+
+import 'country_list.dart';
 
 class CountrySelector extends StatefulWidget {
   final Function(Country) onCountrySelected;
@@ -72,7 +73,6 @@ class _CountrySelectorState extends State<CountrySelector> {
             countries: _filteredCountries,
             onTap: (country) {
               widget.onCountrySelected(country);
-              Navigator.pop(context);
             },
           ),
         ),

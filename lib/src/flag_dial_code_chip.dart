@@ -5,18 +5,16 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 class FlagDialCodeChip extends StatelessWidget {
   final Country country;
   final bool showFlag;
-  final bool enabled;
-  final Function() onPressed;
+  final bool showDialCode;
   final TextStyle textStyle;
   final EdgeInsets padding;
   final double flagSize;
 
   FlagDialCodeChip({
     required this.country,
-    required this.enabled,
-    required this.onPressed,
-    required this.showFlag,
-    required this.textStyle,
+    this.textStyle = const TextStyle(),
+    this.showFlag = true,
+    this.showDialCode = true,
     this.padding = const EdgeInsets.all(20),
     this.flagSize = 20,
   });
@@ -35,10 +33,11 @@ class FlagDialCodeChip extends StatelessWidget {
             width: 8,
           ),
         ],
-        Text(
-          country.getDialCodeForDisplay(),
-          style: textStyle,
-        ),
+        if (showDialCode)
+          Text(
+            country.getDialCodeForDisplay(),
+            style: textStyle,
+          ),
       ],
     );
   }

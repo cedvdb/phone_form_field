@@ -1,3 +1,8 @@
+## [1.1.0] - 23 / 04 / 2021
+* [Breaking] : some classes from the package phone_numbers_parser aren't exported anymore. Mostly classes that are not intended to be used with this package.
+* Added example for widgets FlagDialCodeChip and CountrySelector
+* Added default values for FlagDialCodeChip and removed some unused values.
+
 ## [1.0.2] - 23 / 04 / 2021
 * Upped dependency phone_numbers_parser to 0.1.3
 * Added phoneNumberType input to validate against specific types (mobile, fixed line)

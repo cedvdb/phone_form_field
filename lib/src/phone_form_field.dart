@@ -115,8 +115,13 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   openCountrySelection() {
     showModalBottomSheet(
       context: context,
-      builder: (_) => CountrySelector(
-        onCountrySelected: _onCountrySelected,
+      builder: (_) => SizedBox(
+        child: CountrySelector(
+          onCountrySelected: (c) {
+            _onCountrySelected(c);
+            Navigator.pop(context);
+          },
+        ),
       ),
     );
   }
@@ -185,8 +190,6 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: FlagDialCodeChip(
         country: country,
-        enabled: widget.enabled,
-        onPressed: openCountrySelection,
         showFlag: widget.showFlagInInput,
         textStyle: TextStyle(fontSize: 16),
         flagSize: 20,

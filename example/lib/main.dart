@@ -1,3 +1,4 @@
+import 'package:example/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -7,24 +8,7 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('BE', '');
-  bool outlineBorder = true;
-  bool withLabel = true;
-  bool autovalidate = true;
-  bool mobileOnly = false;
-
-  _getSubmitState() {
-    if (mobileOnly)
-      return phoneNumber.validate(PhoneNumberType.mobile) ? () {} : null;
-    return phoneNumber.validate(null) ? () {} : null;
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,8 +30,38 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        body: Center(
+      home: PhoneFormFieldScreen(),
+    );
+  }
+}
+
+class PhoneFormFieldScreen extends StatefulWidget {
+  @override
+  _PhoneFormFieldScreenState createState() => _PhoneFormFieldScreenState();
+}
+
+class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
+  PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('BE', '');
+  bool outlineBorder = true;
+  bool withLabel = true;
+  bool autovalidate = true;
+  bool mobileOnly = false;
+
+  _getSubmitState() {
+    if (mobileOnly)
+      return phoneNumber.validate(PhoneNumberType.mobile) ? () {} : null;
+    return phoneNumber.validate(null) ? () {} : null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: AppDrawer(),
+      appBar: AppBar(
+        title: Text('Phone_form_field'),
+      ),
+      body: SingleChildScrollView(
+        child: Center(
           child: Container(
             constraints: BoxConstraints(maxWidth: 600),
             child: Card(
@@ -120,6 +134,93 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class DialCodeChipScreen extends StatefulWidget {
+  @override
+  _DialCodeChipScreenState createState() => _DialCodeChipScreenState();
+}
+
+class _DialCodeChipScreenState extends State<DialCodeChipScreen> {
+  bool showDialCode = true;
+  bool showFlag = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: AppDrawer(),
+      appBar: AppBar(
+        title: Text('Phone_form_field'),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SwitchEl(
+              value: showDialCode,
+              onChanged: (v) => setState(() => showDialCode = v),
+              title: 'show dial code'),
+          SwitchEl(
+              value: showFlag,
+              onChanged: (v) => setState(() => showFlag = v),
+              title: 'show flag'),
+          SizedBox(
+            height: 40,
+          ),
+          Row(
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              FlagDialCodeChip(
+                country: Country.fromIsoCode('us'),
+                showDialCode: showDialCode,
+                showFlag: showFlag,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              FlagDialCodeChip(
+                country: Country.fromIsoCode('fr'),
+                showDialCode: showDialCode,
+                showFlag: showFlag,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              FlagDialCodeChip(
+                country: Country.fromIsoCode('br'),
+                showDialCode: showDialCode,
+                showFlag: showFlag,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              FlagDialCodeChip(
+                country: Country.fromIsoCode('es'),
+                showDialCode: showDialCode,
+                showFlag: showFlag,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CountrySelectorScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: AppDrawer(),
+      appBar: AppBar(
+        title: Text('Phone_form_field'),
+      ),
+      body: Container(
+        child: CountrySelector(onCountrySelected: (c) {}),
       ),
     );
   }
