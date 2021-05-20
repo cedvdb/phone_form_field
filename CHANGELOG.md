@@ -1,4 +1,7 @@
-## [1.1.0] - 23 / 04 / 2021
+## [1.1.0] - 20 / 05 / 2021
+* Added key to exported widgets.
+
+## [1.1.0] - 19 / 05 / 2021
 * [Breaking] : some classes from the package phone_numbers_parser aren't exported anymore. Mostly classes that are not intended to be used with this package.
 * Added example for widgets FlagDialCodeChip and CountrySelector
 * Added default values for FlagDialCodeChip and removed some unused values.
