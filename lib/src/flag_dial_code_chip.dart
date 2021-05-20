@@ -11,13 +11,14 @@ class FlagDialCodeChip extends StatelessWidget {
   final double flagSize;
 
   FlagDialCodeChip({
+    Key? key,
     required this.country,
     this.textStyle = const TextStyle(),
     this.showFlag = true,
     this.showDialCode = true,
     this.padding = const EdgeInsets.all(20),
     this.flagSize = 20,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
