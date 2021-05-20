@@ -8,8 +8,9 @@ class CountrySelector extends StatefulWidget {
   final Function(Country) onCountrySelected;
 
   CountrySelector({
+    Key? key,
     required this.onCountrySelected,
-  });
+  }) : super(key: key);
 
   @override
   _CountrySelectorState createState() => _CountrySelectorState();

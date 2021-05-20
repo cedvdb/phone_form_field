@@ -9,9 +9,10 @@ class CountryList extends StatelessWidget {
   final List<Country> countries;
 
   const CountryList({
+    Key? key,
     required this.countries,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
