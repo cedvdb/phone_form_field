@@ -7,14 +7,35 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'flag_dial_code_chip.dart';
 
+enum SelectorDisplay {
+  coversBody,
+  // coversAll,
+  coversLower,
+}
+
+/// Form Field for phone input
+///
+/// You can customize the phone number type that are valid with
+/// the [PhoneNumberType] parameter.
+///
+/// To customize the look use [decoration], [inputTextStyle] and [cursorColor]
+///
+/// To customize how the country selection is displayed use the [selectorDisplay] param.
+///
+/// The rest of the parameters should be self explanatory or common to regular TextFormField.
 class PhoneFormField extends FormField<PhoneNumber> {
   final bool autofocus;
   final bool showFlagInInput;
+
+  /// input decoration applied to the input
   final InputDecoration decoration;
   final TextStyle inputTextStyle;
   final Color? cursorColor;
   final bool withHint;
   final ValueChanged<PhoneNumber?>? onChanged;
+
+  /// the way the selector is shown
+  final SelectorDisplay selectorDisplay;
 
   static String? Function(PhoneNumber?) _getDefaultValidator(
       PhoneNumberType? type) {
@@ -40,6 +61,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.inputTextStyle = const TextStyle(),
     this.cursorColor,
     this.withHint = true,
+    this.selectorDisplay = SelectorDisplay.coversLower,
     PhoneNumberType? phoneNumberType,
   }) : super(
           key: key,
@@ -59,8 +81,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
 }
 
 class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
-  FocusNode _focusNode = FocusNode();
-  TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  final TextEditingController _controller = TextEditingController();
 
   _PhoneFormFieldState();
 
@@ -74,6 +96,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   @override
   void initState() {
     super.initState();
+    _controller.text = widget.initialValue?.nsn ?? '';
     _controller.addListener(_onNationalNumberChanges);
   }
 
@@ -110,20 +133,37 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       newPhoneNumber = PhoneNumber.fromIsoCode(country.isoCode, '');
     }
     didChange(newPhoneNumber);
+    _focusNode.requestFocus();
+    Navigator.pop(context);
   }
 
   openCountrySelection() {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) => SizedBox(
-        child: CountrySelector(
-          onCountrySelected: (c) {
-            _onCountrySelected(c);
-            Navigator.pop(context);
-          },
-        ),
-      ),
+    final selector = CountrySelector(
+      onCountrySelected: _onCountrySelected,
     );
+
+    _focusNode.unfocus();
+
+    if (widget.selectorDisplay == SelectorDisplay.coversBody) {
+      showBottomSheet(
+        context: context,
+        builder: (_) => selector,
+      );
+    }
+    // else if (widget.selectorDisplay == SelectorDisplay.coversAll) {
+    //   showModalBottomSheet(
+    //     context: context,
+    //     builder: (_) => selector,
+    //     // this param makes it fit the whole screen
+    //     isScrollControlled: true,
+    //   );
+    // }
+    else if (widget.selectorDisplay == SelectorDisplay.coversLower) {
+      showModalBottomSheet(
+        context: context,
+        builder: (_) => selector,
+      );
+    }
   }
 
   Widget builder() {

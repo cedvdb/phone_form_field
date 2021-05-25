@@ -1,3 +1,7 @@
+## [1.1.3] - 25 / 05 / 2021
+* fix initial value not setting up correctly
+* Added different types of Country selector display: SelectorDisplay.coversBody, SelectorDisplay.coversLower. The old value is coversLower and the new default value is coversBody. 
+
 ## [1.1.2] - 20 / 05 / 2021
 * minor changelog fix.
 

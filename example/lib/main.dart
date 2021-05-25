@@ -41,11 +41,12 @@ class PhoneFormFieldScreen extends StatefulWidget {
 }
 
 class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
-  PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('BE', '');
+  PhoneNumber phoneNumber = PhoneNumber.fromIsoCode('FR', '');
   bool outlineBorder = true;
   bool withLabel = true;
   bool autovalidate = true;
   bool mobileOnly = false;
+  bool covers = true;
 
   _getSubmitState() {
     if (mobileOnly)
@@ -90,12 +91,20 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         onChanged: (v) => setState(() => mobileOnly = v),
                         title: 'Mobile phone number only',
                       ),
+                      SwitchEl(
+                        value: covers,
+                        onChanged: (v) => setState(() => covers = v),
+                        title: 'country selection covers body',
+                      ),
                       SizedBox(
                         height: 40,
                       ),
                       PhoneFormField(
                         initialValue: phoneNumber,
                         autofocus: true,
+                        selectorDisplay: covers
+                            ? SelectorDisplay.coversBody
+                            : SelectorDisplay.coversLower,
                         decoration: InputDecoration(
                           labelText: withLabel ? 'Phone' : null,
                           border: outlineBorder
