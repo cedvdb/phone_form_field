@@ -120,7 +120,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.1.4"
+    version: "1.2.0"
   phone_numbers_parser:
     dependency: transitive
     description:

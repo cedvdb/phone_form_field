@@ -12,7 +12,7 @@ void main() {
 
 Widget getPhoneField({
   required PhoneNumber initialValue,
-  required SelectorDisplay selectorDisplay,
+  required SelectorConfig selectorConfig,
   required bool withLabel,
   required bool outlineBorder,
   required bool mobileOnly,
@@ -23,7 +23,7 @@ Widget getPhoneField({
   return PhoneFormField(
     initialValue: initialValue,
     autofocus: true,
-    selectorDisplay: selectorDisplay,
+    selectorConfig: selectorConfig,
     decoration: InputDecoration(
       labelText: withLabel ? 'Phone' : null,
       border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
@@ -77,7 +77,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool withLabel = true;
   bool autovalidate = true;
   bool mobileOnly = false;
-  SelectorDisplay selectorDisplay = SelectorDisplay.bottomSheet;
+  SelectorConfig selectorConfig = SelectorConfigCoverSheet();
 
   _getSubmitState() {
     if (mobileOnly)
@@ -88,7 +88,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AppDrawer(),
+      // drawer: AppDrawer(),
       appBar: AppBar(
         title: Text('Phone_form_field'),
       ),
@@ -127,32 +127,32 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         child: Row(
                           children: [
                             Radio(
-                              value: SelectorDisplay.bottomSheet,
-                              groupValue: selectorDisplay,
-                              onChanged: (SelectorDisplay? value) {
-                                setState(() => selectorDisplay =
-                                    value ?? SelectorDisplay.bottomSheet);
+                              value: SelectorConfigCoverSheet(),
+                              groupValue: selectorConfig,
+                              onChanged: (SelectorConfig? value) {
+                                setState(() => selectorConfig =
+                                    value ?? SelectorConfigCoverSheet());
+                              },
+                            ),
+                            Text('cover sheet'),
+                            Radio(
+                              value: SelectorConfigBottomSheet(null),
+                              groupValue: selectorConfig,
+                              onChanged: (SelectorConfig? value) {
+                                setState(() => selectorConfig =
+                                    value ?? SelectorConfigCoverSheet());
                               },
                             ),
                             Text('bottom sheet'),
                             Radio(
-                              value: SelectorDisplay.dialog,
-                              groupValue: selectorDisplay,
-                              onChanged: (SelectorDisplay? value) {
-                                setState(() => selectorDisplay =
-                                    value ?? SelectorDisplay.bottomSheet);
+                              value: SelectorConfigDialog(),
+                              groupValue: selectorConfig,
+                              onChanged: (SelectorConfig? value) {
+                                setState(() => selectorConfig =
+                                    value ?? SelectorConfigCoverSheet());
                               },
                             ),
                             Text('dialog'),
-                            Radio(
-                              value: SelectorDisplay.coverSheet,
-                              groupValue: selectorDisplay,
-                              onChanged: (SelectorDisplay? value) {
-                                setState(() => selectorDisplay =
-                                    value ?? SelectorDisplay.bottomSheet);
-                              },
-                            ),
-                            Text('body sheet'),
                           ],
                         ),
                       ),
@@ -161,7 +161,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       ),
                       getPhoneField(
                         initialValue: phoneNumber,
-                        selectorDisplay: selectorDisplay,
+                        selectorConfig: selectorConfig,
                         withLabel: withLabel,
                         outlineBorder: outlineBorder,
                         mobileOnly: mobileOnly,

@@ -3,15 +3,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/country_selector.dart';
+import 'package:phone_form_field/src/selector_config.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'flag_dial_code_chip.dart';
-
-enum SelectorDisplay {
-  dialog,
-  bottomSheet,
-  coverSheet,
-}
 
 /// Form Field for phone input
 ///
@@ -20,7 +15,7 @@ enum SelectorDisplay {
 ///
 /// To customize the look use [decoration], [inputTextStyle] and [cursorColor]
 ///
-/// To customize how the country selection is displayed use the [selectorDisplay] param.
+/// To customize how the country selection is displayed use the [electorConfig] param.
 ///
 /// The rest of the parameters should be self explanatory or common to regular TextFormField.
 class PhoneFormField extends FormField<PhoneNumber> {
@@ -34,8 +29,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool withHint;
   final ValueChanged<PhoneNumber?>? onChanged;
 
-  /// the way the selector is shown
-  final SelectorDisplay selectorDisplay;
+  /// configures the way the country selector is shown
+  final SelectorConfig selectorConfig;
 
   static String? Function(PhoneNumber?) _getDefaultValidator(
       PhoneNumberType? type) {
@@ -61,7 +56,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.inputTextStyle = const TextStyle(),
     this.cursorColor,
     this.withHint = true,
-    this.selectorDisplay = SelectorDisplay.bottomSheet,
+    this.selectorConfig = const SelectorConfigCoverSheet(),
     PhoneNumberType? phoneNumberType,
   }) : super(
           key: key,
@@ -136,25 +131,36 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   openCountrySelection() {
-    final selector = CountrySelector(onCountrySelected: (c) {
-      _onCountrySelected(c);
-      Navigator.pop(context);
-    });
+    final selector = CountrySelector(
+      onCountrySelected: (c) {
+        _onCountrySelected(c);
+        Navigator.pop(context);
+      },
+    );
 
-    if (widget.selectorDisplay == SelectorDisplay.dialog) {
+    if (widget.selectorConfig is SelectorConfigDialog) {
       showDialog(
         context: context,
         builder: (_) => Dialog(child: selector),
       );
-    } else if (widget.selectorDisplay == SelectorDisplay.coverSheet) {
-      showBottomSheet(
+    } else if (widget.selectorConfig is SelectorConfigCoverSheet) {
+      // bottom sheets keeps the focus on the current focussed input
+      // so we gotta handle that part
+      _focusNode.unfocus();
+      final ctrl = showBottomSheet(
         context: context,
         builder: (_) => selector,
       );
-    } else if (widget.selectorDisplay == SelectorDisplay.bottomSheet) {
+      ctrl.closed.then((_) => _focusNode.requestFocus());
+    } else if (widget.selectorConfig is SelectorConfigBottomSheet) {
+      final config = widget.selectorConfig as SelectorConfigBottomSheet;
       showModalBottomSheet(
         context: context,
-        builder: (_) => selector,
+        builder: (_) => SizedBox(
+          height: config.height ?? MediaQuery.of(context).size.height - 90,
+          child: selector,
+        ),
+        isScrollControlled: true,
       );
     }
   }

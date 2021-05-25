@@ -6,14 +6,12 @@ class SearchBox extends StatelessWidget {
   final Function(String) onChanged;
 
   SearchBox({required this.onChanged});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: TextField(
-        // autofocussing the search field here displays the keyboard on phones
-        // and it looks ugly. On bigger screen it looks better. We will just
-        // test if it's web
         autofocus: true,
         onChanged: onChanged,
         decoration: InputDecoration(

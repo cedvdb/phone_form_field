@@ -1,5 +1,24 @@
-## [1.1.4] - 25 / 05 / 2021
-* Fix additional displays, now: SelectorDisplay.bottomSheet, SelectorDisplay.dialog, SelectorDisplay.coverSheet
+## [1.2.0] - 25 / 05 / 2021
+* Minor release introducing SelectorConfig.
+* Fix problems with input focussing in cover sheet. 
+
+```
+  // cover sheet
+  PhoneFormField(
+    // ...
+    selectorConfig: SelectorConfigCoverSheet()
+  )
+  // dialog
+  PhoneFormField(
+    // ...
+    selectorConfig: SelectorConfigBottomSheet()
+  )
+  // bottom sheet
+  PhoneFormField(
+    // ...
+    selectorConfig: SelectorConfigBottomSheet(null)
+  )
+```
 
 ## [1.1.3] - 25 / 05 / 2021
 * fix initial value not setting up correctly
