@@ -8,9 +8,9 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 import 'flag_dial_code_chip.dart';
 
 enum SelectorDisplay {
-  coversBody,
-  // coversAll,
-  coversLower,
+  dialog,
+  bottomSheet,
+  coverSheet,
 }
 
 /// Form Field for phone input
@@ -61,7 +61,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.inputTextStyle = const TextStyle(),
     this.cursorColor,
     this.withHint = true,
-    this.selectorDisplay = SelectorDisplay.coversLower,
+    this.selectorDisplay = SelectorDisplay.bottomSheet,
     PhoneNumberType? phoneNumberType,
   }) : super(
           key: key,
@@ -133,32 +133,25 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       newPhoneNumber = PhoneNumber.fromIsoCode(country.isoCode, '');
     }
     didChange(newPhoneNumber);
-    _focusNode.requestFocus();
-    Navigator.pop(context);
   }
 
   openCountrySelection() {
-    final selector = CountrySelector(
-      onCountrySelected: _onCountrySelected,
-    );
+    final selector = CountrySelector(onCountrySelected: (c) {
+      _onCountrySelected(c);
+      Navigator.pop(context);
+    });
 
-    _focusNode.unfocus();
-
-    if (widget.selectorDisplay == SelectorDisplay.coversBody) {
+    if (widget.selectorDisplay == SelectorDisplay.dialog) {
+      showDialog(
+        context: context,
+        builder: (_) => Dialog(child: selector),
+      );
+    } else if (widget.selectorDisplay == SelectorDisplay.coverSheet) {
       showBottomSheet(
         context: context,
         builder: (_) => selector,
       );
-    }
-    // else if (widget.selectorDisplay == SelectorDisplay.coversAll) {
-    //   showModalBottomSheet(
-    //     context: context,
-    //     builder: (_) => selector,
-    //     // this param makes it fit the whole screen
-    //     isScrollControlled: true,
-    //   );
-    // }
-    else if (widget.selectorDisplay == SelectorDisplay.coversLower) {
+    } else if (widget.selectorDisplay == SelectorDisplay.bottomSheet) {
       showModalBottomSheet(
         context: context,
         builder: (_) => selector,

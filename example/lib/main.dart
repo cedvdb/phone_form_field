@@ -8,6 +8,37 @@ void main() {
   runApp(MyApp());
 }
 
+/// putting the widget at the top so it's easily findable in pub.dev example
+
+Widget getPhoneField({
+  required PhoneNumber initialValue,
+  required SelectorDisplay selectorDisplay,
+  required bool withLabel,
+  required bool outlineBorder,
+  required bool mobileOnly,
+  required bool autovalidate,
+  required Function(PhoneNumber?) onChanged,
+  required Function(PhoneNumber?) onSaved,
+}) {
+  return PhoneFormField(
+    initialValue: initialValue,
+    autofocus: true,
+    selectorDisplay: selectorDisplay,
+    decoration: InputDecoration(
+      labelText: withLabel ? 'Phone' : null,
+      border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
+    ),
+    onChanged: onChanged,
+    onSaved: onSaved,
+    enabled: true,
+    showFlagInInput: true,
+    phoneNumberType: mobileOnly ? PhoneNumberType.mobile : null,
+    autovalidateMode: autovalidate
+        ? AutovalidateMode.onUserInteraction
+        : AutovalidateMode.disabled,
+  );
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -46,7 +77,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool withLabel = true;
   bool autovalidate = true;
   bool mobileOnly = false;
-  bool covers = true;
+  SelectorDisplay selectorDisplay = SelectorDisplay.bottomSheet;
 
   _getSubmitState() {
     if (mobileOnly)
@@ -91,35 +122,52 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         onChanged: (v) => setState(() => mobileOnly = v),
                         title: 'Mobile phone number only',
                       ),
-                      SwitchEl(
-                        value: covers,
-                        onChanged: (v) => setState(() => covers = v),
-                        title: 'country selection covers body',
+                      Text('country selector: '),
+                      SingleChildScrollView(
+                        child: Row(
+                          children: [
+                            Radio(
+                              value: SelectorDisplay.bottomSheet,
+                              groupValue: selectorDisplay,
+                              onChanged: (SelectorDisplay? value) {
+                                setState(() => selectorDisplay =
+                                    value ?? SelectorDisplay.bottomSheet);
+                              },
+                            ),
+                            Text('bottom sheet'),
+                            Radio(
+                              value: SelectorDisplay.dialog,
+                              groupValue: selectorDisplay,
+                              onChanged: (SelectorDisplay? value) {
+                                setState(() => selectorDisplay =
+                                    value ?? SelectorDisplay.bottomSheet);
+                              },
+                            ),
+                            Text('dialog'),
+                            Radio(
+                              value: SelectorDisplay.coverSheet,
+                              groupValue: selectorDisplay,
+                              onChanged: (SelectorDisplay? value) {
+                                setState(() => selectorDisplay =
+                                    value ?? SelectorDisplay.bottomSheet);
+                              },
+                            ),
+                            Text('body sheet'),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 40,
                       ),
-                      PhoneFormField(
+                      getPhoneField(
                         initialValue: phoneNumber,
-                        autofocus: true,
-                        selectorDisplay: covers
-                            ? SelectorDisplay.coversBody
-                            : SelectorDisplay.coversLower,
-                        decoration: InputDecoration(
-                          labelText: withLabel ? 'Phone' : null,
-                          border: outlineBorder
-                              ? OutlineInputBorder()
-                              : UnderlineInputBorder(),
-                        ),
+                        selectorDisplay: selectorDisplay,
+                        withLabel: withLabel,
+                        outlineBorder: outlineBorder,
+                        mobileOnly: mobileOnly,
+                        autovalidate: autovalidate,
                         onChanged: (p) => setState(() => phoneNumber = p!),
-                        onSaved: (p) => setState(() => phoneNumber = p),
-                        enabled: true,
-                        showFlagInInput: true,
-                        phoneNumberType:
-                            mobileOnly ? PhoneNumberType.mobile : null,
-                        autovalidateMode: autovalidate
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
+                        onSaved: (p) => setState(() => phoneNumber = p!),
                       ),
                       SizedBox(
                         height: 40,

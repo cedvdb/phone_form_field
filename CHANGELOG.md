@@ -1,3 +1,6 @@
+## [1.1.4] - 25 / 05 / 2021
+* Fix additional displays, now: SelectorDisplay.bottomSheet, SelectorDisplay.dialog, SelectorDisplay.coverSheet
+
 ## [1.1.3] - 25 / 05 / 2021
 * fix initial value not setting up correctly
 * Added different types of Country selector display: SelectorDisplay.coversBody, SelectorDisplay.coversLower. The old value is coversLower and the new default value is coversBody. 
