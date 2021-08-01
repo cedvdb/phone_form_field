@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/src/search_box.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
-
+import 'localization/phone_field_localization.dart';
 import 'country_list.dart';
 
 class CountrySelector extends StatefulWidget {
@@ -44,13 +44,13 @@ class _CountrySelectorState extends State<CountrySelector> {
   List<Country> _filterByName(String txt) {
     final lowerCaseTxt = txt.toLowerCase();
     final getSortPoint = (Country c) =>
-        c.name.toLowerCase().startsWith(lowerCaseTxt) ||
+        (PhoneFieldLocalization.of(context)?.translate(c.isoCode)??c.name).toLowerCase().startsWith(lowerCaseTxt) ||
                 c.isoCode.toLowerCase().startsWith(lowerCaseTxt)
             ? 1
             : 0;
     return countries
         .where((c) =>
-            c.name.toLowerCase().contains(lowerCaseTxt) ||
+            (PhoneFieldLocalization.of(context)?.translate(c.isoCode)??c.name).toLowerCase().contains(lowerCaseTxt) ||
             c.isoCode.toLowerCase().contains(lowerCaseTxt))
         .toList()
           // puts the ones that begin by txt first
