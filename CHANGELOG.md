@@ -2,7 +2,7 @@
 
 - deprecating SelectorConfig in favor of CountrySelectorNavigator
 - added unit tests
-- fixes on autofocus
+- fixes for auto fill and copy paste
 
 ## [1.2.0] - 25 / 05 / 2021
 * Minor release introducing SelectorConfig.
