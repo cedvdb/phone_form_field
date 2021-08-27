@@ -22,7 +22,6 @@ Demo available at https://cedvdb.github.io/phone_form_field/
 
 ```dart
 PhoneFormField(
-  lightParser: false, // using true here reduce memory foot print but only use length to validate
   autofocus: true,
   decoration: InputDecoration(
     labelText: 'Phone',
@@ -31,6 +30,7 @@ PhoneFormField(
   ),
   phoneNumberType: null, // can be PhoneNumberType.mobile or phoneNumberType.fixed or null for both validation
   selectorNavigator: const BottomSheetNavigator(), // default to bottom sheet but you can customize how the selector is shown by extending CountrySelectorNavigator
+  lightParser: false, // using true here reduce memory foot print but only use length to validate
 ),
 
 ```
