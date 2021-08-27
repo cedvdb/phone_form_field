@@ -1,3 +1,8 @@
+## [3.0.0] - 27 / 08 / 2021
+- removed deprecated selector config
+- added controllers to control the value
+- added support for copy pasting
+
 ## [2.0.0] - 16 / 08 / 2021
 
 - deprecating SelectorConfig in favor of CountrySelectorNavigator

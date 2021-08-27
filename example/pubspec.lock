@@ -117,9 +117,11 @@ packages:
   phone_form_field:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "066f9b3793b03de411e8ffc4fe4590018c49e628"
+      url: "https://github.com/cedvdb/phone_form_field"
+    source: git
     version: "2.0.0"
   phone_number_metadata:
     dependency: transitive
