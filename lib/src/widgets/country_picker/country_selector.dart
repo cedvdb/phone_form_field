@@ -9,10 +9,12 @@ import 'country_list.dart';
 class CountrySelector extends StatefulWidget {
   final List<Country> countries;
   final Function(Country) onCountrySelected;
+  final ScrollController? scrollController;
 
   CountrySelector({
     Key? key,
     required this.onCountrySelected,
+    this.scrollController,
     List<Country>? countries,
   })  : countries = countries ?? allCountries,
         super(key: key);
@@ -47,13 +49,13 @@ class _CountrySelectorState extends State<CountrySelector> {
             onChanged: _onSearch,
           ),
         ),
-        Expanded(
-          flex: 9,
+        Flexible(
           child: CountryList(
             countries: _filteredCountries,
             onTap: (country) {
               widget.onCountrySelected(country);
             },
+            scrollController: widget.scrollController,
           ),
         ),
       ],

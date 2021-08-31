@@ -158,6 +158,7 @@ class _PhoneFormFieldState extends State<PhoneFormField> {
       decoration: widget.decoration,
       autofocus: widget.autofocus,
       defaultCountry: widget.defaultCountry,
+      selectorNavigator: widget.selectorNavigator,
     );
   }
 }
