@@ -81,7 +81,11 @@ class _PhoneFormFieldState extends State<PhoneFormField> {
   void dispose() {
     super.dispose();
     baseController.dispose();
-    controller.dispose();
+    // dispose the controller only when it's initialised in this instance
+    // otherwise this should be done where instance is created
+    if (widget.controller == null) {
+      controller.dispose();
+    }
   }
 
   void _onControllerChange() {
