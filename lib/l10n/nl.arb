@@ -1,6 +1,10 @@
 {
   "@@locale": "nl",
   "invalidPhoneNumber": "Ongeldig telefoonnummer",
+  "invalidCountry": "Ongeldig land",
+  "invalidMobilePhoneNumber": "Ongeldig mobiel nummer",
+  "invalidFixedLinePhoneNumber": "Ongeldig vast nummer",
+  "requiredPhoneNumber": "Telefoonnummer vereist",
   "noResultMessage": "Geen resultaat",
   "ad_": "Andorra",
   "ae_": "Verenigde Arabische Emiraten",

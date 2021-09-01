@@ -1,3 +1,10 @@
+## [4.0.0] -
+- Add PhoneFormField `validator` property
+- **[BREAKING CHANGE]** Remove `PhoneFormField` properties `errorText` & `phoneNumberType`. Define `validator` property instead with `PhoneValidator.invalid*`
+- **[BREAKING CHANGE]** Remove `BasePhoneFormField` property `errorText`. Define error message via `validator` property as usual
+- Add PhoneValidator class to easily customize validation and defaults localization error messagees
+
+
 ## [3.0.1] - 
 - added DraggableModalBottomSheet
 - fix phone number type

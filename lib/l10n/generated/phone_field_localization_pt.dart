@@ -11,6 +11,18 @@ class PhoneFieldLocalizationPt extends PhoneFieldLocalization {
   String get invalidPhoneNumber => 'Número de telefone inválido';
 
   @override
+  String get invalidCountry => 'País inválido';
+
+  @override
+  String get invalidMobilePhoneNumber => 'Número de telefone celular inválido';
+
+  @override
+  String get invalidFixedLinePhoneNumber => 'Número de telefone fixo inválido';
+
+  @override
+  String get requiredPhoneNumber => 'Número de telefone obrigatório';
+
+  @override
   String get noResultMessage => 'Sem resultado';
 
   @override
