@@ -24,8 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   phone_form_field:
-    git:
-      url: https://github.com/cedvdb/phone_form_field
+    path: ../
 
   flutter_localizations: # Add this line
     sdk: flutter  
