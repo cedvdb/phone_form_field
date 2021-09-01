@@ -19,6 +19,7 @@ class PhoneFormField extends StatefulWidget {
   final String defaultCountry;
   final CountrySelectorNavigator selectorNavigator;
   final Function(PhoneNumber?)? onChanged;
+  final Function(PhoneNumber?)? onSaved;
   final InputDecoration decoration;
   final AutovalidateMode autovalidateMode;
   final bool lightParser;
@@ -35,30 +36,15 @@ class PhoneFormField extends StatefulWidget {
     this.showFlagInInput = true,
     this.selectorNavigator = const BottomSheetNavigator(),
     this.onChanged,
+    this.onSaved,
     this.defaultCountry = 'US',
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.lightParser = false,
-    Function(PhoneNumber?)? onSaved,
-  }) : super(
-          key: key,
-        );
+  }) : super(key: key);
 
   @override
   _PhoneFormFieldState createState() => _PhoneFormFieldState();
-
-  String? Function(PhoneNumber?) getValidator(
-    PhoneNumber? phoneNumber,
-    String errorText,
-    PhoneParser parser,
-    PhoneNumberType type,
-  ) {
-    return (PhoneNumber? phoneNumber) {
-      if (phoneNumber == null) return null;
-      if (parser.validate(phoneNumber, type)) return null;
-      return errorText;
-    };
-  }
 }
 
 class _PhoneFormFieldState extends State<PhoneFormField> {
@@ -81,12 +67,17 @@ class _PhoneFormFieldState extends State<PhoneFormField> {
   void dispose() {
     super.dispose();
     baseController.dispose();
-    controller.dispose();
+    // dispose the controller only when it's initialised in this instance
+    // otherwise this should be done where instance is created
+    if (widget.controller == null) {
+      controller.dispose();
+    }
   }
 
   void _onControllerChange() {
     final phoneInput = baseController.value;
     final phone = controller.value;
+    widget.onChanged?.call(controller.value);
     if (phoneInput?.national == phone?.nsn &&
         phoneInput?.isoCode == phone?.isoCode) {
       return;
@@ -138,7 +129,7 @@ class _PhoneFormFieldState extends State<PhoneFormField> {
     final phoneNumber = _convertInputToPhoneNumber(phoneNumberInput);
     if (phoneNumber == null) return null;
     if (phoneNumber.nsn.isEmpty) return null;
-    final isValid = parser.validate(phoneNumber);
+    final isValid = parser.validate(phoneNumber, widget.phoneNumberType);
     if (!isValid) return widget.errorText;
   }
 
@@ -149,6 +140,7 @@ class _PhoneFormFieldState extends State<PhoneFormField> {
       validator: _validate,
       initialValue: _convertPhoneNumberToPhoneNumberInput(widget.initialValue),
       onChanged: _onBaseControllerChange,
+      onSaved: (inp) => widget.onSaved?.call(_convertInputToPhoneNumber(inp)),
       autoFillHints: widget.withHint ? [AutofillHints.telephoneNumber] : null,
       onEditingComplete:
           widget.withHint ? () => TextInput.finishAutofillContext() : null,
@@ -158,6 +150,7 @@ class _PhoneFormFieldState extends State<PhoneFormField> {
       decoration: widget.decoration,
       autofocus: widget.autofocus,
       defaultCountry: widget.defaultCountry,
+      selectorNavigator: widget.selectorNavigator,
     );
   }
 }

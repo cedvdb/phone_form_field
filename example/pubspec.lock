@@ -7,7 +7,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.1"
+    version: "2.8.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -99,7 +99,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.10"
+    version: "0.12.11"
   meta:
     dependency: transitive
     description:
@@ -117,12 +117,10 @@ packages:
   phone_form_field:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "066f9b3793b03de411e8ffc4fe4590018c49e628"
-      url: "https://github.com/cedvdb/phone_form_field"
-    source: git
-    version: "2.0.0"
+      path: ".."
+      relative: true
+    source: path
+    version: "3.0.0"
   phone_number_metadata:
     dependency: transitive
     description:
@@ -183,7 +181,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.3"
   typed_data:
     dependency: transitive
     description:

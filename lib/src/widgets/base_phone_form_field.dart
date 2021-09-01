@@ -74,8 +74,10 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
   late final TextEditingController _nationalController;
   late final ValueNotifier<String> _isoCodeController;
   late final ValueNotifier<PhoneNumberInput?> _phoneController;
+
   @override
   BasePhoneFormField get widget => super.widget as BasePhoneFormField;
+
   bool get isOutlineBorder => widget.decoration.border is OutlineInputBorder;
 
   _BasePhoneFormFieldState();
@@ -102,7 +104,11 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
     _focusNode.dispose();
     _nationalController.dispose();
     _isoCodeController.dispose();
-    _phoneController.dispose();
+    // dispose the phoneController only when it's initialised in this
+    // instance otherwise this should be done where instance is created
+    if (widget.controller == null) {
+      _phoneController.dispose();
+    }
     super.dispose();
   }
 

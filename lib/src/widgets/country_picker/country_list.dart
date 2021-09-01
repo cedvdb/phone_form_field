@@ -2,23 +2,25 @@ import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/country.dart';
 import '../../localization/phone_field_localization.dart';
+import '../../models/country.dart';
 
 class CountryList extends StatelessWidget {
   final Function(Country) onTap;
   final List<Country> countries;
+  final ScrollController? scrollController;
 
   const CountryList({
     Key? key,
     required this.countries,
     required this.onTap,
+    this.scrollController,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      // controller: widget.scrollController,
+      controller: scrollController,
       shrinkWrap: true,
       itemCount: countries.length,
       itemBuilder: (BuildContext context, int index) {

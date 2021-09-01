@@ -1,7 +1,6 @@
 import 'package:example/widgets/switch_el.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:phone_form_field/phone_form_field.dart';
 
 void main() {
@@ -18,7 +17,6 @@ Widget getPhoneField({
   required bool mobileOnly,
   required bool autovalidate,
 }) {
-  // return BasePhoneFormField();
   return AutofillGroup(
     child: PhoneFormField(
       autofocus: true,
@@ -37,6 +35,7 @@ Widget getPhoneField({
           ? AutovalidateMode.onUserInteraction
           : AutovalidateMode.disabled,
       errorText: 'Invalid phone',
+      onChanged: (p) => print('changed $p'),
     ),
   );
 }
@@ -74,7 +73,7 @@ class PhoneFormFieldScreen extends StatefulWidget {
 }
 
 class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
-  final PhoneController controller = PhoneController(null);
+  late PhoneController controller;
   bool outlineBorder = true;
   bool withLabel = true;
   bool autovalidate = true;
@@ -84,7 +83,14 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   @override
   initState() {
     super.initState();
+    controller = PhoneController(null);
     controller.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
 
   // _getSubmitState() {
@@ -129,39 +135,36 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       onChanged: (v) => setState(() => mobileOnly = v),
                       title: 'Mobile phone number only',
                     ),
-                    Text('country selector: '),
-                    SingleChildScrollView(
-                      child: Row(
-                        children: [
-                          Radio(
-                            value: const BottomSheetNavigator(),
-                            groupValue: selectorNavigator,
-                            onChanged: (CountrySelectorNavigator? value) {
-                              setState(() => selectorNavigator =
-                                  value ?? BottomSheetNavigator());
-                            },
-                          ),
-                          Text('bottom sheet'),
-                          Radio(
-                            value: const ModalBottomSheetNavigator(),
-                            groupValue: selectorNavigator,
-                            onChanged: (CountrySelectorNavigator? value) {
-                              setState(() => selectorNavigator =
-                                  value ?? const ModalBottomSheetNavigator());
-                            },
-                          ),
-                          Text('modal sheet'),
-                          Radio(
-                            value: const DialogNavigator(),
-                            groupValue: selectorNavigator,
-                            onChanged: (CountrySelectorNavigator? value) {
-                              setState(() => selectorNavigator =
-                                  value ?? const DialogNavigator());
-                            },
-                          ),
-                          Text('dialog'),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        Text('Country selector: '),
+                        DropdownButton<CountrySelectorNavigator>(
+                          value: selectorNavigator,
+                          onChanged: (CountrySelectorNavigator? value) {
+                            if (value != null) {
+                              setState(() => selectorNavigator = value);
+                            }
+                          },
+                          items: [
+                            DropdownMenuItem(
+                              child: Text('Bottom sheet'),
+                              value: const BottomSheetNavigator(),
+                            ),
+                            DropdownMenuItem(
+                              child: Text('Modal sheet'),
+                              value: const ModalBottomSheetNavigator(),
+                            ),
+                            DropdownMenuItem(
+                              child: Text('Dialog'),
+                              value: const DialogNavigator(),
+                            ),
+                            DropdownMenuItem(
+                              child: Text('Draggable modal sheet'),
+                              value: const DraggableModalBottomSheetNavigator(),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 40,

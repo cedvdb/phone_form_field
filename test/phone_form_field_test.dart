@@ -2,6 +2,7 @@ import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+import 'package:phone_form_field/src/models/phone_number_input.dart';
 
 void main() {
   group('PhoneFormField', () {
@@ -12,6 +13,7 @@ void main() {
       PhoneController? controller,
       bool showFlagInInput = true,
       String defaultCountry = 'US',
+      PhoneNumberType? phoneNumberType,
     }) =>
         MaterialApp(
           home: Scaffold(
@@ -22,6 +24,7 @@ void main() {
               showFlagInInput: showFlagInInput,
               controller: controller,
               defaultCountry: defaultCountry,
+              phoneNumberType: phoneNumberType,
             ),
           ),
         );
@@ -80,6 +83,7 @@ void main() {
       await tester
           .pumpWidget(getWidget(controller: controller, defaultCountry: 'US'));
       controller.value = PhoneParser().parseWithIsoCode('FR', '488997722');
+      await tester.pump();
       expect(find.text('+ 33'), findsOneWidget);
       expect(find.text('488997722'), findsOneWidget);
     });
@@ -99,6 +103,7 @@ void main() {
       await tester.tap(textField);
       // non digits should not work
       await tester.enterText(textField, '+33 0488 99 77 22');
+      await tester.pump();
       expect(controller.value?.isoCode, equals('FR'));
       expect(controller.value?.nsn, equals('488997722'));
     });
@@ -124,6 +129,7 @@ void main() {
       expect(changed, equals(false));
       await tester.enterText(textField, '123');
       await tester.pumpAndSettle();
+      expect(changed, equals(true));
       expect(phoneNumber, equals(PhoneParser().parseWithIsoCode('FR', '123')));
     });
 
@@ -141,24 +147,57 @@ void main() {
         ),
       );
       final foundTextField = find.byType(TextFormField);
-      final textField = tester.widget<TextFormField>(foundTextField);
+      final foundBase = find.byType(BasePhoneFormField);
+      final txtField = tester.widget<TextFormField>(foundTextField);
+      final base = tester.widget<BasePhoneFormField>(foundBase);
+      expect(base.onSaved != null, isTrue);
       // non digits should not work
       await tester.enterText(foundTextField, '479281938');
-      textField.onSaved?.call(textField.controller?.text);
+      base.onSaved
+          ?.call(PhoneNumberInput(isoCode: 'FR', national: '499887766'));
       await tester.pumpAndSettle();
       expect(saved, isTrue);
       expect(phoneNumber,
-          equals(PhoneParser().parseWithIsoCode('FR', '479281938')));
+          equals(PhoneParser().parseWithIsoCode('FR', '499887766')));
     });
 
-    // skipped because the test don't go through but it passed manual testing
     testWidgets('Should tell when a phone number is not valid', (tester) async {
-      PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('FR', '444444');
+      PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('FR', '');
       await tester.pumpWidget(getWidget(initialValue: phoneNumber));
       final foundTextField = find.byType(TextFormField);
       await tester.enterText(foundTextField, '9984');
       await tester.pumpAndSettle();
-      expect(find.text('Invalid'), findsOneWidget);
+      expect(find.text('Invalid phone number'), findsOneWidget);
+    });
+
+    testWidgets(
+        'Should tell when a phone number is not valid for a given phone number type',
+        (tester) async {
+      PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('BE', '');
+      // valid fixed line
+      await tester.pumpWidget(getWidget(
+          initialValue: phoneNumber,
+          phoneNumberType: PhoneNumberType.fixedLine));
+      final foundTextField = find.byType(TextFormField);
+      await tester.enterText(foundTextField, '77777777');
+      await tester.pumpAndSettle();
+      expect(find.text('Invalid'), findsNothing);
+      // invalid mobile
+      await tester.pumpWidget(getWidget(
+          initialValue: phoneNumber, phoneNumberType: PhoneNumberType.mobile));
+      final foundTextField2 = find.byType(TextFormField);
+      await tester.pumpAndSettle();
+      await tester.enterText(foundTextField2, '77777777');
+      await tester.pumpAndSettle();
+      expect(find.text('Invalid phone number'), findsOneWidget);
+
+      // valid mobile
+      await tester.pumpWidget(getWidget(
+          initialValue: phoneNumber, phoneNumberType: PhoneNumberType.mobile));
+      final foundTextField3 = find.byType(TextFormField);
+      await tester.enterText(foundTextField3, '477668899');
+      await tester.pumpAndSettle();
+      expect(find.text('Invalid'), findsNothing);
     });
 
     testWidgets('Should show / not show flag', (tester) async {

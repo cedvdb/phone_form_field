@@ -1,3 +1,9 @@
+## [3.0.1] - 
+- added DraggableModalBottomSheet
+- fix phone number type
+- fix onChanged & onSaved
+
+
 ## [3.0.0] - 27 / 08 / 2021
 - removed deprecated selector config
 - added controllers to control the value
