@@ -2,6 +2,7 @@ import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+import 'package:phone_form_field/src/models/phone_number_input.dart';
 
 void main() {
   group('PhoneFormField', () {
@@ -146,14 +147,18 @@ void main() {
         ),
       );
       final foundTextField = find.byType(TextFormField);
-      final textField = tester.widget<TextFormField>(foundTextField);
+      final foundBase = find.byType(BasePhoneFormField);
+      final txtField = tester.widget<TextFormField>(foundTextField);
+      final base = tester.widget<BasePhoneFormField>(foundBase);
+      expect(base.onSaved != null, isTrue);
       // non digits should not work
       await tester.enterText(foundTextField, '479281938');
-      textField.onSaved?.call(textField.controller?.text);
+      base.onSaved
+          ?.call(PhoneNumberInput(isoCode: 'FR', national: '499887766'));
       await tester.pumpAndSettle();
       expect(saved, isTrue);
       expect(phoneNumber,
-          equals(PhoneParser().parseWithIsoCode('FR', '479281938')));
+          equals(PhoneParser().parseWithIsoCode('FR', '499887766')));
     });
 
     testWidgets('Should tell when a phone number is not valid', (tester) async {

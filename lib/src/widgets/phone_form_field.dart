@@ -19,6 +19,7 @@ class PhoneFormField extends StatefulWidget {
   final String defaultCountry;
   final CountrySelectorNavigator selectorNavigator;
   final Function(PhoneNumber?)? onChanged;
+  final Function(PhoneNumber?)? onSaved;
   final InputDecoration decoration;
   final AutovalidateMode autovalidateMode;
   final bool lightParser;
@@ -35,11 +36,11 @@ class PhoneFormField extends StatefulWidget {
     this.showFlagInInput = true,
     this.selectorNavigator = const BottomSheetNavigator(),
     this.onChanged,
+    this.onSaved,
     this.defaultCountry = 'US',
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.lightParser = false,
-    Function(PhoneNumber?)? onSaved,
   }) : super(key: key);
 
   @override
@@ -76,6 +77,7 @@ class _PhoneFormFieldState extends State<PhoneFormField> {
   void _onControllerChange() {
     final phoneInput = baseController.value;
     final phone = controller.value;
+    widget.onChanged?.call(controller.value);
     if (phoneInput?.national == phone?.nsn &&
         phoneInput?.isoCode == phone?.isoCode) {
       return;
@@ -138,6 +140,7 @@ class _PhoneFormFieldState extends State<PhoneFormField> {
       validator: _validate,
       initialValue: _convertPhoneNumberToPhoneNumberInput(widget.initialValue),
       onChanged: _onBaseControllerChange,
+      onSaved: (inp) => widget.onSaved?.call(_convertInputToPhoneNumber(inp)),
       autoFillHints: widget.withHint ? [AutofillHints.telephoneNumber] : null,
       onEditingComplete:
           widget.withHint ? () => TextInput.finishAutofillContext() : null,
