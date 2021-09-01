@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
-import 'package:phone_form_field/src/models/phone_number_input.dart';
 
+import '../../phone_form_field.dart';
 import '../models/country.dart';
+import '../models/phone_number_input.dart';
 import 'country_picker/country_selector_navigator.dart';
 import 'flag_dial_code_chip.dart';
 
@@ -16,7 +16,6 @@ class BasePhoneFormField extends FormField<PhoneNumberInput> {
   final String defaultCountry;
   final bool autofocus;
   final bool showFlagInInput;
-  final String errorText;
 
   /// input decoration applied to the input
   final InputDecoration decoration;
@@ -45,7 +44,6 @@ class BasePhoneFormField extends FormField<PhoneNumberInput> {
     this.showFlagInInput = true,
     this.autoFillHints,
     this.onEditingComplete,
-    this.errorText = 'Invalid phone number',
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.inputTextStyle = const TextStyle(),
     this.cursorColor,
@@ -206,7 +204,7 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
 
   InputDecoration _getEffectiveDecoration() {
     return widget.decoration.copyWith(
-      errorText: getErrorText(),
+      errorText: errorText,
       prefix: _getDialCodeChip(),
     );
   }
@@ -221,11 +219,5 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
         flagSize: 20,
       ),
     );
-  }
-
-  // // which error text to show
-  String? getErrorText() {
-    if (!hasError) return null;
-    return PhoneFieldLocalization.of(context)?.invalidPhoneNumber ?? errorText;
   }
 }

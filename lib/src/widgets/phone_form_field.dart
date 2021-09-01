@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/models/phone_number_input.dart';
+import 'package:phone_form_field/src/validator/phone_validator.dart';
 import 'package:phone_form_field/src/widgets/base_phone_form_field.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
@@ -10,8 +11,6 @@ typedef PhoneController = ValueNotifier<PhoneNumber?>;
 class PhoneFormField extends StatefulWidget {
   final PhoneNumber? initialValue;
   final PhoneController? controller;
-  final String errorText;
-  final PhoneNumberType? phoneNumberType;
   final bool withHint;
   final bool enabled;
   final bool autofocus;
@@ -23,13 +22,12 @@ class PhoneFormField extends StatefulWidget {
   final InputDecoration decoration;
   final AutovalidateMode autovalidateMode;
   final bool lightParser;
+  final PhoneNumberInputValidator? validator;
 
   PhoneFormField({
     Key? key,
     this.initialValue,
     this.controller,
-    this.phoneNumberType,
-    this.errorText = 'Invalid phone number',
     this.withHint = true,
     this.autofocus = false,
     this.enabled = true,
@@ -41,6 +39,7 @@ class PhoneFormField extends StatefulWidget {
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.lightParser = false,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -126,11 +125,9 @@ class _PhoneFormFieldState extends State<PhoneFormField> {
   }
 
   String? _validate(PhoneNumberInput? phoneNumberInput) {
+    final validator = widget.validator ?? PhoneValidator.invalid(context);
     final phoneNumber = _convertInputToPhoneNumber(phoneNumberInput);
-    if (phoneNumber == null) return null;
-    if (phoneNumber.nsn.isEmpty) return null;
-    final isValid = parser.validate(phoneNumber, widget.phoneNumberType);
-    if (!isValid) return widget.errorText;
+    return validator.call(phoneNumber);
   }
 
   @override

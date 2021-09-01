@@ -11,6 +11,18 @@ class PhoneFieldLocalizationDe extends PhoneFieldLocalization {
   String get invalidPhoneNumber => 'Ungültige Telefonnummer';
 
   @override
+  String get invalidCountry => 'Ungültiges Land';
+
+  @override
+  String get invalidMobilePhoneNumber => 'Ungültige Handynummer';
+
+  @override
+  String get invalidFixedLinePhoneNumber => 'Ungültige Festnetznummer';
+
+  @override
+  String get requiredPhoneNumber => 'Telefonnummer erforderlich';
+
+  @override
   String get noResultMessage => 'Kein Ergebnis';
 
   @override

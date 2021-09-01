@@ -1,4 +1,3 @@
-import 'package:example/widgets/app_drawer.dart';
 import 'package:example/widgets/switch_el.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,13 +10,24 @@ void main() {
 /// putting the widget at the top so it's easily findable in pub.dev example
 
 Widget getPhoneField({
+  required BuildContext context,
   required PhoneController controller,
   required CountrySelectorNavigator selectorNavigator,
   required bool withLabel,
   required bool outlineBorder,
+  required bool required,
   required bool mobileOnly,
   required bool autovalidate,
 }) {
+  List<PhoneNumberInputValidator> validators = [];
+  if (required) {
+    validators.add(PhoneValidator.required(context));
+  }
+  if (mobileOnly) {
+    validators.add(PhoneValidator.invalidMobile(context));
+  }
+  PhoneNumberInputValidator? validator =
+      validators.isNotEmpty ? PhoneValidator.compose(validators) : null;
   return AutofillGroup(
     child: PhoneFormField(
       autofocus: true,
@@ -31,11 +41,10 @@ Widget getPhoneField({
       ),
       enabled: true,
       showFlagInInput: true,
-      phoneNumberType: mobileOnly ? PhoneNumberType.mobile : null,
+      validator: validator,
       autovalidateMode: autovalidate
           ? AutovalidateMode.onUserInteraction
           : AutovalidateMode.disabled,
-      errorText: 'Invalid phone',
       onChanged: (p) => print('changed $p'),
     ),
   );
@@ -46,7 +55,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: [
-        ...GlobalMaterialLocalizations.delegates,
+        GlobalMaterialLocalizations.delegate,
         PhoneFieldLocalization.delegate
       ],
       supportedLocales: [
@@ -79,6 +88,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool withLabel = true;
   bool autovalidate = true;
   bool mobileOnly = true;
+  bool required = false;
   CountrySelectorNavigator selectorNavigator = const BottomSheetNavigator();
 
   @override
@@ -132,6 +142,11 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       title: 'Label',
                     ),
                     SwitchEl(
+                      value: required,
+                      onChanged: (v) => setState(() => required = v),
+                      title: 'Required',
+                    ),
+                    SwitchEl(
                       value: mobileOnly,
                       onChanged: (v) => setState(() => mobileOnly = v),
                       title: 'Mobile phone number only',
@@ -177,14 +192,18 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     //     ],
                     //   ),
                     // ),
-                    getPhoneField(
-                      controller: controller,
-                      selectorNavigator: selectorNavigator,
-                      withLabel: withLabel,
-                      outlineBorder: outlineBorder,
-                      mobileOnly: mobileOnly,
-                      autovalidate: autovalidate,
-                    ),
+                    Builder(builder: (context) {
+                      return getPhoneField(
+                        context: context,
+                        controller: controller,
+                        selectorNavigator: selectorNavigator,
+                        withLabel: withLabel,
+                        outlineBorder: outlineBorder,
+                        required: required,
+                        mobileOnly: mobileOnly,
+                        autovalidate: autovalidate,
+                      );
+                    }),
                     SizedBox(
                       height: 40,
                     ),
