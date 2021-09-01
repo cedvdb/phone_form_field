@@ -40,25 +40,10 @@ class PhoneFormField extends StatefulWidget {
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.lightParser = false,
     Function(PhoneNumber?)? onSaved,
-  }) : super(
-          key: key,
-        );
+  }) : super(key: key);
 
   @override
   _PhoneFormFieldState createState() => _PhoneFormFieldState();
-
-  String? Function(PhoneNumber?) getValidator(
-    PhoneNumber? phoneNumber,
-    String errorText,
-    PhoneParser parser,
-    PhoneNumberType type,
-  ) {
-    return (PhoneNumber? phoneNumber) {
-      if (phoneNumber == null) return null;
-      if (parser.validate(phoneNumber, type)) return null;
-      return errorText;
-    };
-  }
 }
 
 class _PhoneFormFieldState extends State<PhoneFormField> {
@@ -142,7 +127,7 @@ class _PhoneFormFieldState extends State<PhoneFormField> {
     final phoneNumber = _convertInputToPhoneNumber(phoneNumberInput);
     if (phoneNumber == null) return null;
     if (phoneNumber.nsn.isEmpty) return null;
-    final isValid = parser.validate(phoneNumber);
+    final isValid = parser.validate(phoneNumber, widget.phoneNumberType);
     if (!isValid) return widget.errorText;
   }
 

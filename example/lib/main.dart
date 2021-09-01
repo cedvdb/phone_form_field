@@ -17,7 +17,6 @@ Widget getPhoneField({
   required bool mobileOnly,
   required bool autovalidate,
 }) {
-  // return BasePhoneFormField();
   return AutofillGroup(
     child: PhoneFormField(
       autofocus: true,
@@ -36,6 +35,7 @@ Widget getPhoneField({
           ? AutovalidateMode.onUserInteraction
           : AutovalidateMode.disabled,
       errorText: 'Invalid phone',
+      onChanged: (p) => print('changed $p'),
     ),
   );
 }
