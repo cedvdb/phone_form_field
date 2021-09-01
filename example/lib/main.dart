@@ -1,7 +1,6 @@
 import 'package:example/widgets/switch_el.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:phone_form_field/phone_form_field.dart';
 
 void main() {
@@ -74,7 +73,7 @@ class PhoneFormFieldScreen extends StatefulWidget {
 }
 
 class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
-  final PhoneController controller = PhoneController(null);
+  late PhoneController controller;
   bool outlineBorder = true;
   bool withLabel = true;
   bool autovalidate = true;
@@ -84,7 +83,14 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   @override
   initState() {
     super.initState();
+    controller = PhoneController(null);
     controller.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
 
   // _getSubmitState() {
