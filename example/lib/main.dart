@@ -17,7 +17,6 @@ Widget getPhoneField({
   required bool mobileOnly,
   required bool autovalidate,
 }) {
-  // return BasePhoneFormField();
   return AutofillGroup(
     child: PhoneFormField(
       autofocus: true,
