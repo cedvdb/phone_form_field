@@ -35,6 +35,7 @@ Widget getPhoneField({
           ? AutovalidateMode.onUserInteraction
           : AutovalidateMode.disabled,
       errorText: 'Invalid phone',
+      onChanged: (p) => print('changed $p'),
     ),
   );
 }
