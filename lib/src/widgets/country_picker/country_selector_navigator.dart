@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/src/models/all_countries.dart';
-import 'package:phone_form_field/src/models/country.dart';
 
+import '../../models/all_countries.dart';
+import '../../models/country.dart';
 import 'country_selector.dart';
 
 abstract class CountrySelectorNavigator {
@@ -11,8 +11,20 @@ abstract class CountrySelectorNavigator {
 
 class DialogNavigator implements CountrySelectorNavigator {
   final List<Country>? countries;
+  final List<String>? favorites;
+  final bool addSeparator;
+  final bool showDialCode;
+  final bool sortCountries;
+  final String? noResultMessage;
 
-  const DialogNavigator({this.countries});
+  const DialogNavigator({
+    this.countries,
+    this.favorites,
+    this.addSeparator = true,
+    this.showDialCode = true,
+    this.sortCountries = false,
+    this.noResultMessage,
+  });
 
   @override
   Future<Country?> navigate(BuildContext context) {
@@ -22,6 +34,11 @@ class DialogNavigator implements CountrySelectorNavigator {
         child: CountrySelector(
           countries: countries ?? allCountries,
           onCountrySelected: (country) => Navigator.pop(context, country),
+          favoritesCountries: favorites ?? [],
+          addSeparator: addSeparator,
+          showDialCode: showDialCode,
+          sortCountries: sortCountries,
+          noResultMessage: noResultMessage,
         ),
       ),
     );
@@ -30,8 +47,20 @@ class DialogNavigator implements CountrySelectorNavigator {
 
 class BottomSheetNavigator implements CountrySelectorNavigator {
   final List<Country>? countries;
+  final List<String>? favorites;
+  final bool addSeparator;
+  final bool showDialCode;
+  final bool sortCountries;
+  final String? noResultMessage;
 
-  const BottomSheetNavigator({this.countries});
+  const BottomSheetNavigator({
+    this.countries,
+    this.favorites,
+    this.addSeparator = true,
+    this.showDialCode = true,
+    this.sortCountries = false,
+    this.noResultMessage,
+  });
 
   @override
   Future<Country?> navigate(BuildContext context) {
@@ -44,6 +73,11 @@ class BottomSheetNavigator implements CountrySelectorNavigator {
           selected = country;
           Navigator.pop(context, country);
         },
+        favoritesCountries: favorites ?? [],
+        addSeparator: addSeparator,
+        showDialCode: showDialCode,
+        sortCountries: sortCountries,
+        noResultMessage: noResultMessage,
       ),
     );
     return ctrl.closed.then((_) => selected);
@@ -53,8 +87,21 @@ class BottomSheetNavigator implements CountrySelectorNavigator {
 class ModalBottomSheetNavigator implements CountrySelectorNavigator {
   final double? height;
   final List<Country>? countries;
+  final List<String>? favorites;
+  final bool addSeparator;
+  final bool showDialCode;
+  final bool sortCountries;
+  final String? noResultMessage;
 
-  const ModalBottomSheetNavigator({this.countries, this.height});
+  const ModalBottomSheetNavigator({
+    this.countries,
+    this.height,
+    this.favorites,
+    this.addSeparator = true,
+    this.showDialCode = true,
+    this.sortCountries = false,
+    this.noResultMessage,
+  });
 
   @override
   Future<Country?> navigate(BuildContext context) {
@@ -65,6 +112,11 @@ class ModalBottomSheetNavigator implements CountrySelectorNavigator {
         child: CountrySelector(
           countries: countries ?? allCountries,
           onCountrySelected: (country) => Navigator.pop(context, country),
+          favoritesCountries: favorites ?? [],
+          addSeparator: addSeparator,
+          showDialCode: showDialCode,
+          sortCountries: sortCountries,
+          noResultMessage: noResultMessage,
         ),
       ),
       isScrollControlled: true,
@@ -78,6 +130,11 @@ class DraggableModalBottomSheetNavigator implements CountrySelectorNavigator {
   final double minChildSize;
   final double maxChildSize;
   final BorderRadiusGeometry? borderRadius;
+  final List<String>? favorites;
+  final bool addSeparator;
+  final bool showDialCode;
+  final bool sortCountries;
+  final String? noResultMessage;
 
   const DraggableModalBottomSheetNavigator({
     this.countries,
@@ -85,6 +142,11 @@ class DraggableModalBottomSheetNavigator implements CountrySelectorNavigator {
     this.minChildSize = 0.25,
     this.maxChildSize = 0.85,
     this.borderRadius,
+    this.favorites,
+    this.addSeparator = true,
+    this.showDialCode = true,
+    this.sortCountries = false,
+    this.noResultMessage,
   });
 
   @override
@@ -116,6 +178,11 @@ class DraggableModalBottomSheetNavigator implements CountrySelectorNavigator {
               countries: countries ?? allCountries,
               onCountrySelected: (country) => Navigator.pop(context, country),
               scrollController: scrollController,
+              favoritesCountries: favorites ?? [],
+              addSeparator: addSeparator,
+              showDialCode: showDialCode,
+              sortCountries: sortCountries,
+              noResultMessage: noResultMessage,
             ),
           );
         },
