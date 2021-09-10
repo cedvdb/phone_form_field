@@ -27,13 +27,13 @@ class CountrySelector extends StatefulWidget {
   final bool sortCountries;
 
   /// Determine the countries to be displayed on top of the list
-  /// Check [addSeparator] property to enable/disable adding a
+  /// Check [addFavoritesSeparator] property to enable/disable adding a
   /// list divider between favorites and others defaults countries
   final List<String> favoriteCountries;
 
   /// Whether to add a list divider between favorites & defaults
   /// countries.
-  final bool addSeparator;
+  final bool addFavoritesSeparator;
 
   /// Whether to show the country dial code (ie: +1 / +33 /...)
   /// as a listTile subtitle
@@ -47,7 +47,7 @@ class CountrySelector extends StatefulWidget {
     required this.onCountrySelected,
     this.scrollController,
     this.sortCountries = false,
-    this.addSeparator = true,
+    this.addFavoritesSeparator = true,
     this.showCountryDialCode = false,
     List<String>? favoriteCountries,
     String? noResultMessage,
