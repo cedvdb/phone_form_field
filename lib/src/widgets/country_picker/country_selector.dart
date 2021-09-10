@@ -29,7 +29,7 @@ class CountrySelector extends StatefulWidget {
   /// Determine the countries to be displayed on top of the list
   /// Check [addSeparator] property to enable/disable adding a
   /// list divider between favorites and others defaults countries
-  final List<String> favoritesCountries;
+  final List<String> favoriteCountries;
 
   /// Whether to add a list divider between favorites & defaults
   /// countries.
@@ -37,7 +37,7 @@ class CountrySelector extends StatefulWidget {
 
   /// Whether to show the country dial code (ie: +1 / +33 /...)
   /// as a listTile subtitle
-  final bool showDialCode;
+  final bool showCountryDialCode;
 
   /// The message displayed instead of the list when the search has no results
   final String noResultMessage;
@@ -48,13 +48,13 @@ class CountrySelector extends StatefulWidget {
     this.scrollController,
     this.sortCountries = false,
     this.addSeparator = true,
-    this.showDialCode = false,
-    List<String>? favoritesCountries,
+    this.showCountryDialCode = false,
+    List<String>? favoriteCountries,
     String? noResultMessage,
     List<Country>? countries,
   })  : countries = countries ?? allCountries,
         noResultMessage = noResultMessage ?? 'No result found',
-        favoritesCountries = favoritesCountries ?? _emptyFavCountriesArray,
+        favoriteCountries = favoriteCountries ?? _emptyFavCountriesArray,
         super(key: key);
 
   @override
@@ -64,7 +64,7 @@ class CountrySelector extends StatefulWidget {
 class _CountrySelectorState extends State<CountrySelector> {
   late List<Country> _filteredCountries;
   late CountryFinder _countryFinder;
-  int? _separatorIndex;
+  int? _favoritesSeparatorIndex;
 
   @override
   didChangeDependencies() {
@@ -93,23 +93,23 @@ class _CountrySelectorState extends State<CountrySelector> {
 
   _handleFavoritesCountries() {
     final hasFavoritesCountry =
-        _filteredCountries.isNotEmpty && widget.favoritesCountries.isNotEmpty;
+        _filteredCountries.isNotEmpty && widget.favoriteCountries.isNotEmpty;
 
     // hold index where the separator must be displayed
-    _separatorIndex = null;
+    _favoritesSeparatorIndex = null;
 
     if (!hasFavoritesCountry) {
       return;
     }
 
-    widget.favoritesCountries.reversed.forEach((String isoCode) {
+    widget.favoriteCountries.reversed.forEach((String isoCode) {
       final int favIndex = _filteredCountries.indexWhere(
         (Country country) => country.isoCode == isoCode.toUpperCase(),
       );
       if (favIndex >= 0) {
         _filteredCountries.removeAt(favIndex);
         _filteredCountries.insert(0, Country(isoCode.toUpperCase()));
-        _separatorIndex = (_separatorIndex ?? 0) + 1;
+        _favoritesSeparatorIndex = (_favoritesSeparatorIndex ?? 0) + 1;
       }
     });
   }
@@ -136,8 +136,8 @@ class _CountrySelectorState extends State<CountrySelector> {
           child: _filteredCountries.isNotEmpty
               ? CountryList(
                   countries: _filteredCountries,
-                  separatorIndex: _separatorIndex,
-                  showDialCode: widget.showDialCode,
+                  separatorIndex: _favoritesSeparatorIndex,
+                  showDialCode: widget.showCountryDialCode,
                   onTap: (country) {
                     widget.onCountrySelected(country);
                   },
