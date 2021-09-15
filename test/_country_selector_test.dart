@@ -43,7 +43,7 @@ void main() {
           ...GlobalMaterialLocalizations.delegates,
           PhoneFieldLocalization.delegate,
         ],
-        supportedLocales: [Locale('es', '')],
+        supportedLocales: [Locale('es')],
         home: Scaffold(
           body: CountrySelector(onCountrySelected: (c) {}),
         ),
