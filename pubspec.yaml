@@ -19,8 +19,5 @@ dev_dependencies:
     sdk: flutter
   flutter_localizations: # Add this line
     sdk: flutter  
-    
-flutter:
-  assets:
-    - assets/translations/
+
 
