@@ -1,6 +1,7 @@
 {
   "@@locale": "de",
   "invalidPhoneNumber": "Ungültige Telefonnummer",
+  "noResultMessage": "Kein Ergebnis",
   "ad_": "Andorra",
   "ae_": "Vereinigte Arabische Emirate",
   "af_": "Afghanistan",

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:phone_form_field/src/helpers/translator.dart';
 
 import '../../helpers/country_finder.dart';
-import '../../localization/phone_field_localization.dart';
 import '../../models/all_countries.dart';
 import '../../models/country.dart';
 import 'country_list.dart';
@@ -85,9 +85,8 @@ class _CountrySelectorState extends State<CountrySelector> {
     // perform a copy so we don't modify original value
     return countriesList
       ..sort((Country a, Country b) {
-        return a.localisedName(context).toLowerCase().compareTo(
-              b.localisedName(context).toLowerCase(),
-            );
+        return Translator.localisedName(context, a)
+            .compareTo(Translator.localisedName(context, b));
       });
   }
 
