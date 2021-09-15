@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
-import 'package:phone_form_field/src/helpers/translator.dart';
+import 'package:phone_form_field/src/helpers/country_translator.dart';
 
 import '../models/country.dart';
 
@@ -57,15 +57,15 @@ class CountryFinder {
     };
 
     final compareCountries = (Country a, Country b) {
-      final aName = Translator.localisedName(context, a).toLowerCase();
-      final bName = Translator.localisedName(context, b).toLowerCase();
+      final aName = CountryTranslator.localisedName(context, a).toLowerCase();
+      final bName = CountryTranslator.localisedName(context, b).toLowerCase();
       final sortPoint =
           getSortPoint(bName, b.isoCode) - getSortPoint(aName, a.isoCode);
       // sort alphabetically when comparison with search term get same result
       return sortPoint == 0 ? aName.compareTo(bName) : sortPoint;
     };
 
-    final match = (Country c) => Translator.localisedName(context, c)
+    final match = (Country c) => CountryTranslator.localisedName(context, c)
         .toLowerCase()
         .contains(lowerCaseTxt);
 

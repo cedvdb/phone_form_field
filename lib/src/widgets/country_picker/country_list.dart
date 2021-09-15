@@ -1,7 +1,7 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/src/helpers/translator.dart';
+import 'package:phone_form_field/src/helpers/country_translator.dart';
 
 import '../../models/country.dart';
 
@@ -60,7 +60,7 @@ class CountryList extends StatelessWidget {
           title: Align(
             alignment: AlignmentDirectional.centerStart,
             child: Text(
-              Translator.localisedName(context, country),
+              CountryTranslator.localisedName(context, country),
               textAlign: TextAlign.start,
             ),
           ),
