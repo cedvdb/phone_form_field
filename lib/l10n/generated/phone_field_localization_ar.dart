@@ -11,6 +11,9 @@ class PhoneFieldLocalizationAr extends PhoneFieldLocalization {
   String get invalidPhoneNumber => 'رقم الهاتف غير صحيح';
 
   @override
+  String get noResultMessage => 'لا نتيجة';
+
+  @override
   String get ad_ => 'أندورا';
 
   @override

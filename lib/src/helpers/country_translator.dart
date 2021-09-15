@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 import 'package:phone_form_field/src/models/country.dart';
 
-class Translator {
+class CountryTranslator {
   static Map _countryNames = {
     'AD': (ctx) => PhoneFieldLocalization.of(ctx)?.ad_,
     'AE': (ctx) => PhoneFieldLocalization.of(ctx)?.ae_,

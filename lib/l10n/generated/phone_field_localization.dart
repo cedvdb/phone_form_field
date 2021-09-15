@@ -117,6 +117,12 @@ abstract class PhoneFieldLocalization {
   /// **'Invalid phone number'**
   String get invalidPhoneNumber;
 
+  /// No description provided for @noResultMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No result'**
+  String get noResultMessage;
+
   /// No description provided for @ad_.
   ///
   /// In en, this message translates to:

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_form_field/src/localization/phone_field_localization.dart';
+import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 import 'package:phone_form_field/src/models/phone_number_input.dart';
 
 import '../models/country.dart';
@@ -226,7 +226,6 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
   // // which error text to show
   String? getErrorText() {
     if (!hasError) return null;
-    return PhoneFieldLocalization.of(context)?.translate(widget.errorText) ??
-        errorText;
+    return PhoneFieldLocalization.of(context)?.invalidPhoneNumber ?? errorText;
   }
 }

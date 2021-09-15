@@ -11,6 +11,9 @@ class PhoneFieldLocalizationEn extends PhoneFieldLocalization {
   String get invalidPhoneNumber => 'Invalid phone number';
 
   @override
+  String get noResultMessage => 'No result';
+
+  @override
   String get ad_ => 'Andorra';
 
   @override
