@@ -8,112 +8,112 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   PhoneFieldLocalizationFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get invalidPhoneNumber => 'Invalid phone number';
+  String get invalidPhoneNumber => 'Numéro de téléphone invalide';
 
   @override
-  String get ad_ => 'Andorra';
+  String get ad_ => 'Andorre';
 
   @override
-  String get ae_ => 'United Arab Emirates';
+  String get ae_ => 'Emirats Arabes Unis';
 
   @override
   String get af_ => 'Afghanistan';
 
   @override
-  String get ag_ => 'Antigua and Barbuda';
+  String get ag_ => 'Antigua-et-Barbuda';
 
   @override
   String get ai_ => 'Anguilla';
 
   @override
-  String get al_ => 'Albania';
+  String get al_ => 'Albanie';
 
   @override
-  String get am_ => 'Armenia';
+  String get am_ => 'Arménie';
 
   @override
-  String get an_ => 'Netherlands Antilles';
+  String get an_ => 'Antilles néerlandaises';
 
   @override
   String get ao_ => 'Angola';
 
   @override
-  String get aq_ => 'Antarctica';
+  String get aq_ => 'Antarctique';
 
   @override
-  String get ar_ => 'Argentina';
+  String get ar_ => 'Argentine';
 
   @override
-  String get as_ => 'American Samoa';
+  String get as_ => 'Samoa américaines';
 
   @override
-  String get at_ => 'Austria';
+  String get at_ => 'Autriche';
 
   @override
-  String get au_ => 'Australia';
+  String get au_ => 'Australie';
 
   @override
   String get aw_ => 'Aruba';
 
   @override
-  String get ax_ => 'Aland Islands';
+  String get ax_ => 'Iles Aland';
 
   @override
-  String get az_ => 'Azerbaijan';
+  String get az_ => 'Azerbaïdjan';
 
   @override
-  String get ba_ => 'Bosnia and Herzegovina';
+  String get ba_ => 'Bosnie Herzégovine';
 
   @override
-  String get bb_ => 'Barbados';
+  String get bb_ => 'Barbade';
 
   @override
   String get bd_ => 'Bangladesh';
 
   @override
-  String get be_ => 'Belgium';
+  String get be_ => 'Belgique';
 
   @override
   String get bf_ => 'Burkina Faso';
 
   @override
-  String get bg_ => 'Bulgaria';
+  String get bg_ => 'Bulgarie';
 
   @override
-  String get bh_ => 'Bahrain';
+  String get bh_ => 'Bahreïn';
 
   @override
   String get bi_ => 'Burundi';
 
   @override
-  String get bj_ => 'Benin';
+  String get bj_ => 'Bénin';
 
   @override
-  String get bl_ => 'Saint Barthelemy';
+  String get bl_ => 'Saint Barthélemy';
 
   @override
-  String get bm_ => 'Bermuda';
+  String get bm_ => 'Bermudes';
 
   @override
   String get bn_ => 'Brunei Darussalam';
 
   @override
-  String get bo_ => 'Bolivia, Plurinational State of';
+  String get bo_ => 'Bolivie, État plurinational de';
 
   @override
-  String get br_ => 'Brazil';
+  String get br_ => 'Brésil';
 
   @override
   String get bs_ => 'Bahamas';
 
   @override
-  String get bt_ => 'Bhutan';
+  String get bt_ => 'Bhoutan';
 
   @override
   String get bw_ => 'Botswana';
 
   @override
-  String get by_ => 'Belarus';
+  String get by_ => 'Biélorussie';
 
   @override
   String get bz_ => 'Belize';
@@ -122,37 +122,37 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get ca_ => 'Canada';
 
   @override
-  String get cc_ => 'Cocos (Keeling) Islands';
+  String get cc_ => 'Îles Cocos (Keeling)';
 
   @override
-  String get cd_ => 'Congo, The Democratic Republic of the Congo';
+  String get cd_ => 'Congo, République démocratique du Congo';
 
   @override
-  String get cf_ => 'Central African Republic';
+  String get cf_ => 'République centrafricaine';
 
   @override
   String get cg_ => 'Congo';
 
   @override
-  String get ch_ => 'Switzerland';
+  String get ch_ => 'Suisse';
 
   @override
-  String get ci_ => 'Cote d\'Ivoire';
+  String get ci_ => 'Côte d\'Ivoire';
 
   @override
-  String get ck_ => 'Cook Islands';
+  String get ck_ => 'Îles Cook';
 
   @override
-  String get cl_ => 'Chile';
+  String get cl_ => 'Chili';
 
   @override
-  String get cm_ => 'Cameroon';
+  String get cm_ => 'Cameroun';
 
   @override
-  String get cn_ => 'China';
+  String get cn_ => 'Chine';
 
   @override
-  String get co_ => 'Colombia';
+  String get co_ => 'Colombie';
 
   @override
   String get cr_ => 'Costa Rica';
@@ -161,67 +161,67 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get cu_ => 'Cuba';
 
   @override
-  String get cv_ => 'Cape Verde';
+  String get cv_ => 'Cap-Vert';
 
   @override
-  String get cx_ => 'Christmas Island';
+  String get cx_ => 'L\'île de noël';
 
   @override
-  String get cy_ => 'Cyprus';
+  String get cy_ => 'Chypre';
 
   @override
-  String get cz_ => 'Czech Republic';
+  String get cz_ => 'République Tchèque';
 
   @override
-  String get de_ => 'Germany';
+  String get de_ => 'Allemagne';
 
   @override
   String get dj_ => 'Djibouti';
 
   @override
-  String get dk_ => 'Denmark';
+  String get dk_ => 'Danemark';
 
   @override
-  String get dm_ => 'Dominica';
+  String get dm_ => 'Dominique';
 
   @override
-  String get do_ => 'Dominican Republic';
+  String get do_ => 'République Dominicaine';
 
   @override
-  String get dz_ => 'Algeria';
+  String get dz_ => 'Algérie';
 
   @override
-  String get ec_ => 'Ecuador';
+  String get ec_ => 'Equateur';
 
   @override
-  String get ee_ => 'Estonia';
+  String get ee_ => 'Estonie';
 
   @override
-  String get eg_ => 'Egypt';
+  String get eg_ => 'Egypte';
 
   @override
-  String get er_ => 'Eritrea';
+  String get er_ => 'Érythrée';
 
   @override
-  String get es_ => 'Spain';
+  String get es_ => 'Espagne';
 
   @override
-  String get et_ => 'Ethiopia';
+  String get et_ => 'Ethiopie';
 
   @override
-  String get fi_ => 'Finland';
+  String get fi_ => 'Finlande';
 
   @override
-  String get fj_ => 'Fiji';
+  String get fj_ => 'Fidji';
 
   @override
-  String get fk_ => 'Falkland Islands (Malvinas)';
+  String get fk_ => 'Îles Falkland (Malvinas)';
 
   @override
-  String get fm_ => 'Micronesia, Federated States of Micronesia';
+  String get fm_ => 'Micronésie, États fédérés de Micronésie';
 
   @override
-  String get fo_ => 'Faroe Islands';
+  String get fo_ => 'Îles Féroé';
 
   @override
   String get fr_ => 'France';
@@ -230,19 +230,19 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get ga_ => 'Gabon';
 
   @override
-  String get gb_ => 'United Kingdom';
+  String get gb_ => 'Royaume-Uni';
 
   @override
-  String get gd_ => 'Grenada';
+  String get gd_ => 'Grenade';
 
   @override
-  String get ge_ => 'Georgia';
+  String get ge_ => 'Géorgie';
 
   @override
-  String get gf_ => 'French Guiana';
+  String get gf_ => 'Guyane Française';
 
   @override
-  String get gg_ => 'Guernsey';
+  String get gg_ => 'Guernesey';
 
   @override
   String get gh_ => 'Ghana';
@@ -251,25 +251,25 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get gi_ => 'Gibraltar';
 
   @override
-  String get gl_ => 'Greenland';
+  String get gl_ => 'Groenland';
 
   @override
-  String get gm_ => 'Gambia';
+  String get gm_ => 'Gambie';
 
   @override
-  String get gn_ => 'Guinea';
+  String get gn_ => 'Guinée';
 
   @override
   String get gp_ => 'Guadeloupe';
 
   @override
-  String get gq_ => 'Equatorial Guinea';
+  String get gq_ => 'Guinée Équatoriale';
 
   @override
-  String get gr_ => 'Greece';
+  String get gr_ => 'Grèce';
 
   @override
-  String get gs_ => 'South Georgia and the South Sandwich Islands';
+  String get gs_ => 'Géorgie du Sud et îles Sandwich du Sud';
 
   @override
   String get gt_ => 'Guatemala';
@@ -278,10 +278,10 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get gu_ => 'Guam';
 
   @override
-  String get gw_ => 'Guinea-Bissau';
+  String get gw_ => 'Guinée-Bissau';
 
   @override
-  String get gy_ => 'Guyana';
+  String get gy_ => 'Guyane';
 
   @override
   String get hk_ => 'Hong Kong';
@@ -290,85 +290,85 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get hn_ => 'Honduras';
 
   @override
-  String get hr_ => 'Croatia';
+  String get hr_ => 'Croatie';
 
   @override
-  String get ht_ => 'Haiti';
+  String get ht_ => 'Haïti';
 
   @override
-  String get hu_ => 'Hungary';
+  String get hu_ => 'Hongrie';
 
   @override
-  String get id_ => 'Indonesia';
+  String get id_ => 'Indonésie';
 
   @override
-  String get ie_ => 'Ireland';
+  String get ie_ => 'Irlande';
 
   @override
-  String get il_ => 'Israel';
+  String get il_ => 'Israël';
 
   @override
-  String get im_ => 'Isle of Man';
+  String get im_ => 'île de Man';
 
   @override
-  String get in_ => 'India';
+  String get in_ => 'Inde';
 
   @override
-  String get io_ => 'British Indian Ocean Territory';
+  String get io_ => 'Territoire britannique de l\'océan Indien';
 
   @override
-  String get iq_ => 'Iraq';
+  String get iq_ => 'Irak';
 
   @override
-  String get ir_ => 'Iran, Islamic Republic of Persian Gulf';
+  String get ir_ => 'Iran, République islamique du golfe Persique';
 
   @override
-  String get is_ => 'Iceland';
+  String get is_ => 'Islande';
 
   @override
-  String get it_ => 'Italy';
+  String get it_ => 'Italie';
 
   @override
   String get je_ => 'Jersey';
 
   @override
-  String get jm_ => 'Jamaica';
+  String get jm_ => 'Jamaïque';
 
   @override
   String get jo_ => 'Jordan';
 
   @override
-  String get jp_ => 'Japan';
+  String get jp_ => 'Japon';
 
   @override
   String get ke_ => 'Kenya';
 
   @override
-  String get kg_ => 'Kyrgyzstan';
+  String get kg_ => 'Kirghizistan';
 
   @override
-  String get kh_ => 'Cambodia';
+  String get kh_ => 'Cambodge';
 
   @override
   String get ki_ => 'Kiribati';
 
   @override
-  String get km_ => 'Comoros';
+  String get km_ => 'Comores';
 
   @override
-  String get kn_ => 'Saint Kitts and Nevis';
+  String get kn_ => 'Saint-Christophe-et-Niévès';
 
   @override
-  String get kp_ => 'Korea, Democratic People\'s Republic of Korea';
+  String get kp_ => 'Corée, République populaire démocratique de Corée';
 
   @override
-  String get kr_ => 'Korea, Republic of South Korea';
+  String get kr_ => 'Corée, République de Corée du Sud';
 
   @override
-  String get kw_ => 'Kuwait';
+  String get kw_ => 'Koweit';
 
   @override
-  String get ky_ => 'Cayman Islands';
+  String get ky_ => 'Îles Caïmans';
 
   @override
   String get kz_ => 'Kazakhstan';
@@ -377,10 +377,10 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get la_ => 'Laos';
 
   @override
-  String get lb_ => 'Lebanon';
+  String get lb_ => 'Liban';
 
   @override
-  String get lc_ => 'Saint Lucia';
+  String get lc_ => 'Sainte-Lucie';
 
   @override
   String get li_ => 'Liechtenstein';
@@ -389,34 +389,34 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get lk_ => 'Sri Lanka';
 
   @override
-  String get lr_ => 'Liberia';
+  String get lr_ => 'Libéria';
 
   @override
   String get ls_ => 'Lesotho';
 
   @override
-  String get lt_ => 'Lithuania';
+  String get lt_ => 'Lituanie';
 
   @override
   String get lu_ => 'Luxembourg';
 
   @override
-  String get lv_ => 'Latvia';
+  String get lv_ => 'Lettonie';
 
   @override
-  String get ly_ => 'Libyan Arab Jamahiriya';
+  String get ly_ => 'Jamahiriya arabe libyenne';
 
   @override
-  String get ma_ => 'Morocco';
+  String get ma_ => 'Maroc';
 
   @override
   String get mc_ => 'Monaco';
 
   @override
-  String get md_ => 'Moldova';
+  String get md_ => 'Moldavie';
 
   @override
-  String get me_ => 'Montenegro';
+  String get me_ => 'Monténégro';
 
   @override
   String get mf_ => 'Saint Martin';
@@ -425,10 +425,10 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get mg_ => 'Madagascar';
 
   @override
-  String get mh_ => 'Marshall Islands';
+  String get mh_ => 'Iles Marshall';
 
   @override
-  String get mk_ => 'Macedonia';
+  String get mk_ => 'Macédoine';
 
   @override
   String get ml_ => 'Mali';
@@ -437,28 +437,28 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get mm_ => 'Myanmar';
 
   @override
-  String get mn_ => 'Mongolia';
+  String get mn_ => 'Mongolie';
 
   @override
   String get mo_ => 'Macao';
 
   @override
-  String get mp_ => 'Northern Mariana Islands';
+  String get mp_ => 'Îles Mariannes du Nord';
 
   @override
   String get mq_ => 'Martinique';
 
   @override
-  String get mr_ => 'Mauritania';
+  String get mr_ => 'Mauritanie';
 
   @override
   String get ms_ => 'Montserrat';
 
   @override
-  String get mt_ => 'Malta';
+  String get mt_ => 'Malte';
 
   @override
-  String get mu_ => 'Mauritius';
+  String get mu_ => 'Ile Maurice';
 
   @override
   String get mv_ => 'Maldives';
@@ -467,25 +467,25 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get mw_ => 'Malawi';
 
   @override
-  String get mx_ => 'Mexico';
+  String get mx_ => 'Mexique';
 
   @override
-  String get my_ => 'Malaysia';
+  String get my_ => 'Malaisie';
 
   @override
   String get mz_ => 'Mozambique';
 
   @override
-  String get na_ => 'Namibia';
+  String get na_ => 'Namibie';
 
   @override
-  String get nc_ => 'New Caledonia';
+  String get nc_ => 'Nouvelle Calédonie';
 
   @override
   String get ne_ => 'Niger';
 
   @override
-  String get nf_ => 'Norfolk Island';
+  String get nf_ => 'l\'ile de Norfolk';
 
   @override
   String get ng_ => 'Nigeria';
@@ -494,13 +494,13 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get ni_ => 'Nicaragua';
 
   @override
-  String get nl_ => 'Netherlands';
+  String get nl_ => 'Pays-Bas';
 
   @override
-  String get no_ => 'Norway';
+  String get no_ => 'Norvège';
 
   @override
-  String get np_ => 'Nepal';
+  String get np_ => 'Népal';
 
   @override
   String get nr_ => 'Nauru';
@@ -509,7 +509,7 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get nu_ => 'Niue';
 
   @override
-  String get nz_ => 'New Zealand';
+  String get nz_ => 'Nouvelle-Zélande';
 
   @override
   String get om_ => 'Oman';
@@ -518,13 +518,13 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get pa_ => 'Panama';
 
   @override
-  String get pe_ => 'Peru';
+  String get pe_ => 'Pérou';
 
   @override
-  String get pf_ => 'French Polynesia';
+  String get pf_ => 'Polynésie française';
 
   @override
-  String get pg_ => 'Papua New Guinea';
+  String get pg_ => 'Papouasie Nouvelle Guinée';
 
   @override
   String get ph_ => 'Philippines';
@@ -533,19 +533,19 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get pk_ => 'Pakistan';
 
   @override
-  String get pl_ => 'Poland';
+  String get pl_ => 'Pologne';
 
   @override
-  String get pm_ => 'Saint Pierre and Miquelon';
+  String get pm_ => 'Saint-Pierre-et-Miquelon';
 
   @override
   String get pn_ => 'Pitcairn';
 
   @override
-  String get pr_ => 'Puerto Rico';
+  String get pr_ => 'Porto Rico';
 
   @override
-  String get ps_ => 'Palestinian Territory, Occupied';
+  String get ps_ => 'Territoire palestinien, occupé';
 
   @override
   String get pt_ => 'Portugal';
@@ -560,94 +560,94 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get qa_ => 'Qatar';
 
   @override
-  String get re_ => 'Reunion';
+  String get re_ => 'Réunion';
 
   @override
-  String get ro_ => 'Romania';
+  String get ro_ => 'Roumanie';
 
   @override
-  String get rs_ => 'Serbia';
+  String get rs_ => 'Serbie';
 
   @override
-  String get ru_ => 'Russia';
+  String get ru_ => 'Russie';
 
   @override
   String get rw_ => 'Rwanda';
 
   @override
-  String get sa_ => 'Saudi Arabia';
+  String get sa_ => 'Arabie Saoudite';
 
   @override
-  String get sb_ => 'Solomon Islands';
+  String get sb_ => 'îles Salomon';
 
   @override
   String get sc_ => 'Seychelles';
 
   @override
-  String get sd_ => 'Sudan';
+  String get sd_ => 'Soudan';
 
   @override
-  String get se_ => 'Sweden';
+  String get se_ => 'Suède';
 
   @override
-  String get sg_ => 'Singapore';
+  String get sg_ => 'Singapour';
 
   @override
-  String get sh_ => 'Saint Helena, Ascension and Tristan Da Cunha';
+  String get sh_ => 'Sainte-Hélène, Ascension et Tristan Da Cunha';
 
   @override
-  String get si_ => 'Slovenia';
+  String get si_ => 'Slovénie';
 
   @override
-  String get sj_ => 'Svalbard and Jan Mayen';
+  String get sj_ => 'Svalbard et Jan Mayen';
 
   @override
-  String get sk_ => 'Slovakia';
+  String get sk_ => 'Slovaquie';
 
   @override
   String get sl_ => 'Sierra Leone';
 
   @override
-  String get sm_ => 'San Marino';
+  String get sm_ => 'Saint Marin';
 
   @override
-  String get sn_ => 'Senegal';
+  String get sn_ => 'Sénégal';
 
   @override
-  String get so_ => 'Somalia';
+  String get so_ => 'Somalie';
 
   @override
   String get sr_ => 'Suriname';
 
   @override
-  String get ss_ => 'South Sudan';
+  String get ss_ => 'Soudan du sud';
 
   @override
-  String get st_ => 'Sao Tome and Principe';
+  String get st_ => 'Sao Tomé et Principe';
 
   @override
-  String get sv_ => 'El Salvador';
+  String get sv_ => 'Salvador';
 
   @override
-  String get sy_ => 'Syrian Arab Republic';
+  String get sy_ => 'République arabe syrienne';
 
   @override
   String get sz_ => 'Swaziland';
 
   @override
-  String get tc_ => 'Turks and Caicos Islands';
+  String get tc_ => 'îles Turques-et-Caïques';
 
   @override
-  String get td_ => 'Chad';
+  String get td_ => 'Tchad';
 
   @override
-  String get tg_ => 'Togo';
+  String get tg_ => 'Aller';
 
   @override
-  String get th_ => 'Thailand';
+  String get th_ => 'Thaïlande';
 
   @override
-  String get tj_ => 'Tajikistan';
+  String get tj_ => 'Tadjikistan';
 
   @override
   String get tk_ => 'Tokelau';
@@ -656,58 +656,58 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get tl_ => 'Timor-Leste';
 
   @override
-  String get tm_ => 'Turkmenistan';
+  String get tm_ => 'Turkménistan';
 
   @override
-  String get tn_ => 'Tunisia';
+  String get tn_ => 'Tunisie';
 
   @override
   String get to_ => 'Tonga';
 
   @override
-  String get tr_ => 'Turkey';
+  String get tr_ => 'dinde';
 
   @override
-  String get tt_ => 'Trinidad and Tobago';
+  String get tt_ => 'Trinité-et-Tobago';
 
   @override
   String get tv_ => 'Tuvalu';
 
   @override
-  String get tw_ => 'Taiwan';
+  String get tw_ => 'Taïwan';
 
   @override
-  String get tz_ => 'Tanzania, United Republic of Tanzania';
+  String get tz_ => 'Tanzanie, République-Unie de Tanzanie';
 
   @override
   String get ua_ => 'Ukraine';
 
   @override
-  String get ug_ => 'Uganda';
+  String get ug_ => 'Ouganda';
 
   @override
-  String get us_ => 'United States';
+  String get us_ => 'États Unis';
 
   @override
   String get uy_ => 'Uruguay';
 
   @override
-  String get uz_ => 'Uzbekistan';
+  String get uz_ => 'Ouzbékistan';
 
   @override
-  String get va_ => 'Holy See (Vatican City State)';
+  String get va_ => 'Saint-Siège (État de la Cité du Vatican)';
 
   @override
-  String get vc_ => 'Saint Vincent and the Grenadines';
+  String get vc_ => 'Saint-Vincent-et-les-Grenadines';
 
   @override
   String get ve_ => 'Venezuela';
 
   @override
-  String get vg_ => 'Virgin Islands, British';
+  String get vg_ => 'Îles Vierges britanniques';
 
   @override
-  String get vi_ => 'Virgin Islands, U.S.';
+  String get vi_ => 'Îles Vierges américaines, États-Unis';
 
   @override
   String get vn_ => 'Vietnam';
@@ -716,22 +716,22 @@ class PhoneFieldLocalizationFr extends PhoneFieldLocalization {
   String get vu_ => 'Vanuatu';
 
   @override
-  String get wf_ => 'Wallis and Futuna';
+  String get wf_ => 'Wallis et Futuna';
 
   @override
   String get ws_ => 'Samoa';
 
   @override
-  String get ye_ => 'Yemen';
+  String get ye_ => 'Yémen';
 
   @override
   String get yt_ => 'Mayotte';
 
   @override
-  String get za_ => 'South Africa';
+  String get za_ => 'Afrique du Sud';
 
   @override
-  String get zm_ => 'Zambia';
+  String get zm_ => 'Zambie';
 
   @override
   String get zw_ => 'Zimbabwe';

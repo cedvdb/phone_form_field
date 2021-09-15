@@ -5,8 +5,17 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'phone_field_localization_ar.dart' deferred as phone_field_localization_ar;
+import 'phone_field_localization_de.dart' deferred as phone_field_localization_de;
 import 'phone_field_localization_en.dart' deferred as phone_field_localization_en;
+import 'phone_field_localization_es.dart' deferred as phone_field_localization_es;
 import 'phone_field_localization_fr.dart' deferred as phone_field_localization_fr;
+import 'phone_field_localization_hi.dart' deferred as phone_field_localization_hi;
+import 'phone_field_localization_it.dart' deferred as phone_field_localization_it;
+import 'phone_field_localization_nl.dart' deferred as phone_field_localization_nl;
+import 'phone_field_localization_pt.dart' deferred as phone_field_localization_pt;
+import 'phone_field_localization_ru.dart' deferred as phone_field_localization_ru;
+import 'phone_field_localization_zh.dart' deferred as phone_field_localization_zh;
 
 /// Callers can lookup localized strings with an instance of PhoneFieldLocalization returned
 /// by `PhoneFieldLocalization.of(context)`.
@@ -90,7 +99,16 @@ abstract class PhoneFieldLocalization {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('fr')
+    Locale('es'),
+    Locale('fr'),
+    Locale('ar'),
+    Locale('de'),
+    Locale('hi'),
+    Locale('it'),
+    Locale('nl'),
+    Locale('pt'),
+    Locale('ru'),
+    Locale('zh')
   ];
 
   /// No description provided for @invalidPhoneNumber.
@@ -1561,7 +1579,7 @@ class _PhoneFieldLocalizationDelegate extends LocalizationsDelegate<PhoneFieldLo
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'fr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'de', 'en', 'es', 'fr', 'hi', 'it', 'nl', 'pt', 'ru', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_PhoneFieldLocalizationDelegate old) => false;
@@ -1572,8 +1590,17 @@ Future<PhoneFieldLocalization> lookupPhoneFieldLocalization(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar': return phone_field_localization_ar.loadLibrary().then((dynamic _) => phone_field_localization_ar.PhoneFieldLocalizationAr());
+    case 'de': return phone_field_localization_de.loadLibrary().then((dynamic _) => phone_field_localization_de.PhoneFieldLocalizationDe());
     case 'en': return phone_field_localization_en.loadLibrary().then((dynamic _) => phone_field_localization_en.PhoneFieldLocalizationEn());
+    case 'es': return phone_field_localization_es.loadLibrary().then((dynamic _) => phone_field_localization_es.PhoneFieldLocalizationEs());
     case 'fr': return phone_field_localization_fr.loadLibrary().then((dynamic _) => phone_field_localization_fr.PhoneFieldLocalizationFr());
+    case 'hi': return phone_field_localization_hi.loadLibrary().then((dynamic _) => phone_field_localization_hi.PhoneFieldLocalizationHi());
+    case 'it': return phone_field_localization_it.loadLibrary().then((dynamic _) => phone_field_localization_it.PhoneFieldLocalizationIt());
+    case 'nl': return phone_field_localization_nl.loadLibrary().then((dynamic _) => phone_field_localization_nl.PhoneFieldLocalizationNl());
+    case 'pt': return phone_field_localization_pt.loadLibrary().then((dynamic _) => phone_field_localization_pt.PhoneFieldLocalizationPt());
+    case 'ru': return phone_field_localization_ru.loadLibrary().then((dynamic _) => phone_field_localization_ru.PhoneFieldLocalizationRu());
+    case 'zh': return phone_field_localization_zh.loadLibrary().then((dynamic _) => phone_field_localization_zh.PhoneFieldLocalizationZh());
   }
 
   throw FlutterError(
