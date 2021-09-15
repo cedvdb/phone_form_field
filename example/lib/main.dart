@@ -26,6 +26,8 @@ Widget getPhoneField({
       selectorNavigator: selectorNavigator,
       decoration: InputDecoration(
         labelText: withLabel ? 'Phone' : null,
+        hintText: 'Phone Number here',
+        // floatingLabelBehavior: FloatingLabelBehavior.always,
         border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
       ),
       enabled: true,

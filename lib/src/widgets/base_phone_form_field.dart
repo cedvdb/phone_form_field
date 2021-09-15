@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -162,6 +163,13 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
       children: [
         _textField(),
         if (_focusNode.hasFocus) _inkWellOverlay(),
+        // when the label is floating and there is a place holder
+        // we need to display the country code grayed out so we
+        // have something between the place holder and the leftmost border
+        if (!_focusNode.hasFocus &&
+            widget.decoration.floatingLabelBehavior ==
+                FloatingLabelBehavior.always)
+          _grayedOutDialCode(),
       ],
     );
   }
@@ -204,6 +212,27 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
     );
   }
 
+  Widget _grayedOutDialCode() {
+    return GestureDetector(
+      onTap: () => _focusNode.requestFocus(),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.text,
+        child: Padding(
+          padding: isOutlineBorder
+              ? const EdgeInsets.fromLTRB(12, 16, 0, 16)
+              : const EdgeInsets.fromLTRB(0, 24, 0, 0),
+          child: Container(
+            foregroundDecoration: BoxDecoration(
+              color: Colors.grey,
+              backgroundBlendMode: BlendMode.saturation,
+            ),
+            child: Container(child: _getDialCodeChip()),
+          ),
+        ),
+      ),
+    );
+  }
+
   InputDecoration _getEffectiveDecoration() {
     return widget.decoration.copyWith(
       errorText: getErrorText(),
@@ -218,7 +247,7 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
         country: Country(_isoCodeController.value),
         showFlag: widget.showFlagInInput,
         textStyle: TextStyle(fontSize: 16),
-        flagSize: 20,
+        flagSize: isOutlineBorder ? 20 : 16,
       ),
     );
   }
