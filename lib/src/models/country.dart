@@ -11,22 +11,6 @@ class Country {
   /// English name of the country
   String get name => countriesName[isoCode]!;
 
-  /// Localised name depending on the current application locale
-  /// If you have many LocalisedName to handle in a same context, consider
-  /// supplying the second optional PhoneFieldLocalization to avoid
-  /// walking up the widget to get [PhoneFieldLocalization] instance
-  /// for each call.
-  String localisedName(
-    BuildContext context, [
-    PhoneFieldLocalization? localization,
-  ]) {
-    localization ??= PhoneFieldLocalization.of(context);
-    String? LocalisedName = localization?.translate(isoCode);
-    return LocalisedName == null || LocalisedName == isoCode
-        ? name
-        : LocalisedName;
-  }
-
   /// country dialing code to call them internationally
   String get dialCode => countriesDialCode[isoCode]!;
 

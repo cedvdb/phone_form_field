@@ -1,8 +1,9 @@
 // responsible of searching through the country list
 
 import 'package:flutter/cupertino.dart';
+import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
+import 'package:phone_form_field/src/helpers/translator.dart';
 
-import '../localization/phone_field_localization.dart';
 import '../models/country.dart';
 
 class CountryFinder {
@@ -46,8 +47,6 @@ class CountryFinder {
   }
 
   List<Country> _filterByName(String txt, BuildContext context) {
-    final PhoneFieldLocalization? localization =
-        PhoneFieldLocalization.of(context);
     final lowerCaseTxt = txt.toLowerCase();
     // since we keep countries that contain the searched text,
     // we need to put the countries that start with that text in front.
@@ -58,20 +57,17 @@ class CountryFinder {
     };
 
     final compareCountries = (Country a, Country b) {
-      final aName = a.localisedName(context, localization).toLowerCase();
-      final bName = b.localisedName(context, localization).toLowerCase();
+      final aName = Translator.localisedName(context, a).toLowerCase();
+      final bName = Translator.localisedName(context, b).toLowerCase();
       final sortPoint =
           getSortPoint(bName, b.isoCode) - getSortPoint(aName, a.isoCode);
       // sort alphabetically when comparison with search term get same result
       return sortPoint == 0 ? aName.compareTo(bName) : sortPoint;
     };
 
-    final match = (Country c) =>
-        c
-            .localisedName(context, localization)
-            .toLowerCase()
-            .contains(lowerCaseTxt) ||
-        c.name.toLowerCase().contains(lowerCaseTxt);
+    final match = (Country c) => Translator.localisedName(context, c)
+        .toLowerCase()
+        .contains(lowerCaseTxt);
 
     return countries.where(match).toList()
       // puts the ones that begin by txt first
