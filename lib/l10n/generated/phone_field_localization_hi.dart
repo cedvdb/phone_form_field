@@ -11,6 +11,9 @@ class PhoneFieldLocalizationHi extends PhoneFieldLocalization {
   String get invalidPhoneNumber => 'अवैध फोन नंबर';
 
   @override
+  String get noResultMessage => 'कोई परिणाम नही';
+
+  @override
   String get ad_ => 'एंडोरा';
 
   @override

@@ -11,6 +11,9 @@ class PhoneFieldLocalizationZh extends PhoneFieldLocalization {
   String get invalidPhoneNumber => '无效的电话号码';
 
   @override
+  String get noResultMessage => '没有结果';
+
+  @override
   String get ad_ => '安道尔';
 
   @override
