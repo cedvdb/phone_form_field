@@ -221,13 +221,7 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
           padding: isOutlineBorder
               ? const EdgeInsets.fromLTRB(12, 16, 0, 16)
               : const EdgeInsets.fromLTRB(0, 24, 0, 0),
-          child: Container(
-            foregroundDecoration: BoxDecoration(
-              color: Colors.grey,
-              backgroundBlendMode: BlendMode.saturation,
-            ),
-            child: Container(child: _getDialCodeChip()),
-          ),
+          child: Container(child: _getDialCodeChip(isGrayedOut: true)),
         ),
       ),
     );
@@ -240,7 +234,7 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
     );
   }
 
-  Widget _getDialCodeChip() {
+  Widget _getDialCodeChip({bool isGrayedOut = false}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: FlagDialCodeChip(
@@ -248,6 +242,7 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
         showFlag: widget.showFlagInInput,
         textStyle: TextStyle(fontSize: 16),
         flagSize: isOutlineBorder ? 20 : 16,
+        isGrayedOut: isGrayedOut,
       ),
     );
   }

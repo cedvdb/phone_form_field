@@ -27,7 +27,7 @@ Widget getPhoneField({
       decoration: InputDecoration(
         labelText: withLabel ? 'Phone' : null,
         hintText: 'Phone Number here',
-        // floatingLabelBehavior: FloatingLabelBehavior.always,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
       ),
       enabled: true,
@@ -60,10 +60,9 @@ class MyApp extends StatelessWidget {
         // ...
       ],
       title: 'Phone field demo',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.from(
+          colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.purple, cardColor: Colors.green)),
       home: PhoneFormFieldScreen(),
     );
   }
