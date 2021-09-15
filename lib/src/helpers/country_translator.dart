@@ -262,6 +262,8 @@ class CountryTranslator {
   }
 
   static String? getCountryNameForIsoCode(BuildContext ctx, String isoCode) {
-    return _countryNames[isoCode](ctx) ?? isoCode;
+    final Function(BuildContext)? translateFn =
+        _countryNames[isoCode.toUpperCase()];
+    return translateFn?.call(ctx) ?? isoCode;
   }
 }

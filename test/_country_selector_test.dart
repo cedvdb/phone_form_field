@@ -22,17 +22,17 @@ void main() {
         await tester.pumpAndSettle();
         final tiles = find.byType(ListTile);
         expect(tiles, findsOneWidget);
-        // expect(tester.widget<ListTile>(tiles.first).key, equals(Key('ES')));
-        // // not the right language (we let english go through tho)
-        // await tester.enterText(txtFound, 'Espagne');
-        // await tester.pumpAndSettle();
-        // expect(tiles, findsNothing);
-        // await tester.pumpAndSettle();
-        // // dial codes
-        // await tester.enterText(txtFound, '33');
-        // await tester.pumpAndSettle();
-        // expect(tiles, findsWidgets);
-        // expect(tester.widget<ListTile>(tiles.first).key, equals(Key('FR')));
+        expect(tester.widget<ListTile>(tiles.first).key, equals(Key('ES')));
+        // not the right language (we let english go through tho)
+        await tester.enterText(txtFound, 'Espagne');
+        await tester.pumpAndSettle();
+        expect(tiles, findsNothing);
+        await tester.pumpAndSettle();
+        // dial codes
+        await tester.enterText(txtFound, '33');
+        await tester.pumpAndSettle();
+        expect(tiles, findsWidgets);
+        expect(tester.widget<ListTile>(tiles.first).key, equals(Key('FR')));
       });
     });
 
