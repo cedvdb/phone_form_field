@@ -2,7 +2,7 @@
 - added DraggableModalBottomSheet
 - fix phone number type
 - fix onChanged & onSaved
-
+- fix late initialization error when no country was selected in bottom sheet selector
 
 ## [3.0.0] - 27 / 08 / 2021
 - removed deprecated selector config
