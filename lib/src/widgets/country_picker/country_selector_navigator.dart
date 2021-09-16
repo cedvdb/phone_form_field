@@ -35,7 +35,7 @@ class BottomSheetNavigator implements CountrySelectorNavigator {
 
   @override
   Future<Country?> navigate(BuildContext context) {
-    late Country selected;
+    Country? selected;
     final ctrl = showBottomSheet(
       context: context,
       builder: (_) => CountrySelector(
