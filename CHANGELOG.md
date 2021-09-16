@@ -1,7 +1,9 @@
-## [3.0.1] - 
+## [4.0.0] - 
 - added DraggableModalBottomSheet
 - fix phone number type
 - fix onChanged & onSaved
+- Country code is now visible when unfocussed in some cases
+  to better accomodate the UI.
 
 
 ## [3.0.0] - 27 / 08 / 2021
