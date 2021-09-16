@@ -162,14 +162,14 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
     return Stack(
       children: [
         _textField(),
-        if (_focusNode.hasFocus) _inkWellOverlay(),
+        _dialCodeOverlay(),
         // when the label is floating and there is a place holder
         // we need to display the country code grayed out so we
         // have something between the place holder and the leftmost border
-        if (!_focusNode.hasFocus &&
-            widget.decoration.floatingLabelBehavior ==
-                FloatingLabelBehavior.always)
-          _grayedOutDialCode(),
+        // if (!_focusNode.hasFocus &&
+        //     widget.decoration.floatingLabelBehavior ==
+        //         FloatingLabelBehavior.always)
+        //   _grayedOutDialCode(),
       ],
     );
   }
@@ -190,59 +190,55 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
     );
   }
 
-  Widget _inkWellOverlay() {
-    return InkWell(
-      onTap: () {},
-      onTapDown: (_) => selectCountry(),
-      // we make the country dial code
-      // invisible but we still have to put it here
-      // to have the correct width
-      child: Opacity(
-        opacity: 0,
-        child: Padding(
-          // outline border has padding on the left
-          // so we need to make it a 12 bigger
-          // and we add 16 horizontally to make it the whole height
-          padding: isOutlineBorder
-              ? const EdgeInsets.fromLTRB(12, 16, 0, 16)
-              : const EdgeInsets.fromLTRB(0, 16, 0, 16),
-          child: _getDialCodeChip(),
-        ),
-      ),
+  Widget _dialCodeOverlay() {
+    final isUnfocusDialCodeVisible = !_focusNode.hasFocus &&
+        (widget.decoration.labelText == null ||
+            widget.decoration.floatingLabelBehavior ==
+                FloatingLabelBehavior.always);
+    final dialCode = Padding(
+      padding: isOutlineBorder
+          ? const EdgeInsets.fromLTRB(12, 15.4, 0, 16)
+          : const EdgeInsets.fromLTRB(0, 24, 0, 8),
+      child: _getDialCodeChip(visible: true),
     );
-  }
-
-  Widget _grayedOutDialCode() {
-    return GestureDetector(
-      onTap: () => _focusNode.requestFocus(),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.text,
-        child: Padding(
-          padding: isOutlineBorder
-              ? const EdgeInsets.fromLTRB(12, 16, 0, 16)
-              : const EdgeInsets.fromLTRB(0, 24, 0, 0),
-          child: Container(child: _getDialCodeChip(isGrayedOut: true)),
+    if (isUnfocusDialCodeVisible)
+      return GestureDetector(
+        onTap: () => _focusNode.requestFocus(),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.text,
+          child: dialCode,
         ),
-      ),
-    );
+      );
+    else if (_focusNode.hasFocus)
+      return InkWell(
+        enableFeedback: true,
+        // canRequestFocus: _focusNode.hasFocus ? true : false,
+        onTap: () {},
+        onTapDown: (_) => selectCountry(),
+        child: dialCode,
+      );
+    return Container();
   }
 
   InputDecoration _getEffectiveDecoration() {
     return widget.decoration.copyWith(
       errorText: getErrorText(),
-      prefix: _getDialCodeChip(),
+      prefix: _getDialCodeChip(visible: false),
     );
   }
 
-  Widget _getDialCodeChip({bool isGrayedOut = false}) {
+  Widget _getDialCodeChip({bool visible = true}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      child: FlagDialCodeChip(
-        country: Country(_isoCodeController.value),
-        showFlag: widget.showFlagInInput,
-        textStyle: TextStyle(fontSize: 16),
-        flagSize: isOutlineBorder ? 20 : 16,
-        isGrayedOut: isGrayedOut,
+      child: Opacity(
+        opacity: visible ? 1 : 0,
+        child: FlagDialCodeChip(
+          country: Country(_isoCodeController.value),
+          showFlag: widget.showFlagInInput,
+          textStyle: TextStyle(
+              fontSize: 16, color: Theme.of(context).textTheme.caption?.color),
+          flagSize: isOutlineBorder ? 20 : 16,
+        ),
       ),
     );
   }

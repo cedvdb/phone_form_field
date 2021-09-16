@@ -10,7 +10,6 @@ class FlagDialCodeChip extends StatelessWidget {
   final TextStyle textStyle;
   final EdgeInsets padding;
   final double flagSize;
-  final bool isGrayedOut;
 
   FlagDialCodeChip({
     Key? key,
@@ -20,7 +19,6 @@ class FlagDialCodeChip extends StatelessWidget {
     this.showDialCode = true,
     this.padding = const EdgeInsets.all(20),
     this.flagSize = 20,
-    this.isGrayedOut = false,
   }) : super(key: key);
 
   @override
@@ -29,21 +27,9 @@ class FlagDialCodeChip extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (showFlag) ...[
-          ClipOval(
-            child: Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(50)),
-              foregroundDecoration: isGrayedOut
-                  ? BoxDecoration(
-                      color: Colors.grey,
-                      backgroundBlendMode: BlendMode.saturation,
-                    )
-                  : null,
-              child: CircleFlag(
-                country.isoCode,
-                size: this.flagSize,
-              ),
-            ),
+          CircleFlag(
+            country.isoCode,
+            size: this.flagSize,
           ),
           SizedBox(
             width: 8,

@@ -27,7 +27,6 @@ Widget getPhoneField({
       decoration: InputDecoration(
         labelText: withLabel ? 'Phone' : null,
         hintText: 'Phone Number here',
-        floatingLabelBehavior: FloatingLabelBehavior.always,
         border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
       ),
       enabled: true,
@@ -60,9 +59,7 @@ class MyApp extends StatelessWidget {
         // ...
       ],
       title: 'Phone field demo',
-      theme: ThemeData.from(
-          colorScheme: ColorScheme.fromSwatch(
-              primarySwatch: Colors.purple, cardColor: Colors.green)),
+      theme: ThemeData.light(),
       home: PhoneFormFieldScreen(),
     );
   }
@@ -93,12 +90,6 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
     super.dispose();
     controller.dispose();
   }
-
-  // _getSubmitState() {
-  //   if (mobileOnly)
-  //     return phoneNumber.validate(PhoneNumberType.mobile) ? () {} : null;
-  //   return phoneNumber.validate(null) ? () {} : null;
-  // }
 
   @override
   Widget build(BuildContext context) {
