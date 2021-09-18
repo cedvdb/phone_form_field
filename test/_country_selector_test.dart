@@ -98,10 +98,10 @@ void main() {
       testWidgets('should be properly sorted without favorites',
           (tester) async {
         await tester.pumpWidget(builder());
-        await tester.pumpAndSettle(Duration(seconds: 1));
+        await tester.pumpAndSettle();
         final allTiles = find.byType(ListTile);
         expect(allTiles, findsWidgets);
-        // expect(tester.widget<ListTile>(allTiles.first).key, equals(Key('AF')));
+        expect(tester.widget<ListTile>(allTiles.first).key, equals(Key('AF')));
       });
 
       testWidgets('should be properly sorted with favorites', (tester) async {
@@ -109,16 +109,16 @@ void main() {
         await tester.pumpAndSettle();
         final allTiles = find.byType(ListTile, skipOffstage: false);
         expect(allTiles, findsWidgets);
-        // expect(tester.widget<ListTile>(allTiles.at(0)).key, equals(Key('GU')));
-        // expect(tester.widget<ListTile>(allTiles.at(1)).key, equals(Key('GY')));
+        expect(tester.widget<ListTile>(allTiles.at(0)).key, equals(Key('GU')));
+        expect(tester.widget<ListTile>(allTiles.at(1)).key, equals(Key('GY')));
 
-        // final txtFound = find.byType(SearchBox);
-        // expect(txtFound, findsOneWidget);
-        // await tester.enterText(txtFound, 'guy');
-        // await tester.pumpAndSettle();
-        // final filteredTiles = find.byType(ListTile);
-        // expect(filteredTiles, findsWidgets);
-        // expect(filteredTiles.evaluate().length, equals(2));
+        final txtFound = find.byType(SearchBox);
+        expect(txtFound, findsOneWidget);
+        await tester.enterText(txtFound, 'guy');
+        await tester.pumpAndSettle();
+        final filteredTiles = find.byType(ListTile);
+        expect(filteredTiles, findsWidgets);
+        expect(filteredTiles.evaluate().length, equals(2));
       });
 
       testWidgets('should display/hide separator', (tester) async {
@@ -129,32 +129,32 @@ void main() {
         await tester.pumpAndSettle();
         final list = find.byType(ListView);
         expect(list, findsOneWidget);
-        // final allTiles = find.descendant(
-        //   of: list,
-        //   matching: find.byWidgetPredicate(
-        //     (Widget widget) => widget is ListTile || widget is Divider,
-        //   ),
-        // );
-        //
-        // expect(allTiles, findsWidgets);
-        // expect(
-        //   tester.widget(allTiles.at(2)),
-        //   isA<Divider>(),
-        //   reason: 'separator should be visible after the favorites countries',
-        // );
-        //
-        // final txtFound = find.byType(SearchBox);
-        // expect(txtFound, findsOneWidget);
-        // await tester.enterText(txtFound, 'guy');
-        // await tester.pumpAndSettle();
-        // final tiles = find.byType(ListTile);
-        // expect(tiles, findsWidgets);
-        // expect(
-        //   tiles.evaluate().length,
-        //   equals(2),
-        //   reason: 'Separator should be hidden as all elements'
-        //       'found are in favorites',
-        // );
+        final allTiles = find.descendant(
+          of: list,
+          matching: find.byWidgetPredicate(
+            (Widget widget) => widget is ListTile || widget is Divider,
+          ),
+        );
+
+        expect(allTiles, findsWidgets);
+        expect(
+          tester.widget(allTiles.at(2)),
+          isA<Divider>(),
+          reason: 'separator should be visible after the favorites countries',
+        );
+
+        final txtFound = find.byType(SearchBox);
+        expect(txtFound, findsOneWidget);
+        await tester.enterText(txtFound, 'guy');
+        await tester.pumpAndSettle();
+        final tiles = find.byType(ListTile);
+        expect(tiles, findsWidgets);
+        expect(
+          tiles.evaluate().length,
+          equals(2),
+          reason: 'Separator should be hidden as all elements'
+              'found are in favorites',
+        );
       });
     });
   });

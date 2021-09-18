@@ -61,8 +61,9 @@ class CountryFinder {
       final bName = CountryTranslator.localisedName(context, b).toLowerCase();
       final sortPoint =
           getSortPoint(bName, b.isoCode) - getSortPoint(aName, a.isoCode);
-      // sort alphabetically when comparison with search term get same result
-      return sortPoint == 0 ? aName.compareTo(bName) : sortPoint;
+      // keeps the original sorting when the comparison
+      // does not produce a winner
+      return sortPoint == 0 ? -1 : sortPoint;
     };
 
     final match = (Country c) => CountryTranslator.localisedName(context, c)
