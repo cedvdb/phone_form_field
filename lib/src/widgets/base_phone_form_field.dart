@@ -191,17 +191,19 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
   }
 
   Widget _dialCodeOverlay() {
-    final isUnfocusDialCodeVisible = !_focusNode.hasFocus &&
-        (widget.decoration.labelText == null ||
-            widget.decoration.floatingLabelBehavior ==
-                FloatingLabelBehavior.always);
+    final hasLabel = widget.decoration.labelText != null;
+    final hasFloatingLabel =
+        widget.decoration.floatingLabelBehavior == FloatingLabelBehavior.always;
+    final isVisibleWhenNotFocussed =
+        !_focusNode.hasFocus && (!hasLabel || hasFloatingLabel);
     final dialCode = Padding(
       padding: isOutlineBorder
           ? const EdgeInsets.fromLTRB(12, 15.4, 0, 16)
-          : const EdgeInsets.fromLTRB(0, 24, 0, 8),
+          : EdgeInsets.fromLTRB(0, hasLabel ? 24.0 : 14.5, 0, 8),
       child: _getDialCodeChip(visible: true),
     );
-    if (isUnfocusDialCodeVisible)
+
+    if (isVisibleWhenNotFocussed)
       return GestureDetector(
         onTap: () => _focusNode.requestFocus(),
         child: MouseRegion(
