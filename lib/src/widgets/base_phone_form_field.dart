@@ -154,22 +154,12 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
 
   Widget builder() {
     // the idea here is to have a TextField with a prefix where the prefix
-    // is the flag + dial code which is the same height as text so it's well
-    // aligned with the typed text. It also does not push labels etc
-    // around and keep the same form factor as TextFormField.
-    //
+    // is the flag + country code
     // Then we stack an InkWell on top of that to add the clickable part
     return Stack(
       children: [
         _textField(),
         _dialCodeOverlay(),
-        // when the label is floating and there is a place holder
-        // we need to display the country code grayed out so we
-        // have something between the place holder and the leftmost border
-        // if (!_focusNode.hasFocus &&
-        //     widget.decoration.floatingLabelBehavior ==
-        //         FloatingLabelBehavior.always)
-        //   _grayedOutDialCode(),
       ],
     );
   }
