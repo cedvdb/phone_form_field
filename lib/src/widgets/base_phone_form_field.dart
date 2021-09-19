@@ -144,7 +144,7 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
     }
   }
 
-  selectCountry() async {
+  void selectCountry() async {
     final selected = await widget.selectorNavigator.navigate(context);
     if (selected != null) {
       _isoCodeController.value = selected.isoCode;
