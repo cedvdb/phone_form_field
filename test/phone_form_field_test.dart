@@ -4,12 +4,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
+import 'package:phone_form_field/src/validator/phone_validator.dart';
 import 'package:phone_form_field/src/widgets/country_picker/country_selector.dart';
 import 'package:phone_form_field/src/widgets/flag_dial_code_chip.dart';
 
 typedef PhoneNumberInputValidatorDelegate = PhoneNumberInputValidator Function(
     BuildContext context);
-    
+
 void main() {
   group('PhoneFormField', () {
     final formKey = GlobalKey<FormState>();
@@ -32,7 +33,7 @@ void main() {
           home: Scaffold(
             body: Form(
               key: formKey,
-              child: PhoneFormField(
+              child: Builder(builder: (context) => PhoneFormField(
                 key: phoneKey,
                 initialValue: initialValue,
                 onChanged: onChanged,
