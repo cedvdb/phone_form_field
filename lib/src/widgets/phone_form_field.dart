@@ -12,10 +12,11 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final PhoneController? controller;
   final String? errorText;
   final PhoneNumberType? phoneNumberType;
-  final bool withHint;
+  final List<String>? autofillHints;
   final bool enabled;
   final bool autofocus;
   final bool showFlagInInput;
+  final bool formatPhoneNumber;
   final String defaultCountry;
   final CountrySelectorNavigator selectorNavigator;
   final Function(PhoneNumber?)? onChanged;
@@ -26,8 +27,9 @@ class PhoneFormField extends FormField<PhoneNumber> {
     Key? key,
     this.controller,
     this.phoneNumberType,
+    this.formatPhoneNumber = true,
     this.errorText = 'Invalid phone number',
-    this.withHint = true,
+    this.autofillHints,
     this.autofocus = false,
     this.enabled = true,
     this.showFlagInInput = true,
@@ -58,9 +60,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
             final field = state as _PhoneFormFieldState;
             return BasePhoneFormField(
               controller: field.baseController,
-              autoFillHints: withHint ? [AutofillHints.telephoneNumber] : null,
-              onEditingComplete:
-                  withHint ? () => TextInput.finishAutofillContext() : null,
+              autoFillHints: autofillHints,
+              onEditingComplete: () => TextInput.finishAutofillContext(),
               enabled: enabled,
               showFlagInInput: showFlagInInput,
               decoration: decoration,

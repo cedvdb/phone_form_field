@@ -21,17 +21,34 @@ Demo available at https://cedvdb.github.io/phone_form_field/
 ## Usage
 
 ```dart
+
+// works without any param
+PhoneFormField();
+
+// all params
 PhoneFormField(
+  key: inputKey,
+  controller: controller,
+  formatPhoneNumber: true, // or initialValue
   autofocus: true,
+  autofillHints: [AutofillHints.telephoneNumber],
+  selectorNavigator: selectorNavigator,
+  defaultCountry: 'FR',
   decoration: InputDecoration(
-    labelText: 'Phone',
-    border: OutlineInputBorder(),
-    // ...
+    labelText: withLabel ? 'Phone' : null,
+    border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
   ),
-  phoneNumberType: null, // can be PhoneNumberType.mobile or phoneNumberType.fixed or null for both validation
-  selectorNavigator: const BottomSheetNavigator(), // default to bottom sheet but you can customize how the selector is shown by extending CountrySelectorNavigator
-  lightParser: false, // using true here reduce memory foot print but only use length to validate
-),
+  enabled: true,
+  showFlagInInput: true,
+  phoneNumberType: mobileOnly ? PhoneNumberType.mobile : null,
+  autovalidateMode: autovalidate
+      ? AutovalidateMode.onUserInteraction
+      : AutovalidateMode.disabled,
+  errorText: 'Invalid phone',
+  cursorColor: Theme.of(context).colorScheme.primary,
+  onSaved: (p) => print('saved $p'),
+  onChanged: (p) => print('saved $p'),
+)
 
 ```
 
