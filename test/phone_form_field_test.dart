@@ -7,6 +7,9 @@ import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/widgets/country_picker/country_selector.dart';
 import 'package:phone_form_field/src/widgets/flag_dial_code_chip.dart';
 
+typedef PhoneNumberInputValidatorDelegate = PhoneNumberInputValidator Function(
+    BuildContext context);
+    
 void main() {
   group('PhoneFormField', () {
     final formKey = GlobalKey<FormState>();
