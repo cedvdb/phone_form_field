@@ -33,17 +33,19 @@ void main() {
           home: Scaffold(
             body: Form(
               key: formKey,
-              child: Builder(builder: (context) => PhoneFormField(
-                key: phoneKey,
-                initialValue: initialValue,
-                onChanged: onChanged,
-                onSaved: onSaved,
-                showFlagInInput: showFlagInInput,
-                controller: controller,
-                defaultCountry: defaultCountry,
-                validator: validatorDelegate?.call(context),
+              child: Builder(
+                builder: (context) => PhoneFormField(
+                  key: phoneKey,
+                  initialValue: initialValue,
+                  onChanged: onChanged,
+                  onSaved: onSaved,
+                  showFlagInInput: showFlagInInput,
+                  controller: controller,
+                  defaultCountry: defaultCountry,
+                  validator: validatorDelegate?.call(context),
+                ),
               ),
-            }),
+            ),
           ),
         );
 
