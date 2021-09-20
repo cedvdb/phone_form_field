@@ -54,13 +54,13 @@ void main() {
 
     testWidgets('Should have a default country', (tester) async {
       await tester.pumpWidget(getWidget(defaultCountry: 'FR'));
-      expect(find.text('+ 33'), findsOneWidget);
+      expect(find.text('+ 33'), findsWidgets);
     });
 
     testWidgets('Should display initial value', (tester) async {
       await tester.pumpWidget(getWidget(
           initialValue: PhoneParser().parseWithIsoCode('FR', '478787827')));
-      expect(find.text('+ 33'), findsOneWidget);
+      expect(find.text('+ 33'), findsWidgets);
       expect(find.text('478787827'), findsOneWidget);
     });
 
@@ -92,7 +92,7 @@ void main() {
           .pumpWidget(getWidget(controller: controller, defaultCountry: 'US'));
       controller.value = PhoneParser().parseWithIsoCode('FR', '488997722');
       await tester.pumpAndSettle();
-      expect(find.text('+ 33'), findsOneWidget);
+      expect(find.text('+ 33'), findsWidgets);
       expect(find.text('488997722'), findsOneWidget);
     });
 
@@ -218,7 +218,7 @@ void main() {
 
     testWidgets('Should show / not show flag', (tester) async {
       await tester.pumpWidget(getWidget(showFlagInInput: true));
-      expect(find.byType(CircleFlag), findsOneWidget);
+      expect(find.byType(CircleFlag), findsWidgets);
       await tester.pumpWidget(getWidget(showFlagInInput: false));
       expect(find.byType(CircleFlag), findsNothing);
     });

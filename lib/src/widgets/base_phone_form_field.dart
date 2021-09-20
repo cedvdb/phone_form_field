@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -95,7 +93,7 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
     super.dispose();
   }
 
-  selectCountry() async {
+  void selectCountry() async {
     final selected = await widget.selectorNavigator.navigate(context);
     if (selected != null) {
       _updateValue(SimplePhoneNumber(
@@ -114,7 +112,7 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
     return Stack(
       children: [
         _textField(),
-        if (_focusNode.hasFocus) _inkWellOverlay(),
+        _dialCodeOverlay(),
       ],
     );
   }
@@ -134,41 +132,58 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
       cursorColor: widget.cursorColor,
       decoration: widget.decoration.copyWith(
         errorText: widget.errorText,
-        prefix: _getDialCodeChip(),
+        prefix: _getDialCodeChip(visible: false),
       ),
     );
   }
 
-  Widget _inkWellOverlay() {
-    return InkWell(
-      onTap: () {},
-      onTapDown: (_) => selectCountry(),
-      // we make the country dial code
-      // invisible but we still have to put it here
-      // to have the correct width
-      child: Opacity(
-        opacity: 0,
-        child: Padding(
-          // outline border has padding on the left
-          // so we need to make it a 12 bigger
-          // and we add 16 horizontally to make it the whole height
-          padding: _isOutlineBorder
-              ? const EdgeInsets.fromLTRB(12, 16, 0, 16)
-              : const EdgeInsets.fromLTRB(0, 16, 0, 16),
-          child: _getDialCodeChip(),
+  Widget _dialCodeOverlay() {
+    final hasLabel = widget.decoration.labelText != null;
+    final hasFloatingLabel =
+        widget.decoration.floatingLabelBehavior == FloatingLabelBehavior.always;
+    final isVisibleWhenNotFocussed =
+        !_focusNode.hasFocus && (!hasLabel || hasFloatingLabel);
+    final dialCode = Padding(
+      padding: _isOutlineBorder
+          ? const EdgeInsets.fromLTRB(12, 15.4, 0, 16)
+          : EdgeInsets.fromLTRB(0, hasLabel ? 24.0 : 14.5, 0, 8),
+      child: _getDialCodeChip(visible: true),
+    );
+
+    if (isVisibleWhenNotFocussed)
+      return GestureDetector(
+        onTap: () => _focusNode.requestFocus(),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.text,
+          child: dialCode,
         ),
-      ),
-    );
+      );
+    else if (_focusNode.hasFocus)
+      return InkWell(
+        enableFeedback: true,
+        // canRequestFocus: _focusNode.hasFocus ? true : false,
+        onTap: () {},
+        onTapDown: (_) => selectCountry(),
+        child: dialCode,
+      );
+    return Container();
   }
 
-  Widget _getDialCodeChip() {
+  Widget _getDialCodeChip({bool visible = true}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      child: FlagDialCodeChip(
-        country: Country(_isoCode),
-        showFlag: widget.showFlagInInput,
-        textStyle: TextStyle(fontSize: 16),
-        flagSize: 20,
+      child: Visibility(
+        maintainSize: true,
+        maintainAnimation: true,
+        maintainState: true,
+        visible: visible,
+        child: FlagDialCodeChip(
+          country: Country(_isoCode),
+          showFlag: widget.showFlagInInput,
+          textStyle: TextStyle(
+              fontSize: 16, color: Theme.of(context).textTheme.caption?.color),
+          flagSize: _isOutlineBorder ? 20 : 16,
+        ),
       ),
     );
   }

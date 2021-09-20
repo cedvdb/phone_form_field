@@ -26,7 +26,7 @@ class CountryList extends StatelessWidget {
     required this.countries,
     required this.onTap,
     this.scrollController,
-    this.separatorIndex = null,
+    this.separatorIndex,
     this.showDialCode = true,
   }) : super(key: key);
 
