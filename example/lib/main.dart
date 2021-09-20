@@ -35,7 +35,6 @@ class PhoneFieldView extends StatelessWidget {
       child: PhoneFormField(
         key: inputKey,
         controller: controller,
-        formatPhoneNumber: true, // or initialValue
         autofocus: true,
         autofillHints: [AutofillHints.telephoneNumber],
         selectorNavigator: selectorNavigator,

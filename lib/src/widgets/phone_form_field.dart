@@ -16,7 +16,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool enabled;
   final bool autofocus;
   final bool showFlagInInput;
-  final bool formatPhoneNumber;
   final String defaultCountry;
   final CountrySelectorNavigator selectorNavigator;
   final Function(PhoneNumber?)? onChanged;
@@ -27,7 +26,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
     Key? key,
     this.controller,
     this.phoneNumberType,
-    this.formatPhoneNumber = true,
     this.errorText = 'Invalid phone number',
     this.autofillHints,
     this.autofocus = false,

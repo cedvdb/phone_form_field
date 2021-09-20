@@ -139,18 +139,22 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
 
   Widget _dialCodeOverlay() {
     final hasLabel = widget.decoration.labelText != null;
-    final hasFloatingLabel =
-        widget.decoration.floatingLabelBehavior == FloatingLabelBehavior.always;
-    final isVisibleWhenNotFocussed =
-        !_focusNode.hasFocus && (!hasLabel || hasFloatingLabel);
+    final floatingLabelBehavior = widget.decoration.floatingLabelBehavior;
+    // the country code ship must remain visible when there is no label
+    // that takes his place
+    final isCountryCodeVisible = _focusNode.hasFocus ||
+        !hasLabel ||
+        floatingLabelBehavior == FloatingLabelBehavior.always ||
+        (_nationalNumberController.text != '');
+
     final dialCode = Padding(
       padding: _isOutlineBorder
-          ? const EdgeInsets.fromLTRB(12, 15.4, 0, 16)
+          ? const EdgeInsets.fromLTRB(12, 15, 0, 17)
           : EdgeInsets.fromLTRB(0, hasLabel ? 24.0 : 14.5, 0, 8),
-      child: _getDialCodeChip(visible: true),
+      child: _getDialCodeChip(visible: isCountryCodeVisible),
     );
 
-    if (isVisibleWhenNotFocussed)
+    if (!_focusNode.hasFocus)
       return GestureDetector(
         onTap: () => _focusNode.requestFocus(),
         child: MouseRegion(
@@ -158,7 +162,7 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
           child: dialCode,
         ),
       );
-    else if (_focusNode.hasFocus)
+    else
       return InkWell(
         enableFeedback: true,
         // canRequestFocus: _focusNode.hasFocus ? true : false,
@@ -166,7 +170,6 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
         onTapDown: (_) => selectCountry(),
         child: dialCode,
       );
-    return Container();
   }
 
   Widget _getDialCodeChip({bool visible = true}) {
