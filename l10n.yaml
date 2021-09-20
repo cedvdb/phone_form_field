@@ -1,0 +1,8 @@
+arb-dir: lib/l10n
+template-arb-file: en.arb
+output-localization-file: phone_field_localization.dart 
+output-class: PhoneFieldLocalization
+output-dir: lib/l10n/generated
+synthetic-package: false
+# use-deferred-loading: true
+preferred-supported-locales: [en, es, fr]

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/src/models/all_countries.dart';
 import 'package:phone_form_field/src/models/country.dart';
