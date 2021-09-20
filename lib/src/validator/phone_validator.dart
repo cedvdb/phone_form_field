@@ -51,7 +51,7 @@ class PhoneValidator {
     /// determine whether a missing value should be reported as invalid
     bool allowEmpty = true,
   }) {
-    final parser = useLightParser ? LightPhoneParser() : PhoneParser();
+    final parser = PhoneParser();
     return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
@@ -87,7 +87,7 @@ class PhoneValidator {
             'Invalid mobile phone number'
         : PhoneFieldLocalization.of(context)?.invalidFixedLinePhoneNumber ??
             'Invalid fixed line phone number';
-    final parser = useLightParser ? LightPhoneParser() : PhoneParser();
+    final parser = PhoneParser();
     return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&

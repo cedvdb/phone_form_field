@@ -218,6 +218,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         required: required,
                         mobileOnly: mobileOnly,
                         autovalidate: autovalidate,
+                        onChanged: (p) => print(p),
                       ),
                     ),
                     SizedBox(
