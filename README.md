@@ -1,5 +1,7 @@
 # phone_form_field
 
+[![Join the chat at https://gitter.im/cedvdb/phone_form_field](https://badges.gitter.im/cedvdb/phone_form_field.svg)](https://gitter.im/cedvdb/phone_form_field?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Flutter phone input integrated with flutter internationalization
 
 ## Features
