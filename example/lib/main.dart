@@ -17,7 +17,6 @@ class PhoneFieldView extends StatelessWidget {
   final bool outlineBorder;
   final bool mobileOnly;
   final bool autovalidate;
-  final Function(PhoneNumber?) onChanged;
 
   const PhoneFieldView({
     Key? key,
@@ -28,7 +27,6 @@ class PhoneFieldView extends StatelessWidget {
     required this.outlineBorder,
     required this.mobileOnly,
     required this.autovalidate,
-    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -36,9 +34,9 @@ class PhoneFieldView extends StatelessWidget {
     return AutofillGroup(
       child: PhoneFormField(
         key: inputKey,
-        autofocus: true,
-        withHint: true,
         controller: controller,
+        autofocus: true,
+        autofillHints: [AutofillHints.telephoneNumber],
         selectorNavigator: selectorNavigator,
         defaultCountry: 'FR',
         decoration: InputDecoration(
@@ -52,7 +50,9 @@ class PhoneFieldView extends StatelessWidget {
             ? AutovalidateMode.onUserInteraction
             : AutovalidateMode.disabled,
         errorText: 'Invalid phone',
-        onChanged: onChanged,
+        cursorColor: Theme.of(context).colorScheme.primary,
+        onSaved: (p) => print('saved $p'),
+        onChanged: (p) => print('saved $p'),
       ),
     );
   }
@@ -199,7 +199,6 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         outlineBorder: outlineBorder,
                         mobileOnly: mobileOnly,
                         autovalidate: autovalidate,
-                        onChanged: (p) => print('changed $p'),
                       ),
                     ),
                     SizedBox(
