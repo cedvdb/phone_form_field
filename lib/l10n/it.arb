@@ -1,6 +1,10 @@
 {
   "@@locale": "it",
   "invalidPhoneNumber": "Numero di telefono invalido",
+  "invalidCountry": "Paese invalido",
+  "invalidMobilePhoneNumber": "Numero di cellulare invalido",
+  "invalidFixedLinePhoneNumber": "Numero di rete fissa invalido",
+  "requiredPhoneNumber": "Numero di telefono richiesto",
   "noResultMessage": "Nessun risultato",
   "ad_": "Andorra",
   "ae_": "Emirati Arabi Uniti",

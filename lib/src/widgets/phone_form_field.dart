@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
+import 'package:phone_form_field/src/validator/phone_validator.dart';
 import 'package:phone_form_field/src/widgets/base_phone_form_field.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
@@ -25,8 +26,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
   PhoneFormField({
     Key? key,
     this.controller,
-    this.phoneNumberType,
-    this.errorText = 'Invalid phone number',
     this.withHint = true,
     this.autofocus = false,
     this.enabled = true,
@@ -36,6 +35,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.defaultCountry = 'US',
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.cursorColor,
+    PhoneNumberInputValidator validator = PhoneValidator.invalid(context),
     Function(PhoneNumber?)? onSaved,
     AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
     PhoneNumber? initialValue,
@@ -51,8 +51,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           initialValue:
               controller != null ? controller.initialValue : initialValue,
           onSaved: onSaved,
-          validator:
-              _getDefaultValidator(type: phoneNumberType, errorText: errorText),
+          validator: validator,
           restorationId: restorationId,
           builder: (state) {
             final field = state as _PhoneFormFieldState;
@@ -72,19 +71,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
             );
           },
         );
-
-  static _getDefaultValidator({
-    required PhoneNumberType? type,
-    required String? errorText,
-  }) {
-    final parser = PhoneParser();
-    return (PhoneNumber? phoneNumber) {
-      if (phoneNumber == null) return null;
-      if (phoneNumber.nsn.isEmpty) return null;
-      final isValid = parser.validate(phoneNumber, type);
-      if (!isValid) return errorText;
-    };
-  }
 
   @override
   _PhoneFormFieldState createState() => _PhoneFormFieldState();
