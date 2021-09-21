@@ -13,7 +13,7 @@ class DialogNavigator implements CountrySelectorNavigator {
   final List<Country>? countries;
   final List<String>? favorites;
   final bool addSeparator;
-  final bool showDialCode;
+  final bool showCountryCode;
   final bool sortCountries;
   final String? noResultMessage;
 
@@ -21,7 +21,7 @@ class DialogNavigator implements CountrySelectorNavigator {
     this.countries,
     this.favorites,
     this.addSeparator = true,
-    this.showDialCode = true,
+    this.showCountryCode = true,
     this.sortCountries = false,
     this.noResultMessage,
   });
@@ -36,7 +36,7 @@ class DialogNavigator implements CountrySelectorNavigator {
           onCountrySelected: (country) => Navigator.pop(context, country),
           favoriteCountries: favorites ?? [],
           addFavoritesSeparator: addSeparator,
-          showCountryDialCode: showDialCode,
+          showCountryCode: showCountryCode,
           sortCountries: sortCountries,
           noResultMessage: noResultMessage,
         ),
@@ -49,7 +49,7 @@ class BottomSheetNavigator implements CountrySelectorNavigator {
   final List<Country>? countries;
   final List<String>? favorites;
   final bool addSeparator;
-  final bool showDialCode;
+  final bool showCountryCode;
   final bool sortCountries;
   final String? noResultMessage;
 
@@ -57,7 +57,7 @@ class BottomSheetNavigator implements CountrySelectorNavigator {
     this.countries,
     this.favorites,
     this.addSeparator = true,
-    this.showDialCode = true,
+    this.showCountryCode = true,
     this.sortCountries = false,
     this.noResultMessage,
   });
@@ -75,7 +75,7 @@ class BottomSheetNavigator implements CountrySelectorNavigator {
         },
         favoriteCountries: favorites ?? [],
         addFavoritesSeparator: addSeparator,
-        showCountryDialCode: showDialCode,
+        showCountryCode: showCountryCode,
         sortCountries: sortCountries,
         noResultMessage: noResultMessage,
       ),
@@ -89,7 +89,7 @@ class ModalBottomSheetNavigator implements CountrySelectorNavigator {
   final List<Country>? countries;
   final List<String>? favorites;
   final bool addSeparator;
-  final bool showDialCode;
+  final bool showCountryCode;
   final bool sortCountries;
   final String? noResultMessage;
 
@@ -98,7 +98,7 @@ class ModalBottomSheetNavigator implements CountrySelectorNavigator {
     this.height,
     this.favorites,
     this.addSeparator = true,
-    this.showDialCode = true,
+    this.showCountryCode = true,
     this.sortCountries = false,
     this.noResultMessage,
   });
@@ -114,7 +114,7 @@ class ModalBottomSheetNavigator implements CountrySelectorNavigator {
           onCountrySelected: (country) => Navigator.pop(context, country),
           favoriteCountries: favorites ?? [],
           addFavoritesSeparator: addSeparator,
-          showCountryDialCode: showDialCode,
+          showCountryCode: showCountryCode,
           sortCountries: sortCountries,
           noResultMessage: noResultMessage,
         ),
@@ -132,7 +132,7 @@ class DraggableModalBottomSheetNavigator implements CountrySelectorNavigator {
   final BorderRadiusGeometry? borderRadius;
   final List<String>? favorites;
   final bool addSeparator;
-  final bool showDialCode;
+  final bool showCountryCode;
   final bool sortCountries;
   final String? noResultMessage;
 
@@ -144,7 +144,7 @@ class DraggableModalBottomSheetNavigator implements CountrySelectorNavigator {
     this.borderRadius,
     this.favorites,
     this.addSeparator = true,
-    this.showDialCode = true,
+    this.showCountryCode = true,
     this.sortCountries = false,
     this.noResultMessage,
   });
@@ -180,7 +180,7 @@ class DraggableModalBottomSheetNavigator implements CountrySelectorNavigator {
               scrollController: scrollController,
               favoriteCountries: favorites ?? [],
               addFavoritesSeparator: addSeparator,
-              showCountryDialCode: showDialCode,
+              showCountryCode: showCountryCode,
               sortCountries: sortCountries,
               noResultMessage: noResultMessage,
             ),
