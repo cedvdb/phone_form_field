@@ -110,14 +110,32 @@ class _PhoneFieldState extends State<PhoneField> {
   }
 
   Widget build(BuildContext context) {
-    // the idea here is to have a TextField with a prefix where the prefix
-    // is the flag + country code which invisible.
-    // Then we stack an InkWell with the country code top of that
-    // to add the clickable part
+    // The idea here is to have an InputDecorat with a prefix where the prefix
+    // is the flag + country code which visible (when focussed).
+    // Then we stack an InkWell with the country code (invisible) so
+    // it is the right width
     return Stack(
       children: [
-        _textField(),
-        _dialCodeOverlay(),
+        InputDecorator(
+          isFocused: _focusNode.hasFocus,
+          isEmpty: _nationalNumberController.text == '',
+          decoration: widget.decoration.copyWith(
+            errorText: widget.errorText,
+            prefix: InkWell(child: _getDialCodeChip()),
+          ),
+          child: TextField(
+            controller: _nationalNumberController,
+            focusNode: _focusNode,
+            onChanged: (national) => _updateValue(
+                SimplePhoneNumber(isoCode: _isoCode, national: national)),
+            decoration: InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.all(0),
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        if (_focusNode.hasFocus) _inkWell()
       ],
     );
   }
