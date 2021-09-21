@@ -28,6 +28,7 @@ PhoneFormField();
 
 // all params
 PhoneFormField(
+  key: Key('phone-field')
   controller: null,     // controller & initialValue value
   initialValue: null,   // can't be supplied simultaneously
   shouldFormat: true    // default 
