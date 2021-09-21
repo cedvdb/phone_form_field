@@ -68,7 +68,7 @@ class CountryList extends StatelessWidget {
               ? Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    country.displayDialCode,
+                    country.displayCountryCode,
                     textDirection: TextDirection.ltr,
                     textAlign: TextAlign.start,
                   ),

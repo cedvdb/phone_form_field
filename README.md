@@ -7,9 +7,10 @@ Flutter phone input integrated with flutter internationalization
 - Totally cross platform, this is a dart only package / dependencies
 - Internationalization
 - Phone number validation
+- Phone number formatting
 - Support autofill and copy paste
 - Extends Flutter's FormField
-- Uses dart phone_numbers_parser for parsing
+- Uses dart phone_numbers_parser for parsing (same author)
 
 
 ## Demo

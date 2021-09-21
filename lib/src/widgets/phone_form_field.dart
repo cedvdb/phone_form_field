@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
+import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
 import 'package:phone_form_field/src/widgets/base_phone_form_field.dart';
@@ -13,6 +14,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final String? errorText;
   final PhoneNumberType? phoneNumberType;
   final List<String>? autofillHints;
+  final bool shouldFormat;
   final bool enabled;
   final bool autofocus;
   final bool showFlagInInput;
@@ -26,6 +28,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     Key? key,
     this.controller,
     this.phoneNumberType,
+    this.shouldFormat = true,
     this.errorText = 'Invalid phone number',
     this.autofillHints,
     this.autofocus = false,
@@ -57,7 +60,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           builder: (state) {
             final field = state as _PhoneFormFieldState;
             return BasePhoneFormField(
-              controller: field.baseController,
+              controller: field._baseController,
               autoFillHints: autofillHints,
               onEditingComplete: () => TextInput.finishAutofillContext(),
               enabled: enabled,
@@ -90,9 +93,9 @@ class PhoneFormField extends FormField<PhoneNumber> {
 }
 
 class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
-  late final BasePhoneParser parser;
-  late final PhoneController controller;
-  late final ValueNotifier<SimplePhoneNumber?> baseController;
+  late final PhoneParser _parser;
+  late final PhoneController _controller;
+  late final ValueNotifier<SimplePhoneNumber?> _baseController;
 
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
@@ -100,51 +103,52 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   @override
   void initState() {
     super.initState();
-    final simplePhoneNumber = _convertPhoneNumberToSimplePhoneNumber(value);
-    parser = PhoneParser();
-    controller = widget.controller ?? PhoneController(value);
-    baseController = ValueNotifier(simplePhoneNumber);
-    controller.addListener(_onControllerChange);
-    baseController
-        .addListener(() => _onBaseControllerChange(baseController.value));
+    final simplePhoneNumber = _convertPhoneNumberToFormattedSimplePhone(value);
+    _parser = PhoneParser();
+    _controller = widget.controller ?? PhoneController(value);
+    _baseController = ValueNotifier(simplePhoneNumber);
+    _controller.addListener(_onControllerChange);
+    _baseController
+        .addListener(() => _onBaseControllerChange(_baseController.value));
   }
 
   @override
   void dispose() {
     super.dispose();
-    baseController.dispose();
+    _baseController.dispose();
     // dispose the controller only when it's initialised in this instance
     // otherwise this should be done where instance is created
     if (widget.controller == null) {
-      controller.dispose();
+      _controller.dispose();
     }
   }
 
   @override
   void reset() {
-    controller.value = widget.initialValue;
+    _controller.value = widget.initialValue;
     super.reset();
   }
 
   void _onControllerChange() {
-    final basePhone = baseController.value;
-    final phone = controller.value;
-    widget.onChanged?.call(controller.value);
+    final phone = _controller.value;
+    final base = _baseController.value;
+
+    widget.onChanged?.call(phone);
     didChange(phone);
-    if (basePhone?.national == phone?.nsn &&
-        basePhone?.isoCode == phone?.isoCode) {
-      return;
+    final formatted = _convertPhoneNumberToFormattedSimplePhone(phone);
+    if (base?.national != formatted?.national ||
+        base?.isoCode != formatted?.isoCode) {
+      _baseController.value = formatted;
     }
-    baseController.value = _convertPhoneNumberToSimplePhoneNumber(phone);
   }
 
   void _onBaseControllerChange(SimplePhoneNumber? basePhone) {
-    if (basePhone?.national == controller.value?.nsn &&
-        basePhone?.isoCode == controller.value?.isoCode) {
+    if (basePhone?.national == _controller.value?.nsn &&
+        basePhone?.isoCode == _controller.value?.isoCode) {
       return;
     }
     if (basePhone == null) {
-      return controller.value = null;
+      return _controller.value = null;
     }
     // we convert the simple phone number to a full blown PhoneNumber
     // to access validation, formatting etc.
@@ -152,28 +156,31 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     // when the base input change we check if its not a whole number
     // to allow for copy pasting and auto fill. If it is one then
     // we parse it accordingly
-    if (basePhone.national.startsWith(RegExp('[+＋]'))) {
+    if (basePhone.national.startsWith(RegExp('[${Constants.PLUS}]'))) {
       // if starts with + then we parse the whole number
       // to figure out the country code
-      phoneNumber = parser.parseRaw(basePhone.national);
+      phoneNumber = _parser.parseRaw(basePhone.national);
     } else {
-      phoneNumber = parser.parseWithIsoCode(
+      phoneNumber = _parser.parseNational(
         basePhone.isoCode,
         basePhone.national,
       );
     }
-    controller.value = phoneNumber;
-    baseController.value = SimplePhoneNumber(
-      isoCode: phoneNumber.isoCode,
-      national: phoneNumber.nsn,
-    );
+    _controller.value = phoneNumber;
   }
 
-  SimplePhoneNumber? _convertPhoneNumberToSimplePhoneNumber(
+  SimplePhoneNumber? _convertPhoneNumberToFormattedSimplePhone(
       PhoneNumber? phoneNumber) {
     if (phoneNumber == null) return null;
+    var formattedNsn = phoneNumber.nsn;
+    if (widget.shouldFormat) {
+      PhoneNumberFormatter formatter = PhoneNumberFormatter();
+      formattedNsn = formatter.formatNsn(phoneNumber);
+    }
     return SimplePhoneNumber(
-        isoCode: phoneNumber.isoCode, national: phoneNumber.nsn);
+      isoCode: phoneNumber.isoCode,
+      national: formattedNsn,
+    );
   }
 
   String? getErrorText() {

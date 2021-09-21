@@ -29,7 +29,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(tiles, findsNothing);
         await tester.pumpAndSettle();
-        // dial codes (cant put it in another test widgets for some reason it fails)
+        // country codes
         await tester.enterText(txtFound, '33');
         await tester.pumpAndSettle();
         expect(tiles, findsWidgets);
@@ -66,7 +66,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(tiles, findsNothing);
         await tester.pumpAndSettle();
-        // dial codes (cant put it in another test widgets for some reason it fails)
+        // country codes
         await tester.enterText(txtFound, '33');
         await tester.pumpAndSettle();
         expect(tiles, findsWidgets);

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
 
 import '../models/country.dart';
 import 'country_picker/country_selector_navigator.dart';
-import 'flag_dial_code_chip.dart';
+import 'country_code_chip.dart';
 
 /// That is the base for the PhoneFormField
 ///
@@ -78,7 +79,12 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
       // which updates the value to the current one without text selection
       // and the actual reset
       await Future.value();
-      _nationalNumberController.text = national;
+      _nationalNumberController.value = TextEditingValue(
+        text: national,
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: national.length),
+        ),
+      );
     }
     // when updating from within
     if (widget.controller.value != phoneNumber) {
@@ -104,11 +110,9 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
 
   Widget build(BuildContext context) {
     // the idea here is to have a TextField with a prefix where the prefix
-    // is the flag + dial code which is the same height as text so it's well
-    // aligned with the typed text. It also does not push labels etc
-    // around and keep the same form factor as TextFormField.
-    //
-    // Then we stack an InkWell on top of that to add the clickable part
+    // is the flag + country code which invisible.
+    // Then we stack an InkWell with the country code top of that
+    // to add the clickable part
     return Stack(
       children: [
         _textField(),
@@ -130,6 +134,10 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
       textDirection: TextDirection.ltr,
       keyboardType: TextInputType.phone,
       cursorColor: widget.cursorColor,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(
+            '[${Constants.PLUS}${Constants.DIGITS}${Constants.PUNCTUATION}]')),
+      ],
       decoration: widget.decoration.copyWith(
         errorText: widget.errorText,
         prefix: _getDialCodeChip(visible: false),
@@ -180,7 +188,7 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
         maintainAnimation: true,
         maintainState: true,
         visible: visible,
-        child: FlagDialCodeChip(
+        child: CountryCodeChip(
           country: Country(_isoCode),
           showFlag: widget.showFlagInInput,
           textStyle: TextStyle(

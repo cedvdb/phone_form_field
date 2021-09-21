@@ -25,7 +25,7 @@ class CountryFinder {
       return [...countries];
     }
 
-    // if the txt is a number we check the dial code instead
+    // if the txt is a number we check the country code instead
     final asInt = int.tryParse(txt);
     final isNum = asInt != null;
     if (isNum) {
@@ -38,9 +38,9 @@ class CountryFinder {
 
   List<Country> _filterByDialCode(String dialCode) {
     final getSortPoint =
-        (Country c) => c.dialCode.length == dialCode.length ? 1 : 0;
+        (Country c) => c.countryCode.length == dialCode.length ? 1 : 0;
 
-    return countries.where((c) => c.dialCode.contains(dialCode)).toList()
+    return countries.where((c) => c.countryCode.contains(dialCode)).toList()
       // puts the closest match at the top
       ..sort((a, b) => getSortPoint(b) - getSortPoint(a));
   }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../models/country.dart';
 
-class FlagDialCodeChip extends StatelessWidget {
+class CountryCodeChip extends StatelessWidget {
   final Country country;
   final bool showFlag;
   final bool showDialCode;
@@ -11,7 +11,7 @@ class FlagDialCodeChip extends StatelessWidget {
   final EdgeInsets padding;
   final double flagSize;
 
-  FlagDialCodeChip({
+  CountryCodeChip({
     Key? key,
     required this.country,
     this.textStyle = const TextStyle(),
@@ -37,7 +37,7 @@ class FlagDialCodeChip extends StatelessWidget {
         ],
         if (showDialCode)
           Text(
-            country.displayDialCode,
+            country.displayCountryCode,
             style: textStyle,
           ),
       ],
