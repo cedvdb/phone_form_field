@@ -36,6 +36,8 @@ class PhoneFieldView extends StatelessWidget {
     }
     if (mobileOnly) {
       validators.add(PhoneValidator.invalidMobile());
+    } else {
+      validators.add(PhoneValidator.invalid());
     }
     return validators.isNotEmpty ? PhoneValidator.compose(validators) : null;
   }
