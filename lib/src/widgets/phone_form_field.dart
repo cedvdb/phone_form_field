@@ -10,36 +10,135 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'country_picker/country_selector_navigator.dart';
 
+/// Phone input extending form field.
+///
+/// ### controller:
+/// {@template controller}
+/// Use a [PhoneController] for PhoneFormField when you need to dynamically
+/// change the value.
+///
+/// Whenever the user modifies the phone field with an
+/// associated [controller], the phone field updates
+/// the display value and the controller notifies its listeners.
+/// {@endtemplate}
+///
+/// You can also use an [initialValue]:
+/// {@template initialValue}
+/// The initial value used.
+///
+/// Only one of [initialValue] and [controller] can be specified.
+/// If [controller] is specified the [initialValue] will be
+/// the first value of the [PhoneController]
+/// {@endtemplate}
+///
+/// ### formatting:
+/// {@template shouldFormat}
+/// Specify whether the field will format the national number with [shouldFormat] = true (default)
+/// eg: +33677784455 will be displayed as +33 6 77 78 44 55.
+///
+/// The formats are localized for the country code.
+/// eg: +1 677-784-455 & +33 6 77 78 44 55
+///
+///
+/// This does not affect the output value, only the display.
+/// Therefor [onChange] will still return a [PhoneNumber]
+/// with nsn of 677784455.
+/// {@endtemplate}
+///
+/// ### phoneNumberType:
+/// {@template phoneNumberType}
+/// specify the type of phone number with [phoneNumberType].
+///
+/// accepted values are:
+///   - null (can be mobile or fixedLine)
+///   - mobile
+///   - fixedLine
+/// {@endtemplate}
+///
+///
+/// ### Country picker:
+///
+/// {@template selectorNavigator}
+/// specify which type of country selector will be shown with [selectorNavigator].
+///
+/// Uses one of:
+///  - const BottomSheetNavigator()
+///  - const DraggableModalBottomSheetNavigator()
+///  - const ModalBottomSheetNavigator()
+///  - const DialogNavigator()
+/// {@endtemplate}
+///
+/// ### Country Code visibility:
+///
+/// The country dial code will be visible when:
+/// - the field is focussed.
+/// - the field has a value for national number.
+/// - the field has no label obstructing the view.
 class PhoneFormField extends FormField<PhoneNumber> {
+  /// {@macro controller}
   final PhoneController? controller;
-  final List<String>? autofillHints;
+
+  /// {@macro shouldFormat}
   final bool shouldFormat;
-  final bool enabled;
-  final bool autofocus;
-  final bool showFlagInInput;
-  final String defaultCountry;
+
+  /// {@macro selectorNavigator}
   final CountrySelectorNavigator selectorNavigator;
+
+  // The properties below this line are not used by this widget and
+  // only passed around to child or super.Those are kept here for
+  // adding documentation
+
+  /// {@macro flutter.widgets.editableText.autofillHints}
+  /// {@macro flutter.services.AutofillConfiguration.autofillHints}
+  final List<String>? autofillHints;
+
+  /// whether this form field is enabled
+  final bool enabled;
+
+  /// {@macro flutter.widgets.editableText.autofocus}
+  final bool autofocus;
+
+  /// whether a flag is shown next to the dial code
+  final bool showFlagInInput;
+
+  /// the default country used when the input is displayed for the first time
+  final String defaultCountry;
+
+  /// triggered when the value changes
   final Function(PhoneNumber?)? onChanged;
+
+  /// triggered when the form is saved via FormState.save.
+  final Function(PhoneNumber?)? onSaved;
+
+  /// Used to configure the auto validation of FormField and Form widgets.
+  final AutovalidateMode autovalidateMode;
+
+  /// the [InputDecoration] used by this PhoneFormField
   final InputDecoration decoration;
+
+  /// the color of the cursor in the text input
   final Color? cursorColor;
+
+  /// {@macro initialValue}
+  final PhoneNumber? initialValue;
 
   PhoneFormField({
     Key? key,
     this.controller,
     this.shouldFormat = true,
-    this.autofillHints,
+    this.autofillHints = const [],
     this.autofocus = false,
     this.enabled = true,
     this.showFlagInInput = true,
     this.selectorNavigator = const BottomSheetNavigator(),
     this.onChanged,
+    this.onSaved,
     this.defaultCountry = 'US',
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.cursorColor,
     PhoneNumberInputValidator? validator,
-    Function(PhoneNumber?)? onSaved,
-    AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
-    PhoneNumber? initialValue,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
+    this.initialValue,
     String? restorationId,
   })  : assert(
           initialValue == null || controller == null,
@@ -113,6 +212,9 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     super.reset();
   }
 
+  /// when the controller changes this function will
+  /// update the baseController so the [BasePhoneFormField] which
+  /// deals with the UI can display the correct value.
   void _onControllerChange() {
     final phone = _controller.value;
     final base = _baseController.value;
@@ -126,6 +228,8 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     }
   }
 
+  /// when the base controller changes (when the user manually input something)
+  /// then we need to update the local controller's value.
   void _onBaseControllerChange(SimplePhoneNumber? basePhone) {
     if (basePhone?.national == _controller.value?.nsn &&
         basePhone?.isoCode == _controller.value?.isoCode) {
@@ -153,6 +257,9 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     _controller.value = phoneNumber;
   }
 
+  /// converts the phone number value to a formatted value
+  /// usable by the baseController, The [BasePhoneFormField]
+  /// which deals with the UI, will display that value
   SimplePhoneNumber? _convertPhoneNumberToFormattedSimplePhone(
       PhoneNumber? phoneNumber) {
     if (phoneNumber == null) return null;
@@ -167,6 +274,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     );
   }
 
+  /// gets the localized error text if any
   String? getErrorText() {
     if (errorText != null) {
       return ValidatorTranslator.message(context, errorText!);
