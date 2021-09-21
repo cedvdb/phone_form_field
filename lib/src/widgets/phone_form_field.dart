@@ -5,7 +5,7 @@ import 'package:phone_form_field/src/helpers/validator_translator.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
 import 'package:phone_form_field/src/validator/phone_validator.dart';
-import 'package:phone_form_field/src/widgets/base_phone_form_field.dart';
+import 'package:phone_form_field/src/widgets/phone_field.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'country_picker/country_selector_navigator.dart';
@@ -155,8 +155,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
           restorationId: restorationId,
           builder: (state) {
             final field = state as _PhoneFormFieldState;
-            return BasePhoneFormField(
-              controller: field._baseController,
+            return PhoneField(
+              controller: field._childController,
               autoFillHints: autofillHints,
               onEditingComplete: () => TextInput.finishAutofillContext(),
               enabled: enabled,
@@ -178,7 +178,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
 class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   late final PhoneParser _parser;
   late final PhoneController _controller;
-  late final ValueNotifier<SimplePhoneNumber?> _baseController;
+  late final ValueNotifier<SimplePhoneNumber?> _childController;
 
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
@@ -189,16 +189,16 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     final simplePhoneNumber = _convertPhoneNumberToFormattedSimplePhone(value);
     _parser = PhoneParser();
     _controller = widget.controller ?? PhoneController(value);
-    _baseController = ValueNotifier(simplePhoneNumber);
+    _childController = ValueNotifier(simplePhoneNumber);
     _controller.addListener(_onControllerChange);
-    _baseController
-        .addListener(() => _onBaseControllerChange(_baseController.value));
+    _childController
+        .addListener(() => _onBaseControllerChange(_childController.value));
   }
 
   @override
   void dispose() {
     super.dispose();
-    _baseController.dispose();
+    _childController.dispose();
     // dispose the controller only when it's initialised in this instance
     // otherwise this should be done where instance is created
     if (widget.controller == null) {
@@ -213,29 +213,29 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   /// when the controller changes this function will
-  /// update the baseController so the [BasePhoneFormField] which
+  /// update the baseController so the [PhoneField] which
   /// deals with the UI can display the correct value.
   void _onControllerChange() {
     final phone = _controller.value;
-    final base = _baseController.value;
+    final base = _childController.value;
 
     widget.onChanged?.call(phone);
     didChange(phone);
     final formatted = _convertPhoneNumberToFormattedSimplePhone(phone);
     if (base?.national != formatted?.national ||
         base?.isoCode != formatted?.isoCode) {
-      _baseController.value = formatted;
+      _childController.value = formatted;
     }
   }
 
   /// when the base controller changes (when the user manually input something)
   /// then we need to update the local controller's value.
-  void _onBaseControllerChange(SimplePhoneNumber? basePhone) {
-    if (basePhone?.national == _controller.value?.nsn &&
-        basePhone?.isoCode == _controller.value?.isoCode) {
+  void _onBaseControllerChange(SimplePhoneNumber? simplePhone) {
+    if (simplePhone?.national == _controller.value?.nsn &&
+        simplePhone?.isoCode == _controller.value?.isoCode) {
       return;
     }
-    if (basePhone == null) {
+    if (simplePhone == null) {
       return _controller.value = null;
     }
     // we convert the simple phone number to a full blown PhoneNumber
@@ -244,21 +244,21 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     // when the base input change we check if its not a whole number
     // to allow for copy pasting and auto fill. If it is one then
     // we parse it accordingly
-    if (basePhone.national.startsWith(RegExp('[${Constants.PLUS}]'))) {
+    if (simplePhone.national.startsWith(RegExp('[${Constants.PLUS}]'))) {
       // if starts with + then we parse the whole number
       // to figure out the country code
-      phoneNumber = _parser.parseRaw(basePhone.national);
+      phoneNumber = _parser.parseRaw(simplePhone.national);
     } else {
       phoneNumber = _parser.parseNational(
-        basePhone.isoCode,
-        basePhone.national,
+        simplePhone.isoCode,
+        simplePhone.national,
       );
     }
     _controller.value = phoneNumber;
   }
 
   /// converts the phone number value to a formatted value
-  /// usable by the baseController, The [BasePhoneFormField]
+  /// usable by the baseController, The [PhoneField]
   /// which deals with the UI, will display that value
   SimplePhoneNumber? _convertPhoneNumberToFormattedSimplePhone(
       PhoneNumber? phoneNumber) {

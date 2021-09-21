@@ -9,10 +9,10 @@ import '../models/country.dart';
 import 'country_picker/country_selector_navigator.dart';
 import 'country_code_chip.dart';
 
-/// That is the base for the PhoneFormField
+/// Phone field
 ///
 /// This deals with mostly UI and has no dependency on any phone parser library
-class BasePhoneFormField extends StatefulWidget {
+class PhoneField extends StatefulWidget {
   final ValueNotifier<SimplePhoneNumber?> controller;
   final String defaultCountry;
   final bool autofocus;
@@ -29,7 +29,7 @@ class BasePhoneFormField extends StatefulWidget {
   /// configures the way the country picker selector is shown
   final CountrySelectorNavigator selectorNavigator;
 
-  BasePhoneFormField({
+  PhoneField({
     // form field params
     Key? key,
     required this.controller,
@@ -46,10 +46,10 @@ class BasePhoneFormField extends StatefulWidget {
   });
 
   @override
-  _BasePhoneFormFieldState createState() => _BasePhoneFormFieldState();
+  _PhoneFieldState createState() => _PhoneFieldState();
 }
 
-class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
+class _PhoneFieldState extends State<PhoneField> {
   final FocusNode _focusNode = FocusNode();
 
   /// this is the controller for the national phone number
@@ -59,7 +59,7 @@ class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
   SimplePhoneNumber? get value => widget.controller.value;
   String get _isoCode => value?.isoCode ?? widget.defaultCountry;
 
-  _BasePhoneFormFieldState();
+  _PhoneFieldState();
 
   @override
   void initState() {
