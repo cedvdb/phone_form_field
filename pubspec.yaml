@@ -18,6 +18,5 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_localizations: # Add this line
-    sdk: flutter  
-
+    sdk: flutter
 
