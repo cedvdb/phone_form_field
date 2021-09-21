@@ -192,7 +192,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     _childController = ValueNotifier(simplePhoneNumber);
     _controller.addListener(_onControllerChange);
     _childController
-        .addListener(() => _onBaseControllerChange(_childController.value));
+        .addListener(() => _onChildControllerChange(_childController.value));
   }
 
   @override
@@ -213,7 +213,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   /// when the controller changes this function will
-  /// update the baseController so the [PhoneField] which
+  /// update the childController so the [PhoneField] which
   /// deals with the UI can display the correct value.
   void _onControllerChange() {
     final phone = _controller.value;
@@ -230,7 +230,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
   /// when the base controller changes (when the user manually input something)
   /// then we need to update the local controller's value.
-  void _onBaseControllerChange(SimplePhoneNumber? simplePhone) {
+  void _onChildControllerChange(SimplePhoneNumber? simplePhone) {
     if (simplePhone?.national == _controller.value?.nsn &&
         simplePhone?.isoCode == _controller.value?.isoCode) {
       return;
@@ -258,7 +258,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   /// converts the phone number value to a formatted value
-  /// usable by the baseController, The [PhoneField]
+  /// usable by the childController, The [PhoneField]
   /// which deals with the UI, will display that value
   SimplePhoneNumber? _convertPhoneNumberToFormattedSimplePhone(
       PhoneNumber? phoneNumber) {
