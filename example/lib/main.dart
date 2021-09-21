@@ -55,6 +55,7 @@ class PhoneFieldView extends StatelessWidget {
         defaultCountry: 'FR',
         decoration: InputDecoration(
           labelText: withLabel ? 'Phone' : null,
+          hintText: 'Phone',
           border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
         ),
         enabled: true,
@@ -167,7 +168,9 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       title: Text('Should format'),
                     ),
                     ListTile(
-                      title: Row(
+                      title: Wrap(
+                        alignment: WrapAlignment.spaceBetween,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           Text('Country selector: '),
                           DropdownButton<CountrySelectorNavigator>(

@@ -141,7 +141,7 @@ class _PhoneFieldState extends State<PhoneField> {
       ],
       decoration: widget.decoration.copyWith(
         errorText: widget.errorText,
-        prefix: _getDialCodeChip(visible: false),
+        prefixIcon: _getDialCodeChip(visible: true),
       ),
     );
   }
@@ -156,11 +156,13 @@ class _PhoneFieldState extends State<PhoneField> {
         floatingLabelBehavior == FloatingLabelBehavior.always ||
         (_nationalNumberController.text != '');
 
-    final dialCode = Padding(
-      padding: _isOutlineBorder
-          ? const EdgeInsets.fromLTRB(12, 15, 0, 17)
-          : EdgeInsets.fromLTRB(0, hasLabel ? 24.0 : 14.5, 0, 8),
-      child: _getDialCodeChip(visible: isCountryCodeVisible),
+    final dialCode = SizedBox(
+      width: 75,
+      height: 40,
+      // padding: _isOutlineBorder
+      //     ? const EdgeInsets.fromLTRB(12, 15, 0, 17)
+      //     : EdgeInsets.fromLTRB(0, hasLabel ? 24.0 : 14.5, 0, 8),
+      child: Expanded(child: Center(child: _getDialCodeChip(visible: false))),
     );
 
     if (!_focusNode.hasFocus)
