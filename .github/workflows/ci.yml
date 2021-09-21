@@ -1,3 +1,12 @@
+name: default
+
+on:
+  push:
+    branches:
+    - 'dev'
+    - 'main'
+
+
 steps:
 - uses: actions/checkout@v2
 - uses: actions/setup-java@v1
