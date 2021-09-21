@@ -1,7 +1,11 @@
 {
   "@@locale": "fr",
   "invalidPhoneNumber": "Numéro de téléphone invalide",
-  "noResultMessage": "Pas de résultat",
+  "invalidCountry": "Pays invalide",
+  "invalidMobilePhoneNumber": "Numéro de téléphone portable invalide",
+  "invalidFixedLinePhoneNumber": "Numéro de téléphone fixe invalide",
+  "requiredPhoneNumber": "Numéro de téléphone requis",
+  "noResultMessage": "Aucun résultat",
   "ad_": "Andorre",
   "ae_": "Emirats Arabes Unis",
   "af_": "Afghanistan",

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
 
+import '../../phone_form_field.dart';
 import '../models/country.dart';
 import 'country_picker/country_selector_navigator.dart';
 import 'country_code_chip.dart';

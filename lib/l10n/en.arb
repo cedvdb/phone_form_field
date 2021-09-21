@@ -1,6 +1,10 @@
 {
   "@@locale": "en",
   "invalidPhoneNumber": "Invalid phone number",
+  "invalidCountry": "Invalid country",
+  "invalidMobilePhoneNumber": "Invalid mobile phone number",
+  "invalidFixedLinePhoneNumber": "Invalid fixed line phone number",
+  "requiredPhoneNumber": "Required phone number",
   "noResultMessage": "No result",
   "ad_": "Andorra",
   "ae_": "United Arab Emirates",

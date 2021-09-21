@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 import 'package:phone_form_field/src/constants/constants.dart';
+import 'package:phone_form_field/src/helpers/validator_translator.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
+import 'package:phone_form_field/src/validator/phone_validator.dart';
 import 'package:phone_form_field/src/widgets/base_phone_form_field.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
@@ -11,8 +12,6 @@ import 'country_picker/country_selector_navigator.dart';
 
 class PhoneFormField extends FormField<PhoneNumber> {
   final PhoneController? controller;
-  final String? errorText;
-  final PhoneNumberType? phoneNumberType;
   final List<String>? autofillHints;
   final bool shouldFormat;
   final bool enabled;
@@ -27,9 +26,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   PhoneFormField({
     Key? key,
     this.controller,
-    this.phoneNumberType,
     this.shouldFormat = true,
-    this.errorText = 'Invalid phone number',
     this.autofillHints,
     this.autofocus = false,
     this.enabled = true,
@@ -39,6 +36,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.defaultCountry = 'US',
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.cursorColor,
+    PhoneNumberInputValidator? validator,
     Function(PhoneNumber?)? onSaved,
     AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
     PhoneNumber? initialValue,
@@ -54,8 +52,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           initialValue:
               controller != null ? controller.initialValue : initialValue,
           onSaved: onSaved,
-          validator:
-              _getDefaultValidator(type: phoneNumberType, errorText: errorText),
+          validator: validator ?? PhoneValidator.invalid(),
           restorationId: restorationId,
           builder: (state) {
             final field = state as _PhoneFormFieldState;
@@ -74,19 +71,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
             );
           },
         );
-
-  static _getDefaultValidator({
-    required PhoneNumberType? type,
-    required String? errorText,
-  }) {
-    final parser = PhoneParser();
-    return (PhoneNumber? phoneNumber) {
-      if (phoneNumber == null) return null;
-      if (phoneNumber.nsn.isEmpty) return null;
-      final isValid = parser.validate(phoneNumber, type);
-      if (!isValid) return errorText;
-    };
-  }
 
   @override
   _PhoneFormFieldState createState() => _PhoneFormFieldState();
@@ -184,13 +168,8 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   String? getErrorText() {
-    if (!hasError) {
-      return null;
+    if (errorText != null) {
+      return ValidatorTranslator.message(context, errorText!);
     }
-    if (widget.errorText != null) {
-      return widget.errorText;
-    }
-    return PhoneFieldLocalization.of(context)?.invalidPhoneNumber ??
-        'Invalid Phone Number';
   }
 }

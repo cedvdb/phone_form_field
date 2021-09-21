@@ -117,6 +117,30 @@ abstract class PhoneFieldLocalization {
   /// **'Invalid phone number'**
   String get invalidPhoneNumber;
 
+  /// No description provided for @invalidCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid country'**
+  String get invalidCountry;
+
+  /// No description provided for @invalidMobilePhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid mobile phone number'**
+  String get invalidMobilePhoneNumber;
+
+  /// No description provided for @invalidFixedLinePhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid fixed line phone number'**
+  String get invalidFixedLinePhoneNumber;
+
+  /// No description provided for @requiredPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Required phone number'**
+  String get requiredPhoneNumber;
+
   /// No description provided for @noResultMessage.
   ///
   /// In en, this message translates to:
@@ -1583,7 +1607,7 @@ class _PhoneFieldLocalizationDelegate
   @override
   Future<PhoneFieldLocalization> load(Locale locale) {
     return SynchronousFuture<PhoneFieldLocalization>(
-        lookupPhoneFieldLocalization(locale));
+        _lookupPhoneFieldLocalization(locale));
   }
 
   @override
@@ -1605,8 +1629,8 @@ class _PhoneFieldLocalizationDelegate
   bool shouldReload(_PhoneFieldLocalizationDelegate old) => false;
 }
 
-PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
-  // Lookup logic when only language code is specified.
+PhoneFieldLocalization _lookupPhoneFieldLocalization(Locale locale) {
+// Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'ar':
       return PhoneFieldLocalizationAr();

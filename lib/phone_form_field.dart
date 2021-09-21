@@ -5,6 +5,8 @@ export 'src/widgets/country_picker/country_selector_navigator.dart';
 export 'src/widgets/country_picker/country_selector.dart';
 export 'src/widgets/country_code_chip.dart';
 
+export 'src/validator/phone_validator.dart';
+
 export 'l10n/generated/phone_field_localization.dart';
 
 export 'src/models/selector_config.dart';

@@ -6,8 +6,8 @@ Flutter phone input integrated with flutter internationalization
 
 - Totally cross platform, this is a dart only package / dependencies
 - Internationalization
-- Phone number validation
-- Phone number formatting
+- Phone number formatting, localized by region
+- Phone number validation (built-in validators included for main use cases) 
 - Support autofill and copy paste
 - Extends Flutter's FormField
 - Uses dart phone_numbers_parser for parsing (same author)
@@ -32,7 +32,13 @@ PhoneFormField(
   controller: controller,
   autofocus: true,
   autofillHints: [AutofillHints.telephoneNumber],
-  selectorNavigator: selectorNavigator,
+  validator: PhoneValidator.compose([
+    // list of validators to use (see Built-in validators section below)
+    PhoneValidator.required(errorText: "You must enter a value"),
+    PhoneValidator.invalidMobile(),
+    // ...
+  ]),
+  selectorNavigator: const BottomSheetNavigator(),
   defaultCountry: 'FR',
   decoration: InputDecoration(
     labelText: withLabel ? 'Phone' : null,
@@ -52,6 +58,41 @@ PhoneFormField(
 
 ```
 
+## Built-in validators
+
+* required : `PhoneValidator.required`
+* invalid : `PhoneValidator.invalid` (default used when no validator supplied)
+* invalid mobile number : `PhoneValidator.invalidMobile`
+* invalid fixed line number : `PhoneValidator.invalidFixedLine`
+* invalid type : `PhoneValidator.invalidType`
+* invalid country : `PhoneValidator.invalidCountry`
+* none : `PhoneValidator.none` (this can be used to disable default invalid validator)
+
+### Validators details
+
+* Each validator has an optional `errorText` property to override built-in translated text
+* Most of them have an optional `allowEmpty` (default is true) preventing to flag an empty field as invalid. Consider using a composed validator with a first `PhoneValidator.required` when a different text is needed for empty field.
+* Built-in validators are related to `PhoneFormField`. For `BasePhoneFormField`, you have to defined your own validators.
+
+### Composing validators
+
+Validator can be a composed set of validators built-in or custom validator using `PhoneValidator.compose`, see usage section.
+
+Note that when composing validators, the sorting is important as the error message displayed is the first validator failing.
+
+```dart
+PhoneFormField(
+  // ...
+  validator: PhoneValidator.compose([
+    // list of validators to use
+    PhoneValidator.required(errorText: "You must enter a value"),
+    PhoneValidator.invalidMobile(),
+  // ...
+  ]),
+)
+```
+
+
 ## Internationalization
 
   Include the delegate
@@ -59,7 +100,7 @@ PhoneFormField(
   ```dart
     return MaterialApp(
       localizationsDelegates: [
-        ...GlobalMaterialLocalizations.delegates,
+        GlobalMaterialLocalizations.delegate,
         PhoneFieldLocalization.delegate
       ],
       supportedLocales: [
@@ -71,7 +112,7 @@ PhoneFormField(
       ],
   ```
 
-  Tnat's it.
+  That's it.
 
   
   A bunch of languages are built-in:
@@ -90,4 +131,4 @@ PhoneFormField(
   
   
    If one of the language you target is not supported you can submit a
-  pull request with the translated file in assets/translation
+  pull request with the translated file in src/l10n
