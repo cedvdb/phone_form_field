@@ -30,8 +30,8 @@ PhoneFormField(
   ),
   validator: PhoneValidator.compose([
     // list of validators to use (see Built-in validators section below)
-    PhoneValidator.required(context, errorText: "You must enter a value"),
-    PhoneValidator.invalidMobile(context),
+    PhoneValidator.required(errorText: "You must enter a value"),
+    PhoneValidator.invalidMobile(),
     // ...
   ]),
   selectorNavigator: const BottomSheetNavigator(), // default to bottom sheet but you can customize how the selector is shown by extending CountrySelectorNavigator
@@ -53,7 +53,6 @@ PhoneFormField(
 ### Validators details
 
 * Each validator has an optional `errorText` property to override built-in translated text
-* Validating phone number can use a lightweight version of the parser with `useLightParser` argument (uses only length to validate)
 * Most of them have an optional `allowEmpty` (default is true) preventing to flag an empty field as invalid. Consider using a composed validator with a first `PhoneValidator.required` when a different text is needed for empty field.
 * Built-in validators are related to `PhoneFormField`. For `BasePhoneFormField`, you have to defined your own validators.
 
@@ -68,8 +67,8 @@ PhoneFormField(
   // ...
   validator: PhoneValidator.compose([
     // list of validators to use
-    PhoneValidator.required(context, errorText: "You must enter a value"),
-    PhoneValidator.invalidMobile(context),
+    PhoneValidator.required(errorText: "You must enter a value"),
+    PhoneValidator.invalidMobile(),
   // ...
   ]),
 )

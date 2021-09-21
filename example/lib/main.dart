@@ -33,13 +33,13 @@ class PhoneFieldView extends StatelessWidget {
     required this.mobileOnly,
   }) : super(key: key);
 
-  PhoneNumberInputValidator? _getValidator(BuildContext context) {
+  PhoneNumberInputValidator? _getValidator() {
     List<PhoneNumberInputValidator> validators = [];
     if (required) {
-      validators.add(PhoneValidator.required(context));
+      validators.add(PhoneValidator.required());
     }
     if (mobileOnly) {
-      validators.add(PhoneValidator.invalidMobile(context));
+      validators.add(PhoneValidator.invalidMobile());
     }
     return validators.isNotEmpty ? PhoneValidator.compose(validators) : null;
   }
@@ -60,7 +60,7 @@ class PhoneFieldView extends StatelessWidget {
         ),
         enabled: true,
         showFlagInInput: true,
-        validator: _getValidator(context),
+        validator: _getValidator(),
         autovalidateMode: autovalidate
             ? AutovalidateMode.onUserInteraction
             : AutovalidateMode.disabled,

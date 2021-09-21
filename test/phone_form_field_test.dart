@@ -8,9 +8,6 @@ import 'package:phone_form_field/src/validator/phone_validator.dart';
 import 'package:phone_form_field/src/widgets/country_picker/country_selector.dart';
 import 'package:phone_form_field/src/widgets/flag_dial_code_chip.dart';
 
-typedef PhoneNumberInputValidatorDelegate = PhoneNumberInputValidator Function(
-    BuildContext context);
-
 void main() {
   group('PhoneFormField', () {
     final formKey = GlobalKey<FormState>();
@@ -22,7 +19,7 @@ void main() {
       PhoneController? controller,
       bool showFlagInInput = true,
       String defaultCountry = 'US',
-      PhoneNumberInputValidatorDelegate? validatorDelegate,
+      PhoneNumberInputValidator? validator,
     }) =>
         MaterialApp(
           localizationsDelegates: [
@@ -33,17 +30,15 @@ void main() {
           home: Scaffold(
             body: Form(
               key: formKey,
-              child: Builder(
-                builder: (context) => PhoneFormField(
-                  key: phoneKey,
-                  initialValue: initialValue,
-                  onChanged: onChanged,
-                  onSaved: onSaved,
-                  showFlagInInput: showFlagInInput,
-                  controller: controller,
-                  defaultCountry: defaultCountry,
-                  validator: validatorDelegate?.call(context),
-                ),
+              child: PhoneFormField(
+                key: phoneKey,
+                initialValue: initialValue,
+                onChanged: onChanged,
+                onSaved: onSaved,
+                showFlagInInput: showFlagInInput,
+                controller: controller,
+                defaultCountry: defaultCountry,
+                validator: validator,
               ),
             ),
           ),
@@ -205,8 +200,7 @@ void main() {
       // valid fixed line
       await tester.pumpWidget(getWidget(
         initialValue: phoneNumber,
-        validatorDelegate: (context) =>
-            PhoneValidator.invalidFixedLine(context),
+        validator: PhoneValidator.invalidFixedLine(),
       ));
       final foundTextField = find.byType(TextFormField);
       await tester.enterText(foundTextField, '77777777');
@@ -215,8 +209,7 @@ void main() {
       // invalid mobile
       await tester.pumpWidget(getWidget(
         initialValue: phoneNumber,
-        validatorDelegate: (context) => PhoneValidator.invalidMobile(
-          context,
+        validator: PhoneValidator.invalidMobile(
           errorText: 'Invalid phone number',
         ),
       ));
@@ -229,8 +222,7 @@ void main() {
       // valid mobile
       await tester.pumpWidget(getWidget(
         initialValue: phoneNumber,
-        validatorDelegate: (context) => PhoneValidator.invalidMobile(
-          context,
+        validator: PhoneValidator.invalidMobile(
           errorText: 'Invalid phone number',
         ),
       ));

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
+import 'package:phone_form_field/src/helpers/validator_translator.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
 import 'package:phone_form_field/src/validator/phone_validator.dart';
@@ -11,8 +11,6 @@ import 'country_picker/country_selector_navigator.dart';
 
 class PhoneFormField extends FormField<PhoneNumber> {
   final PhoneController? controller;
-  final String? errorText;
-  final PhoneNumberType? phoneNumberType;
   final bool withHint;
   final bool enabled;
   final bool autofocus;
@@ -35,7 +33,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.defaultCountry = 'US',
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.cursorColor,
-    PhoneNumberInputValidator validator = PhoneValidator.invalid(context),
+    PhoneNumberInputValidator? validator,
     Function(PhoneNumber?)? onSaved,
     AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
     PhoneNumber? initialValue,
@@ -51,7 +49,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           initialValue:
               controller != null ? controller.initialValue : initialValue,
           onSaved: onSaved,
-          validator: validator,
+          validator: validator ?? PhoneValidator.invalid(),
           restorationId: restorationId,
           builder: (state) {
             final field = state as _PhoneFormFieldState;
@@ -164,13 +162,8 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   String? getErrorText() {
-    if (!hasError) {
-      return null;
+    if (errorText != null) {
+      return ValidatorTranslator.message(context, errorText!);
     }
-    if (widget.errorText != null) {
-      return widget.errorText;
-    }
-    return PhoneFieldLocalization.of(context)?.invalidPhoneNumber ??
-        'Invalid Phone Number';
   }
 }
