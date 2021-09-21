@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_form_field/src/localization/phone_field_localization.dart';
-import 'package:phone_form_field/src/models/phone_number_input.dart';
+import 'package:phone_form_field/src/models/simple_phone_number.dart';
 
 import '../models/country.dart';
 import 'country_picker/country_selector_navigator.dart';
@@ -11,18 +10,17 @@ import 'flag_dial_code_chip.dart';
 /// That is the base for the PhoneFormField
 ///
 /// This deals with mostly UI and has no dependency on any phone parser library
-class BasePhoneFormField extends FormField<PhoneNumberInput> {
-  final ValueNotifier<PhoneNumberInput?>? controller;
+class BasePhoneFormField extends StatefulWidget {
+  final ValueNotifier<SimplePhoneNumber?> controller;
   final String defaultCountry;
   final bool autofocus;
   final bool showFlagInInput;
-  final String errorText;
+  final bool? enabled;
+  final String? errorText;
 
   /// input decoration applied to the input
   final InputDecoration decoration;
-  final TextStyle inputTextStyle;
   final Color? cursorColor;
-  final ValueChanged<PhoneNumberInput?>? onChanged;
   final Iterable<String>? autoFillHints;
   final Function()? onEditingComplete;
 
@@ -32,126 +30,79 @@ class BasePhoneFormField extends FormField<PhoneNumberInput> {
   BasePhoneFormField({
     // form field params
     Key? key,
-    PhoneNumberInput? initialValue,
-    bool enabled = true,
-    AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
-    void Function(PhoneNumberInput?)? onSaved,
-    String? Function(PhoneNumberInput?)? validator,
-    // our params
-    this.controller,
-    this.onChanged,
-    this.defaultCountry = 'US',
-    this.autofocus = true,
-    this.showFlagInInput = true,
-    this.autoFillHints,
-    this.onEditingComplete,
-    this.errorText = 'Invalid phone number',
-    this.decoration = const InputDecoration(border: UnderlineInputBorder()),
-    this.inputTextStyle = const TextStyle(),
-    this.cursorColor,
-    this.selectorNavigator = const BottomSheetNavigator(),
-  }) : super(
-          key: key,
-          initialValue: initialValue,
-          onSaved: onSaved,
-          enabled: enabled,
-          autovalidateMode: autovalidateMode,
-          validator: validator,
-          builder: (field) {
-            final state = field as _BasePhoneFormFieldState;
-            return state.builder();
-          },
-        );
+    required this.controller,
+    required this.autoFillHints,
+    required this.enabled,
+    required this.defaultCountry,
+    required this.autofocus,
+    required this.showFlagInInput,
+    required this.onEditingComplete,
+    required this.errorText,
+    required this.decoration,
+    required this.cursorColor,
+    required this.selectorNavigator,
+  });
 
   @override
   _BasePhoneFormFieldState createState() => _BasePhoneFormFieldState();
 }
 
-class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
+class _BasePhoneFormFieldState extends State<BasePhoneFormField> {
   final FocusNode _focusNode = FocusNode();
 
   /// this is the controller for the national phone number
-  late final TextEditingController _nationalController;
-  late final ValueNotifier<String> _isoCodeController;
-  late final ValueNotifier<PhoneNumberInput?> _phoneController;
+  late TextEditingController _nationalNumberController;
 
-  @override
-  BasePhoneFormField get widget => super.widget as BasePhoneFormField;
-
-  bool get isOutlineBorder => widget.decoration.border is OutlineInputBorder;
+  bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
+  SimplePhoneNumber? get value => widget.controller.value;
+  String get _isoCode => value?.isoCode ?? widget.defaultCountry;
 
   _BasePhoneFormFieldState();
 
   @override
   void initState() {
-    super.initState();
-    _nationalController =
-        TextEditingController(text: widget.initialValue?.national);
-    _isoCodeController = ValueNotifier<String>(
-      widget.initialValue?.isoCode ?? widget.defaultCountry,
-    );
-    _phoneController = widget.controller ??
-        ValueNotifier<PhoneNumberInput?>(widget.initialValue);
-    _nationalController.addListener(_reflectChangesOnParentController);
-    _isoCodeController.addListener(_reflectChangesOnParentController);
-    _phoneController.addListener(_reflectChangesOnChildControllers);
-    _phoneController.addListener(_onChange);
+    _nationalNumberController = TextEditingController(text: value?.national);
+    widget.controller.addListener(() => _updateValue(widget.controller.value));
     _focusNode.addListener(() => setState(() {}));
+    super.initState();
+  }
+
+  /// to update the current value of the input
+  void _updateValue(SimplePhoneNumber? phoneNumber) async {
+    final national = phoneNumber?.national ?? '';
+    // if the national number has changed from outside we need to update
+    // the controller value
+    if (national != _nationalNumberController.text) {
+      // we need to use a future here because when resetting
+      // there is a race condition between the focus out event (clicking on reset)
+      // which updates the value to the current one without text selection
+      // and the actual reset
+      await Future.value();
+      _nationalNumberController.text = national;
+    }
+    // when updating from within
+    if (widget.controller.value != phoneNumber) {
+      widget.controller.value = phoneNumber;
+    }
   }
 
   @override
   void dispose() {
     _focusNode.dispose();
-    _nationalController.dispose();
-    _isoCodeController.dispose();
-    // dispose the phoneController only when it's initialised in this
-    // instance otherwise this should be done where instance is created
-    if (widget.controller == null) {
-      _phoneController.dispose();
-    }
+    _nationalNumberController.dispose();
     super.dispose();
   }
 
-  /// called when one of the sub inputs changes
-  _reflectChangesOnParentController() {
-    final national = _nationalController.text;
-    final isoCode = _isoCodeController.value;
-    _phoneController.value = PhoneNumberInput(
-      isoCode: isoCode,
-      national: national,
-    );
-  }
-
-  /// called when the main controller changes to change the children
-  _reflectChangesOnChildControllers() {
-    final national = _phoneController.value?.national ?? '';
-    final isoCode = _phoneController.value?.isoCode;
-    _nationalController.value = TextEditingValue(
-      text: national,
-      selection: TextSelection.fromPosition(
-        TextPosition(offset: national.length),
-      ),
-    );
-    _isoCodeController.value = isoCode ?? widget.defaultCountry;
-  }
-
-  /// called when the phone controller changes
-  _onChange() {
-    if (_phoneController.value != value) {
-      didChange(_phoneController.value);
-      widget.onChanged?.call(value);
-    }
-  }
-
-  selectCountry() async {
+  void selectCountry() async {
     final selected = await widget.selectorNavigator.navigate(context);
     if (selected != null) {
-      _isoCodeController.value = selected.isoCode;
+      _updateValue(SimplePhoneNumber(
+          isoCode: selected.isoCode, national: value?.national ?? ''));
     }
     _focusNode.requestFocus();
   }
 
-  Widget builder() {
+  Widget build(BuildContext context) {
     // the idea here is to have a TextField with a prefix where the prefix
     // is the flag + dial code which is the same height as text so it's well
     // aligned with the typed text. It also does not push labels etc
@@ -161,7 +112,7 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
     return Stack(
       children: [
         _textField(),
-        if (_focusNode.hasFocus) _inkWellOverlay(),
+        _dialCodeOverlay(),
       ],
     );
   }
@@ -169,8 +120,9 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
   Widget _textField() {
     return TextFormField(
       focusNode: _focusNode,
-      controller: _nationalController,
-      style: widget.inputTextStyle,
+      controller: _nationalNumberController,
+      onChanged: (national) => _updateValue(
+          SimplePhoneNumber(isoCode: _isoCode, national: national)),
       autofocus: widget.autofocus,
       autofillHints: widget.autoFillHints,
       onEditingComplete: widget.onEditingComplete,
@@ -178,55 +130,64 @@ class _BasePhoneFormFieldState extends FormFieldState<PhoneNumberInput> {
       textDirection: TextDirection.ltr,
       keyboardType: TextInputType.phone,
       cursorColor: widget.cursorColor,
-      decoration: _getEffectiveDecoration(),
+      decoration: widget.decoration.copyWith(
+        errorText: widget.errorText,
+        prefix: _getDialCodeChip(visible: false),
+      ),
     );
   }
 
-  Widget _inkWellOverlay() {
-    return InkWell(
-      onTap: () {},
-      onTapDown: (_) => selectCountry(),
-      // we make the country dial code
-      // invisible but we still have to put it here
-      // to have the correct width
-      child: Opacity(
-        opacity: 0,
-        child: Padding(
-          // outline border has padding on the left
-          // so we need to make it a 12 bigger
-          // and we add 16 horizontally to make it the whole height
-          padding: isOutlineBorder
-              ? const EdgeInsets.fromLTRB(12, 16, 0, 16)
-              : const EdgeInsets.fromLTRB(0, 16, 0, 16),
-          child: _getDialCodeChip(),
+  Widget _dialCodeOverlay() {
+    final hasLabel = widget.decoration.labelText != null;
+    final floatingLabelBehavior = widget.decoration.floatingLabelBehavior;
+    // the country code ship must remain visible when there is no label
+    // that takes his place
+    final isCountryCodeVisible = _focusNode.hasFocus ||
+        !hasLabel ||
+        floatingLabelBehavior == FloatingLabelBehavior.always ||
+        (_nationalNumberController.text != '');
+
+    final dialCode = Padding(
+      padding: _isOutlineBorder
+          ? const EdgeInsets.fromLTRB(12, 15, 0, 17)
+          : EdgeInsets.fromLTRB(0, hasLabel ? 24.0 : 14.5, 0, 8),
+      child: _getDialCodeChip(visible: isCountryCodeVisible),
+    );
+
+    if (!_focusNode.hasFocus)
+      return GestureDetector(
+        onTap: () => _focusNode.requestFocus(),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.text,
+          child: dialCode,
+        ),
+      );
+    else
+      return InkWell(
+        enableFeedback: true,
+        // canRequestFocus: _focusNode.hasFocus ? true : false,
+        onTap: () {},
+        onTapDown: (_) => selectCountry(),
+        child: dialCode,
+      );
+  }
+
+  Widget _getDialCodeChip({bool visible = true}) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      child: Visibility(
+        maintainSize: true,
+        maintainAnimation: true,
+        maintainState: true,
+        visible: visible,
+        child: FlagDialCodeChip(
+          country: Country(_isoCode),
+          showFlag: widget.showFlagInInput,
+          textStyle: TextStyle(
+              fontSize: 16, color: Theme.of(context).textTheme.caption?.color),
+          flagSize: _isOutlineBorder ? 20 : 16,
         ),
       ),
     );
-  }
-
-  InputDecoration _getEffectiveDecoration() {
-    return widget.decoration.copyWith(
-      errorText: getErrorText(),
-      prefix: _getDialCodeChip(),
-    );
-  }
-
-  Widget _getDialCodeChip() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      child: FlagDialCodeChip(
-        country: Country(_isoCodeController.value),
-        showFlag: widget.showFlagInInput,
-        textStyle: TextStyle(fontSize: 16),
-        flagSize: 20,
-      ),
-    );
-  }
-
-  // // which error text to show
-  String? getErrorText() {
-    if (!hasError) return null;
-    return PhoneFieldLocalization.of(context)?.translate(widget.errorText) ??
-        errorText;
   }
 }

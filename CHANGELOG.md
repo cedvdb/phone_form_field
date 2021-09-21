@@ -1,8 +1,18 @@
-## [3.0.1] - 
-- added DraggableModalBottomSheet
-- fix phone number type
+## [4.0.1] -
+
+# Fixes
+- fix phone number type, thanks @emrsi
+- fix reset and usage as a FormField in general
 - fix onChanged & onSaved
 - fix late initialization error when no country was selected in bottom sheet selector
+
+# UI
+- added DraggableModalBottomSheet, thanks @emrsi
+- Country code is now visible when unfocussed when there is no label to better
+  accomodate the UI
+
+# Misc
+- refactored internals
 
 ## [3.0.0] - 27 / 08 / 2021
 - removed deprecated selector config
