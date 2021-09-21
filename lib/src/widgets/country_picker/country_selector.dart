@@ -41,7 +41,7 @@ class CountrySelector extends StatefulWidget {
   final bool showCountryCode;
 
   /// The message displayed instead of the list when the search has no results
-  final String noResultMessage;
+  final String? noResultMessage;
 
   CountrySelector({
     Key? key,
@@ -50,11 +50,10 @@ class CountrySelector extends StatefulWidget {
     this.sortCountries = false,
     this.addFavoritesSeparator = true,
     this.showCountryCode = false,
+    this.noResultMessage,
     List<String>? favoriteCountries,
-    String? noResultMessage,
     List<Country>? countries,
   })  : countries = countries ?? allCountries,
-        noResultMessage = noResultMessage ?? 'No result found',
         favoriteCountries = favoriteCountries ?? _emptyFavCountriesArray,
         super(key: key);
 
@@ -147,8 +146,10 @@ class _CountrySelectorState extends State<CountrySelector> {
                   key: Key('no-result'),
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(
-                      PhoneFieldLocalization.of(context)?.noResultMessage ??
-                          widget.noResultMessage),
+                    widget.noResultMessage ??
+                        PhoneFieldLocalization.of(context)?.noResultMessage ??
+                        'No result found',
+                  ),
                 ),
         ),
       ],
