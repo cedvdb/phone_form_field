@@ -1,6 +1,10 @@
 {
   "@@locale": "zh",
   "invalidPhoneNumber": "无效的电话号码",
+  "invalidCountry": "无效国家",
+  "invalidMobilePhoneNumber": "无效的手机号码",
+  "invalidFixedLinePhoneNumber": "无效的固定电话号码",
+  "requiredPhoneNumber": "需要电话号码",
   "noResultMessage": "没有结果",
   "ad_": "安道尔",
   "ae_": "阿拉伯联合酋长国",

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/widgets/country_picker/country_selector.dart';
 import 'package:phone_form_field/src/widgets/country_picker/search_box.dart';
 
 void main() {

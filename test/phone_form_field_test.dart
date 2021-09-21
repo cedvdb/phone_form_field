@@ -1,8 +1,10 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
+import 'package:phone_form_field/src/validator/phone_validator.dart';
 import 'package:phone_form_field/src/widgets/country_picker/country_selector.dart';
 import 'package:phone_form_field/src/widgets/country_code_chip.dart';
 
@@ -17,10 +19,15 @@ void main() {
       PhoneController? controller,
       bool showFlagInInput = true,
       String defaultCountry = 'US',
-      PhoneNumberType? phoneNumberType,
       bool shouldFormat = false,
+      PhoneNumberInputValidator? validator,
     }) =>
         MaterialApp(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            PhoneFieldLocalization.delegate,
+          ],
+          supportedLocales: [Locale('en')],
           home: Scaffold(
             body: Form(
               key: formKey,
@@ -32,8 +39,8 @@ void main() {
                 showFlagInInput: showFlagInInput,
                 controller: controller,
                 defaultCountry: defaultCountry,
-                phoneNumberType: phoneNumberType,
                 shouldFormat: shouldFormat,
+                validator: validator,
               ),
             ),
           ),
@@ -181,16 +188,20 @@ void main() {
         PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('BE', '');
         // valid fixed line
         await tester.pumpWidget(getWidget(
-            initialValue: phoneNumber,
-            phoneNumberType: PhoneNumberType.fixedLine));
+          initialValue: phoneNumber,
+          validator: PhoneValidator.invalidFixedLine(),
+        ));
         final foundTextField = find.byType(TextFormField);
         await tester.enterText(foundTextField, '77777777');
         await tester.pumpAndSettle();
         expect(find.text('Invalid'), findsNothing);
         // invalid mobile
         await tester.pumpWidget(getWidget(
-            initialValue: phoneNumber,
-            phoneNumberType: PhoneNumberType.mobile));
+          initialValue: phoneNumber,
+          validator: PhoneValidator.invalidMobile(
+            errorText: 'Invalid phone number',
+          ),
+        ));
         final foundTextField2 = find.byType(TextFormField);
         await tester.pumpAndSettle();
         await tester.enterText(foundTextField2, '77777777');
@@ -199,8 +210,11 @@ void main() {
 
         // valid mobile
         await tester.pumpWidget(getWidget(
-            initialValue: phoneNumber,
-            phoneNumberType: PhoneNumberType.mobile));
+          initialValue: phoneNumber,
+          validator: PhoneValidator.invalidMobile(
+            errorText: 'Invalid phone number',
+          ),
+        ));
         final foundTextField3 = find.byType(TextFormField);
         await tester.enterText(foundTextField3, '477668899');
         await tester.pumpAndSettle();

@@ -12,7 +12,12 @@
 - Country code is now visible when unfocussed when there is no label to better
   accomodate the UI
 
-### Misc
+# Validation
+- Add PhoneValidator class to easily customize validation and defaults localization error messagees
+- Add PhoneFormField `validator` property
+- **[BREAKING CHANGE]** Remove `PhoneFormField` properties `errorText` & `phoneNumberType`. Define `validator` property instead with `PhoneValidator.invalid*`
+
+# Misc
 - refactored internals
 - [Breaking] light parser cannot be used anymore.
 - [Breaking] exposed `autoFillHints` and removed the `withHint` param

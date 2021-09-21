@@ -13,8 +13,10 @@ class PhoneFieldView extends StatelessWidget {
   final CountrySelectorNavigator selectorNavigator;
   final bool withLabel;
   final bool outlineBorder;
-  final bool mobileOnly;
   final bool shouldFormat;
+  final bool autovalidate;
+  final bool required;
+  final bool mobileOnly;
 
   const PhoneFieldView({
     Key? key,
@@ -23,9 +25,22 @@ class PhoneFieldView extends StatelessWidget {
     required this.selectorNavigator,
     required this.withLabel,
     required this.outlineBorder,
-    required this.mobileOnly,
     required this.shouldFormat,
+    required this.autovalidate,
+    required this.required,
+    required this.mobileOnly,
   }) : super(key: key);
+
+  PhoneNumberInputValidator? _getValidator() {
+    List<PhoneNumberInputValidator> validators = [];
+    if (required) {
+      validators.add(PhoneValidator.required());
+    }
+    if (mobileOnly) {
+      validators.add(PhoneValidator.invalidMobile());
+    }
+    return validators.isNotEmpty ? PhoneValidator.compose(validators) : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +59,10 @@ class PhoneFieldView extends StatelessWidget {
         ),
         enabled: true,
         showFlagInInput: true,
-        phoneNumberType: mobileOnly ? PhoneNumberType.mobile : null,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        errorText: 'Invalid phone',
+        validator: _getValidator(),
+        autovalidateMode: autovalidate
+            ? AutovalidateMode.onUserInteraction
+            : AutovalidateMode.disabled,
         cursorColor: Theme.of(context).colorScheme.primary,
         onSaved: (p) => print('saved $p'),
         onChanged: (p) => print('changed $p'),
@@ -93,6 +109,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool withLabel = true;
   bool mobileOnly = true;
   bool shouldFormat = true;
+  bool required = false;
   CountrySelectorNavigator selectorNavigator = const BottomSheetNavigator();
   final formKey = GlobalKey<FormState>();
   final phoneKey = GlobalKey<FormFieldState>();
@@ -135,6 +152,11 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       value: withLabel,
                       onChanged: (v) => setState(() => withLabel = v),
                       title: Text('Label'),
+                    ),
+                    SwitchListTile(
+                      value: required,
+                      onChanged: (v) => setState(() => required = v),
+                      title: Text('Required'),
                     ),
                     SwitchListTile(
                       value: mobileOnly,
@@ -191,8 +213,10 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         selectorNavigator: selectorNavigator,
                         withLabel: withLabel,
                         outlineBorder: outlineBorder,
+                        required: required,
                         mobileOnly: mobileOnly,
                         shouldFormat: shouldFormat,
+                        autovalidate: true,
                       ),
                     ),
                     SizedBox(
