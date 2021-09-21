@@ -127,14 +127,14 @@ packages:
       name: phone_number_metadata
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "4.0.2"
   phone_numbers_parser:
     dependency: transitive
     description:
       name: phone_numbers_parser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "3.0.2"
   sky_engine:
     dependency: transitive
     description: flutter

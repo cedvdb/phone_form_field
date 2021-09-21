@@ -9,10 +9,10 @@ class Country {
   String get name => countriesName[isoCode]!;
 
   /// country dialing code to call them internationally
-  String get dialCode => countriesDialCode[isoCode]!;
+  String get countryCode => countriesDialCode[isoCode]!;
 
-  /// returns "+ [dialCode]"
-  String get displayDialCode => '+ $dialCode';
+  /// returns "+ [countryCode]"
+  String get displayCountryCode => '+ $countryCode';
 
   Country(this.isoCode) : assert(isoCodes.contains(isoCode));
 
