@@ -14,7 +14,6 @@ class PhoneFieldView extends StatelessWidget {
   final bool withLabel;
   final bool outlineBorder;
   final bool shouldFormat;
-  final bool autovalidate;
   final bool required;
   final bool mobileOnly;
 
@@ -26,7 +25,6 @@ class PhoneFieldView extends StatelessWidget {
     required this.withLabel,
     required this.outlineBorder,
     required this.shouldFormat,
-    required this.autovalidate,
     required this.required,
     required this.mobileOnly,
   }) : super(key: key);
@@ -60,9 +58,7 @@ class PhoneFieldView extends StatelessWidget {
         enabled: true,
         showFlagInInput: true,
         validator: _getValidator(),
-        autovalidateMode: autovalidate
-            ? AutovalidateMode.onUserInteraction
-            : AutovalidateMode.disabled,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         cursorColor: Theme.of(context).colorScheme.primary,
         onSaved: (p) => print('saved $p'),
         onChanged: (p) => print('changed $p'),
@@ -216,7 +212,6 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         required: required,
                         mobileOnly: mobileOnly,
                         shouldFormat: shouldFormat,
-                        autovalidate: true,
                       ),
                     ),
                     SizedBox(

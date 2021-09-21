@@ -23,7 +23,6 @@
 - [Breaking] exposed `autoFillHints` and removed the `withHint` param
 - [Breaking] renamed all instances of `dialCode` to `countryCode` as dial code was semantically incorrect.
 
-
 ### Note
 This major version was a big rework of the library and is packed with fixes. T
 Thus it was decided that it was not worth it to keep backward compatibility and therefor there are breaking changes
