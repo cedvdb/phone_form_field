@@ -3,7 +3,7 @@ library phone_number_input;
 export 'src/widgets/phone_form_field.dart';
 export 'src/widgets/country_picker/country_selector_navigator.dart';
 export 'src/widgets/country_picker/country_selector.dart';
-export 'src/widgets/flag_dial_code_chip.dart';
+export 'src/widgets/country_code_chip.dart';
 
 export 'l10n/generated/phone_field_localization.dart';
 

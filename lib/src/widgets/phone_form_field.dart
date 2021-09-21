@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
+import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
 import 'package:phone_form_field/src/widgets/base_phone_form_field.dart';
@@ -13,6 +14,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final String? errorText;
   final PhoneNumberType? phoneNumberType;
   final List<String>? autofillHints;
+  final bool shouldFormat;
   final bool enabled;
   final bool autofocus;
   final bool showFlagInInput;
@@ -26,6 +28,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     Key? key,
     this.controller,
     this.phoneNumberType,
+    this.shouldFormat = true,
     this.errorText = 'Invalid phone number',
     this.autofillHints,
     this.autofocus = false,
@@ -90,7 +93,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
 }
 
 class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
-  late final BasePhoneParser parser;
+  late final PhoneParser parser;
   late final PhoneController controller;
   late final ValueNotifier<SimplePhoneNumber?> baseController;
 
@@ -129,13 +132,13 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   void _onControllerChange() {
     final basePhone = baseController.value;
     final phone = controller.value;
-    widget.onChanged?.call(controller.value);
-    didChange(phone);
+    baseController.value = _convertPhoneNumberToSimplePhoneNumber(phone);
     if (basePhone?.national == phone?.nsn &&
         basePhone?.isoCode == phone?.isoCode) {
       return;
     }
-    baseController.value = _convertPhoneNumberToSimplePhoneNumber(phone);
+    widget.onChanged?.call(controller.value);
+    didChange(phone);
   }
 
   void _onBaseControllerChange(SimplePhoneNumber? basePhone) {
@@ -152,28 +155,32 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     // when the base input change we check if its not a whole number
     // to allow for copy pasting and auto fill. If it is one then
     // we parse it accordingly
-    if (basePhone.national.startsWith(RegExp('[+＋]'))) {
+    if (basePhone.national.startsWith(RegExp('[${Constants.PLUS}]'))) {
       // if starts with + then we parse the whole number
       // to figure out the country code
       phoneNumber = parser.parseRaw(basePhone.national);
     } else {
-      phoneNumber = parser.parseWithIsoCode(
+      phoneNumber = parser.parseNational(
         basePhone.isoCode,
         basePhone.national,
       );
     }
     controller.value = phoneNumber;
-    baseController.value = SimplePhoneNumber(
-      isoCode: phoneNumber.isoCode,
-      national: phoneNumber.nsn,
-    );
   }
 
   SimplePhoneNumber? _convertPhoneNumberToSimplePhoneNumber(
       PhoneNumber? phoneNumber) {
     if (phoneNumber == null) return null;
+    var formattedNsn = phoneNumber.nsn;
+    if (widget.shouldFormat) {
+      PhoneNumberFormatter formatter = PhoneNumberFormatter();
+      formattedNsn = formatter.formatNsn(phoneNumber);
+    }
+    print(formattedNsn);
     return SimplePhoneNumber(
-        isoCode: phoneNumber.isoCode, national: phoneNumber.nsn);
+      isoCode: phoneNumber.isoCode,
+      national: formattedNsn,
+    );
   }
 
   String? getErrorText() {

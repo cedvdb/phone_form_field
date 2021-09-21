@@ -36,9 +36,9 @@ class CountrySelector extends StatefulWidget {
   /// countries.
   final bool addFavoritesSeparator;
 
-  /// Whether to show the country dial code (ie: +1 / +33 /...)
+  /// Whether to show the country country code (ie: +1 / +33 /...)
   /// as a listTile subtitle
-  final bool showCountryDialCode;
+  final bool showCountryCode;
 
   /// The message displayed instead of the list when the search has no results
   final String noResultMessage;
@@ -49,7 +49,7 @@ class CountrySelector extends StatefulWidget {
     this.scrollController,
     this.sortCountries = false,
     this.addFavoritesSeparator = true,
-    this.showCountryDialCode = false,
+    this.showCountryCode = false,
     List<String>? favoriteCountries,
     String? noResultMessage,
     List<Country>? countries,
@@ -137,7 +137,7 @@ class _CountrySelectorState extends State<CountrySelector> {
               ? CountryList(
                   countries: _filteredCountries,
                   separatorIndex: _favoritesSeparatorIndex,
-                  showDialCode: widget.showCountryDialCode,
+                  showDialCode: widget.showCountryCode,
                   onTap: (country) {
                     widget.onCountrySelected(country);
                   },

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/widgets/country_picker/country_selector.dart';
-import 'package:phone_form_field/src/widgets/flag_dial_code_chip.dart';
+import 'package:phone_form_field/src/widgets/country_code_chip.dart';
 
 void main() {
   group('PhoneFormField', () {
@@ -42,12 +42,13 @@ void main() {
       expect(find.byType(TextFormField), findsOneWidget);
     });
 
-    testWidgets('Should open dialog when dial code is clicked', (tester) async {
+    testWidgets('Should open dialog when country code is clicked',
+        (tester) async {
       await tester.pumpWidget(getWidget());
       expect(find.byType(CountrySelector), findsNothing);
       await tester.tap(find.byType(TextFormField));
       await tester.pumpAndSettle();
-      await tester.tap(find.byType(FlagDialCodeChip).last);
+      await tester.tap(find.byType(CountryCodeChip).last);
       await tester.pumpAndSettle();
       expect(find.byType(CountrySelector), findsOneWidget);
     });
@@ -97,7 +98,7 @@ void main() {
     });
 
     testWidgets(
-        'Should change value of dial code chip when full number copy pasted',
+        'Should change value of country code chip when full number copy pasted',
         (tester) async {
       final controller = PhoneController(null);
       // ignore: unused_local_variable
