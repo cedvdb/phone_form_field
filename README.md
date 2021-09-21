@@ -6,11 +6,11 @@ Flutter phone input integrated with flutter internationalization
 
 - Totally cross platform, this is a dart only package / dependencies
 - Internationalization
-- Phone number formatting, localized by region
+- Phone formatting localized by region
 - Phone number validation (built-in validators included for main use cases) 
 - Support autofill and copy paste
 - Extends Flutter's FormField
-- Uses dart phone_numbers_parser for parsing (same author)
+- Uses dart phone_numbers_parser for parsing
 
 
 ## Demo
@@ -28,32 +28,26 @@ PhoneFormField();
 
 // all params
 PhoneFormField(
-  key: inputKey,
-  controller: controller,
-  autofocus: true,
-  autofillHints: [AutofillHints.telephoneNumber],
-  validator: PhoneValidator.compose([
-    // list of validators to use (see Built-in validators section below)
-    PhoneValidator.required(errorText: "You must enter a value"),
-    PhoneValidator.invalidMobile(),
-    // ...
-  ]),
-  selectorNavigator: const BottomSheetNavigator(),
-  defaultCountry: 'FR',
+  controller: null,     // controller & initialValue value
+  initialValue: null,   // can't be supplied simultaneously
+  shouldFormat: true    // default 
+  autofocus: false,     // default
+  autofillHints: [AutofillHints.telephoneNumber], // default to null
+  defaultCountry: 'US', // default 
   decoration: InputDecoration(
-    labelText: withLabel ? 'Phone' : null,
-    border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
+    labelText: 'Phone',          // default to null
+    border: OutlineInputBorder() // default to UnderlineInputBorder(),
+    // ...
   ),
-  enabled: true,
-  showFlagInInput: true,
-  phoneNumberType: mobileOnly ? PhoneNumberType.mobile : null,
-  autovalidateMode: autovalidate
-      ? AutovalidateMode.onUserInteraction
-      : AutovalidateMode.disabled,
-  errorText: 'Invalid phone',
-  cursorColor: Theme.of(context).colorScheme.primary,
-  onSaved: (p) => print('saved $p'),
-  onChanged: (p) => print('saved $p'),
+  selectorNavigator: const BottomSheetNavigator(), // default to bottom sheet but you can customize how the selector is shown by extending CountrySelectorNavigator
+  enabled: true,          // default
+  showFlagInInput: true,  // default
+  autovalidateMode: AutovalidateMode.onUserInteraction, // default 
+  validator: PhoneValidator.invalidMobile(),   // default PhoneValidator.invalid()
+  cursorColor: Theme.of(context).colorScheme.primary,  // default null
+  onSaved: (PhoneNumber p) => print('saved $p'),   // default null
+  onChanged: (PhoneNumber p) => print('saved $p'), // default null
+  restorationId: 'phoneRestorationId'
 )
 
 ```
@@ -61,7 +55,7 @@ PhoneFormField(
 ## Built-in validators
 
 * required : `PhoneValidator.required`
-* invalid : `PhoneValidator.invalid` (default used when no validator supplied)
+* invalid : `PhoneValidator.invalid` (default value when no validator supplied)
 * invalid mobile number : `PhoneValidator.invalidMobile`
 * invalid fixed line number : `PhoneValidator.invalidFixedLine`
 * invalid type : `PhoneValidator.invalidType`
@@ -72,7 +66,6 @@ PhoneFormField(
 
 * Each validator has an optional `errorText` property to override built-in translated text
 * Most of them have an optional `allowEmpty` (default is true) preventing to flag an empty field as invalid. Consider using a composed validator with a first `PhoneValidator.required` when a different text is needed for empty field.
-* Built-in validators are related to `PhoneFormField`. For `BasePhoneFormField`, you have to defined your own validators.
 
 ### Composing validators
 
