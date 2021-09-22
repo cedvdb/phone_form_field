@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/helpers/validator_translator.dart';
+import 'package:phone_form_field/src/models/country_code_visibility.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
 import 'package:phone_form_field/src/validator/phone_validator.dart';
@@ -41,7 +42,7 @@ import 'country_picker/country_selector_navigator.dart';
 ///
 ///
 /// This does not affect the output value, only the display.
-/// Therefor [onChange] will still return a [PhoneNumber]
+/// Therefor [onSizeFound] will still return a [PhoneNumber]
 /// with nsn of 677784455.
 /// {@endtemplate}
 ///
@@ -101,6 +102,12 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// whether a flag is shown next to the dial code
   final bool showFlagInInput;
 
+  /// whether the country dial code will be shown when the input is unfocused
+  /// - CountryCodeVisibility.alwaysOn
+  /// - CountryCodeVisibility.onFocus
+  /// - CountryCodeVisibility.auto (will be shown when no label)
+  final CountryCodeVisibility countryCodeVisibility;
+
   /// the default country used when the input is displayed for the first time
   final String defaultCountry;
 
@@ -122,6 +129,9 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// {@macro initialValue}
   final PhoneNumber? initialValue;
 
+  /// validator used for this input. Default to PhoneValidator.invalid()
+  final PhoneNumberInputValidator? validator;
+
   PhoneFormField({
     Key? key,
     this.controller,
@@ -136,7 +146,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.defaultCountry = 'US',
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.cursorColor,
-    PhoneNumberInputValidator? validator,
+    this.countryCodeVisibility = CountryCodeVisibility.auto,
+    this.validator,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.initialValue,
     String? restorationId,
@@ -146,7 +157,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
         ),
         super(
           key: key,
-          autovalidateMode: autovalidateMode,
+          autovalidateMode: AutovalidateMode.always,
           enabled: enabled,
           initialValue:
               controller != null ? controller.initialValue : initialValue,
@@ -166,6 +177,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
               defaultCountry: defaultCountry,
               selectorNavigator: selectorNavigator,
               cursorColor: cursorColor,
+              countryCodeVisibility: countryCodeVisibility,
               errorText: field.getErrorText(),
             );
           },

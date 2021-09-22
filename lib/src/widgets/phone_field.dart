@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
+import 'package:phone_form_field/src/widgets/measure_initial_size.dart';
 
 import '../../phone_form_field.dart';
 import '../models/country.dart';
@@ -19,6 +20,7 @@ class PhoneField extends StatefulWidget {
   final bool showFlagInInput;
   final bool? enabled;
   final String? errorText;
+  final bool isCountryCodeFixed;
 
   /// input decoration applied to the input
   final InputDecoration decoration;
@@ -43,7 +45,23 @@ class PhoneField extends StatefulWidget {
     required this.decoration,
     required this.cursorColor,
     required this.selectorNavigator,
-  });
+    required CountryCodeVisibility countryCodeVisibility,
+  }) : isCountryCodeFixed =
+            _getIsCountryCodeFixed(countryCodeVisibility, decoration);
+
+  static bool _getIsCountryCodeFixed(
+      CountryCodeVisibility countryCodeVisibility, InputDecoration decoration) {
+    switch (countryCodeVisibility) {
+      case CountryCodeVisibility.alwaysOn:
+        return true;
+      case CountryCodeVisibility.onFocus:
+        return false;
+      case CountryCodeVisibility.auto:
+        return decoration.label == null && decoration.labelText == null;
+      default:
+        return false;
+    }
+  }
 
   @override
   _PhoneFieldState createState() => _PhoneFieldState();
@@ -51,11 +69,15 @@ class PhoneField extends StatefulWidget {
 
 class _PhoneFieldState extends State<PhoneField> {
   final FocusNode _focusNode = FocusNode();
+  Size? _size;
 
   /// this is the controller for the national phone number
   late TextEditingController _nationalNumberController;
 
   bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
+  bool get _hasLabel =>
+      widget.decoration.label != null || widget.decoration.labelText != null;
+  bool get _isCountryCodeFixed => widget.isCountryCodeFixed;
   SimplePhoneNumber? get value => widget.controller.value;
   String get _isoCode => value?.isoCode ?? widget.defaultCountry;
 
@@ -116,32 +138,27 @@ class _PhoneFieldState extends State<PhoneField> {
     // it is the right width
     return Stack(
       children: [
-        InputDecorator(
-          isFocused: _focusNode.hasFocus,
-          isEmpty: _nationalNumberController.text == '',
-          decoration: widget.decoration.copyWith(
-            errorText: widget.errorText,
-            prefix: InkWell(child: _getDialCodeChip()),
-          ),
-          child: TextField(
-            controller: _nationalNumberController,
-            focusNode: _focusNode,
-            onChanged: (national) => _updateValue(
-                SimplePhoneNumber(isoCode: _isoCode, national: national)),
-            decoration: InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.all(0),
-              border: InputBorder.none,
+        MeasureInitialSize(
+          onSizeFound: (size) => setState(() => _size = size),
+          child: InputDecorator(
+            isFocused: _focusNode.hasFocus,
+            isEmpty: _nationalNumberController.text == '',
+            decoration: widget.decoration.copyWith(
+              errorText: widget.errorText,
+              prefixIcon: _isCountryCodeFixed ? _getDialCodeChip() : null,
+              prefix: _isCountryCodeFixed ? null : _getDialCodeChip(),
+              label: Text(''),
             ),
+            child: _textField(),
           ),
         ),
-        if (_focusNode.hasFocus) _inkWell()
+        if (_focusNode.hasFocus) _inkWellOverlay(),
       ],
     );
   }
 
   Widget _textField() {
-    return TextFormField(
+    return TextField(
       focusNode: _focusNode,
       controller: _nationalNumberController,
       onChanged: (national) => _updateValue(
@@ -157,53 +174,52 @@ class _PhoneFieldState extends State<PhoneField> {
         FilteringTextInputFormatter.allow(RegExp(
             '[${Constants.PLUS}${Constants.DIGITS}${Constants.PUNCTUATION}]')),
       ],
-      decoration: widget.decoration.copyWith(
-        errorText: widget.errorText,
-        prefixIcon: _getDialCodeChip(visible: true),
+      decoration: InputDecoration(
+        isDense: true,
+        contentPadding: EdgeInsets.all(0),
+        border: InputBorder.none,
       ),
     );
   }
 
-  Widget _dialCodeOverlay() {
-    final hasLabel = widget.decoration.labelText != null;
-    final floatingLabelBehavior = widget.decoration.floatingLabelBehavior;
-    // the country code ship must remain visible when there is no label
-    // that takes his place
-    final isCountryCodeVisible = _focusNode.hasFocus ||
-        !hasLabel ||
-        floatingLabelBehavior == FloatingLabelBehavior.always ||
-        (_nationalNumberController.text != '');
+  EdgeInsets getCountryCodePadding() {
+    return const EdgeInsets.fromLTRB(8, 0, 8, 0);
+    // if (_isOutlineBorder && _hasLabel && _isCountryCodeFixed)
+    //   return const EdgeInsets.fromLTRB(8, 0, 8, 2);
+    // else if (_isOutlineBorder && _hasLabel && !_isCountryCodeFixed)
+    //   return const EdgeInsets.fromLTRB(8, 0, 8, 0);
+    // else if (_isOutlineBorder && !_hasLabel)
+    //   return const EdgeInsets.fromLTRB(8, 0, 8, 2);
+    // else if (!_isOutlineBorder && _hasLabel && _isCountryCodeFixed)
+    //   return const EdgeInsets.fromLTRB(8, 18, 8, 0);
+    // return const EdgeInsets.fromLTRB(8, 0, 8, 0);
+  }
 
-    final dialCode = SizedBox(
-      width: 75,
-      height: 40,
-      // padding: _isOutlineBorder
-      //     ? const EdgeInsets.fromLTRB(12, 15, 0, 17)
-      //     : EdgeInsets.fromLTRB(0, hasLabel ? 24.0 : 14.5, 0, 8),
-      child: Expanded(child: Center(child: _getDialCodeChip(visible: false))),
-    );
-
-    if (!_focusNode.hasFocus)
-      return GestureDetector(
-        onTap: () => _focusNode.requestFocus(),
-        child: MouseRegion(
-          cursor: SystemMouseCursors.text,
-          child: dialCode,
+  Widget _inkWellOverlay() {
+    return InkWell(
+      onTap: () {},
+      onTapDown: (_) => selectCountry(),
+      child: ConstrainedBox(
+        // we set the size to input size
+        constraints: BoxConstraints(
+          minHeight: _size?.height ?? 0,
         ),
-      );
-    else
-      return InkWell(
-        enableFeedback: true,
-        // canRequestFocus: _focusNode.hasFocus ? true : false,
-        onTap: () {},
-        onTapDown: (_) => selectCountry(),
-        child: dialCode,
-      );
+        child: Padding(
+          // outline border has padding on the left
+          // but only when prefixIcon is used (!isCountryCodeFixed)
+          // so we need to make it a 12 bigger
+          padding: _isOutlineBorder
+              ? EdgeInsets.only(left: (!widget.isCountryCodeFixed ? 12 : 0))
+              : const EdgeInsets.all(0),
+          child: _getDialCodeChip(visible: false),
+        ),
+      ),
+    );
   }
 
   Widget _getDialCodeChip({bool visible = true}) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: getCountryCodePadding(),
       child: Visibility(
         maintainSize: true,
         maintainAnimation: true,

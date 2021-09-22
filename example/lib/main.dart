@@ -16,6 +16,7 @@ class PhoneFieldView extends StatelessWidget {
   final bool shouldFormat;
   final bool required;
   final bool mobileOnly;
+  final bool isCountryCodeFixed;
 
   const PhoneFieldView({
     Key? key,
@@ -27,6 +28,7 @@ class PhoneFieldView extends StatelessWidget {
     required this.shouldFormat,
     required this.required,
     required this.mobileOnly,
+    required this.isCountryCodeFixed,
   }) : super(key: key);
 
   PhoneNumberInputValidator? _getValidator() {
@@ -54,7 +56,7 @@ class PhoneFieldView extends StatelessWidget {
         selectorNavigator: selectorNavigator,
         defaultCountry: 'FR',
         decoration: InputDecoration(
-          labelText: withLabel ? 'Phone' : null,
+          label: withLabel ? Text('Phone') : null,
           hintText: 'Phone',
           border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
         ),
@@ -65,6 +67,9 @@ class PhoneFieldView extends StatelessWidget {
         cursorColor: Theme.of(context).colorScheme.primary,
         onSaved: (p) => print('saved $p'),
         onChanged: (p) => print('changed $p'),
+        countryCodeVisibility: isCountryCodeFixed
+            ? CountryCodeVisibility.alwaysOn
+            : CountryCodeVisibility.onFocus,
       ),
     );
   }
@@ -109,6 +114,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool mobileOnly = true;
   bool shouldFormat = true;
   bool required = false;
+  bool isCountryCodeFixed = false;
   CountrySelectorNavigator selectorNavigator = const BottomSheetNavigator();
   final formKey = GlobalKey<FormState>();
   final phoneKey = GlobalKey<FormFieldState>();
@@ -151,6 +157,11 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       value: withLabel,
                       onChanged: (v) => setState(() => withLabel = v),
                       title: Text('Label'),
+                    ),
+                    SwitchListTile(
+                      value: isCountryCodeFixed,
+                      onChanged: (v) => setState(() => isCountryCodeFixed = v),
+                      title: Text('fixed country code'),
                     ),
                     SwitchListTile(
                       value: required,
@@ -217,6 +228,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         required: required,
                         mobileOnly: mobileOnly,
                         shouldFormat: shouldFormat,
+                        isCountryCodeFixed: isCountryCodeFixed,
                       ),
                     ),
                     SizedBox(
