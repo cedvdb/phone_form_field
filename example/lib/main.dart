@@ -153,11 +153,11 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       onChanged: (v) => setState(() => outlineBorder = v),
                       title: Text('Outlined border'),
                     ),
-                    SwitchListTile(
-                      value: withLabel,
-                      onChanged: (v) => setState(() => withLabel = v),
-                      title: Text('Label'),
-                    ),
+                    // SwitchListTile(
+                    //   value: withLabel,
+                    //   onChanged: (v) => setState(() => withLabel = v),
+                    //   title: Text('Label'),
+                    // ),
                     SwitchListTile(
                       value: isCountryCodeFixed,
                       onChanged: (v) => setState(() => isCountryCodeFixed = v),

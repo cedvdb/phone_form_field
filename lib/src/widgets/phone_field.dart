@@ -142,7 +142,10 @@ class _PhoneFieldState extends State<PhoneField> {
           onSizeFound: (size) => setState(() => _size = size),
           child: _textField(),
         ),
-        if (_focusNode.hasFocus || _isCountryCodeFixed) _inkWellOverlay(),
+        if (_focusNode.hasFocus ||
+            _isCountryCodeFixed ||
+            _nationalNumberController.text.isNotEmpty)
+          _inkWellOverlay(),
       ],
     );
   }
@@ -156,7 +159,7 @@ class _PhoneFieldState extends State<PhoneField> {
     double paddingTop = 0;
     if (_isOutlineBorder && _isCountryCodeFixed && _hasLabel) paddingBottom = 2;
     if (_isOutlineBorder && _isCountryCodeFixed) paddingLeft = 12;
-    if (!_isOutlineBorder && _isCountryCodeFixed) paddingTop = 16;
+    if (!_isOutlineBorder && _isCountryCodeFixed && _hasLabel) paddingTop = 16;
     if (_isOutlineBorder && !_hasLabel) paddingBottom = 3;
     if (!_isOutlineBorder && !_hasLabel) paddingBottom = 5;
 
