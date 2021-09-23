@@ -74,10 +74,10 @@ class _PhoneFieldState extends State<PhoneField> {
   /// this is the controller for the national phone number
   late TextEditingController _nationalNumberController;
 
-  bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
   bool get _hasLabel =>
       widget.decoration.label != null || widget.decoration.labelText != null;
   bool get _isCountryCodeFixed => widget.isCountryCodeFixed;
+  bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
   SimplePhoneNumber? get value => widget.controller.value;
   String get _isoCode => value?.isoCode ?? widget.defaultCountry;
 
@@ -140,24 +140,28 @@ class _PhoneFieldState extends State<PhoneField> {
       children: [
         MeasureInitialSize(
           onSizeFound: (size) => setState(() => _size = size),
-          child: InputDecorator(
-            isFocused: _focusNode.hasFocus,
-            isEmpty: _nationalNumberController.text == '',
-            decoration: widget.decoration.copyWith(
-              errorText: widget.errorText,
-              prefixIcon: _isCountryCodeFixed ? _getDialCodeChip() : null,
-              prefix: _isCountryCodeFixed ? null : _getDialCodeChip(),
-              label: Text(''),
-            ),
-            child: _textField(),
-          ),
+          child: _textField(),
         ),
-        if (_focusNode.hasFocus) _inkWellOverlay(),
+        if (_focusNode.hasFocus || _isCountryCodeFixed) _inkWellOverlay(),
       ],
     );
   }
 
   Widget _textField() {
+    // this is hacky but flutter does not provide a way to
+    // align the different prefix options with the text which might
+    // ultimately be a bug
+    double paddingBottom = 0;
+    double paddingLeft = 0;
+    double paddingTop = 0;
+    if (_isOutlineBorder && _isCountryCodeFixed && _hasLabel) paddingBottom = 2;
+    if (_isOutlineBorder && _isCountryCodeFixed) paddingLeft = 12;
+    if (!_isOutlineBorder && _isCountryCodeFixed) paddingTop = 16;
+    if (_isOutlineBorder && !_hasLabel) paddingBottom = 3;
+    if (!_isOutlineBorder && !_hasLabel) paddingBottom = 5;
+
+    final padding =
+        EdgeInsets.fromLTRB(paddingLeft, paddingTop, 0, paddingBottom);
     return TextField(
       focusNode: _focusNode,
       controller: _nationalNumberController,
@@ -174,25 +178,22 @@ class _PhoneFieldState extends State<PhoneField> {
         FilteringTextInputFormatter.allow(RegExp(
             '[${Constants.PLUS}${Constants.DIGITS}${Constants.PUNCTUATION}]')),
       ],
-      decoration: InputDecoration(
-        isDense: true,
-        contentPadding: EdgeInsets.all(0),
-        border: InputBorder.none,
+      decoration: widget.decoration.copyWith(
+        errorText: widget.errorText,
+        prefix: _isCountryCodeFixed
+            ? null
+            : Padding(
+                padding: padding,
+                child: _getDialCodeChip(),
+              ),
+        prefixIcon: _isCountryCodeFixed
+            ? Padding(
+                padding: padding,
+                child: _getDialCodeChip(),
+              )
+            : null,
       ),
     );
-  }
-
-  EdgeInsets getCountryCodePadding() {
-    return const EdgeInsets.fromLTRB(8, 0, 8, 0);
-    // if (_isOutlineBorder && _hasLabel && _isCountryCodeFixed)
-    //   return const EdgeInsets.fromLTRB(8, 0, 8, 2);
-    // else if (_isOutlineBorder && _hasLabel && !_isCountryCodeFixed)
-    //   return const EdgeInsets.fromLTRB(8, 0, 8, 0);
-    // else if (_isOutlineBorder && !_hasLabel)
-    //   return const EdgeInsets.fromLTRB(8, 0, 8, 2);
-    // else if (!_isOutlineBorder && _hasLabel && _isCountryCodeFixed)
-    //   return const EdgeInsets.fromLTRB(8, 18, 8, 0);
-    // return const EdgeInsets.fromLTRB(8, 0, 8, 0);
   }
 
   Widget _inkWellOverlay() {
@@ -209,7 +210,7 @@ class _PhoneFieldState extends State<PhoneField> {
           // but only when prefixIcon is used (!isCountryCodeFixed)
           // so we need to make it a 12 bigger
           padding: _isOutlineBorder
-              ? EdgeInsets.only(left: (!widget.isCountryCodeFixed ? 12 : 0))
+              ? const EdgeInsets.only(left: 12)
               : const EdgeInsets.all(0),
           child: _getDialCodeChip(visible: false),
         ),
@@ -219,7 +220,7 @@ class _PhoneFieldState extends State<PhoneField> {
 
   Widget _getDialCodeChip({bool visible = true}) {
     return Padding(
-      padding: getCountryCodePadding(),
+      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: Visibility(
         maintainSize: true,
         maintainAnimation: true,
@@ -230,7 +231,7 @@ class _PhoneFieldState extends State<PhoneField> {
           showFlag: widget.showFlagInInput,
           textStyle: TextStyle(
               fontSize: 16, color: Theme.of(context).textTheme.caption?.color),
-          flagSize: _isOutlineBorder ? 20 : 16,
+          flagSize: _isOutlineBorder ? 16 : 16,
         ),
       ),
     );
