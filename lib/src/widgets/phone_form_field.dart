@@ -132,6 +132,9 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// validator used for this input. Default to PhoneValidator.invalid()
   final PhoneNumberInputValidator? validator;
 
+  /// the size of the flag in the input
+  final double flagSize;
+
   PhoneFormField({
     Key? key,
     this.controller,
@@ -150,6 +153,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.validator,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.initialValue,
+    this.flagSize = 16,
     String? restorationId,
   })  : assert(
           initialValue == null || controller == null,
@@ -179,6 +183,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
               cursorColor: cursorColor,
               countryCodeVisibility: countryCodeVisibility,
               errorText: field.getErrorText(),
+              flagSize: flagSize,
             );
           },
         );

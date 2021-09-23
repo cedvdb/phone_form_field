@@ -21,6 +21,7 @@ class PhoneField extends StatefulWidget {
   final bool? enabled;
   final String? errorText;
   final bool isCountryCodeFixed;
+  final double flagSize;
 
   /// input decoration applied to the input
   final InputDecoration decoration;
@@ -45,6 +46,7 @@ class PhoneField extends StatefulWidget {
     required this.decoration,
     required this.cursorColor,
     required this.selectorNavigator,
+    required this.flagSize,
     required CountryCodeVisibility countryCodeVisibility,
   }) : isCountryCodeFixed =
             _getIsCountryCodeFixed(countryCodeVisibility, decoration);
@@ -153,7 +155,9 @@ class _PhoneFieldState extends State<PhoneField> {
   Widget _textField() {
     // this is hacky but flutter does not provide a way to
     // align the different prefix options with the text which might
-    // ultimately be a bug
+    // ultimately be fixed on flutter's side
+    // so all the padding options here are to align the country code
+    // with the the text
     double paddingBottom = 0;
     double paddingLeft = 0;
     double paddingTop = 0;
@@ -195,6 +199,7 @@ class _PhoneFieldState extends State<PhoneField> {
                 child: _getDialCodeChip(),
               )
             : null,
+        alignLabelWithHint: true,
       ),
     );
   }
@@ -234,7 +239,7 @@ class _PhoneFieldState extends State<PhoneField> {
           showFlag: widget.showFlagInInput,
           textStyle: TextStyle(
               fontSize: 16, color: Theme.of(context).textTheme.caption?.color),
-          flagSize: _isOutlineBorder ? 16 : 16,
+          flagSize: widget.flagSize,
         ),
       ),
     );
