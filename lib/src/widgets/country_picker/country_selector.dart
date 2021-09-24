@@ -47,7 +47,7 @@ class CountrySelector extends StatefulWidget {
     Key? key,
     required this.onCountrySelected,
     this.scrollController,
-    this.sortCountries = false,
+    this.sortCountries = true,
     this.addFavoritesSeparator = true,
     this.showCountryCode = false,
     List<String>? favoriteCountries,
