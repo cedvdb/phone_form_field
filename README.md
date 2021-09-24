@@ -40,11 +40,13 @@ PhoneFormField(
     border: OutlineInputBorder() // default to UnderlineInputBorder(),
     // ...
   ),
+  countryCodeVisibility: CountryCodeVisibility.auto, // default
+  validator: PhoneValidator.invalidMobile(),   // default PhoneValidator.invalid()
   selectorNavigator: const BottomSheetNavigator(), // default to bottom sheet but you can customize how the selector is shown by extending CountrySelectorNavigator
   enabled: true,          // default
   showFlagInInput: true,  // default
+  flagSize: 16,           // default
   autovalidateMode: AutovalidateMode.onUserInteraction, // default 
-  validator: PhoneValidator.invalidMobile(),   // default PhoneValidator.invalid()
   cursorColor: Theme.of(context).colorScheme.primary,  // default null
   onSaved: (PhoneNumber p) => print('saved $p'),   // default null
   onChanged: (PhoneNumber p) => print('saved $p'), // default null
