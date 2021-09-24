@@ -180,7 +180,7 @@ void main() {
         await tester.enterText(foundTextField, '9984');
         await tester.pumpAndSettle();
 
-        expect(find.byType(ErrorHint), findsOneWidget);
+        expect(find.text('Invalid phone number'), findsOneWidget);
       });
 
       testWidgets(

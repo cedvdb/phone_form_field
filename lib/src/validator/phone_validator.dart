@@ -46,9 +46,6 @@ class PhoneValidator {
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
           !_parser.validate(valueCandidate)) {
         return errorText ?? 'invalidPhoneNumber';
-        // PhoneFieldLocalization.of(context)?.invalidPhoneNumber;
-        // ??
-        // 'Invalid phone number';
       }
       return null;
     };
