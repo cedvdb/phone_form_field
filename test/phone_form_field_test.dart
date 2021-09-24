@@ -49,7 +49,7 @@ void main() {
     group('display', () {
       testWidgets('Should display input', (tester) async {
         await tester.pumpWidget(getWidget());
-        expect(find.byType(TextFormField), findsOneWidget);
+        expect(find.byType(TextField), findsOneWidget);
       });
 
       testWidgets('Should display country code', (tester) async {
@@ -68,9 +68,9 @@ void main() {
           (tester) async {
         await tester.pumpWidget(getWidget());
         expect(find.byType(CountrySelector), findsNothing);
-        await tester.tap(find.byType(TextFormField));
+        await tester.tap(find.byType(TextField));
         await tester.pumpAndSettle();
-        await tester.tap(find.byType(CountryCodeChip).last);
+        await tester.tap(find.byKey(Key('country-code-overlay')));
         await tester.pumpAndSettle();
         expect(find.byType(CountrySelector), findsOneWidget);
       });
@@ -101,7 +101,7 @@ void main() {
         });
         await tester.pumpWidget(
             getWidget(controller: controller, defaultCountry: 'US'));
-        final textField = find.byType(TextFormField);
+        final textField = find.byType(TextField);
         await tester.tap(textField);
         // non digits should not work
         await tester.enterText(textField, '123456789');
@@ -135,7 +135,7 @@ void main() {
         });
         await tester.pumpWidget(
             getWidget(controller: controller, defaultCountry: 'US'));
-        final textField = find.byType(TextFormField);
+        final textField = find.byType(TextField);
         await tester.tap(textField);
         // non digits should not work
         await tester.enterText(textField, '+33 0488 99 77 22');
@@ -157,7 +157,7 @@ void main() {
             onChanged: onChanged,
           ),
         );
-        final textField = find.byType(TextFormField);
+        final textField = find.byType(TextField);
         await tester.tap(textField);
         // non digits should not work
         await tester.enterText(textField, 'aaa');
@@ -176,10 +176,11 @@ void main() {
           (tester) async {
         PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('FR', '');
         await tester.pumpWidget(getWidget(initialValue: phoneNumber));
-        final foundTextField = find.byType(TextFormField);
+        final foundTextField = find.byType(TextField);
         await tester.enterText(foundTextField, '9984');
         await tester.pumpAndSettle();
-        expect(find.text('Invalid phone number'), findsOneWidget);
+
+        expect(find.byType(ErrorHint), findsOneWidget);
       });
 
       testWidgets(
@@ -191,7 +192,7 @@ void main() {
           initialValue: phoneNumber,
           validator: PhoneValidator.invalidFixedLine(),
         ));
-        final foundTextField = find.byType(TextFormField);
+        final foundTextField = find.byType(TextField);
         await tester.enterText(foundTextField, '77777777');
         await tester.pumpAndSettle();
         expect(find.text('Invalid'), findsNothing);
@@ -202,7 +203,7 @@ void main() {
             errorText: 'Invalid phone number',
           ),
         ));
-        final foundTextField2 = find.byType(TextFormField);
+        final foundTextField2 = find.byType(TextField);
         await tester.pumpAndSettle();
         await tester.enterText(foundTextField2, '77777777');
         await tester.pumpAndSettle();
@@ -215,7 +216,7 @@ void main() {
             errorText: 'Invalid phone number',
           ),
         ));
-        final foundTextField3 = find.byType(TextFormField);
+        final foundTextField3 = find.byType(TextField);
         await tester.enterText(foundTextField3, '477668899');
         await tester.pumpAndSettle();
         expect(find.text('Invalid'), findsNothing);
@@ -229,7 +230,7 @@ void main() {
         await tester.pumpWidget(
             getWidget(initialValue: phoneNumber, shouldFormat: true));
         await tester.pumpAndSettle();
-        final foundTextField = find.byType(TextFormField);
+        final foundTextField = find.byType(TextField);
         await tester.enterText(foundTextField, '677777777');
         await tester.pumpAndSettle();
         expect(find.text('6 77 77 77 77'), findsOneWidget);
@@ -241,7 +242,7 @@ void main() {
         await tester.pumpWidget(
             getWidget(initialValue: phoneNumber, shouldFormat: false));
         await tester.pumpAndSettle();
-        final foundTextField = find.byType(TextFormField);
+        final foundTextField = find.byType(TextField);
         await tester.enterText(foundTextField, '677777777');
         await tester.pumpAndSettle();
         expect(find.text('677777777'), findsOneWidget);
@@ -260,7 +261,7 @@ void main() {
           initialValue: phoneNumber,
           onSaved: onSaved,
         ));
-        final foundTextField = find.byType(TextFormField);
+        final foundTextField = find.byType(TextField);
         await tester.enterText(foundTextField, '479281938');
         await tester.pumpAndSettle();
         formKey.currentState?.save();
@@ -277,7 +278,7 @@ void main() {
         await tester.pumpWidget(getWidget(initialValue: phoneNumber));
         await tester.pumpAndSettle();
         final national = '123456';
-        final foundTextField = find.byType(TextFormField);
+        final foundTextField = find.byType(TextField);
         await tester.enterText(foundTextField, national);
         expect(find.text(national), findsOneWidget);
         formKey.currentState?.reset();
