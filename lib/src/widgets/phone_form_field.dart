@@ -150,12 +150,13 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.decoration = const InputDecoration(border: UnderlineInputBorder()),
     this.cursorColor,
     this.countryCodeVisibility = CountryCodeVisibility.auto,
-    this.validator,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.initialValue,
     this.flagSize = 16,
+    PhoneNumberInputValidator? validator,
     String? restorationId,
-  })  : assert(
+  })  : validator = validator ?? PhoneValidator.invalid(),
+        assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
         ),
@@ -166,7 +167,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           initialValue:
               controller != null ? controller.initialValue : initialValue,
           onSaved: onSaved,
-          validator: validator ?? PhoneValidator.invalid(),
+          validator: validator,
           restorationId: restorationId,
           builder: (state) {
             final field = state as _PhoneFormFieldState;
