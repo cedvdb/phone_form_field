@@ -197,17 +197,17 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                                 value: const BottomSheetNavigator(),
                               ),
                               DropdownMenuItem(
+                                child: Text('Draggable modal sheet'),
+                                value:
+                                    const DraggableModalBottomSheetNavigator(),
+                              ),
+                              DropdownMenuItem(
                                 child: Text('Modal sheet'),
                                 value: const ModalBottomSheetNavigator(),
                               ),
                               DropdownMenuItem(
                                 child: Text('Dialog'),
                                 value: const DialogNavigator(),
-                              ),
-                              DropdownMenuItem(
-                                child: Text('Draggable modal sheet'),
-                                value:
-                                    const DraggableModalBottomSheetNavigator(),
                               ),
                             ],
                           ),
