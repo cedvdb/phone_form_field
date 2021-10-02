@@ -40,7 +40,6 @@ PhoneFormField(
     border: OutlineInputBorder() // default to UnderlineInputBorder(),
     // ...
   ),
-  countryCodeVisibility: CountryCodeVisibility.auto, // default
   validator: PhoneValidator.invalidMobile(),   // default PhoneValidator.invalid()
   selectorNavigator: const BottomSheetNavigator(), // default to bottom sheet but you can customize how the selector is shown by extending CountrySelectorNavigator
   enabled: true,          // default

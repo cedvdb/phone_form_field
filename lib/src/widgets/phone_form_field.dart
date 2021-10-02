@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/helpers/validator_translator.dart';
-import 'package:phone_form_field/src/models/country_code_visibility.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
 import 'package:phone_form_field/src/validator/phone_validator.dart';
@@ -100,7 +99,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
     InputDecoration decoration =
         const InputDecoration(border: UnderlineInputBorder()),
     Color? cursorColor,
-    CountryCodeVisibility countryCodeVisibility = CountryCodeVisibility.auto,
     AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
     PhoneNumber? initialValue,
     double flagSize = 16,
@@ -132,7 +130,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
               defaultCountry: defaultCountry,
               selectorNavigator: selectorNavigator,
               cursorColor: cursorColor,
-              countryCodeVisibility: countryCodeVisibility,
               errorText: field.getErrorText(),
               flagSize: flagSize,
             );
