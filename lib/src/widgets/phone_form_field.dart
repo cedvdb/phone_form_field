@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/helpers/validator_translator.dart';
-import 'package:phone_form_field/src/models/country_code_visibility.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
 import 'package:phone_form_field/src/validator/phone_validator.dart';
@@ -82,81 +81,30 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// {@macro shouldFormat}
   final bool shouldFormat;
 
-  /// {@macro selectorNavigator}
-  final CountrySelectorNavigator selectorNavigator;
-
-  // The properties below this line are not used by this widget and
-  // only passed around to child or super.Those are kept here for
-  // adding documentation
-
-  /// {@macro flutter.widgets.editableText.autofillHints}
-  /// {@macro flutter.services.AutofillConfiguration.autofillHints}
-  final List<String>? autofillHints;
-
-  /// whether this form field is enabled
-  final bool enabled;
-
-  /// {@macro flutter.widgets.editableText.autofocus}
-  final bool autofocus;
-
-  /// whether a flag is shown next to the dial code
-  final bool showFlagInInput;
-
-  /// whether the country dial code will be shown when the input is unfocused
-  /// - CountryCodeVisibility.alwaysOn
-  /// - CountryCodeVisibility.onFocus
-  /// - CountryCodeVisibility.auto (will be shown when no label)
-  final CountryCodeVisibility countryCodeVisibility;
-
-  /// the default country used when the input is displayed for the first time
-  final String defaultCountry;
-
-  /// triggered when the value changes
+  /// callback called when the input value changes
   final Function(PhoneNumber?)? onChanged;
-
-  /// triggered when the form is saved via FormState.save.
-  final Function(PhoneNumber?)? onSaved;
-
-  /// Used to configure the auto validation of FormField and Form widgets.
-  final AutovalidateMode autovalidateMode;
-
-  /// the [InputDecoration] used by this PhoneFormField
-  final InputDecoration decoration;
-
-  /// the color of the cursor in the text input
-  final Color? cursorColor;
-
-  /// {@macro initialValue}
-  final PhoneNumber? initialValue;
-
-  /// validator used for this input. Default to PhoneValidator.invalid()
-  final PhoneNumberInputValidator? validator;
-
-  /// the size of the flag in the input
-  final double flagSize;
 
   PhoneFormField({
     Key? key,
     this.controller,
     this.shouldFormat = true,
-    this.autofillHints = const [],
-    this.autofocus = false,
-    this.enabled = true,
-    this.showFlagInInput = true,
-    this.selectorNavigator = const BottomSheetNavigator(),
     this.onChanged,
-    this.onSaved,
-    this.defaultCountry = 'US',
-    this.decoration = const InputDecoration(border: UnderlineInputBorder()),
-    this.cursorColor,
-    this.countryCodeVisibility = CountryCodeVisibility.auto,
-    this.autovalidateMode = AutovalidateMode.onUserInteraction,
-    this.initialValue,
-    this.flagSize = 16,
+    List<String> autofillHints = const [],
+    bool autofocus = false,
+    bool enabled = true,
+    bool showFlagInInput = true,
+    CountrySelectorNavigator selectorNavigator = const BottomSheetNavigator(),
+    Function(PhoneNumber?)? onSaved,
+    String defaultCountry = 'US',
+    InputDecoration decoration =
+        const InputDecoration(border: UnderlineInputBorder()),
+    Color? cursorColor,
+    AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
+    PhoneNumber? initialValue,
+    double flagSize = 16,
     PhoneNumberInputValidator? validator,
     String? restorationId,
-  })  : validator = validator ?? PhoneValidator.invalid(),
-        assert(
+  })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
         ),
@@ -167,7 +115,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           initialValue:
               controller != null ? controller.initialValue : initialValue,
           onSaved: onSaved,
-          validator: validator,
+          validator: validator ?? PhoneValidator.invalid(),
           restorationId: restorationId,
           builder: (state) {
             final field = state as _PhoneFormFieldState;
@@ -182,7 +130,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
               defaultCountry: defaultCountry,
               selectorNavigator: selectorNavigator,
               cursorColor: cursorColor,
-              countryCodeVisibility: countryCodeVisibility,
               errorText: field.getErrorText(),
               flagSize: flagSize,
             );
