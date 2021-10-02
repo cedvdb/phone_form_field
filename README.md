@@ -6,7 +6,8 @@ Flutter phone input integrated with flutter internationalization
 
 - Totally cross platform, this is a dart only package / dependencies
 - Internationalization
-- Phone number validation
+- Phone formatting localized by region
+- Phone number validation (built-in validators included for main use cases) 
 - Support autofill and copy paste
 - Extends Flutter's FormField
 - Uses dart phone_numbers_parser for parsing
@@ -21,18 +22,130 @@ Demo available at https://cedvdb.github.io/phone_form_field/
 ## Usage
 
 ```dart
+
+// works without any param
+PhoneFormField();
+
+// all params
 PhoneFormField(
-  autofocus: true,
+  key: Key('phone-field')
+  controller: null,     // controller & initialValue value
+  initialValue: null,   // can't be supplied simultaneously
+  shouldFormat: true    // default 
+  autofocus: false,     // default
+  autofillHints: [AutofillHints.telephoneNumber], // default to null
+  defaultCountry: 'US', // default 
   decoration: InputDecoration(
-    labelText: 'Phone',
-    border: OutlineInputBorder(),
+    labelText: 'Phone',          // default to null
+    border: OutlineInputBorder() // default to UnderlineInputBorder(),
     // ...
   ),
-  phoneNumberType: null, // can be PhoneNumberType.mobile or phoneNumberType.fixed or null for both validation
+  validator: PhoneValidator.invalidMobile(),   // default PhoneValidator.invalid()
   selectorNavigator: const BottomSheetNavigator(), // default to bottom sheet but you can customize how the selector is shown by extending CountrySelectorNavigator
-  lightParser: false, // using true here reduce memory foot print but only use length to validate
-),
+  enabled: true,          // default
+  showFlagInInput: true,  // default
+  flagSize: 16,           // default
+  autovalidateMode: AutovalidateMode.onUserInteraction, // default 
+  cursorColor: Theme.of(context).colorScheme.primary,  // default null
+  onSaved: (PhoneNumber p) => print('saved $p'),   // default null
+  onChanged: (PhoneNumber p) => print('saved $p'), // default null
+  restorationId: 'phoneRestorationId'
+)
 
+```
+
+## Validation
+
+### Built-in validators
+
+* required : `PhoneValidator.required`
+* invalid : `PhoneValidator.invalid` (default value when no validator supplied)
+* invalid mobile number : `PhoneValidator.invalidMobile`
+* invalid fixed line number : `PhoneValidator.invalidFixedLine`
+* invalid type : `PhoneValidator.invalidType`
+* invalid country : `PhoneValidator.invalidCountry`
+* none : `PhoneValidator.none` (this can be used to disable default invalid validator)
+
+### Validators details
+
+* Each validator has an optional `errorText` property to override built-in translated text
+* Most of them have an optional `allowEmpty` (default is true) preventing to flag an empty field as invalid. Consider using a composed validator with a first `PhoneValidator.required` when a different text is needed for empty field.
+
+### Composing validators
+
+Validator can be a composed set of validators built-in or custom validator using `PhoneValidator.compose`, see example below.
+
+Note that when composing validators, the sorting is important as the error message displayed is the first validator failing.
+
+```dart
+PhoneFormField(
+  // ...
+  validator: PhoneValidator.compose([
+    // list of validators to use
+    PhoneValidator.required(errorText: "You must enter a value"),
+    PhoneValidator.invalidMobile(),
+    // ..
+  ]),
+)
+```
+
+## Country selector
+
+Here are the list of the parameters available for all built-in country selector :
+
+| Name | Default value | Description |
+|---|---|---|
+| countries | null | Countries available in list view (all countries are listed when omitted) |
+| favorites | null | List of country code `['FR','UK']` to display on top of the list |
+| addSeparator | true | Whether to add a separator between favorite countries and others one. Useless if `favorites` parameter is null |
+| showCountryCode | true | Whether to display the country dial code as listTile item subtitle |
+| sortCountries | false | Whether the countries should appear in alphabetic order, if false the countries are displayed in the same order as `countries` property (Note that favorite countries are listed in supplied order whatever the value of this parameter) |
+| noResultMessage | null | The message to be displayed in place of the list when search result is empty (a default localised message is used when omitted) |
+
+### Built-in country selector
+
+* **DialogNavigator**
+  Open a dialog to select the country.
+  No extra parameters
+
+* **BottomSheetNavigator**
+  Open a bottom sheet expanding to all available space in both axis
+  No extra parameters
+
+* **ModalBottomSheetNavigator**
+  Open a modal bottom sheet expanded horizontally
+  Extra parameters: 
+    * `height` (double, default null)
+       Allow to determine the height of the bottom sheet, will expand to all available height when omitted
+
+* **DraggableModalBottomSheetNavigator**
+  Open a modal bottom sheet expanded horizontally which may be dragged from a minimum to a maximum of current available height.
+  Uses internally the `DraggableScrollableSheet` flutter widget
+  Extra parameters:
+     * `initialChildSize` (double, default: `0.5`) factor of current available height used when opening
+     * `minChildSize` (double, default: `0.Z5`) : maximum factor of current available height 
+     * `minChildSize` (double, default: `0.Z5`) : minimum factor of current available height
+     * `borderRadius` (BorderRadiusGeometry, default: 16px circular radius on top left/right)
+    
+
+### Custom Country Selector Navigator
+
+You can use your own country selector by creating a class that implements `CountrySelectorNavigator`
+It has one required method `navigate` expected to return the selected country:
+
+```dart
+class CustomCountrySelectorNavigator implements CountrySelectorNavigator {
+  Future<Country?> navigate(BuildContext context) {
+    // ask user for a country and return related `Country` class
+  }
+}
+
+// usage
+PhoneFormField(
+  // ...
+  selectorNavigator: CustomCountrySelectorNavigator(),
+  // ...
+)
 ```
 
 ## Internationalization
@@ -42,7 +155,7 @@ PhoneFormField(
   ```dart
     return MaterialApp(
       localizationsDelegates: [
-        ...GlobalMaterialLocalizations.delegates,
+        GlobalMaterialLocalizations.delegate,
         PhoneFieldLocalization.delegate
       ],
       supportedLocales: [
@@ -54,7 +167,7 @@ PhoneFormField(
       ],
   ```
 
-  Tnat's it.
+  That's it.
 
   
   A bunch of languages are built-in:
@@ -73,4 +186,4 @@ PhoneFormField(
   
   
    If one of the language you target is not supported you can submit a
-  pull request with the translated file in assets/translation
+  pull request with the translated file in src/l10n

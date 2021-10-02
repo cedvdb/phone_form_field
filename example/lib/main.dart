@@ -1,4 +1,3 @@
-import 'package:example/widgets/switch_el.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:phone_form_field/phone_form_field.dart';
@@ -8,36 +7,67 @@ void main() {
 }
 
 /// putting the widget at the top so it's easily findable in pub.dev example
+class PhoneFieldView extends StatelessWidget {
+  final Key inputKey;
+  final PhoneController controller;
+  final CountrySelectorNavigator selectorNavigator;
+  final bool withLabel;
+  final bool outlineBorder;
+  final bool shouldFormat;
+  final bool required;
+  final bool mobileOnly;
 
-Widget getPhoneField({
-  required PhoneController controller,
-  required CountrySelectorNavigator selectorNavigator,
-  required bool withLabel,
-  required bool outlineBorder,
-  required bool mobileOnly,
-  required bool autovalidate,
-}) {
-  return AutofillGroup(
-    child: PhoneFormField(
-      autofocus: true,
-      lightParser: false,
-      withHint: true,
-      controller: controller,
-      selectorNavigator: selectorNavigator,
-      decoration: InputDecoration(
-        labelText: withLabel ? 'Phone' : null,
-        border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
+  const PhoneFieldView({
+    Key? key,
+    required this.inputKey,
+    required this.controller,
+    required this.selectorNavigator,
+    required this.withLabel,
+    required this.outlineBorder,
+    required this.shouldFormat,
+    required this.required,
+    required this.mobileOnly,
+  }) : super(key: key);
+
+  PhoneNumberInputValidator? _getValidator() {
+    List<PhoneNumberInputValidator> validators = [];
+    if (required) {
+      validators.add(PhoneValidator.required());
+    }
+    if (mobileOnly) {
+      validators.add(PhoneValidator.invalidMobile());
+    } else {
+      validators.add(PhoneValidator.invalid());
+    }
+    return validators.isNotEmpty ? PhoneValidator.compose(validators) : null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AutofillGroup(
+      child: PhoneFormField(
+        key: inputKey,
+        controller: controller,
+        shouldFormat: shouldFormat,
+        autofocus: true,
+        autofillHints: [AutofillHints.telephoneNumber],
+        selectorNavigator: selectorNavigator,
+        defaultCountry: 'FR',
+        decoration: InputDecoration(
+          label: withLabel ? Text('Phone') : null,
+          hintText: 'Phone',
+          border: outlineBorder ? OutlineInputBorder() : UnderlineInputBorder(),
+        ),
+        enabled: true,
+        showFlagInInput: true,
+        validator: _getValidator(),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        cursorColor: Theme.of(context).colorScheme.primary,
+        onSaved: (p) => print('saved $p'),
+        onChanged: (p) => print('changed $p'),
       ),
-      enabled: true,
-      showFlagInInput: true,
-      phoneNumberType: mobileOnly ? PhoneNumberType.mobile : null,
-      autovalidateMode: autovalidate
-          ? AutovalidateMode.onUserInteraction
-          : AutovalidateMode.disabled,
-      errorText: 'Invalid phone',
-      onChanged: (p) => print('changed $p'),
-    ),
-  );
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -75,10 +105,13 @@ class PhoneFormFieldScreen extends StatefulWidget {
 class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   late PhoneController controller;
   bool outlineBorder = true;
-  bool withLabel = true;
-  bool autovalidate = true;
   bool mobileOnly = true;
+  bool shouldFormat = true;
+  bool required = false;
+  bool withLabel = true;
   CountrySelectorNavigator selectorNavigator = const BottomSheetNavigator();
+  final formKey = GlobalKey<FormState>();
+  final phoneKey = GlobalKey<FormFieldState>();
 
   @override
   initState() {
@@ -92,12 +125,6 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
     super.dispose();
     controller.dispose();
   }
-
-  // _getSubmitState() {
-  //   if (mobileOnly)
-  //     return phoneNumber.validate(PhoneNumberType.mobile) ? () {} : null;
-  //   return phoneNumber.validate(null) ? () {} : null;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -115,83 +142,95 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    SwitchEl(
+                    SwitchListTile(
                       value: outlineBorder,
                       onChanged: (v) => setState(() => outlineBorder = v),
-                      title: 'Outlined border',
+                      title: Text('Outlined border'),
                     ),
-                    SwitchEl(
-                      value: autovalidate,
-                      onChanged: (v) => setState(() => autovalidate = v),
-                      title: 'Autovalidate',
+                    // SwitchListTile(
+                    //   value: withLabel,
+                    //   onChanged: (v) => setState(() => withLabel = v),
+                    //   title: Text('Label'),
+                    // ),
+                    // SwitchListTile(
+                    //   value: isCountryCodeFixed,
+                    //   onChanged: (v) => setState(() => isCountryCodeFixed = v),
+                    //   title: Text('fixed country code'),
+                    // ),
+                    SwitchListTile(
+                      value: required,
+                      onChanged: (v) => setState(() => required = v),
+                      title: Text('Required'),
                     ),
-                    SwitchEl(
-                      value: withLabel,
-                      onChanged: (v) => setState(() => withLabel = v),
-                      title: 'Label',
-                    ),
-                    SwitchEl(
+                    SwitchListTile(
                       value: mobileOnly,
                       onChanged: (v) => setState(() => mobileOnly = v),
-                      title: 'Mobile phone number only',
+                      title: Text('Mobile phone number only'),
                     ),
-                    Row(
-                      children: [
-                        Text('Country selector: '),
-                        DropdownButton<CountrySelectorNavigator>(
-                          value: selectorNavigator,
-                          onChanged: (CountrySelectorNavigator? value) {
-                            if (value != null) {
-                              setState(() => selectorNavigator = value);
-                            }
-                          },
-                          items: [
-                            DropdownMenuItem(
-                              child: Text('Bottom sheet'),
-                              value: const BottomSheetNavigator(),
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Modal sheet'),
-                              value: const ModalBottomSheetNavigator(),
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Dialog'),
-                              value: const DialogNavigator(),
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Draggable modal sheet'),
-                              value: const DraggableModalBottomSheetNavigator(),
-                            ),
-                          ],
-                        ),
-                      ],
+                    SwitchListTile(
+                      value: shouldFormat,
+                      onChanged: (v) => setState(() => shouldFormat = v),
+                      title: Text('Should format'),
+                    ),
+                    ListTile(
+                      title: Wrap(
+                        alignment: WrapAlignment.spaceBetween,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Text('Country selector: '),
+                          DropdownButton<CountrySelectorNavigator>(
+                            value: selectorNavigator,
+                            onChanged: (CountrySelectorNavigator? value) {
+                              if (value != null) {
+                                setState(() => selectorNavigator = value);
+                              }
+                            },
+                            items: [
+                              DropdownMenuItem(
+                                child: Text('Bottom sheet'),
+                                value: const BottomSheetNavigator(),
+                              ),
+                              DropdownMenuItem(
+                                child: Text('Draggable modal sheet'),
+                                value:
+                                    const DraggableModalBottomSheetNavigator(),
+                              ),
+                              DropdownMenuItem(
+                                child: Text('Modal sheet'),
+                                value: const ModalBottomSheetNavigator(),
+                              ),
+                              DropdownMenuItem(
+                                child: Text('Dialog'),
+                                value: const DialogNavigator(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 40,
                     ),
-                    // AutofillGroup(
-                    //   child: TextField(
-                    //     autofillHints: <String>[
-                    //       AutofillHints.telephoneNumber,
-                    //     ],
-                    //   ),
-                    // ),
-                    getPhoneField(
-                      controller: controller,
-                      selectorNavigator: selectorNavigator,
-                      withLabel: withLabel,
-                      outlineBorder: outlineBorder,
-                      mobileOnly: mobileOnly,
-                      autovalidate: autovalidate,
+                    Form(
+                      key: formKey,
+                      child: PhoneFieldView(
+                        inputKey: phoneKey,
+                        controller: controller,
+                        selectorNavigator: selectorNavigator,
+                        withLabel: withLabel,
+                        outlineBorder: outlineBorder,
+                        required: required,
+                        mobileOnly: mobileOnly,
+                        shouldFormat: shouldFormat,
+                      ),
                     ),
                     SizedBox(
                       height: 40,
                     ),
                     ElevatedButton(
-                      onPressed: controller.value == null ||
-                              controller.value!.nsn.isEmpty
+                      onPressed: controller.value == null
                           ? null
-                          : () => controller.value = null,
+                          : () => formKey.currentState?.reset(),
                       child: Text('reset'),
                     ),
                     SizedBox(

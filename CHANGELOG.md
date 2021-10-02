@@ -1,8 +1,29 @@
-## [3.0.1] - 
-- added DraggableModalBottomSheet
-- fix phone number type
-- fix onChanged & onSaved
+## [4.0.0]
 
+### Fixes
+- fix phone number type, thanks @emrsi
+- fix reset and usage as a FormField in general
+- fix onChanged & onSaved
+- fix late initialization error when no country was selected in bottom sheet selector
+
+### UI
+- added localized phone formatter
+- added DraggableModalBottomSheet, thanks @emrsi
+
+# Validation
+- Add PhoneValidator class to easily customize validation and defaults localization error messagees
+- Add PhoneFormField `validator` property
+- **[BREAKING CHANGE]** Remove `PhoneFormField` properties `errorText` & `phoneNumberType`. Define `validator` property instead with `PhoneValidator.invalid*`
+
+# Misc
+- refactored internals
+- [Breaking] light parser was removed.
+- [Breaking] exposed `autoFillHints` and removed the `withHint` param
+- [Breaking] renamed all instances of `dialCode` to `countryCode` as dial code was semantically incorrect.
+
+### Note
+This major version was a big rework of the library and is packed with fixes. 
+Thus it was decided that it was not worth it to keep backward compatibility and therefor there are multiple breaking changes
 
 ## [3.0.0] - 27 / 08 / 2021
 - removed deprecated selector config

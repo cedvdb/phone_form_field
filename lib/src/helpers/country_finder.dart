@@ -1,16 +1,31 @@
 // responsible of searching through the country list
 
 import 'package:flutter/cupertino.dart';
+import 'package:phone_form_field/src/helpers/country_translator.dart';
 
 import '../models/country.dart';
-import '../localization/phone_field_localization.dart';
 
 class CountryFinder {
+  // This property and the list order MUST BE immutable to ensure
+  // consistent filtered results.
+  // This is the reason of clone operations performed in constructor
+  // and filter methods, as we cannot assume that others classes don't
+  // modify the list order and this will have consequences on the order
+  // of filtered list.
+  /// List of countries to search in
   final List<Country> countries;
-  CountryFinder(this.countries);
+
+  CountryFinder(List<Country> countries) : countries = [...countries];
 
   List<Country> filter(String txt, BuildContext context) {
-    // if the txt is a number we check the dial code instead
+    // reset search
+    if (txt.isEmpty) {
+      // see [countries] property comment for more infos
+      // about reason of copy
+      return [...countries];
+    }
+
+    // if the txt is a number we check the country code instead
     final asInt = int.tryParse(txt);
     final isNum = asInt != null;
     if (isNum) {
@@ -23,9 +38,9 @@ class CountryFinder {
 
   List<Country> _filterByDialCode(String dialCode) {
     final getSortPoint =
-        (Country c) => c.dialCode.length == dialCode.length ? 1 : 0;
+        (Country c) => c.countryCode.length == dialCode.length ? 1 : 0;
 
-    return countries.where((c) => c.dialCode.contains(dialCode)).toList()
+    return countries.where((c) => c.countryCode.contains(dialCode)).toList()
       // puts the closest match at the top
       ..sort((a, b) => getSortPoint(b) - getSortPoint(a));
   }
@@ -34,24 +49,27 @@ class CountryFinder {
     final lowerCaseTxt = txt.toLowerCase();
     // since we keep countries that contain the searched text,
     // we need to put the countries that start with that text in front.
-    final getSortPoint = (Country c) {
-      final name = _getTranslatedName(c, context);
+    final getSortPoint = (name, isoCode) {
       bool isStartOfString = name.startsWith(lowerCaseTxt) ||
-          c.isoCode.toLowerCase().startsWith(lowerCaseTxt);
+          isoCode.toLowerCase().startsWith(lowerCaseTxt);
       return isStartOfString ? 1 : 0;
     };
 
-    return countries
-        .where((c) => _getTranslatedName(c, context).contains(lowerCaseTxt))
-        .toList()
-      // puts the ones that begin by txt first
-      ..sort((a, b) => getSortPoint(b) - getSortPoint(a));
-  }
+    final compareCountries = (Country a, Country b) {
+      final aName = CountryTranslator.localisedName(context, a).toLowerCase();
+      final bName = CountryTranslator.localisedName(context, b).toLowerCase();
+      final sortPoint =
+          getSortPoint(bName, b.isoCode) - getSortPoint(aName, a.isoCode);
+      // sort alphabetically when comparison with search term get same result
+      return sortPoint == 0 ? aName.compareTo(bName) : sortPoint;
+    };
 
-  _getTranslatedName(Country country, BuildContext context) {
-    final translatedName =
-        PhoneFieldLocalization.of(context)?.translate(country.isoCode);
-    String name = translatedName ?? country.name;
-    return name.toLowerCase();
+    final match = (Country c) => CountryTranslator.localisedName(context, c)
+        .toLowerCase()
+        .contains(lowerCaseTxt);
+
+    return countries.where(match).toList()
+      // puts the ones that begin by txt first
+      ..sort(compareCountries);
   }
 }
