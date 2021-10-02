@@ -9,8 +9,6 @@
 ### UI
 - added localized phone formatter
 - added DraggableModalBottomSheet, thanks @emrsi
-- Country code is now visible when unfocussed when there is no label to better
-  accomodate the UI
 
 # Validation
 - Add PhoneValidator class to easily customize validation and defaults localization error messagees

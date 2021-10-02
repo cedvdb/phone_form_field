@@ -20,7 +20,6 @@ class PhoneField extends StatefulWidget {
   final bool showFlagInInput;
   final bool? enabled;
   final String? errorText;
-  final bool isCountryCodeFixed;
   final double flagSize;
 
   /// input decoration applied to the input
@@ -47,23 +46,7 @@ class PhoneField extends StatefulWidget {
     required this.cursorColor,
     required this.selectorNavigator,
     required this.flagSize,
-    required CountryCodeVisibility countryCodeVisibility,
-  }) : isCountryCodeFixed =
-            _getIsCountryCodeFixed(countryCodeVisibility, decoration);
-
-  static bool _getIsCountryCodeFixed(
-      CountryCodeVisibility countryCodeVisibility, InputDecoration decoration) {
-    switch (countryCodeVisibility) {
-      case CountryCodeVisibility.alwaysOn:
-        return true;
-      case CountryCodeVisibility.onFocus:
-        return false;
-      case CountryCodeVisibility.auto:
-        return decoration.label == null && decoration.labelText == null;
-      default:
-        return false;
-    }
-  }
+  });
 
   @override
   _PhoneFieldState createState() => _PhoneFieldState();
@@ -76,10 +59,8 @@ class _PhoneFieldState extends State<PhoneField> {
   /// this is the controller for the national phone number
   late TextEditingController _nationalNumberController;
 
-  bool get _hasLabel =>
-      widget.decoration.label != null || widget.decoration.labelText != null;
-  bool get _isCountryCodeFixed => widget.isCountryCodeFixed;
   bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
+
   SimplePhoneNumber? get value => widget.controller.value;
   String get _isoCode => value?.isoCode ?? widget.defaultCountry;
 
@@ -144,9 +125,7 @@ class _PhoneFieldState extends State<PhoneField> {
           onSizeFound: (size) => setState(() => _size = size),
           child: _textField(),
         ),
-        if (_focusNode.hasFocus ||
-            _isCountryCodeFixed ||
-            _nationalNumberController.text.isNotEmpty)
+        if (_focusNode.hasFocus || _nationalNumberController.text.isNotEmpty)
           _inkWellOverlay(),
       ],
     );
@@ -158,17 +137,14 @@ class _PhoneFieldState extends State<PhoneField> {
     // ultimately be fixed on flutter's side
     // so all the padding options here are to align the country code
     // with the the text
-    double paddingBottom = 0;
-    double paddingLeft = 0;
-    double paddingTop = 0;
-    if (_isOutlineBorder && _isCountryCodeFixed && _hasLabel) paddingBottom = 2;
-    if (_isOutlineBorder && _isCountryCodeFixed) paddingLeft = 12;
-    if (!_isOutlineBorder && _isCountryCodeFixed && _hasLabel) paddingTop = 16;
-    if (_isOutlineBorder && !_hasLabel) paddingBottom = 3;
-    if (!_isOutlineBorder && !_hasLabel) paddingBottom = 5;
+    // double paddingBottom = 0;
+    // double paddingLeft = 0;
+    // double paddingTop = 0;
+    // if (_isOutlineBorder && !_hasLabel) paddingBottom = 3;
+    // if (!_isOutlineBorder && !_hasLabel) paddingBottom = 5;
 
-    final padding =
-        EdgeInsets.fromLTRB(paddingLeft, paddingTop, 0, paddingBottom);
+    // final padding =
+    //     EdgeInsets.fromLTRB(paddingLeft, paddingTop, 0, paddingBottom);
     return TextField(
       focusNode: _focusNode,
       controller: _nationalNumberController,
@@ -187,19 +163,7 @@ class _PhoneFieldState extends State<PhoneField> {
       ],
       decoration: widget.decoration.copyWith(
         errorText: widget.errorText,
-        prefix: _isCountryCodeFixed
-            ? null
-            : Padding(
-                padding: padding,
-                child: _getDialCodeChip(),
-              ),
-        prefixIcon: _isCountryCodeFixed
-            ? Padding(
-                padding: padding,
-                child: _getDialCodeChip(),
-              )
-            : null,
-        alignLabelWithHint: true,
+        prefix: _getDialCodeChip(),
       ),
     );
   }
@@ -240,7 +204,9 @@ class _PhoneFieldState extends State<PhoneField> {
           country: Country(_isoCode),
           showFlag: widget.showFlagInInput,
           textStyle: TextStyle(
-              fontSize: 16, color: Theme.of(context).textTheme.caption?.color),
+            fontSize: 16,
+            color: Theme.of(context).textTheme.caption?.color,
+          ),
           flagSize: widget.flagSize,
         ),
       ),
