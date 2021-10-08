@@ -6,10 +6,6 @@ import '../../models/country.dart';
 import 'country_selector.dart';
 
 abstract class CountrySelectorNavigator {
-  Future<Country?> navigate(BuildContext context);
-}
-
-class DialogNavigator implements CountrySelectorNavigator {
   final List<Country>? countries;
   final List<String>? favorites;
   final bool addSeparator;
@@ -17,7 +13,7 @@ class DialogNavigator implements CountrySelectorNavigator {
   final bool sortCountries;
   final String? noResultMessage;
 
-  const DialogNavigator({
+  const CountrySelectorNavigator({
     this.countries,
     this.favorites,
     this.addSeparator = true,
@@ -25,6 +21,26 @@ class DialogNavigator implements CountrySelectorNavigator {
     this.sortCountries = false,
     this.noResultMessage,
   });
+
+  Future<Country?> navigate(BuildContext context);
+}
+
+class DialogNavigator extends CountrySelectorNavigator {
+  const DialogNavigator({
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator = true,
+    bool showCountryCode = true,
+    bool sortCountries = false,
+    String? noResultMessage,
+  }) : super(
+          countries: countries,
+          favorites: favorites,
+          addSeparator: addSeparator,
+          showCountryCode: showCountryCode,
+          sortCountries: sortCountries,
+          noResultMessage: noResultMessage,
+        );
 
   @override
   Future<Country?> navigate(BuildContext context) {
@@ -45,22 +61,22 @@ class DialogNavigator implements CountrySelectorNavigator {
   }
 }
 
-class BottomSheetNavigator implements CountrySelectorNavigator {
-  final List<Country>? countries;
-  final List<String>? favorites;
-  final bool addSeparator;
-  final bool showCountryCode;
-  final bool sortCountries;
-  final String? noResultMessage;
-
+class BottomSheetNavigator extends CountrySelectorNavigator {
   const BottomSheetNavigator({
-    this.countries,
-    this.favorites,
-    this.addSeparator = true,
-    this.showCountryCode = true,
-    this.sortCountries = false,
-    this.noResultMessage,
-  });
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator = true,
+    bool showCountryCode = true,
+    bool sortCountries = false,
+    String? noResultMessage,
+  }) : super(
+          countries: countries,
+          favorites: favorites,
+          addSeparator: addSeparator,
+          showCountryCode: showCountryCode,
+          sortCountries: sortCountries,
+          noResultMessage: noResultMessage,
+        );
 
   @override
   Future<Country?> navigate(BuildContext context) {
@@ -84,24 +100,25 @@ class BottomSheetNavigator implements CountrySelectorNavigator {
   }
 }
 
-class ModalBottomSheetNavigator implements CountrySelectorNavigator {
+class ModalBottomSheetNavigator extends CountrySelectorNavigator {
   final double? height;
-  final List<Country>? countries;
-  final List<String>? favorites;
-  final bool addSeparator;
-  final bool showCountryCode;
-  final bool sortCountries;
-  final String? noResultMessage;
 
   const ModalBottomSheetNavigator({
-    this.countries,
     this.height,
-    this.favorites,
-    this.addSeparator = true,
-    this.showCountryCode = true,
-    this.sortCountries = false,
-    this.noResultMessage,
-  });
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator = true,
+    bool showCountryCode = true,
+    bool sortCountries = false,
+    String? noResultMessage,
+  }) : super(
+          countries: countries,
+          favorites: favorites,
+          addSeparator: addSeparator,
+          showCountryCode: showCountryCode,
+          sortCountries: sortCountries,
+          noResultMessage: noResultMessage,
+        );
 
   @override
   Future<Country?> navigate(BuildContext context) {
@@ -124,30 +141,31 @@ class ModalBottomSheetNavigator implements CountrySelectorNavigator {
   }
 }
 
-class DraggableModalBottomSheetNavigator implements CountrySelectorNavigator {
-  final List<Country>? countries;
+class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
   final double initialChildSize;
   final double minChildSize;
   final double maxChildSize;
   final BorderRadiusGeometry? borderRadius;
-  final List<String>? favorites;
-  final bool addSeparator;
-  final bool showCountryCode;
-  final bool sortCountries;
-  final String? noResultMessage;
 
   const DraggableModalBottomSheetNavigator({
-    this.countries,
     this.initialChildSize = 0.5,
     this.minChildSize = 0.25,
     this.maxChildSize = 0.85,
     this.borderRadius,
-    this.favorites,
-    this.addSeparator = true,
-    this.showCountryCode = true,
-    this.sortCountries = false,
-    this.noResultMessage,
-  });
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator = true,
+    bool showCountryCode = true,
+    bool sortCountries = false,
+    String? noResultMessage,
+  }) : super(
+          countries: countries,
+          favorites: favorites,
+          addSeparator: addSeparator,
+          showCountryCode: showCountryCode,
+          sortCountries: sortCountries,
+          noResultMessage: noResultMessage,
+        );
 
   @override
   Future<Country?> navigate(BuildContext context) {
