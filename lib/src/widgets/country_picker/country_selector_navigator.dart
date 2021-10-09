@@ -23,6 +23,21 @@ abstract class CountrySelectorNavigator {
   });
 
   Future<Country?> navigate(BuildContext context);
+
+  CountrySelector _getCountrySelector({
+    required ValueChanged<Country> onCountrySelected,
+    ScrollController? scrollController,
+  }) =>
+      CountrySelector(
+        countries: countries ?? allCountries,
+        onCountrySelected: onCountrySelected,
+        favoriteCountries: favorites ?? [],
+        addFavoritesSeparator: addSeparator,
+        showCountryCode: showCountryCode,
+        sortCountries: sortCountries,
+        noResultMessage: noResultMessage,
+        scrollController: scrollController,
+      );
 }
 
 class DialogNavigator extends CountrySelectorNavigator {
@@ -44,17 +59,11 @@ class DialogNavigator extends CountrySelectorNavigator {
 
   @override
   Future<Country?> navigate(BuildContext context) {
-    return showDialog<Country>(
+    return showDialog(
       context: context,
       builder: (_) => Dialog(
-        child: CountrySelector(
-          countries: countries ?? allCountries,
+        child: _getCountrySelector(
           onCountrySelected: (country) => Navigator.pop(context, country),
-          favoriteCountries: favorites ?? [],
-          addFavoritesSeparator: addSeparator,
-          showCountryCode: showCountryCode,
-          sortCountries: sortCountries,
-          noResultMessage: noResultMessage,
         ),
       ),
     );
@@ -83,17 +92,11 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
     Country? selected;
     final ctrl = showBottomSheet(
       context: context,
-      builder: (_) => CountrySelector(
-        countries: countries ?? allCountries,
+      builder: (_) => _getCountrySelector(
         onCountrySelected: (country) {
           selected = country;
           Navigator.pop(context, country);
         },
-        favoriteCountries: favorites ?? [],
-        addFavoritesSeparator: addSeparator,
-        showCountryCode: showCountryCode,
-        sortCountries: sortCountries,
-        noResultMessage: noResultMessage,
       ),
     );
     return ctrl.closed.then((_) => selected);
@@ -126,14 +129,8 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
       context: context,
       builder: (_) => SizedBox(
         height: height ?? MediaQuery.of(context).size.height - 90,
-        child: CountrySelector(
-          countries: countries ?? allCountries,
+        child: _getCountrySelector(
           onCountrySelected: (country) => Navigator.pop(context, country),
-          favoriteCountries: favorites ?? [],
-          addFavoritesSeparator: addSeparator,
-          showCountryCode: showCountryCode,
-          sortCountries: sortCountries,
-          noResultMessage: noResultMessage,
         ),
       ),
       isScrollControlled: true,
@@ -192,15 +189,9 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
                 borderRadius: effectiveBorderRadius,
               ),
             ),
-            child: CountrySelector(
-              countries: countries ?? allCountries,
+            child: _getCountrySelector(
               onCountrySelected: (country) => Navigator.pop(context, country),
               scrollController: scrollController,
-              favoriteCountries: favorites ?? [],
-              addFavoritesSeparator: addSeparator,
-              showCountryCode: showCountryCode,
-              sortCountries: sortCountries,
-              noResultMessage: noResultMessage,
             ),
           );
         },
