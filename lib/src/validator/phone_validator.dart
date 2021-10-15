@@ -4,8 +4,6 @@ import 'package:phone_form_field/phone_form_field.dart';
 typedef PhoneNumberInputValidator = String? Function(PhoneNumber? phoneNumber);
 
 class PhoneValidator {
-  static final _parser = PhoneParser();
-
   /// allow to compose several validators
   /// Note that validator list order is important as first
   /// validator failing will return according message.
@@ -44,7 +42,7 @@ class PhoneValidator {
     return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
-          !_parser.validate(valueCandidate)) {
+          !valueCandidate.validate()) {
         return errorText ?? 'invalidPhoneNumber';
       }
       return null;
@@ -67,7 +65,7 @@ class PhoneValidator {
     return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
-          !_parser.validate(valueCandidate, expectedType)) {
+          !valueCandidate.validate(type: expectedType)) {
         return errorText ?? defaultMessage;
       }
       return null;
