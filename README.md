@@ -58,11 +58,11 @@ PhoneFormField(
 ### Built-in validators
 
 * required : `PhoneValidator.required`
-* invalid : `PhoneValidator.invalid` (default value when no validator supplied)
-* invalid mobile number : `PhoneValidator.invalidMobile`
-* invalid fixed line number : `PhoneValidator.invalidFixedLine`
-* invalid type : `PhoneValidator.invalidType`
-* invalid country : `PhoneValidator.invalidCountry`
+* valid : `PhoneValidator.valid` (default value when no validator supplied)
+* valid mobile number : `PhoneValidator.validMobile`
+* valid fixed line number : `PhoneValidator.validFixedLine`
+* valid type : `PhoneValidator.validType`
+* valid country : `PhoneValidator.validCountry`
 * none : `PhoneValidator.none` (this can be used to disable default invalid validator)
 
 ### Validators details
@@ -82,7 +82,7 @@ PhoneFormField(
   validator: PhoneValidator.compose([
     // list of validators to use
     PhoneValidator.required(errorText: "You must enter a value"),
-    PhoneValidator.invalidMobile(),
+    PhoneValidator.validMobile(),
     // ..
   ]),
 )

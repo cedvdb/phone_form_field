@@ -38,6 +38,15 @@ class PhoneValidator {
 
     /// determine whether a missing value should be reported as invalid
     bool allowEmpty = true,
+  }) =>
+      valid(errorText: errorText, allowEmpty: allowEmpty);
+
+  static PhoneNumberInputValidator valid({
+    /// custom error message
+    String? errorText,
+
+    /// determine whether a missing value should be reported as invalid
+    bool allowEmpty = true,
   }) {
     return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
@@ -49,7 +58,24 @@ class PhoneValidator {
     };
   }
 
+  @Deprecated('use validType, invalid type naming was backward')
   static PhoneNumberInputValidator invalidType(
+    /// expected phonetype
+    PhoneNumberType expectedType, {
+
+    /// custom error message
+    String? errorText,
+
+    /// determine whether a missing value should be reported as invalid
+    bool allowEmpty = true,
+  }) =>
+      validType(
+        expectedType,
+        errorText: errorText,
+        allowEmpty: allowEmpty,
+      );
+
+  static PhoneNumberInputValidator validType(
     /// expected phonetype
     PhoneNumberType expectedType, {
 
@@ -72,8 +98,7 @@ class PhoneValidator {
     };
   }
 
-  /// convenience shortcut method for
-  /// invalidType(context, PhoneNumberType.fixedLine, ...)
+  @Deprecated('use validFixedLine, naming was backward')
   static PhoneNumberInputValidator invalidFixedLine({
     /// custom error message
     String? errorText,
@@ -81,14 +106,24 @@ class PhoneValidator {
     /// determine whether a missing value should be reported as invalid
     bool allowEmpty = true,
   }) =>
-      invalidType(
+      validFixedLine(errorText: errorText, allowEmpty: allowEmpty);
+
+  /// convenience shortcut method for
+  /// invalidType(context, PhoneNumberType.fixedLine, ...)
+  static PhoneNumberInputValidator validFixedLine({
+    /// custom error message
+    String? errorText,
+
+    /// determine whether a missing value should be reported as invalid
+    bool allowEmpty = true,
+  }) =>
+      validType(
         PhoneNumberType.fixedLine,
         errorText: errorText,
         allowEmpty: allowEmpty,
       );
 
-  /// convenience shortcut method for
-  /// invalidType(context, PhoneNumberType.mobile, ...)
+  @Deprecated('Use validMobile, naming was backward')
   static PhoneNumberInputValidator invalidMobile({
     /// custom error message
     String? errorText,
@@ -96,13 +131,44 @@ class PhoneValidator {
     /// determine whether a missing value should be reported as invalid
     bool allowEmpty = true,
   }) =>
-      invalidType(
+      validMobile(
+        errorText: errorText,
+        allowEmpty: allowEmpty,
+      );
+
+  /// convenience shortcut method for
+  /// invalidType(context, PhoneNumberType.mobile, ...)
+  static PhoneNumberInputValidator validMobile({
+    /// custom error message
+    String? errorText,
+
+    /// determine whether a missing value should be reported as invalid
+    bool allowEmpty = true,
+  }) =>
+      validType(
         PhoneNumberType.mobile,
         errorText: errorText,
         allowEmpty: allowEmpty,
       );
 
-  static PhoneNumberInputValidator invalidCountry(
+  @Deprecated('Use valid country, naming was backward')
+  static invalidCountry(
+    /// list of valid country isocode
+    List<String> expectedCountries, {
+
+    /// custom error message
+    String? errorText,
+
+    /// determine whether a missing value should be reported as invalid
+    bool allowEmpty = true,
+  }) =>
+      validCountry(
+        expectedCountries,
+        errorText: errorText,
+        allowEmpty: allowEmpty,
+      );
+
+  static PhoneNumberInputValidator validCountry(
     /// list of valid country isocode
     List<String> expectedCountries, {
 
