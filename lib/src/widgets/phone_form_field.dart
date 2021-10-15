@@ -82,7 +82,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool shouldFormat;
 
   /// callback called when the input value changes
-  final Function(PhoneNumber?)? onChanged;
+  final ValueChanged<PhoneNumber?>? onChanged;
 
   PhoneFormField({
     Key? key,
@@ -103,6 +103,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
     PhoneNumber? initialValue,
     double flagSize = 16,
     PhoneNumberInputValidator? validator,
+    Function()? onEditingComplete,
+    TextInputAction? textInputAction,
     String? restorationId,
   })  : assert(
           initialValue == null || controller == null,
@@ -122,7 +124,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
             return PhoneField(
               controller: field._childController,
               autoFillHints: autofillHints,
-              onEditingComplete: () => TextInput.finishAutofillContext(),
               enabled: enabled,
               showFlagInInput: showFlagInInput,
               decoration: decoration,
@@ -132,6 +133,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
               cursorColor: cursorColor,
               errorText: field.getErrorText(),
               flagSize: flagSize,
+              onEditingComplete: onEditingComplete,
+              textInputAction: textInputAction,
             );
           },
         );

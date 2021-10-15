@@ -21,6 +21,7 @@ class PhoneField extends StatefulWidget {
   final bool? enabled;
   final String? errorText;
   final double flagSize;
+  final TextInputAction? textInputAction;
 
   /// input decoration applied to the input
   final InputDecoration decoration;
@@ -46,6 +47,7 @@ class PhoneField extends StatefulWidget {
     required this.cursorColor,
     required this.selectorNavigator,
     required this.flagSize,
+    required this.textInputAction,
   });
 
   @override
@@ -148,6 +150,7 @@ class _PhoneFieldState extends State<PhoneField> {
     return TextField(
       focusNode: _focusNode,
       controller: _nationalNumberController,
+      textInputAction: widget.textInputAction,
       onChanged: (national) => _updateValue(
           SimplePhoneNumber(isoCode: _isoCode, national: national)),
       autofocus: widget.autofocus,
