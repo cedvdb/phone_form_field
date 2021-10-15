@@ -238,9 +238,9 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     ),
                     Text(controller.value.toString()),
                     Text('is valid mobile number '
-                        '${controller.value != null ? PhoneParser().validate(controller.value!, PhoneNumberType.mobile) : 'false'}'),
+                        '${controller.value?.validate(type: PhoneNumberType.mobile) ?? 'false'}'),
                     Text(
-                        'is valid fixed line number ${controller.value != null ? PhoneParser().validate(controller.value!, PhoneNumberType.fixedLine) : 'false'}'),
+                        'is valid fixed line number ${controller.value?.validate(type: PhoneNumberType.fixedLine) ?? 'false'}'),
                   ],
                 ),
               ),

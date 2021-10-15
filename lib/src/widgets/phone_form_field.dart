@@ -82,7 +82,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool shouldFormat;
 
   /// callback called when the input value changes
-  final Function(PhoneNumber?)? onChanged;
+  final ValueChanged<PhoneNumber?>? onChanged;
 
   PhoneFormField({
     Key? key,
@@ -103,6 +103,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
     PhoneNumber? initialValue,
     double flagSize = 16,
     PhoneNumberInputValidator? validator,
+    Function()? onEditingComplete,
+    TextInputAction? textInputAction,
     String? restorationId,
   })  : assert(
           initialValue == null || controller == null,
@@ -122,7 +124,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
             return PhoneField(
               controller: field._childController,
               autoFillHints: autofillHints,
-              onEditingComplete: () => TextInput.finishAutofillContext(),
               enabled: enabled,
               showFlagInInput: showFlagInInput,
               decoration: decoration,
@@ -132,6 +133,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
               cursorColor: cursorColor,
               errorText: field.getErrorText(),
               flagSize: flagSize,
+              onEditingComplete: onEditingComplete,
+              textInputAction: textInputAction,
             );
           },
         );
@@ -141,7 +144,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
 }
 
 class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
-  late final PhoneParser _parser;
   late final PhoneController _controller;
   late final ValueNotifier<SimplePhoneNumber?> _childController;
 
@@ -152,7 +154,6 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   void initState() {
     super.initState();
     final simplePhoneNumber = _convertPhoneNumberToFormattedSimplePhone(value);
-    _parser = PhoneParser();
     _controller = widget.controller ?? PhoneController(value);
     _childController = ValueNotifier(simplePhoneNumber);
     _controller.addListener(_onControllerChange);
@@ -212,9 +213,10 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     if (simplePhone.national.startsWith(RegExp('[${Constants.PLUS}]'))) {
       // if starts with + then we parse the whole number
       // to figure out the country code
-      phoneNumber = _parser.parseRaw(simplePhone.national);
+      final international = simplePhone.national;
+      phoneNumber = PhoneNumber.fromRaw(international);
     } else {
-      phoneNumber = _parser.parseNational(
+      phoneNumber = PhoneNumber.fromNational(
         simplePhone.isoCode,
         simplePhone.national,
       );
@@ -230,8 +232,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     if (phoneNumber == null) return null;
     var formattedNsn = phoneNumber.nsn;
     if (widget.shouldFormat) {
-      PhoneNumberFormatter formatter = PhoneNumberFormatter();
-      formattedNsn = formatter.formatNsn(phoneNumber);
+      formattedNsn = phoneNumber.getFormattedNsn();
     }
     return SimplePhoneNumber(
       isoCode: phoneNumber.isoCode,

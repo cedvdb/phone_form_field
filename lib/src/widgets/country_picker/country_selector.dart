@@ -17,7 +17,7 @@ class CountrySelector extends StatefulWidget {
   final List<Country> countries;
 
   /// Callback triggered when user select a country
-  final Function(Country) onCountrySelected;
+  final ValueChanged<Country> onCountrySelected;
 
   /// ListView.builder scroll controller (ie: [ScrollView.controller])
   final ScrollController? scrollController;

@@ -1,3 +1,7 @@
+## 4.1.0
+- expose onEditingComplete and textInputAction
+- Update phone_number_parser library to 4.0.1, that library has breaking changes which could be reflected in the usage here
+
 ## [4.0.0]
 
 ### Fixes

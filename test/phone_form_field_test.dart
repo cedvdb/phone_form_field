@@ -88,7 +88,7 @@ void main() {
     group('value changes', () {
       testWidgets('Should display initial value', (tester) async {
         await tester.pumpWidget(getWidget(
-            initialValue: PhoneParser().parseWithIsoCode('FR', '478787827')));
+            initialValue: PhoneNumber.fromIsoCode('FR', '478787827')));
         expect(find.text('+ 33'), findsWidgets);
         expect(find.text('478787827'), findsOneWidget);
       });
@@ -105,8 +105,7 @@ void main() {
         await tester.tap(textField);
         // non digits should not work
         await tester.enterText(textField, '123456789');
-        expect(newValue,
-            equals(PhoneParser().parseWithIsoCode('US', '123456789')));
+        expect(newValue, equals(PhoneNumber.fromIsoCode('US', '123456789')));
       });
 
       testWidgets('Should change value of input when controller changes',
@@ -119,7 +118,7 @@ void main() {
         });
         await tester.pumpWidget(
             getWidget(controller: controller, defaultCountry: 'US'));
-        controller.value = PhoneParser().parseWithIsoCode('FR', '488997722');
+        controller.value = PhoneNumber.fromIsoCode('FR', '488997722');
         await tester.pumpAndSettle();
         expect(find.text('+ 33'), findsWidgets);
         expect(find.text('488997722'), findsOneWidget);
@@ -146,7 +145,7 @@ void main() {
 
       testWidgets('Should call onChange', (tester) async {
         bool changed = false;
-        PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('FR', '');
+        PhoneNumber? phoneNumber = PhoneNumber.fromIsoCode('FR', '');
         final onChanged = (p) {
           changed = true;
           phoneNumber = p;
@@ -166,15 +165,14 @@ void main() {
         await tester.enterText(textField, '123');
         await tester.pumpAndSettle();
         expect(changed, equals(true));
-        expect(
-            phoneNumber, equals(PhoneParser().parseWithIsoCode('FR', '123')));
+        expect(phoneNumber, equals(PhoneNumber.fromIsoCode('FR', '123')));
       });
     });
 
     group('validity', () {
       testWidgets('Should tell when a phone number is not valid',
           (tester) async {
-        PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('FR', '');
+        PhoneNumber? phoneNumber = PhoneNumber.fromIsoCode('FR', '');
         await tester.pumpWidget(getWidget(initialValue: phoneNumber));
         final foundTextField = find.byType(TextField);
         await tester.enterText(foundTextField, '9984');
@@ -186,7 +184,7 @@ void main() {
       testWidgets(
           'Should tell when a phone number is not valid for a given phone number type',
           (tester) async {
-        PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('BE', '');
+        PhoneNumber? phoneNumber = PhoneNumber.fromIsoCode('BE', '');
         // valid fixed line
         await tester.pumpWidget(getWidget(
           initialValue: phoneNumber,
@@ -225,7 +223,7 @@ void main() {
 
     group('Format', () {
       testWidgets('Should format when shouldFormat is true', (tester) async {
-        PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('FR', '');
+        PhoneNumber? phoneNumber = PhoneNumber.fromIsoCode('FR', '');
 
         await tester.pumpWidget(
             getWidget(initialValue: phoneNumber, shouldFormat: true));
@@ -237,7 +235,7 @@ void main() {
       });
       testWidgets('Should not format when shouldFormat is false',
           (tester) async {
-        PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('FR', '');
+        PhoneNumber? phoneNumber = PhoneNumber.fromIsoCode('FR', '');
 
         await tester.pumpWidget(
             getWidget(initialValue: phoneNumber, shouldFormat: false));
@@ -252,7 +250,7 @@ void main() {
     group('form field', () {
       testWidgets('Should call onSaved', (tester) async {
         bool saved = false;
-        PhoneNumber? phoneNumber = PhoneParser().parseWithIsoCode('FR', '');
+        PhoneNumber? phoneNumber = PhoneNumber.fromIsoCode('FR', '');
         final onSaved = (p) {
           saved = true;
           phoneNumber = p;
@@ -267,13 +265,11 @@ void main() {
         formKey.currentState?.save();
         await tester.pumpAndSettle();
         expect(saved, isTrue);
-        expect(phoneNumber,
-            equals(PhoneParser().parseWithIsoCode('FR', '479281938')));
+        expect(phoneNumber, equals(PhoneNumber.fromIsoCode('FR', '479281938')));
       });
 
       testWidgets('Should reset', (tester) async {
-        PhoneNumber? phoneNumber =
-            PhoneParser().parseWithIsoCode('FR', 'national');
+        PhoneNumber? phoneNumber = PhoneNumber.fromIsoCode('FR', 'national');
 
         await tester.pumpWidget(getWidget(initialValue: phoneNumber));
         await tester.pumpAndSettle();
