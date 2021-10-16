@@ -39,7 +39,7 @@ PhoneFormField(
     border: OutlineInputBorder() // default to UnderlineInputBorder(),
     // ...
   ),
-  validator: PhoneValidator.invalidMobile(),   // default PhoneValidator.invalid()
+  validator: PhoneValidator.validMobile(),   // default PhoneValidator.valid()
   selectorNavigator: const BottomSheetNavigator(), // default to bottom sheet but you can customize how the selector is shown by extending CountrySelectorNavigator
   enabled: true,          // default
   showFlagInInput: true,  // default
@@ -58,17 +58,17 @@ PhoneFormField(
 ### Built-in validators
 
 * required : `PhoneValidator.required`
-* invalid : `PhoneValidator.invalid` (default value when no validator supplied)
-* invalid mobile number : `PhoneValidator.invalidMobile`
-* invalid fixed line number : `PhoneValidator.invalidFixedLine`
-* invalid type : `PhoneValidator.invalidType`
-* invalid country : `PhoneValidator.invalidCountry`
-* none : `PhoneValidator.none` (this can be used to disable default invalid validator)
+* valid : `PhoneValidator.valid` (default value when no validator supplied)
+* valid mobile number : `PhoneValidator.validMobile`
+* valid fixed line number : `PhoneValidator.validFixedLine`
+* valid type : `PhoneValidator.validType`
+* valid country : `PhoneValidator.validCountry`
+* none : `PhoneValidator.none` (this can be used to disable default valid validator)
 
 ### Validators details
 
 * Each validator has an optional `errorText` property to override built-in translated text
-* Most of them have an optional `allowEmpty` (default is true) preventing to flag an empty field as invalid. Consider using a composed validator with a first `PhoneValidator.required` when a different text is needed for empty field.
+* Most of them have an optional `allowEmpty` (default is true) preventing to flag an empty field as valid. Consider using a composed validator with a first `PhoneValidator.required` when a different text is needed for empty field.
 
 ### Composing validators
 
@@ -82,7 +82,7 @@ PhoneFormField(
   validator: PhoneValidator.compose([
     // list of validators to use
     PhoneValidator.required(errorText: "You must enter a value"),
-    PhoneValidator.invalidMobile(),
+    PhoneValidator.validMobile(),
     // ..
   ]),
 )

@@ -188,7 +188,7 @@ void main() {
         // valid fixed line
         await tester.pumpWidget(getWidget(
           initialValue: phoneNumber,
-          validator: PhoneValidator.invalidFixedLine(),
+          validator: PhoneValidator.validFixedLine(),
         ));
         final foundTextField = find.byType(TextField);
         await tester.enterText(foundTextField, '77777777');
@@ -197,7 +197,7 @@ void main() {
         // invalid mobile
         await tester.pumpWidget(getWidget(
           initialValue: phoneNumber,
-          validator: PhoneValidator.invalidMobile(
+          validator: PhoneValidator.validMobile(
             errorText: 'Invalid phone number',
           ),
         ));
@@ -210,7 +210,7 @@ void main() {
         // valid mobile
         await tester.pumpWidget(getWidget(
           initialValue: phoneNumber,
-          validator: PhoneValidator.invalidMobile(
+          validator: PhoneValidator.validMobile(
             errorText: 'Invalid phone number',
           ),
         ));
