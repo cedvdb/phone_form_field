@@ -1,8 +1,11 @@
-## 4.1.0
+## [4.2.0] 16 / 10 / 2021
+- [deprecated] PhoneValidator.invalid in favor of PhoneValidator.valid as the naming did not make sens and was backward.
+
+## [4.1.0 ] 15 / 10 / 2021
 - expose onEditingComplete and textInputAction
 - Update phone_number_parser library to 4.0.1, that library has breaking changes which could be reflected in the usage here
 
-## [4.0.0]
+## [4.0.0] 01 / 10 / 2021
 
 ### Fixes
 - fix phone number type, thanks @emrsi

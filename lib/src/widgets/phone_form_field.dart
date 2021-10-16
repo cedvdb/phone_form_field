@@ -117,7 +117,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           initialValue:
               controller != null ? controller.initialValue : initialValue,
           onSaved: onSaved,
-          validator: validator ?? PhoneValidator.invalid(),
+          validator: validator ?? PhoneValidator.valid(),
           restorationId: restorationId,
           builder: (state) {
             final field = state as _PhoneFormFieldState;
