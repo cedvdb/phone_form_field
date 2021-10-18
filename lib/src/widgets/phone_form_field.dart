@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/helpers/validator_translator.dart';
-import 'package:phone_form_field/src/models/phone_controller.dart';
+import 'package:phone_form_field/src/models/phone_field_controller.dart';
+import 'package:phone_form_field/src/models/phone_form_field_controller.dart';
 import 'package:phone_form_field/src/models/simple_phone_number.dart';
 import 'package:phone_form_field/src/validator/phone_validator.dart';
 import 'package:phone_form_field/src/widgets/phone_field.dart';
@@ -210,7 +213,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
 
 class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   late final PhoneController _controller;
-  late final ValueNotifier<SimplePhoneNumber?> _childController;
+  late final PhoneFieldController _childController;
+  late final StreamSubscription _selectionSubscription;
 
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
@@ -220,16 +224,20 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     super.initState();
     final simplePhoneNumber = _convertPhoneNumberToFormattedSimplePhone(value);
     _controller = widget.controller ?? PhoneController(value);
-    _childController = ValueNotifier(simplePhoneNumber);
+    _childController = PhoneFieldController(simplePhoneNumber);
     _controller.addListener(_onControllerChange);
     _childController
         .addListener(() => _onChildControllerChange(_childController.value));
+    // to expose text selection of national number
+    _selectionSubscription = _controller.selectionRequest$
+        .listen((event) => _childController.selectNationalNumber());
   }
 
   @override
   void dispose() {
     super.dispose();
     _childController.dispose();
+    _selectionSubscription.cancel();
     // dispose the controller only when it's initialised in this instance
     // otherwise this should be done where instance is created
     if (widget.controller == null) {
