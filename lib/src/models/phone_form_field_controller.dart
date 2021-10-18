@@ -15,6 +15,10 @@ class PhoneController extends ValueNotifier<PhoneNumber?> {
     _selectionRequest$.add(null);
   }
 
+  reset() {
+    value = null;
+  }
+
   @override
   void dispose() {
     _selectionRequest$.close();

@@ -1,24 +1,43 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/src/models/simple_phone_number.dart';
 
 class PhoneFieldController extends ChangeNotifier {
-  ValueNotifier<String> _isoCodeController = ValueNotifier('');
-  TextEditingController _nationalController = TextEditingController();
-  // when we want to select the national number
-  final StreamController _selectionRequest$ = StreamController();
-  Stream get selectionRequest$ => _selectionRequest$.stream;
+  late final ValueNotifier<String?> isoCodeController;
+  late final TextEditingController nationalController;
+  final String defaultIsoCode;
 
-  PhoneFieldController({required Strnational, required this.isoCode});
+  String? get isoCode => isoCodeController.value;
+  String? get national =>
+      nationalController.text.isEmpty ? null : nationalController.text;
+  set isoCode(String? isoCode) => isoCodeController.value = isoCode;
+  set national(String? national) => nationalController.value = TextEditingValue(
+        text: national ?? '',
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: national?.length ?? 0),
+        ),
+      );
+
+  PhoneFieldController({
+    required String? national,
+    required String? isoCode,
+    required this.defaultIsoCode,
+  }) {
+    isoCodeController = ValueNotifier(isoCode);
+    nationalController = TextEditingController(text: national);
+    isoCodeController.addListener(notifyListeners);
+    nationalController.addListener(notifyListeners);
+  }
 
   selectNationalNumber() {
-    _selectionRequest$.add(null);
+    nationalController.selection = TextSelection(
+        baseOffset: 0, extentOffset: nationalController.value.text.length);
   }
 
   @override
   void dispose() {
-    _selectionRequest$.close();
+    isoCodeController.dispose();
+    nationalController.dispose();
     super.dispose();
   }
 }
