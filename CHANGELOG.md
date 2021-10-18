@@ -5,7 +5,6 @@
 - Fix an issue where a phone number could not start with its country code
 - uses phone_numbers_parser v4.1.0
 
-
 ## [4.2.0] 16 / 10 / 2021
 - [deprecated] PhoneValidator.invalid in favor of PhoneValidator.valid as the naming did not make sens and was backward.
 
