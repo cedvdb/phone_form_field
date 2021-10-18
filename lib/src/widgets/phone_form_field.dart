@@ -90,11 +90,15 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// country that is displayed when there is no value
   final String defaultCountry;
 
+  /// the focusNode of the national number
+  final FocusNode? focusNode;
+
   PhoneFormField({
     Key? key,
     this.controller,
     this.shouldFormat = true,
     this.onChanged,
+    this.focusNode,
     bool showFlagInInput = true,
     CountrySelectorNavigator selectorNavigator = const BottomSheetNavigator(),
     Function(PhoneNumber?)? onSaved,
@@ -106,7 +110,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
     double flagSize = 16,
     PhoneNumberInputValidator? validator,
     // textfield inputs
-    FocusNode? focusNode,
     TextInputType keyboardType = TextInputType.phone,
     TextInputAction? textInputAction,
     TextStyle? style,
@@ -160,7 +163,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
           builder: (state) {
             final field = state as _PhoneFormFieldState;
             return PhoneField(
-              focusNode: focusNode,
               controller: field._childController,
               showFlagInInput: showFlagInInput,
               selectorNavigator: selectorNavigator,
@@ -228,6 +230,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       defaultIsoCode: widget.defaultCountry,
       isoCode: _controller.value?.isoCode,
       national: _getFormattedNsn(),
+      focusNode: widget.focusNode ?? FocusNode(),
     );
     _controller.addListener(_onControllerChange);
     _childController.addListener(() => _onChildControllerChange());

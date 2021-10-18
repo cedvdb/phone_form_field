@@ -1,11 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class PhoneFieldController extends ChangeNotifier {
   late final ValueNotifier<String?> isoCodeController;
   late final TextEditingController nationalController;
   final String defaultIsoCode;
+
+  /// focus node of the national number
+  final FocusNode focusNode;
 
   String? get isoCode => isoCodeController.value;
   String? get national =>
@@ -22,6 +23,7 @@ class PhoneFieldController extends ChangeNotifier {
     required String? national,
     required String? isoCode,
     required this.defaultIsoCode,
+    required this.focusNode,
   }) {
     isoCodeController = ValueNotifier(isoCode);
     nationalController = TextEditingController(text: national);
@@ -31,7 +33,10 @@ class PhoneFieldController extends ChangeNotifier {
 
   selectNationalNumber() {
     nationalController.selection = TextSelection(
-        baseOffset: 0, extentOffset: nationalController.value.text.length);
+      baseOffset: 0,
+      extentOffset: nationalController.value.text.length,
+    );
+    focusNode.requestFocus();
   }
 
   @override

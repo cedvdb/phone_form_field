@@ -19,7 +19,6 @@ class PhoneField extends StatefulWidget {
   final bool showFlagInInput;
   final String? errorText;
   final double flagSize;
-  final FocusNode? focusNode;
   final InputDecoration decoration;
 
   /// configures the way the country picker selector is shown
@@ -72,7 +71,6 @@ class PhoneField extends StatefulWidget {
     required this.selectorNavigator,
     required this.flagSize,
     required this.errorText,
-    required this.focusNode,
     required this.decoration,
     // textfield  inputs
     required this.keyboardType,
@@ -118,7 +116,6 @@ class PhoneField extends StatefulWidget {
 }
 
 class _PhoneFieldState extends State<PhoneField> {
-  late final FocusNode _focusNode;
   Size? _size;
 
   bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
@@ -127,14 +124,17 @@ class _PhoneFieldState extends State<PhoneField> {
 
   @override
   void initState() {
-    _focusNode = widget.focusNode ?? FocusNode();
-    _focusNode.addListener(() => setState(() {}));
+    controller.focusNode.addListener(onFocusChange);
     super.initState();
+  }
+
+  void onFocusChange() {
+    setState(() {});
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    controller.focusNode.removeListener(onFocusChange);
     super.dispose();
   }
 
@@ -143,7 +143,7 @@ class _PhoneFieldState extends State<PhoneField> {
     if (selected != null) {
       controller.isoCode = selected.isoCode;
     }
-    _focusNode.requestFocus();
+    controller.focusNode.requestFocus();
   }
 
   Widget build(BuildContext context) {
@@ -157,7 +157,7 @@ class _PhoneFieldState extends State<PhoneField> {
           onSizeFound: (size) => setState(() => _size = size),
           child: _textField(),
         ),
-        if (_focusNode.hasFocus || controller.national != null)
+        if (controller.focusNode.hasFocus || controller.national != null)
           _inkWellOverlay(),
       ],
     );
@@ -165,7 +165,7 @@ class _PhoneFieldState extends State<PhoneField> {
 
   Widget _textField() {
     return TextField(
-      focusNode: _focusNode,
+      focusNode: controller.focusNode,
       controller: controller.nationalController,
       enabled: widget.enabled,
       inputFormatters: [
