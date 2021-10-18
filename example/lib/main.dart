@@ -71,6 +71,8 @@ class PhoneFieldView extends StatelessWidget {
 }
 
 class MyApp extends StatelessWidget {
+  MyApp();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -225,22 +227,34 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 40,
-                    ),
-                    ElevatedButton(
-                      onPressed: controller.value == null
-                          ? null
-                          : () => formKey.currentState?.reset(),
-                      child: Text('reset'),
-                    ),
-                    SizedBox(
-                      height: 40,
+                      height: 12,
                     ),
                     Text(controller.value.toString()),
                     Text('is valid mobile number '
                         '${controller.value?.validate(type: PhoneNumberType.mobile) ?? 'false'}'),
                     Text(
                         'is valid fixed line number ${controller.value?.validate(type: PhoneNumberType.fixedLine) ?? 'false'}'),
+                    SizedBox(height: 12),
+                    ElevatedButton(
+                      onPressed: controller.value == null
+                          ? null
+                          : () => controller.reset(),
+                      child: Text('reset'),
+                    ),
+                    SizedBox(height: 12),
+                    ElevatedButton(
+                      onPressed: () => controller.selectNationalNumber(),
+                      child: Text('Select national number'),
+                    ),
+                    SizedBox(height: 12),
+                    ElevatedButton(
+                      onPressed: () =>
+                          controller.value = PhoneNumber.fromIsoCode(
+                        'fr',
+                        '699999999',
+                      ),
+                      child: Text('Set +33 699 999 999'),
+                    ),
                   ],
                 ),
               ),

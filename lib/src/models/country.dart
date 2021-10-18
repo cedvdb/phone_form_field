@@ -14,7 +14,8 @@ class Country {
   /// returns "+ [countryCode]"
   String get displayCountryCode => '+ $countryCode';
 
-  Country(this.isoCode) : assert(isoCodes.contains(isoCode));
+  Country(this.isoCode)
+      : assert(isoCodes.contains(isoCode), 'isocode $isoCode not found');
 
   @override
   bool operator ==(Object other) =>

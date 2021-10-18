@@ -1,14 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/helpers/validator_translator.dart';
-import 'package:phone_form_field/src/models/phone_controller.dart';
-import 'package:phone_form_field/src/models/simple_phone_number.dart';
+import 'package:phone_form_field/src/models/phone_field_controller.dart';
+import 'package:phone_form_field/src/models/phone_form_field_controller.dart';
 import 'package:phone_form_field/src/validator/phone_validator.dart';
 import 'package:phone_form_field/src/widgets/phone_field.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'country_picker/country_selector_navigator.dart';
+import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 /// Phone input extending form field.
 ///
@@ -84,35 +87,73 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// callback called when the input value changes
   final ValueChanged<PhoneNumber?>? onChanged;
 
+  /// country that is displayed when there is no value
+  final String defaultCountry;
+
+  /// the focusNode of the national number
+  final FocusNode? focusNode;
+
   PhoneFormField({
     Key? key,
     this.controller,
     this.shouldFormat = true,
     this.onChanged,
-    List<String> autofillHints = const [],
-    bool autofocus = false,
-    bool enabled = true,
+    this.focusNode,
     bool showFlagInInput = true,
     CountrySelectorNavigator selectorNavigator = const BottomSheetNavigator(),
     Function(PhoneNumber?)? onSaved,
-    String defaultCountry = 'US',
+    this.defaultCountry = 'US',
     InputDecoration decoration =
         const InputDecoration(border: UnderlineInputBorder()),
-    Color? cursorColor,
     AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
     PhoneNumber? initialValue,
     double flagSize = 16,
     PhoneNumberInputValidator? validator,
-    Function()? onEditingComplete,
+    // textfield inputs
+    TextInputType keyboardType = TextInputType.phone,
     TextInputAction? textInputAction,
+    TextStyle? style,
+    StrutStyle? strutStyle,
+    TextAlign textAlign = TextAlign.start,
+    TextAlignVertical? textAlignVertical,
+    TextDirection? textDirection,
+    bool autofocus = false,
+    String obscuringCharacter = '*',
+    bool obscureText = false,
+    bool autocorrect = true,
+    SmartDashesType? smartDashesType,
+    SmartQuotesType? smartQuotesType,
+    bool enableSuggestions = true,
+    ToolbarOptions? toolbarOptions,
+    bool? showCursor,
+    VoidCallback? onEditingComplete,
+    ValueChanged<String>? onSubmitted,
+    AppPrivateCommandCallback? onAppPrivateCommand,
+    List<TextInputFormatter>? inputFormatters,
+    bool enabled = true,
+    double cursorWidth = 2.0,
+    double? cursorHeight,
+    Radius? cursorRadius,
+    Color? cursorColor,
+    ui.BoxHeightStyle selectionHeightStyle = ui.BoxHeightStyle.tight,
+    ui.BoxWidthStyle selectionWidthStyle = ui.BoxWidthStyle.tight,
+    Brightness? keyboardAppearance,
+    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
+    bool enableInteractiveSelection = true,
+    TextSelectionControls? selectionControls,
+    MouseCursor? mouseCursor,
+    ScrollPhysics? scrollPhysics,
+    ScrollController? scrollController,
+    Iterable<String>? autofillHints,
     String? restorationId,
+    bool enableIMEPersonalizedLearning = true,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
         ),
         super(
           key: key,
-          autovalidateMode: AutovalidateMode.always,
+          autovalidateMode: autovalidateMode,
           enabled: enabled,
           initialValue:
               controller != null ? controller.initialValue : initialValue,
@@ -123,18 +164,48 @@ class PhoneFormField extends FormField<PhoneNumber> {
             final field = state as _PhoneFormFieldState;
             return PhoneField(
               controller: field._childController,
-              autoFillHints: autofillHints,
-              enabled: enabled,
               showFlagInInput: showFlagInInput,
-              decoration: decoration,
-              autofocus: autofocus,
-              defaultCountry: defaultCountry,
               selectorNavigator: selectorNavigator,
-              cursorColor: cursorColor,
               errorText: field.getErrorText(),
               flagSize: flagSize,
-              onEditingComplete: onEditingComplete,
+              decoration: decoration,
+              enabled: enabled,
+              // textfield params
+              autofillHints: autofillHints,
+              keyboardType: keyboardType,
               textInputAction: textInputAction,
+              style: style,
+              strutStyle: strutStyle,
+              textAlign: textAlign,
+              textAlignVertical: textAlignVertical,
+              textDirection: textDirection,
+              autofocus: autofocus,
+              obscuringCharacter: obscuringCharacter,
+              obscureText: obscureText,
+              autocorrect: autocorrect,
+              smartDashesType: smartDashesType,
+              smartQuotesType: smartQuotesType,
+              enableSuggestions: enableSuggestions,
+              toolbarOptions: toolbarOptions,
+              showCursor: showCursor,
+              onEditingComplete: onEditingComplete,
+              onSubmitted: onSubmitted,
+              onAppPrivateCommand: onAppPrivateCommand,
+              cursorWidth: cursorWidth,
+              cursorHeight: cursorHeight,
+              cursorRadius: cursorRadius,
+              cursorColor: cursorColor,
+              selectionHeightStyle: selectionHeightStyle,
+              selectionWidthStyle: selectionWidthStyle,
+              keyboardAppearance: keyboardAppearance,
+              scrollPadding: scrollPadding,
+              enableInteractiveSelection: enableInteractiveSelection,
+              selectionControls: selectionControls,
+              mouseCursor: mouseCursor,
+              scrollController: scrollController,
+              scrollPhysics: scrollPhysics,
+              restorationId: restorationId,
+              enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
             );
           },
         );
@@ -145,7 +216,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
 
 class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   late final PhoneController _controller;
-  late final ValueNotifier<SimplePhoneNumber?> _childController;
+  late final PhoneFieldController _childController;
+  late final StreamSubscription _selectionSubscription;
 
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
@@ -153,18 +225,25 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   @override
   void initState() {
     super.initState();
-    final simplePhoneNumber = _convertPhoneNumberToFormattedSimplePhone(value);
     _controller = widget.controller ?? PhoneController(value);
-    _childController = ValueNotifier(simplePhoneNumber);
+    _childController = PhoneFieldController(
+      defaultIsoCode: widget.defaultCountry,
+      isoCode: _controller.value?.isoCode,
+      national: _getFormattedNsn(),
+      focusNode: widget.focusNode ?? FocusNode(),
+    );
     _controller.addListener(_onControllerChange);
-    _childController
-        .addListener(() => _onChildControllerChange(_childController.value));
+    _childController.addListener(() => _onChildControllerChange());
+    // to expose text selection of national number
+    _selectionSubscription = _controller.selectionRequest$
+        .listen((event) => _childController.selectNationalNumber());
   }
 
   @override
   void dispose() {
     super.dispose();
     _childController.dispose();
+    _selectionSubscription.cancel();
     // dispose the controller only when it's initialised in this instance
     // otherwise this should be done where instance is created
     if (widget.controller == null) {
@@ -183,61 +262,56 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   /// deals with the UI can display the correct value.
   void _onControllerChange() {
     final phone = _controller.value;
-    final base = _childController.value;
 
     widget.onChanged?.call(phone);
     didChange(phone);
-    final formatted = _convertPhoneNumberToFormattedSimplePhone(phone);
-    if (base?.national != formatted?.national ||
-        base?.isoCode != formatted?.isoCode) {
-      _childController.value = formatted;
+    final formatted = _getFormattedNsn();
+    if (_childController.national != formatted) {
+      _childController.national = formatted;
+    }
+    if (_childController.isoCode != phone?.isoCode) {
+      _childController.isoCode = phone?.isoCode;
     }
   }
 
   /// when the base controller changes (when the user manually input something)
   /// then we need to update the local controller's value.
-  void _onChildControllerChange(SimplePhoneNumber? simplePhone) {
-    if (simplePhone?.national == _controller.value?.nsn &&
-        simplePhone?.isoCode == _controller.value?.isoCode) {
+  void _onChildControllerChange() {
+    if (_childController.national == _controller.value?.nsn &&
+        _childController.isoCode == _controller.value?.isoCode) {
       return;
     }
-    if (simplePhone == null) {
+    if (_childController.national == null && _childController.isoCode == null) {
       return _controller.value = null;
     }
-    // we convert the simple phone number to a full blown PhoneNumber
-    // to access validation, formatting etc.
+    // we convert the multiple controllers from the child controller
+    // to a full blown PhoneNumber to access validation, formatting etc.
     PhoneNumber phoneNumber;
-    // when the base input change we check if its not a whole number
+    // when the nsn input change we check if its not a whole number
     // to allow for copy pasting and auto fill. If it is one then
-    // we parse it accordingly
-    if (simplePhone.national.startsWith(RegExp('[${Constants.PLUS}]'))) {
+    // we parse it accordingly.
+    // we assume it's a whole phone number if it starts with +
+    final childNsn = _childController.national;
+    if (childNsn != null &&
+        childNsn.startsWith(RegExp('[${Constants.PLUS}]'))) {
       // if starts with + then we parse the whole number
       // to figure out the country code
-      final international = simplePhone.national;
+      final international = childNsn;
       phoneNumber = PhoneNumber.fromRaw(international);
     } else {
       phoneNumber = PhoneNumber.fromNational(
-        simplePhone.isoCode,
-        simplePhone.national,
+        _childController.isoCode ?? _childController.defaultIsoCode,
+        childNsn ?? '',
       );
     }
     _controller.value = phoneNumber;
   }
 
-  /// converts the phone number value to a formatted value
-  /// usable by the childController, The [PhoneField]
-  /// which deals with the UI, will display that value
-  SimplePhoneNumber? _convertPhoneNumberToFormattedSimplePhone(
-      PhoneNumber? phoneNumber) {
-    if (phoneNumber == null) return null;
-    var formattedNsn = phoneNumber.nsn;
+  String? _getFormattedNsn() {
     if (widget.shouldFormat) {
-      formattedNsn = phoneNumber.getFormattedNsn();
+      return _controller.value?.getFormattedNsn();
     }
-    return SimplePhoneNumber(
-      isoCode: phoneNumber.isoCode,
-      national: formattedNsn,
-    );
+    return _controller.value?.nsn;
   }
 
   /// gets the localized error text if any
