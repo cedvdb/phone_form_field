@@ -71,6 +71,10 @@ class PhoneFieldView extends StatelessWidget {
 }
 
 class MyApp extends StatelessWidget {
+  MyApp() {
+    print('My App');
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
