@@ -145,7 +145,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
         ),
         super(
           key: key,
-          autovalidateMode: AutovalidateMode.always,
+          autovalidateMode: autovalidateMode,
           enabled: enabled,
           initialValue:
               controller != null ? controller.initialValue : initialValue,
