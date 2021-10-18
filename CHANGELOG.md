@@ -1,3 +1,6 @@
+## [4.3.0] 16 / 10 / 2021
+- Added most of textfield params to the phone input.
+
 ## [4.2.0] 16 / 10 / 2021
 - [deprecated] PhoneValidator.invalid in favor of PhoneValidator.valid as the naming did not make sens and was backward.
 
