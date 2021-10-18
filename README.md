@@ -31,8 +31,6 @@ PhoneFormField(
   controller: null,     // controller & initialValue value
   initialValue: null,   // can't be supplied simultaneously
   shouldFormat: true    // default 
-  autofocus: false,     // default
-  autofillHints: [AutofillHints.telephoneNumber], // default to null
   defaultCountry: 'US', // default 
   decoration: InputDecoration(
     labelText: 'Phone',          // default to null
@@ -41,14 +39,15 @@ PhoneFormField(
   ),
   validator: PhoneValidator.validMobile(),   // default PhoneValidator.valid()
   selectorNavigator: const BottomSheetNavigator(), // default to bottom sheet but you can customize how the selector is shown by extending CountrySelectorNavigator
-  enabled: true,          // default
   showFlagInInput: true,  // default
   flagSize: 16,           // default
+  autofillHints: [AutofillHints.telephoneNumber], // default to null
+  enabled: true,          // default
+  autofocus: false,       // default
   autovalidateMode: AutovalidateMode.onUserInteraction, // default 
-  cursorColor: Theme.of(context).colorScheme.primary,  // default null
   onSaved: (PhoneNumber p) => print('saved $p'),   // default null
   onChanged: (PhoneNumber p) => print('saved $p'), // default null
-  restorationId: 'phoneRestorationId'
+  // ... + other textfield params
 )
 
 ```
