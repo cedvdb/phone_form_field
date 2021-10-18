@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/constants/constants.dart';
-import 'package:phone_form_field/src/models/simple_phone_number.dart';
+import 'package:phone_form_field/src/models/phone_field_controller.dart';
 import 'package:phone_form_field/src/widgets/measure_initial_size.dart';
 
 import '../../phone_form_field.dart';
@@ -15,12 +15,10 @@ import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 ///
 /// This deals with mostly UI and has no dependency on any phone parser library
 class PhoneField extends StatefulWidget {
-  final ValueNotifier<SimplePhoneNumber?> controller;
+  final PhoneFieldController controller;
   final bool showFlagInInput;
-  final String defaultCountry;
   final String? errorText;
   final double flagSize;
-  final FocusNode? focusNode;
   final InputDecoration decoration;
 
   /// configures the way the country picker selector is shown
@@ -69,12 +67,10 @@ class PhoneField extends StatefulWidget {
     // form field params
     Key? key,
     required this.controller,
-    required this.defaultCountry,
     required this.showFlagInInput,
     required this.selectorNavigator,
     required this.flagSize,
     required this.errorText,
-    required this.focusNode,
     required this.decoration,
     // textfield  inputs
     required this.keyboardType,
@@ -120,66 +116,34 @@ class PhoneField extends StatefulWidget {
 }
 
 class _PhoneFieldState extends State<PhoneField> {
-  late final FocusNode _focusNode;
   Size? _size;
 
-  /// this is the controller for the national phone number
-  late TextEditingController _nationalNumberController;
-
   bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
-
-  SimplePhoneNumber? get value => widget.controller.value;
-  String get _isoCode => value?.isoCode ?? widget.defaultCountry;
-
+  PhoneFieldController get controller => widget.controller;
   _PhoneFieldState();
 
   @override
   void initState() {
-    _focusNode = widget.focusNode ?? FocusNode();
-    _nationalNumberController = TextEditingController(text: value?.national);
-    widget.controller.addListener(() => _updateValue(widget.controller.value));
-    _focusNode.addListener(() => setState(() {}));
+    controller.focusNode.addListener(onFocusChange);
     super.initState();
   }
 
-  /// to update the current value of the input
-  void _updateValue(SimplePhoneNumber? phoneNumber) async {
-    final national = phoneNumber?.national ?? '';
-    // if the national number has changed from outside we need to update
-    // the controller value
-    if (national != _nationalNumberController.text) {
-      // we need to use a future here because when resetting
-      // there is a race condition between the focus out event (clicking on reset)
-      // which updates the value to the current one without text selection
-      // and the actual reset
-      await Future.value();
-      _nationalNumberController.value = TextEditingValue(
-        text: national,
-        selection: TextSelection.fromPosition(
-          TextPosition(offset: national.length),
-        ),
-      );
-    }
-    // when updating from within
-    if (widget.controller.value != phoneNumber) {
-      widget.controller.value = phoneNumber;
-    }
+  void onFocusChange() {
+    setState(() {});
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
-    _nationalNumberController.dispose();
+    controller.focusNode.removeListener(onFocusChange);
     super.dispose();
   }
 
   void selectCountry() async {
     final selected = await widget.selectorNavigator.navigate(context);
     if (selected != null) {
-      _updateValue(SimplePhoneNumber(
-          isoCode: selected.isoCode, national: value?.national ?? ''));
+      controller.isoCode = selected.isoCode;
     }
-    _focusNode.requestFocus();
+    controller.focusNode.requestFocus();
   }
 
   Widget build(BuildContext context) {
@@ -193,7 +157,7 @@ class _PhoneFieldState extends State<PhoneField> {
           onSizeFound: (size) => setState(() => _size = size),
           child: _textField(),
         ),
-        if (_focusNode.hasFocus || _nationalNumberController.text.isNotEmpty)
+        if (controller.focusNode.hasFocus || controller.national != null)
           _inkWellOverlay(),
       ],
     );
@@ -201,10 +165,8 @@ class _PhoneFieldState extends State<PhoneField> {
 
   Widget _textField() {
     return TextField(
-      focusNode: _focusNode,
-      controller: _nationalNumberController,
-      onChanged: (national) => _updateValue(
-          SimplePhoneNumber(isoCode: _isoCode, national: national)),
+      focusNode: controller.focusNode,
+      controller: controller.nationalController,
       enabled: widget.enabled,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(
@@ -285,7 +247,7 @@ class _PhoneFieldState extends State<PhoneField> {
         visible: visible,
         child: CountryCodeChip(
           key: visible ? Key('country-code-chip') : null,
-          country: Country(_isoCode),
+          country: Country(controller.isoCode ?? controller.defaultIsoCode),
           showFlag: widget.showFlagInInput,
           textStyle: TextStyle(
             fontSize: 16,
