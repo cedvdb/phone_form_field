@@ -141,12 +141,13 @@ class _PhoneFieldState extends State<PhoneField> {
   }
 
   void selectCountry() async {
-    FocusScope.of(context).unfocus();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     final selected = await widget.selectorNavigator.navigate(context);
     if (selected != null) {
       controller.isoCode = selected.isoCode;
     }
     controller.focusNode.requestFocus();
+    SystemChannels.textInput.invokeMethod('TextInput.show');
   }
 
   Widget build(BuildContext context) {

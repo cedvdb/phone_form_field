@@ -4,15 +4,19 @@ import 'package:flutter/services.dart';
 
 class SearchBox extends StatelessWidget {
   final Function(String) onChanged;
+  final bool autofocus;
 
-  SearchBox({required this.onChanged});
+  SearchBox({
+    required this.onChanged,
+    required this.autofocus,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: TextField(
-        autofocus: kIsWeb,
+        autofocus: autofocus,
         onChanged: onChanged,
         decoration: InputDecoration(
           prefixIcon: Icon(
