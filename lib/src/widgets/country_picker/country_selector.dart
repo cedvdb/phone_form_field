@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 import 'package:phone_form_field/src/helpers/country_translator.dart';
@@ -43,6 +44,9 @@ class CountrySelector extends StatefulWidget {
   /// The message displayed instead of the list when the search has no results
   final String? noResultMessage;
 
+  /// whether the search input is auto focussed
+  final bool searchAutofocus;
+
   CountrySelector({
     Key? key,
     required this.onCountrySelected,
@@ -53,6 +57,7 @@ class CountrySelector extends StatefulWidget {
     this.noResultMessage,
     List<String>? favoriteCountries,
     List<Country>? countries,
+    this.searchAutofocus = kIsWeb,
   })  : countries = countries ?? allCountries,
         favoriteCountries = favoriteCountries ?? _emptyFavCountriesArray,
         super(key: key);
@@ -128,6 +133,7 @@ class _CountrySelectorState extends State<CountrySelector> {
           height: 70,
           width: double.infinity,
           child: SearchBox(
+            autofocus: widget.searchAutofocus,
             onChanged: _onSearch,
           ),
         ),
