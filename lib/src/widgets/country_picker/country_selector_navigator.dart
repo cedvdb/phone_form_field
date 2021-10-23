@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/all_countries.dart';
@@ -12,6 +13,7 @@ abstract class CountrySelectorNavigator {
   final bool showCountryCode;
   final bool sortCountries;
   final String? noResultMessage;
+  final bool searchAutofocus;
 
   const CountrySelectorNavigator({
     this.countries,
@@ -20,6 +22,7 @@ abstract class CountrySelectorNavigator {
     this.showCountryCode = true,
     this.sortCountries = false,
     this.noResultMessage,
+    required this.searchAutofocus,
   });
 
   Future<Country?> navigate(BuildContext context);
@@ -37,24 +40,27 @@ abstract class CountrySelectorNavigator {
         sortCountries: sortCountries,
         noResultMessage: noResultMessage,
         scrollController: scrollController,
+        searchAutofocus: searchAutofocus,
       );
 }
 
 class DialogNavigator extends CountrySelectorNavigator {
-  const DialogNavigator({
-    List<Country>? countries,
-    List<String>? favorites,
-    bool addSeparator = true,
-    bool showCountryCode = true,
-    bool sortCountries = false,
-    String? noResultMessage,
-  }) : super(
+  const DialogNavigator(
+      {List<Country>? countries,
+      List<String>? favorites,
+      bool addSeparator = true,
+      bool showCountryCode = true,
+      bool sortCountries = false,
+      String? noResultMessage,
+      bool searchAutofocus = kIsWeb})
+      : super(
           countries: countries,
           favorites: favorites,
           addSeparator: addSeparator,
           showCountryCode: showCountryCode,
           sortCountries: sortCountries,
           noResultMessage: noResultMessage,
+          searchAutofocus: searchAutofocus,
         );
 
   @override
@@ -71,21 +77,22 @@ class DialogNavigator extends CountrySelectorNavigator {
 }
 
 class BottomSheetNavigator extends CountrySelectorNavigator {
-  const BottomSheetNavigator({
-    List<Country>? countries,
-    List<String>? favorites,
-    bool addSeparator = true,
-    bool showCountryCode = true,
-    bool sortCountries = false,
-    String? noResultMessage,
-  }) : super(
-          countries: countries,
-          favorites: favorites,
-          addSeparator: addSeparator,
-          showCountryCode: showCountryCode,
-          sortCountries: sortCountries,
-          noResultMessage: noResultMessage,
-        );
+  const BottomSheetNavigator(
+      {List<Country>? countries,
+      List<String>? favorites,
+      bool addSeparator = true,
+      bool showCountryCode = true,
+      bool sortCountries = false,
+      String? noResultMessage,
+      bool searchAutofocus = kIsWeb})
+      : super(
+            countries: countries,
+            favorites: favorites,
+            addSeparator: addSeparator,
+            showCountryCode: showCountryCode,
+            sortCountries: sortCountries,
+            noResultMessage: noResultMessage,
+            searchAutofocus: searchAutofocus);
 
   @override
   Future<Country?> navigate(BuildContext context) {
@@ -114,14 +121,15 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
     bool showCountryCode = true,
     bool sortCountries = false,
     String? noResultMessage,
+    bool searchAutofocus = kIsWeb,
   }) : super(
-          countries: countries,
-          favorites: favorites,
-          addSeparator: addSeparator,
-          showCountryCode: showCountryCode,
-          sortCountries: sortCountries,
-          noResultMessage: noResultMessage,
-        );
+            countries: countries,
+            favorites: favorites,
+            addSeparator: addSeparator,
+            showCountryCode: showCountryCode,
+            sortCountries: sortCountries,
+            noResultMessage: noResultMessage,
+            searchAutofocus: searchAutofocus);
 
   @override
   Future<Country?> navigate(BuildContext context) {
@@ -144,25 +152,26 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
   final double maxChildSize;
   final BorderRadiusGeometry? borderRadius;
 
-  const DraggableModalBottomSheetNavigator({
-    this.initialChildSize = 0.5,
-    this.minChildSize = 0.25,
-    this.maxChildSize = 0.85,
-    this.borderRadius,
-    List<Country>? countries,
-    List<String>? favorites,
-    bool addSeparator = true,
-    bool showCountryCode = true,
-    bool sortCountries = false,
-    String? noResultMessage,
-  }) : super(
-          countries: countries,
-          favorites: favorites,
-          addSeparator: addSeparator,
-          showCountryCode: showCountryCode,
-          sortCountries: sortCountries,
-          noResultMessage: noResultMessage,
-        );
+  const DraggableModalBottomSheetNavigator(
+      {this.initialChildSize = 0.5,
+      this.minChildSize = 0.25,
+      this.maxChildSize = 0.85,
+      this.borderRadius,
+      List<Country>? countries,
+      List<String>? favorites,
+      bool addSeparator = true,
+      bool showCountryCode = true,
+      bool sortCountries = false,
+      String? noResultMessage,
+      bool searchAutofocus = kIsWeb})
+      : super(
+            countries: countries,
+            favorites: favorites,
+            addSeparator: addSeparator,
+            showCountryCode: showCountryCode,
+            sortCountries: sortCountries,
+            noResultMessage: noResultMessage,
+            searchAutofocus: searchAutofocus);
 
   @override
   Future<Country?> navigate(BuildContext context) {

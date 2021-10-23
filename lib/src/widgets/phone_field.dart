@@ -116,10 +116,12 @@ class PhoneField extends StatefulWidget {
 }
 
 class _PhoneFieldState extends State<PhoneField> {
+  /// size of input so we can render inkwell at correct height
   Size? _size;
 
   bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
   PhoneFieldController get controller => widget.controller;
+
   _PhoneFieldState();
 
   @override
@@ -139,11 +141,13 @@ class _PhoneFieldState extends State<PhoneField> {
   }
 
   void selectCountry() async {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     final selected = await widget.selectorNavigator.navigate(context);
     if (selected != null) {
       controller.isoCode = selected.isoCode;
     }
     controller.focusNode.requestFocus();
+    SystemChannels.textInput.invokeMethod('TextInput.show');
   }
 
   Widget build(BuildContext context) {
@@ -226,7 +230,7 @@ class _PhoneFieldState extends State<PhoneField> {
         ),
         child: Padding(
           // outline border has padding on the left
-          // but only when prefixIcon is used (!isCountryCodeFixed)
+          // but only when prefixIcon is used
           // so we need to make it a 12 bigger
           padding: _isOutlineBorder
               ? const EdgeInsets.only(left: 12)
@@ -246,7 +250,9 @@ class _PhoneFieldState extends State<PhoneField> {
         maintainState: true,
         visible: visible,
         child: CountryCodeChip(
-          key: visible ? Key('country-code-chip') : null,
+          key: visible
+              ? Key('country-code-chip')
+              : Key('country-code-chip-hidden'),
           country: Country(controller.isoCode ?? controller.defaultIsoCode),
           showFlag: widget.showFlagInInput,
           textStyle: TextStyle(

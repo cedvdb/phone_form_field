@@ -1,3 +1,8 @@
+## [4.3.1] 23 / 10 / 2021
+- fix a focus issue when opening country selection
+- search bar in country selection is no auto focus false except for the web
+
+
 ## [4.3.0] 18 / 10 / 2021
 - Added most of textfield params to the phone input.
 - Added method to select the current national number from the controller
