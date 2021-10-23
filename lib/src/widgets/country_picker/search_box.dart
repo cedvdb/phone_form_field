@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,7 +12,7 @@ class SearchBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: TextField(
-        autofocus: true,
+        autofocus: kIsWeb,
         onChanged: onChanged,
         decoration: InputDecoration(
           prefixIcon: Icon(
