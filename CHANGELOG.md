@@ -1,3 +1,7 @@
+## [4.4.0] 07 / 11 / 2021
+- upgraded phone parser dependency which fix some validity issues
+- added swedish language
+
 ## [4.3.1] 23 / 10 / 2021
 - fix a focus issue when opening country selection
 - search bar in country selection is no auto focus false except for the web
