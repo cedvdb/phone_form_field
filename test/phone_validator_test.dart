@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/validator/phone_validator.dart';
 
 void main() async {
   group('PhoneValidator.compose', () {

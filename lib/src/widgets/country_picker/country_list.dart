@@ -1,5 +1,4 @@
 import 'package:circle_flags/circle_flags.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/src/helpers/country_translator.dart';
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'phone_field_localization_ar.dart';
@@ -14,6 +15,7 @@ import 'phone_field_localization_it.dart';
 import 'phone_field_localization_nl.dart';
 import 'phone_field_localization_pt.dart';
 import 'phone_field_localization_ru.dart';
+import 'phone_field_localization_sv.dart';
 import 'phone_field_localization_zh.dart';
 
 /// Callers can lookup localized strings with an instance of PhoneFieldLocalization returned
@@ -94,6 +96,9 @@ abstract class PhoneFieldLocalization {
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
     delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
   ];
 
   /// A list of this localizations delegate's supported locales.
@@ -108,6 +113,7 @@ abstract class PhoneFieldLocalization {
     Locale('nl'),
     Locale('pt'),
     Locale('ru'),
+    Locale('sv'),
     Locale('zh')
   ];
 
@@ -1607,7 +1613,7 @@ class _PhoneFieldLocalizationDelegate
   @override
   Future<PhoneFieldLocalization> load(Locale locale) {
     return SynchronousFuture<PhoneFieldLocalization>(
-        _lookupPhoneFieldLocalization(locale));
+        lookupPhoneFieldLocalization(locale));
   }
 
   @override
@@ -1622,6 +1628,7 @@ class _PhoneFieldLocalizationDelegate
         'nl',
         'pt',
         'ru',
+        'sv',
         'zh'
       ].contains(locale.languageCode);
 
@@ -1629,8 +1636,8 @@ class _PhoneFieldLocalizationDelegate
   bool shouldReload(_PhoneFieldLocalizationDelegate old) => false;
 }
 
-PhoneFieldLocalization _lookupPhoneFieldLocalization(Locale locale) {
-// Lookup logic when only language code is specified.
+PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
+  // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'ar':
       return PhoneFieldLocalizationAr();
@@ -1652,6 +1659,8 @@ PhoneFieldLocalization _lookupPhoneFieldLocalization(Locale locale) {
       return PhoneFieldLocalizationPt();
     case 'ru':
       return PhoneFieldLocalizationRu();
+    case 'sv':
+      return PhoneFieldLocalizationSv();
     case 'zh':
       return PhoneFieldLocalizationZh();
   }
