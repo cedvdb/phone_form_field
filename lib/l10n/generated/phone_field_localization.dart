@@ -16,6 +16,7 @@ import 'phone_field_localization_nl.dart';
 import 'phone_field_localization_pt.dart';
 import 'phone_field_localization_ru.dart';
 import 'phone_field_localization_sv.dart';
+import 'phone_field_localization_tr.dart';
 import 'phone_field_localization_zh.dart';
 
 /// Callers can lookup localized strings with an instance of PhoneFieldLocalization returned
@@ -114,6 +115,7 @@ abstract class PhoneFieldLocalization {
     Locale('pt'),
     Locale('ru'),
     Locale('sv'),
+    Locale("tr"),
     Locale('zh')
   ];
 
@@ -1629,6 +1631,7 @@ class _PhoneFieldLocalizationDelegate
         'pt',
         'ru',
         'sv',
+        'tr',
         'zh'
       ].contains(locale.languageCode);
 
@@ -1661,6 +1664,8 @@ PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
       return PhoneFieldLocalizationRu();
     case 'sv':
       return PhoneFieldLocalizationSv();
+    case 'tr':
+      return PhoneFieldLocalizationTr();
     case 'zh':
       return PhoneFieldLocalizationZh();
   }
