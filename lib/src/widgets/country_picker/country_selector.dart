@@ -149,12 +149,12 @@ class _CountrySelectorState extends State<CountrySelector> {
                   scrollController: widget.scrollController,
                 )
               : Padding(
-                  key: Key('no-result'),
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(
                     widget.noResultMessage ??
                         PhoneFieldLocalization.of(context)?.noResultMessage ??
                         'No result found',
+                    key: const ValueKey('no-result'),
                   ),
                 ),
         ),

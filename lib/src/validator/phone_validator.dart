@@ -193,5 +193,7 @@ class PhoneValidator {
     };
   }
 
-  static PhoneNumberInputValidator get none => (PhoneNumber? valueCandidate) {};
+  static PhoneNumberInputValidator get none => (PhoneNumber? valueCandidate) {
+        return null;
+      };
 }

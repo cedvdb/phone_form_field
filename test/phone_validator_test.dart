@@ -12,12 +12,15 @@ void main() async {
       final validator = PhoneValidator.compose([
         (PhoneNumber? p) {
           first = true;
+          return null;
         },
         (PhoneNumber? p) {
           second = true;
+          return null;
         },
         (PhoneNumber? p) {
           last = true;
+          return null;
         },
       ]);
 
@@ -34,16 +37,18 @@ void main() async {
       final validator = PhoneValidator.compose([
         (PhoneNumber? p) {
           firstValidationDone = true;
+          return null;
         },
         (PhoneNumber? p) {
-          return "validation failed";
+          return 'validation failed';
         },
         (PhoneNumber? p) {
           lastValidationDone = true;
+          return null;
         },
       ]);
       expect(validator(PhoneNumber(isoCode: '', nsn: '')),
-          equals("validation failed"));
+          equals('validation failed'));
       expect(firstValidationDone, isTrue);
       expect(lastValidationDone, isFalse);
     });
@@ -54,7 +59,7 @@ void main() async {
       final validator = PhoneValidator.required();
       expect(
         validator(PhoneNumber(isoCode: 'US', nsn: '')),
-        equals("requiredPhoneNumber"),
+        equals('requiredPhoneNumber'),
       );
 
       final validatorWithText = PhoneValidator.required(
@@ -62,7 +67,7 @@ void main() async {
       );
       expect(
         validatorWithText(PhoneNumber(isoCode: 'US', nsn: '')),
-        equals("custom message"),
+        equals('custom message'),
       );
     });
   });
@@ -72,7 +77,7 @@ void main() async {
       final validator = PhoneValidator.valid();
       expect(
         validator(PhoneNumber(isoCode: 'FR', nsn: '123')),
-        equals("invalidPhoneNumber"),
+        equals('invalidPhoneNumber'),
       );
 
       final validatorWithText = PhoneValidator.valid(
@@ -80,7 +85,7 @@ void main() async {
       );
       expect(
         validatorWithText(PhoneNumber(isoCode: 'FR', nsn: '123')),
-        equals("custom message"),
+        equals('custom message'),
       );
     });
 
@@ -95,7 +100,7 @@ void main() async {
       final validatorNotEmpty = PhoneValidator.valid(allowEmpty: false);
       expect(
         validatorNotEmpty(PhoneNumber(isoCode: 'FR', nsn: '')),
-        equals("invalidPhoneNumber"),
+        equals('invalidPhoneNumber'),
       );
     });
   });
@@ -105,7 +110,7 @@ void main() async {
       final validator = PhoneValidator.validMobile();
       expect(
         validator(PhoneNumber(isoCode: 'FR', nsn: '412345678')),
-        equals("invalidMobilePhoneNumber"),
+        equals('invalidMobilePhoneNumber'),
       );
 
       final validatorWithText = PhoneValidator.validMobile(
@@ -113,7 +118,7 @@ void main() async {
       );
       expect(
         validatorWithText(PhoneNumber(isoCode: 'FR', nsn: '412345678')),
-        equals("custom type message"),
+        equals('custom type message'),
       );
     });
 
@@ -128,7 +133,7 @@ void main() async {
       final validatorNotEmpty = PhoneValidator.validMobile(allowEmpty: false);
       expect(
         validatorNotEmpty(PhoneNumber(isoCode: 'FR', nsn: '')),
-        equals("invalidMobilePhoneNumber"),
+        equals('invalidMobilePhoneNumber'),
       );
     });
 
@@ -137,7 +142,7 @@ void main() async {
       final validator = PhoneValidator.validFixedLine();
       expect(
         validator(PhoneNumber(isoCode: 'FR', nsn: '612345678')),
-        equals("invalidFixedLinePhoneNumber"),
+        equals('invalidFixedLinePhoneNumber'),
       );
 
       final validatorWithText = PhoneValidator.validFixedLine(
@@ -145,7 +150,7 @@ void main() async {
       );
       expect(
         validatorWithText(PhoneNumber(isoCode: 'FR', nsn: '612345678')),
-        equals("custom fixed type message"),
+        equals('custom fixed type message'),
       );
     });
 
@@ -159,7 +164,7 @@ void main() async {
           PhoneValidator.validFixedLine(allowEmpty: false);
       expect(
         validatorNotEmpty(PhoneNumber(isoCode: 'FR', nsn: '')),
-        equals("invalidFixedLinePhoneNumber"),
+        equals('invalidFixedLinePhoneNumber'),
       );
     });
   });
@@ -169,7 +174,7 @@ void main() async {
       final validator = PhoneValidator.validCountry(['FR', 'BE']);
       expect(
         validator(PhoneNumber(isoCode: 'US', nsn: '112')),
-        equals("invalidCountry"),
+        equals('invalidCountry'),
       );
     });
 
@@ -187,7 +192,7 @@ void main() async {
       );
       expect(
         validatorNotEmpty(PhoneNumber(isoCode: 'FR', nsn: '')),
-        equals("invalidCountry"),
+        equals('invalidCountry'),
       );
     });
 

@@ -41,7 +41,7 @@ class CountryList extends StatelessWidget {
       itemCount: listLength,
       itemBuilder: (BuildContext context, int index) {
         if (index == separatorIndex) {
-          return Divider(key: Key('countryListSeparator.$hashCode'));
+          return Divider(key: ValueKey('countryListSeparator.$hashCode'));
         }
 
         // when separator is reached, the country list index is shift
@@ -51,7 +51,7 @@ class CountryList extends StatelessWidget {
         Country country = countries[index - countryIndexDelta];
 
         return ListTile(
-          key: Key(country.isoCode),
+          key: ValueKey(country.isoCode),
           leading: CircleFlag(
             country.isoCode,
             size: showDialCode ? null : 40,

@@ -217,7 +217,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
 class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   late final PhoneController _controller;
   late final PhoneFieldController _childController;
-  late final StreamSubscription _selectionSubscription;
+  late final StreamSubscription<void> _selectionSubscription;
 
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
@@ -319,5 +319,6 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     if (errorText != null) {
       return ValidatorTranslator.message(context, errorText!);
     }
+    return null;
   }
 }

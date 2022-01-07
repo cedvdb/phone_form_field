@@ -97,25 +97,23 @@ abstract class PhoneFieldLocalization {
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
     delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
+    ...GlobalMaterialLocalizations.delegates,
   ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('de'),
     Locale('en'),
     Locale('es'),
     Locale('fr'),
-    Locale('ar'),
-    Locale('de'),
     Locale('hi'),
     Locale('it'),
     Locale('nl'),
     Locale('pt'),
     Locale('ru'),
     Locale('sv'),
-    Locale("tr"),
+    Locale('tr'),
     Locale('zh')
   ];
 

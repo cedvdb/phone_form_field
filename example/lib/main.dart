@@ -113,7 +113,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool withLabel = true;
   CountrySelectorNavigator selectorNavigator = const BottomSheetNavigator();
   final formKey = GlobalKey<FormState>();
-  final phoneKey = GlobalKey<FormFieldState>();
+  final phoneKey = GlobalKey<FormFieldState<PhoneNumber>>();
 
   @override
   initState() {

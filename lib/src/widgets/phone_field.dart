@@ -216,7 +216,7 @@ class _PhoneFieldState extends State<PhoneField> {
 
   Widget _inkWellOverlay() {
     return InkWell(
-      key: Key('country-code-overlay'),
+      key: const ValueKey('country-code-overlay'),
       onTap: () {},
       onTapDown: (_) => selectCountry(),
       child: ConstrainedBox(
@@ -247,8 +247,8 @@ class _PhoneFieldState extends State<PhoneField> {
         visible: visible,
         child: CountryCodeChip(
           key: visible
-              ? Key('country-code-chip')
-              : Key('country-code-chip-hidden'),
+              ? const ValueKey('country-code-chip')
+              : const ValueKey('country-code-chip-hidden'),
           country: Country(controller.isoCode ?? controller.defaultIsoCode),
           showFlag: widget.showFlagInInput,
           textStyle: TextStyle(

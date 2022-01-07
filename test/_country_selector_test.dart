@@ -166,7 +166,7 @@ void main() {
             locale: Locale('fr'),
             localizationsDelegates: [
               PhoneFieldLocalization.delegate,
-              GlobalMaterialLocalizations.delegate,
+              ...GlobalMaterialLocalizations.delegates,
             ],
             supportedLocales: [Locale('fr')],
             home: Scaffold(
@@ -177,7 +177,7 @@ void main() {
             ),
           );
 
-      testWidgets('should display default translated no result message',
+      testWidgets('should display default untranslated no result message',
           (tester) async {
         await tester.pumpWidget(MaterialApp(
           home: Scaffold(
@@ -200,7 +200,7 @@ void main() {
         expect(noResultWidget, findsOneWidget);
       });
 
-      testWidgets('should display default untranslated no result message',
+      testWidgets('should display default translated no result message',
           (tester) async {
         await tester.pumpWidget(builder());
 
@@ -212,6 +212,10 @@ void main() {
         // no listitem should be displayed when no result found
         final allTiles = find.byType(ListTile);
         expect(allTiles, findsNothing);
+
+        final noResult = find.byKey(const ValueKey('no-result'));
+        final text = tester.widget<Text>(noResult);
+        print('result' + text.data.toString());
 
         final noResultWidget = find.text('Aucun résultat');
         expect(noResultWidget, findsOneWidget);

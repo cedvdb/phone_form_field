@@ -49,7 +49,7 @@ class CountryFinder {
     final lowerCaseTxt = txt.toLowerCase();
     // since we keep countries that contain the searched text,
     // we need to put the countries that start with that text in front.
-    final getSortPoint = (name, isoCode) {
+    final getSortPoint = (String name, String isoCode) {
       bool isStartOfString = name.startsWith(lowerCaseTxt) ||
           isoCode.toLowerCase().startsWith(lowerCaseTxt);
       return isStartOfString ? 1 : 0;

@@ -7,7 +7,7 @@ import 'package:phone_form_field/phone_form_field.dart';
 void main() {
   group('PhoneFormField', () {
     final formKey = GlobalKey<FormState>();
-    final phoneKey = GlobalKey<FormFieldState>();
+    final phoneKey = GlobalKey<FormFieldState<PhoneNumber>>();
     Widget getWidget({
       Function(PhoneNumber?)? onChanged,
       Function(PhoneNumber?)? onSaved,
@@ -142,7 +142,7 @@ void main() {
       testWidgets('Should call onChange', (tester) async {
         bool changed = false;
         PhoneNumber? phoneNumber = PhoneNumber.fromIsoCode('FR', '');
-        final onChanged = (p) {
+        final onChanged = (PhoneNumber? p) {
           changed = true;
           phoneNumber = p;
         };
@@ -247,7 +247,7 @@ void main() {
       testWidgets('Should call onSaved', (tester) async {
         bool saved = false;
         PhoneNumber? phoneNumber = PhoneNumber.fromIsoCode('FR', '');
-        final onSaved = (p) {
+        final onSaved = (PhoneNumber? p) {
           saved = true;
           phoneNumber = p;
         };
