@@ -182,6 +182,7 @@ PhoneFormField(
     - 'ru',
     - 'tr',
     - 'zh',
+    - 'sv',
   
   
    If one of the language you target is not supported you can submit a
