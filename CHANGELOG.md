@@ -1,3 +1,7 @@
+## [4.5.0] 18 / 02 / 2022
+- Allow country code to be always visible when there is no label + an hint text
+- Fix editing issue where the cursor was moving forward
+
 ## [4.4.0] 07 / 11 / 2021
 - upgraded phone parser dependency which fix some validity issues
 - added swedish language
