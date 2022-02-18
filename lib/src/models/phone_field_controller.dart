@@ -12,12 +12,23 @@ class PhoneFieldController extends ChangeNotifier {
   String? get national =>
       nationalController.text.isEmpty ? null : nationalController.text;
   set isoCode(String? isoCode) => isoCodeController.value = isoCode;
-  set national(String? national) => nationalController.value = TextEditingValue(
-        text: national ?? '',
-        selection: TextSelection.fromPosition(
-          TextPosition(offset: national?.length ?? 0),
+  set national(String? national) {
+    final currentSelectionOffset = nationalController.selection.extentOffset;
+    final isCursorAtEnd =
+        currentSelectionOffset == nationalController.text.length;
+    // when the cursor is at the end we need to preserve that
+    // since there is formatting going on we need to explicitely do it
+    nationalController.value = TextEditingValue(
+      text: national ?? '',
+      selection: TextSelection.fromPosition(
+        TextPosition(
+          offset: isCursorAtEnd
+              ? (national?.length ?? currentSelectionOffset)
+              : currentSelectionOffset,
         ),
-      );
+      ),
+    );
+  }
 
   PhoneFieldController({
     required String? national,
