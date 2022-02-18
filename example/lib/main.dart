@@ -6,7 +6,10 @@ void main() {
   runApp(const MyApp());
 }
 
-/// putting the widget at the top so it's easily findable in pub.dev example
+// this example makes uses of lots of properties that would not be there
+// in a real scenario for the sake of showing the features.
+// For a simpler example see the README
+
 class PhoneFieldView extends StatelessWidget {
   final Key inputKey;
   final PhoneController controller;
@@ -155,16 +158,11 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       onChanged: (v) => setState(() => outlineBorder = v),
                       title: const Text('Outlined border'),
                     ),
-                    // SwitchListTile(
-                    //   value: withLabel,
-                    //   onChanged: (v) => setState(() => withLabel = v),
-                    //   title: Text('Label'),
-                    // ),
-                    // SwitchListTile(
-                    //   value: isCountryCodeFixed,
-                    //   onChanged: (v) => setState(() => isCountryCodeFixed = v),
-                    //   title: Text('fixed country code'),
-                    // ),
+                    SwitchListTile(
+                      value: withLabel,
+                      onChanged: (v) => setState(() => withLabel = v),
+                      title: const Text('Label'),
+                    ),
                     SwitchListTile(
                       value: required,
                       onChanged: (v) => setState(() => required = v),
@@ -227,6 +225,16 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         required: required,
                         mobileOnly: mobileOnly,
                         shouldFormat: shouldFormat,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        label: withLabel ? const Text('Phone') : null,
+                        hintText: 'Phone',
+                        border: outlineBorder
+                            ? const OutlineInputBorder()
+                            : const UnderlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 12),

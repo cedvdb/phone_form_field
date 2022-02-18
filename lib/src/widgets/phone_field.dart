@@ -113,7 +113,8 @@ class PhoneField extends StatefulWidget {
 
 class _PhoneFieldState extends State<PhoneField> {
   /// size of input so we can render inkwell at correct height
-  Size? _size;
+  Size? _sizeInput;
+  Size? _countryCodeSize;
 
   bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
   PhoneFieldController get controller => widget.controller;
@@ -152,104 +153,118 @@ class _PhoneFieldState extends State<PhoneField> {
     // is the flag + country code which visible (when focussed).
     // Then we stack an InkWell with the country code (invisible) so
     // it is the right width
-    return Stack(
-      children: [
-        MeasureInitialSize(
-          onSizeFound: (size) => setState(() => _size = size),
-          child: _textField(),
-        ),
-        if (controller.focusNode.hasFocus || controller.national != null)
-          _inkWellOverlay(),
-      ],
+    return MouseRegion(
+      cursor: SystemMouseCursors.text,
+      child: Stack(
+        children: [
+          MeasureSize(
+            onChange: (size) => setState(() => _sizeInput = size),
+            child: GestureDetector(
+              onTap: () => controller.focusNode.requestFocus(),
+              child: _textField(),
+            ),
+          ),
+          if (controller.focusNode.hasFocus || controller.national != null)
+            _getInkWellOverlay(),
+        ],
+      ),
     );
   }
 
   Widget _textField() {
-    return TextField(
-      focusNode: controller.focusNode,
-      controller: controller.nationalController,
-      enabled: widget.enabled,
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(
-            '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
-      ],
-      decoration: widget.decoration.copyWith(
-        errorText: widget.errorText,
-        prefix: _getDialCodeChip(),
+    return InputDecorator(
+      decoration: _getOutterInputDecoration(),
+      isFocused: controller.focusNode.hasFocus,
+      isEmpty: _isEffectivelyEmpty(),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              focusNode: controller.focusNode,
+              controller: controller.nationalController,
+              enabled: widget.enabled,
+              decoration: _getInnerInputDecoration(),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(
+                    '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
+              ],
+              autofillHints: widget.autofillHints,
+              keyboardType: widget.keyboardType,
+              textInputAction: widget.textInputAction,
+              style: widget.style,
+              strutStyle: widget.strutStyle,
+              textAlign: widget.textAlign,
+              textAlignVertical: widget.textAlignVertical,
+              textDirection: widget.textDirection,
+              autofocus: widget.autofocus,
+              obscuringCharacter: widget.obscuringCharacter,
+              obscureText: widget.obscureText,
+              autocorrect: widget.autocorrect,
+              smartDashesType: widget.smartDashesType,
+              smartQuotesType: widget.smartQuotesType,
+              enableSuggestions: widget.enableSuggestions,
+              toolbarOptions: widget.toolbarOptions,
+              showCursor: widget.showCursor,
+              onEditingComplete: widget.onEditingComplete,
+              onSubmitted: widget.onSubmitted,
+              onAppPrivateCommand: widget.onAppPrivateCommand,
+              cursorWidth: widget.cursorWidth,
+              cursorHeight: widget.cursorHeight,
+              cursorRadius: widget.cursorRadius,
+              cursorColor: widget.cursorColor,
+              selectionHeightStyle: widget.selectionHeightStyle,
+              selectionWidthStyle: widget.selectionWidthStyle,
+              keyboardAppearance: widget.keyboardAppearance,
+              scrollPadding: widget.scrollPadding,
+              enableInteractiveSelection: widget.enableInteractiveSelection,
+              selectionControls: widget.selectionControls,
+              mouseCursor: widget.mouseCursor,
+              scrollController: widget.scrollController,
+              scrollPhysics: widget.scrollPhysics,
+              restorationId: widget.restorationId,
+              enableIMEPersonalizedLearning:
+                  widget.enableIMEPersonalizedLearning,
+            ),
+          ),
+        ],
       ),
-      autofillHints: widget.autofillHints,
-      keyboardType: widget.keyboardType,
-      textInputAction: widget.textInputAction,
-      style: widget.style,
-      strutStyle: widget.strutStyle,
-      textAlign: widget.textAlign,
-      textAlignVertical: widget.textAlignVertical,
-      textDirection: widget.textDirection,
-      autofocus: widget.autofocus,
-      obscuringCharacter: widget.obscuringCharacter,
-      obscureText: widget.obscureText,
-      autocorrect: widget.autocorrect,
-      smartDashesType: widget.smartDashesType,
-      smartQuotesType: widget.smartQuotesType,
-      enableSuggestions: widget.enableSuggestions,
-      toolbarOptions: widget.toolbarOptions,
-      showCursor: widget.showCursor,
-      onEditingComplete: widget.onEditingComplete,
-      onSubmitted: widget.onSubmitted,
-      onAppPrivateCommand: widget.onAppPrivateCommand,
-      cursorWidth: widget.cursorWidth,
-      cursorHeight: widget.cursorHeight,
-      cursorRadius: widget.cursorRadius,
-      cursorColor: widget.cursorColor,
-      selectionHeightStyle: widget.selectionHeightStyle,
-      selectionWidthStyle: widget.selectionWidthStyle,
-      keyboardAppearance: widget.keyboardAppearance,
-      scrollPadding: widget.scrollPadding,
-      enableInteractiveSelection: widget.enableInteractiveSelection,
-      selectionControls: widget.selectionControls,
-      mouseCursor: widget.mouseCursor,
-      scrollController: widget.scrollController,
-      scrollPhysics: widget.scrollPhysics,
-      restorationId: widget.restorationId,
-      enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
     );
   }
 
-  Widget _inkWellOverlay() {
+  /// gets the inkwell that is displayed on top of the input
+  /// for feedback on country code click
+  Widget _getInkWellOverlay() {
+    // width and height calculation are a bit hacky but a better way
+    // that works when the input is resized was not found
+    var height = _sizeInput?.height ?? 0;
+    var width = _countryCodeSize?.width ?? 0;
+    // when there is an error the widget height contains the error
+    // se we need to remove the error height
+    if (widget.errorText != null) {
+      height -= 20;
+    }
+    if (_isOutlineBorder) {
+      // outline border adds padding to the left
+      width += 12;
+    }
     return InkWell(
       key: const ValueKey('country-code-overlay'),
       onTap: () {},
       onTapDown: (_) => selectCountry(),
-      child: ConstrainedBox(
-        // we set the size to input size
-        constraints: BoxConstraints(
-          minHeight: _size?.height ?? 0,
-        ),
-        child: Padding(
-          // outline border has padding on the left
-          // but only when prefixIcon is used
-          // so we need to make it a 12 bigger
-          padding: _isOutlineBorder
-              ? const EdgeInsets.only(left: 12)
-              : const EdgeInsets.all(0),
-          child: _getDialCodeChip(visible: false),
-        ),
+      child: SizedBox(
+        height: height,
+        width: width,
       ),
     );
   }
 
-  Widget _getDialCodeChip({bool visible = true}) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-      child: Visibility(
-        maintainSize: true,
-        maintainAnimation: true,
-        maintainState: true,
-        visible: visible,
+  Widget _getCountryCodeChip() {
+    return MeasureSize(
+      onChange: (size) => setState(() => _countryCodeSize = size),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
         child: CountryCodeChip(
-          key: visible
-              ? const ValueKey('country-code-chip')
-              : const ValueKey('country-code-chip-hidden'),
+          key: const ValueKey('country-code-chip'),
           country: Country(controller.isoCode ?? controller.defaultIsoCode),
           showFlag: widget.showFlagInInput,
           textStyle: TextStyle(
@@ -260,5 +275,30 @@ class _PhoneFieldState extends State<PhoneField> {
         ),
       ),
     );
+  }
+
+  InputDecoration _getInnerInputDecoration() {
+    return InputDecoration.collapsed(
+      hintText: widget.decoration.hintText,
+    );
+  }
+
+  InputDecoration _getOutterInputDecoration() {
+    return widget.decoration.copyWith(
+      hintText: null,
+      errorText: widget.errorText,
+      prefix: _getCountryCodeChip(),
+    );
+  }
+
+  bool _isEffectivelyEmpty() {
+    final outterDecoration = _getOutterInputDecoration();
+    // when there is not label and an hint text we need to have
+    // isEmpty false so the country code is displayed along the
+    // hint text to not have the hint text in the middle
+    if (outterDecoration.label == null && outterDecoration.hintText != null) {
+      return false;
+    }
+    return controller.nationalController.text.isEmpty;
   }
 }
