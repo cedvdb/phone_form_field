@@ -1,38 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-typedef OnSizeFound = void Function(Size size);
+typedef OnWidgetSizeChange = void Function(Size size);
 
-/// measures the size of a child
-class MeasureInitialSizeRenderObject extends RenderProxyBox {
-  final OnSizeFound onSizeFound;
-  bool isInitialLayout = true;
+class MeasureSizeRenderObject extends RenderProxyBox {
+  Size? oldSize;
+  final OnWidgetSizeChange onChange;
 
-  MeasureInitialSizeRenderObject(this.onSizeFound);
+  MeasureSizeRenderObject(this.onChange);
 
   @override
   void performLayout() {
     super.performLayout();
-    if (isInitialLayout) {
-      isInitialLayout = false;
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        onSizeFound(child?.size ?? const Size(0, 0));
-      });
-    }
+
+    Size newSize = child!.size;
+    if (oldSize == newSize) return;
+
+    oldSize = newSize;
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      onChange(newSize);
+    });
   }
 }
 
-class MeasureInitialSize extends SingleChildRenderObjectWidget {
-  final OnSizeFound onSizeFound;
+class MeasureSize extends SingleChildRenderObjectWidget {
+  final OnWidgetSizeChange onChange;
 
-  const MeasureInitialSize({
+  const MeasureSize({
     Key? key,
-    required this.onSizeFound,
+    required this.onChange,
     required Widget child,
   }) : super(key: key, child: child);
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return MeasureInitialSizeRenderObject(onSizeFound);
+    return MeasureSizeRenderObject(onChange);
   }
 }
