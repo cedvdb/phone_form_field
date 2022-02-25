@@ -1,5 +1,5 @@
 docs/
-example
+example/build
 # Miscellaneous
 *.class
 *.log
