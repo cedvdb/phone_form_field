@@ -1,3 +1,8 @@
+## [4.5.1] 25 / 02 / 2022
+
+- Added a property called 'countryCodeStyle' to allow the customization of the TextStyle of country code. Thanks @moazelsawaf
+ - Considering the size of the prefix icon ( if used ) while calculating the width of the CountryCodeChip InkWell. Thanks @moazelsawaf
+
 ## [4.5.0] 18 / 02 / 2022
 - Allow country code to be always visible when there is no label + an hint text
 - Fix editing issue where the cursor was moving forward
