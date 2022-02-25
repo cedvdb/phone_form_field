@@ -58,7 +58,6 @@ class PhoneFieldView extends StatelessWidget {
         defaultCountry: 'FR',
         decoration: InputDecoration(
           label: withLabel ? const Text('Phone') : null,
-          hintText: 'Phone',
           border: outlineBorder
               ? const OutlineInputBorder()
               : const UnderlineInputBorder(),
@@ -225,16 +224,6 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         required: required,
                         mobileOnly: mobileOnly,
                         shouldFormat: shouldFormat,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        label: withLabel ? const Text('Phone') : null,
-                        hintText: 'Phone',
-                        border: outlineBorder
-                            ? const OutlineInputBorder()
-                            : const UnderlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 12),
