@@ -24,6 +24,7 @@ class PhoneField extends StatefulWidget {
   final TextInputType keyboardType;
   final TextInputAction? textInputAction;
   final TextStyle? style;
+  final TextStyle? countryCodeStyle;
   final StrutStyle? strutStyle;
   final TextAlign textAlign;
   final TextAlignVertical? textAlignVertical;
@@ -72,6 +73,7 @@ class PhoneField extends StatefulWidget {
     required this.keyboardType,
     required this.textInputAction,
     required this.style,
+    required this.countryCodeStyle,
     required this.strutStyle,
     required this.textAlign,
     required this.textAlignVertical,
@@ -243,10 +245,19 @@ class _PhoneFieldState extends State<PhoneField> {
     if (widget.errorText != null) {
       height -= 20;
     }
+
     if (_isOutlineBorder) {
       // outline border adds padding to the left
       width += 12;
     }
+
+    if (widget.decoration.prefixIconConstraints != null) {
+      width += widget.decoration.prefixIconConstraints!.maxWidth;
+    } else if (widget.decoration.prefixIcon != null) {
+      // prefix icon default size is 48px
+      width += 48;
+    }
+
     return InkWell(
       key: const ValueKey('country-code-overlay'),
       onTap: () {},
@@ -267,7 +278,9 @@ class _PhoneFieldState extends State<PhoneField> {
           key: const ValueKey('country-code-chip'),
           country: Country(controller.isoCode ?? controller.defaultIsoCode),
           showFlag: widget.showFlagInInput,
-          textStyle: TextStyle(
+          textStyle: widget.countryCodeStyle ??
+              widget.decoration.labelStyle ??
+              TextStyle(
             fontSize: 16,
             color: Theme.of(context).textTheme.caption?.color,
           ),
