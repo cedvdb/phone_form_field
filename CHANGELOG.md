@@ -1,3 +1,7 @@
+## [4.5.2] 23 / 03 / 2022
+
+- Export country translator
+
 ## [4.5.1] 25 / 02 / 2022
 
 - Added a property called 'countryCodeStyle' to allow the customization of the TextStyle of country code. Thanks @moazelsawaf
