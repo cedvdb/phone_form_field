@@ -281,9 +281,9 @@ class _PhoneFieldState extends State<PhoneField> {
           textStyle: widget.countryCodeStyle ??
               widget.decoration.labelStyle ??
               TextStyle(
-            fontSize: 16,
-            color: Theme.of(context).textTheme.caption?.color,
-          ),
+                fontSize: 16,
+                color: Theme.of(context).textTheme.caption?.color,
+              ),
           flagSize: widget.flagSize,
         ),
       ),
@@ -293,6 +293,12 @@ class _PhoneFieldState extends State<PhoneField> {
   InputDecoration _getInnerInputDecoration() {
     return InputDecoration.collapsed(
       hintText: widget.decoration.hintText,
+    ).copyWith(
+      focusedBorder: InputBorder.none,
+      errorBorder: InputBorder.none,
+      disabledBorder: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      focusedErrorBorder: InputBorder.none,
     );
   }
 

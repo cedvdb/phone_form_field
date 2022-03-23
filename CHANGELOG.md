@@ -1,3 +1,8 @@
+
+## [4.5.3] 23 / 03 / 2022
+
+- Fix inner border when there is a theme with focussed border
+
 ## [4.5.2] 23 / 03 / 2022
 
 - Export country translator
