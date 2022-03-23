@@ -1,5 +1,9 @@
 docs/
 example/build
+example/windows
+example/web
+example/android
+example/ios
 # Miscellaneous
 *.class
 *.log
@@ -16,6 +20,7 @@ example/build
 *.ipr
 *.iws
 .idea/
+demo_image.png
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line

@@ -134,7 +134,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "4.5.2"
+    version: "4.5.3"
   phone_number_metadata:
     dependency: transitive
     description:
