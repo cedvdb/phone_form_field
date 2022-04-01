@@ -30,7 +30,7 @@ class _PhoneFieldState extends State<PhoneField> {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     final selected = await widget.selectorNavigator.navigate(context);
     if (selected != null) {
-      controller.country = selected;
+      controller.isoCode = selected.isoCode;
     }
     controller.focusNode.requestFocus();
     SystemChannels.textInput.invokeMethod('TextInput.show');
@@ -163,7 +163,7 @@ class _PhoneFieldState extends State<PhoneField> {
         padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
         child: CountryCodeChip(
           key: const ValueKey('country-code-chip'),
-          country: controller.country,
+          isoCode: controller.isoCode,
           showFlag: widget.showFlagInInput,
           textStyle: widget.countryCodeStyle ??
               widget.decoration.labelStyle ??

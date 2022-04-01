@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/models/iso_code.dart';
 
 class PhoneFieldController extends ChangeNotifier {
-  late final ValueNotifier<Country?> countryController;
+  late final ValueNotifier<IsoCode> isoCodeController;
   late final TextEditingController nationalNumberController;
 
   /// focus node of the national number
   final FocusNode focusNode;
 
-  Country? get country => countryController.value;
+  IsoCode get isoCode => isoCodeController.value;
   String? get national => nationalNumberController.text.isEmpty
       ? null
       : nationalNumberController.text;
 
-  set country(Country? country) => countryController.value = country;
+  set isoCode(IsoCode isoCode) => isoCodeController.value = isoCode;
 
   set national(String? national) {
     final currentSelectionOffset =
@@ -37,13 +36,12 @@ class PhoneFieldController extends ChangeNotifier {
 
   PhoneFieldController({
     required String? national,
-    required Country? country,
-    required this.defaultIsoCode,
+    required IsoCode isoCode,
     required this.focusNode,
   }) {
-    countryController = ValueNotifier(country);
+    isoCodeController = ValueNotifier(isoCode);
     nationalNumberController = TextEditingController(text: national);
-    countryController.addListener(notifyListeners);
+    isoCodeController.addListener(notifyListeners);
     nationalNumberController.addListener(notifyListeners);
   }
 
@@ -57,7 +55,7 @@ class PhoneFieldController extends ChangeNotifier {
 
   @override
   void dispose() {
-    countryController.dispose();
+    isoCodeController.dispose();
     nationalNumberController.dispose();
     super.dispose();
   }

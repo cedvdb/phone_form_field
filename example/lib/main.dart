@@ -55,7 +55,7 @@ class PhoneFieldView extends StatelessWidget {
         autofocus: true,
         autofillHints: const [AutofillHints.telephoneNumber],
         countrySelectorNavigator: selectorNavigator,
-        defaultCountry: 'FR',
+        defaultCountry: IsoCode.US,
         decoration: InputDecoration(
           label: withLabel ? const Text('Phone') : null,
           border: outlineBorder
@@ -205,7 +205,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                                 child: Text('Modal sheet'),
                                 value:
                                     CountrySelectorNavigator.modalBottomSheet(
-                                  favorites: ['BE', 'FR'],
+                                  favorites: [IsoCode.US, IsoCode.BE],
                                 ),
                               ),
                               DropdownMenuItem(
@@ -257,7 +257,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     ElevatedButton(
                       onPressed: () =>
                           controller.value = PhoneNumber.fromIsoCode(
-                        'fr',
+                        IsoCode.FR,
                         '699999999',
                       ),
                       child: const Text('Set +33 699 999 999'),

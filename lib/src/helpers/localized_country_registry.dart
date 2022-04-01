@@ -13,7 +13,7 @@ class LocalizedCountryRegistry {
 
   late final Map<IsoCode, Country> _localizedCountries = Map.fromIterable(
       IsoCode.values,
-      value: (isoCode) => Country(isoCode, _names[isoCode]!));
+      value: (isoCode) => Country(isoCode, _names[isoCode] ?? isoCode.name));
 
   LocalizedCountryRegistry._(this._localization);
 
@@ -38,6 +38,7 @@ class LocalizedCountryRegistry {
   }
 
   late final Map<IsoCode, String> _names = {
+    IsoCode.AC: _localization.ac_,
     IsoCode.AD: _localization.ad_,
     IsoCode.AE: _localization.ae_,
     IsoCode.AF: _localization.af_,
@@ -66,6 +67,7 @@ class LocalizedCountryRegistry {
     IsoCode.BM: _localization.bm_,
     IsoCode.BN: _localization.bn_,
     IsoCode.BO: _localization.bo_,
+    IsoCode.BQ: _localization.bq_,
     IsoCode.BR: _localization.br_,
     IsoCode.BS: _localization.bs_,
     IsoCode.BT: _localization.bt_,
@@ -242,6 +244,7 @@ class LocalizedCountryRegistry {
     IsoCode.SV: _localization.sv_,
     IsoCode.SY: _localization.sy_,
     IsoCode.SZ: _localization.sz_,
+    IsoCode.TA: _localization.ta_,
     IsoCode.TC: _localization.tc_,
     IsoCode.TD: _localization.td_,
     IsoCode.TG: _localization.tg_,

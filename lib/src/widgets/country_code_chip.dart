@@ -1,5 +1,6 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:phone_form_field/src/models/iso_code.dart';
 
 import '../models/country.dart';
 
@@ -11,15 +12,16 @@ class CountryCodeChip extends StatelessWidget {
   final EdgeInsets padding;
   final double flagSize;
 
-  const CountryCodeChip({
+  CountryCodeChip({
     Key? key,
-    required this.country,
+    required IsoCode isoCode,
     this.textStyle = const TextStyle(),
     this.showFlag = true,
     this.showDialCode = true,
     this.padding = const EdgeInsets.all(20),
     this.flagSize = 20,
-  }) : super(key: key);
+  })  : country = Country(isoCode, ''),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

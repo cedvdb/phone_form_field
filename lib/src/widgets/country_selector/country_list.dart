@@ -19,25 +19,34 @@ class CountryList extends StatelessWidget {
   /// whether the country dialcode should be displayed as the [ListTile.subtitle]
   final bool showDialCode;
 
-  const CountryList({
+  late final List<Country?> _allListElement;
+
+  CountryList({
     Key? key,
     required this.countries,
     required this.favorites,
     required this.onTap,
     this.scrollController,
     this.showDialCode = true,
-  }) : super(key: key);
+  }) : super(key: key) {
+    _allListElement = [
+      ...favorites,
+      if (favorites.isNotEmpty) null, // delimiter
+      ...countries,
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       controller: scrollController,
       shrinkWrap: true,
-      // +1 for separator
-      itemCount: favorites.length + 1 + countries.length,
+      itemCount: _allListElement.length,
       itemBuilder: (BuildContext context, int index) {
-        if (index < favorites.length)
-          return Divider(key: ValueKey('countryListSeparator-$index'));
+        final country = _allListElement[index];
+        if (country == null) {
+          return const Divider(key: ValueKey('countryListSeparator'));
+        }
 
         return ListTile(
           key: ValueKey(country.isoCode.name),

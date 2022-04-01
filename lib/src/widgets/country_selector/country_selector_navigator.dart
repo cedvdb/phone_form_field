@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/models/iso_code.dart';
 
 abstract class CountrySelectorNavigator {
   final List<IsoCode>? countries;

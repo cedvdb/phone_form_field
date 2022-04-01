@@ -79,7 +79,7 @@ void main() {
 
     group('sorted countries with or without favorites', () {
       Widget builder({
-        List<String>? favorites,
+        List<IsoCode>? favorites,
         bool addFavoritesSeparator = false,
       }) =>
           MaterialApp(
@@ -93,8 +93,7 @@ void main() {
               body: CountrySelector(
                 onCountrySelected: (c) {},
                 addFavoritesSeparator: addFavoritesSeparator,
-                favoriteCountries: favorites ?? <String>[],
-                sortCountries: true,
+                favoriteCountries: favorites ?? const [],
               ),
             ),
           );
@@ -109,14 +108,14 @@ void main() {
       });
 
       testWidgets('should be properly sorted with favorites', (tester) async {
-        await tester.pumpWidget(builder(favorites: ['gu', 'gy']));
+        await tester.pumpWidget(builder(favorites: [IsoCode.GU, IsoCode.GY]));
         await tester.pumpAndSettle();
         final allTiles = find.byType(ListTile, skipOffstage: false);
         expect(allTiles, findsWidgets);
         expect(tester.widget<ListTile>(allTiles.at(0)).key,
-            equals(const Key('GU')));
+            equals(Key(IsoCode.GU.name)));
         expect(tester.widget<ListTile>(allTiles.at(1)).key,
-            equals(const Key('GY')));
+            equals(Key(IsoCode.GY.name)));
 
         final txtFound = find.byType(SearchBox);
         expect(txtFound, findsOneWidget);
@@ -129,7 +128,7 @@ void main() {
 
       testWidgets('should display/hide separator', (tester) async {
         await tester.pumpWidget(builder(
-          favorites: ['gu', 'gy'],
+          favorites: [IsoCode.GU, IsoCode.GY],
           addFavoritesSeparator: true,
         ));
         await tester.pumpAndSettle();
