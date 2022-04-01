@@ -25,6 +25,8 @@ class LocalizedCountryRegistry {
     return LocalizedCountryRegistry._(localization);
   }
 
+  Country? find(IsoCode isoCode) => _localizedCountries[isoCode];
+
   /// gets localized countries from isocodes
   List<Country> whereIsoIn(
     List<IsoCode> isoCodes, {
