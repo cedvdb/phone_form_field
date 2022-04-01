@@ -102,7 +102,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.onChanged,
     this.focusNode,
     bool showFlagInInput = true,
-    CountrySelectorNavigator selectorNavigator = const BottomSheetNavigator(),
+    CountrySelectorNavigator countrySelectorNavigator =
+        const CountrySelectorNavigator.bottomSheet(),
     Function(PhoneNumber?)? onSaved,
     this.defaultCountry = 'US',
     InputDecoration decoration =
@@ -168,7 +169,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
             return PhoneField(
               controller: field._childController,
               showFlagInInput: showFlagInInput,
-              selectorNavigator: selectorNavigator,
+              selectorNavigator: countrySelectorNavigator,
               errorText: field.getErrorText(),
               flagSize: flagSize,
               decoration: decoration,

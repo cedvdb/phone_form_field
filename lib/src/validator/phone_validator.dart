@@ -8,7 +8,8 @@ class PhoneValidator {
   /// Note that validator list order is important as first
   /// validator failing will return according message.
   static PhoneNumberInputValidator compose(
-      List<PhoneNumberInputValidator> validators) {
+    List<PhoneNumberInputValidator> validators,
+  ) {
     return (valueCandidate) {
       for (var validator in validators) {
         final validatorResult = validator.call(valueCandidate);

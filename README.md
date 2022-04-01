@@ -38,7 +38,7 @@ PhoneFormField(
     // ...
   ),
   validator: PhoneValidator.validMobile(),   // default PhoneValidator.valid()
-  selectorNavigator: const BottomSheetNavigator(), // default to bottom sheet but you can customize how the selector is shown by extending CountrySelectorNavigator
+  countrySelectorNavigator: CountrySelectorNavigator.bottomSheet(),
   showFlagInInput: true,  // default
   flagSize: 16,           // default
   autofillHints: [AutofillHints.telephoneNumber], // default to null
@@ -102,21 +102,21 @@ Here are the list of the parameters available for all built-in country selector 
 
 ### Built-in country selector
 
-* **DialogNavigator**
+* **CountrySelectorNavigator.dialog**
   Open a dialog to select the country.
   No extra parameters
 
-* **BottomSheetNavigator**
+* **CountrySelectorNavigator.bottomSheet**
   Open a bottom sheet expanding to all available space in both axis
   No extra parameters
 
-* **ModalBottomSheetNavigator**
+* **CountrySelectorNavigator.modalBottomSheet**
   Open a modal bottom sheet expanded horizontally
   Extra parameters: 
     * `height` (double, default null)
        Allow to determine the height of the bottom sheet, will expand to all available height when omitted
 
-* **DraggableModalBottomSheetNavigator**
+* **CountrySelectorNavigator.draggableBottomSheet**
   Open a modal bottom sheet expanded horizontally which may be dragged from a minimum to a maximum of current available height.
   Uses internally the `DraggableScrollableSheet` flutter widget
   Extra parameters:
