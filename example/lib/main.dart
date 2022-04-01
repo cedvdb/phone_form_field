@@ -204,7 +204,9 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                               DropdownMenuItem(
                                 child: Text('Modal sheet'),
                                 value:
-                                    CountrySelectorNavigator.modalBottomSheet(),
+                                    CountrySelectorNavigator.modalBottomSheet(
+                                  favorites: ['BE', 'FR'],
+                                ),
                               ),
                               DropdownMenuItem(
                                 child: Text('Dialog'),

@@ -9,8 +9,6 @@ import '../../models/country.dart';
 import 'country_list.dart';
 import 'search_box.dart';
 
-const _emptyFavCountriesArray = <String>[];
-
 class CountrySelector extends StatefulWidget {
   /// List of countries to display in the selector
   /// Value optional in constructor.
@@ -55,11 +53,10 @@ class CountrySelector extends StatefulWidget {
     this.addFavoritesSeparator = true,
     this.showCountryCode = false,
     this.noResultMessage,
-    List<String>? favoriteCountries,
+    this.favoriteCountries = const [],
     List<Country>? countries,
     this.searchAutofocus = kIsWeb,
   })  : countries = countries ?? allCountries,
-        favoriteCountries = favoriteCountries ?? _emptyFavCountriesArray,
         super(key: key);
 
   @override
@@ -68,7 +65,9 @@ class CountrySelector extends StatefulWidget {
 
 class _CountrySelectorState extends State<CountrySelector> {
   late List<Country> _filteredCountries;
+  late List<Country> _favoriteCountries;
   late CountryFinder _countryFinder;
+  late CountryFinder _favoriteCountryFinder;
   int? _favoritesSeparatorIndex;
 
   @override
@@ -81,8 +80,8 @@ class _CountrySelectorState extends State<CountrySelector> {
     _filteredCountries = widget.sortCountries
         ? _sortCountries(widget.countries)
         : widget.countries;
-
     _countryFinder = CountryFinder(_filteredCountries);
+
     _handleFavoritesCountries();
   }
 

@@ -9,4 +9,4 @@ final allCountries = isoCodes
     /// those will be added when added to the circle_flags library
     .where((iso) => iso != 'AC' && iso != 'BQ' && iso != 'TA')
     .map((iso) => Country(iso))
-    .toList();
+    .toSet();

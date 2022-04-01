@@ -17,6 +17,7 @@ class CountryFinder {
 
   CountryFinder(List<Country> countries) : countries = [...countries];
 
+  // filter a
   List<Country> filter(String txt, BuildContext context) {
     // reset search
     if (txt.isEmpty) {
@@ -36,11 +37,13 @@ class CountryFinder {
     }
   }
 
-  List<Country> _filterByDialCode(String dialCode) {
-    int getSortPoint(Country c) =>
-        c.countryCode.length == dialCode.length ? 1 : 0;
+  List<Country> _filterByDialCode(String searchedCountryCode) {
+    int getSortPoint(Country country) =>
+        country.countryCode.length == searchedCountryCode.length ? 1 : 0;
 
-    return countries.where((c) => c.countryCode.contains(dialCode)).toList()
+    return countries
+        .where((country) => country.countryCode.contains(searchedCountryCode))
+        .toList()
       // puts the closest match at the top
       ..sort((a, b) => getSortPoint(b) - getSortPoint(a));
   }
