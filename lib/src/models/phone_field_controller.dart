@@ -9,27 +9,29 @@ class PhoneFieldController extends ChangeNotifier {
   final FocusNode focusNode;
 
   IsoCode get isoCode => isoCodeController.value;
-  String? get national => nationalNumberController.text.isEmpty
-      ? null
-      : nationalNumberController.text;
+  String? get national => nationalNumberController.text;
 
   set isoCode(IsoCode isoCode) => isoCodeController.value = isoCode;
 
   set national(String? national) {
+    national = national ?? '';
     final currentSelectionOffset =
         nationalNumberController.selection.extentOffset;
     final isCursorAtEnd =
         currentSelectionOffset == nationalNumberController.text.length;
+    var offset = national.length;
+
+    if (isCursorAtEnd) {
+      offset = national.length;
+    } else if (currentSelectionOffset <= national.length) {
+      offset = currentSelectionOffset;
+    }
     // when the cursor is at the end we need to preserve that
     // since there is formatting going on we need to explicitely do it
     nationalNumberController.value = TextEditingValue(
-      text: national ?? '',
+      text: national,
       selection: TextSelection.fromPosition(
-        TextPosition(
-          offset: isCursorAtEnd
-              ? (national?.length ?? currentSelectionOffset)
-              : currentSelectionOffset,
-        ),
+        TextPosition(offset: offset),
       ),
     );
   }

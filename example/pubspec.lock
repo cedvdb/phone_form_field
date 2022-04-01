@@ -149,7 +149,7 @@ packages:
     description:
       path: "."
       ref: iso_code
-      resolved-ref: "146728206e6c0219ed93358f74d9f2cfe05dfbcd"
+      resolved-ref: "5ea29d2a65c3278b0f6e13691145f13eeb62e301"
       url: "git@github.com:cedvdb/phone_numbers_parser.git"
     source: git
     version: "5.0.0"

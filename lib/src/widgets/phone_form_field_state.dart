@@ -66,6 +66,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         _childController.isoCode == _controller.value?.isoCode) {
       return;
     }
+
     if (_childController.national == null) {
       return _controller.value = null;
     }
@@ -82,7 +83,11 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       // if starts with + then we parse the whole number
       // to figure out the country code
       final international = childNsn;
-      phoneNumber = PhoneNumber.fromRaw(international);
+      try {
+        phoneNumber = PhoneNumber.fromRaw(international);
+      } on PhoneNumberException {
+        return;
+      }
     } else {
       phoneNumber = PhoneNumber.fromNational(
         _childController.isoCode,
