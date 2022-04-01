@@ -1,5 +1,6 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 
 import '../../models/country.dart';
 
@@ -19,6 +20,8 @@ class CountryList extends StatelessWidget {
   /// whether the country dialcode should be displayed as the [ListTile.subtitle]
   final bool showDialCode;
 
+  final String? noResultMessage;
+
   late final List<Country?> _allListElement;
 
   CountryList({
@@ -26,6 +29,7 @@ class CountryList extends StatelessWidget {
     required this.countries,
     required this.favorites,
     required this.onTap,
+    required this.noResultMessage,
     this.scrollController,
     this.showDialCode = true,
   }) : super(key: key) {
@@ -34,11 +38,20 @@ class CountryList extends StatelessWidget {
       if (favorites.isNotEmpty) null, // delimiter
       ...countries,
     ];
-    print(' all $_allListElement');
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_allListElement.isEmpty) {
+      return Center(
+        child: Text(
+          noResultMessage ??
+              PhoneFieldLocalization.of(context)?.noResultMessage ??
+              'No result found',
+          key: const ValueKey('no-result'),
+        ),
+      );
+    }
     return ListView.builder(
       controller: scrollController,
       shrinkWrap: true,

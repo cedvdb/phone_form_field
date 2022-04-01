@@ -120,7 +120,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool required = false;
   bool withLabel = true;
   CountrySelectorNavigator selectorNavigator =
-      const CountrySelectorNavigator.page();
+      const CountrySelectorNavigator.searchDelegate();
   final formKey = GlobalKey<FormState>();
   final phoneKey = GlobalKey<FormFieldState<PhoneNumber>>();
 
@@ -214,7 +214,8 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                               ),
                               DropdownMenuItem(
                                 child: Text('Page'),
-                                value: CountrySelectorNavigator.page(),
+                                value:
+                                    CountrySelectorNavigator.searchDelegate(),
                               ),
                             ],
                           ),

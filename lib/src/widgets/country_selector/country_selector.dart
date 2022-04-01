@@ -76,8 +76,9 @@ class _CountrySelectorState extends State<CountrySelector> {
     _favoriteCountryFinder = CountryFinder(favoriteCountries, sort: false);
   }
 
-  _onSearch(String txt) {
-    _countryFinder.filter(txt);
+  _onSearch(String searchedText) {
+    _countryFinder.filter(searchedText);
+    _favoriteCountryFinder.filter(searchedText);
     setState(() {});
   }
 
@@ -94,25 +95,14 @@ class _CountrySelectorState extends State<CountrySelector> {
           ),
         ),
         Flexible(
-          child: _countryFinder.isNotEmpty || _favoriteCountryFinder.isNotEmpty
-              ? CountryList(
-                  favorites: _favoriteCountryFinder.filteredCountries,
-                  countries: _countryFinder.filteredCountries,
-                  showDialCode: widget.showCountryCode,
-                  onTap: (country) {
-                    widget.onCountrySelected(country);
-                  },
-                  scrollController: widget.scrollController,
-                )
-              : Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Text(
-                    widget.noResultMessage ??
-                        PhoneFieldLocalization.of(context)?.noResultMessage ??
-                        'No result found',
-                    key: const ValueKey('no-result'),
-                  ),
-                ),
+          child: CountryList(
+            favorites: _favoriteCountryFinder.filteredCountries,
+            countries: _countryFinder.filteredCountries,
+            showDialCode: widget.showCountryCode,
+            onTap: widget.onCountrySelected,
+            scrollController: widget.scrollController,
+            noResultMessage: widget.noResultMessage,
+          ),
         ),
       ],
     );

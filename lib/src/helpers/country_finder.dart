@@ -10,6 +10,8 @@ class CountryFinder {
   List<Country> get filteredCountries => _filteredCountries;
 
   bool get isNotEmpty => _filteredCountries.isNotEmpty;
+  String _searchedText = '';
+  String get searchedText => _searchedText;
 
   CountryFinder(List<Country> allCountries, {bool sort = true}) {
     _allCountries = [...allCountries];
@@ -21,6 +23,10 @@ class CountryFinder {
 
   // filter a
   void filter(String txt) {
+    if (txt == _searchedText) {
+      return;
+    }
+    _searchedText = txt;
     // reset search
     if (txt.isEmpty) {
       _filteredCountries = [..._allCountries];

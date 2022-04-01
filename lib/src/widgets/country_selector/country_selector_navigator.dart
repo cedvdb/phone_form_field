@@ -24,7 +24,7 @@ abstract class CountrySelectorNavigator {
 
   Future<Country?> navigate(BuildContext context);
 
-  Widget _getCountrySelector({
+  dynamic _getCountrySelector({
     required ValueChanged<Country> onCountrySelected,
     ScrollController? scrollController,
   }) {
@@ -50,7 +50,7 @@ abstract class CountrySelectorNavigator {
     bool searchAutofocus,
   }) = DialogNavigator._;
 
-  const factory CountrySelectorNavigator.page({
+  const factory CountrySelectorNavigator.searchDelegate({
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
     bool addSeparator,
@@ -58,7 +58,7 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
-  }) = PageNavigator._;
+  }) = SearchDelegateNavigator._;
 
   const factory CountrySelectorNavigator.bottomSheet({
     List<IsoCode>? countries,
@@ -128,8 +128,8 @@ class DialogNavigator extends CountrySelectorNavigator {
   }
 }
 
-class PageNavigator extends CountrySelectorNavigator {
-  const PageNavigator._({
+class SearchDelegateNavigator extends CountrySelectorNavigator {
+  const SearchDelegateNavigator._({
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
     bool addSeparator = true,
@@ -148,11 +148,11 @@ class PageNavigator extends CountrySelectorNavigator {
         );
 
   @override
-  Widget _getCountrySelector({
+  dynamic _getCountrySelector({
     required ValueChanged<Country> onCountrySelected,
     ScrollController? scrollController,
   }) {
-    return CountrySelectorPage(
+    return CountrySelectorSearchDelegate(
       onCountrySelected: onCountrySelected,
       scrollController: scrollController,
       addFavoritesSeparator: addSeparator,
@@ -166,11 +166,10 @@ class PageNavigator extends CountrySelectorNavigator {
 
   @override
   Future<Country?> navigate(BuildContext context) {
-    return Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => _getCountrySelector(
-          onCountrySelected: (country) => Navigator.pop(context, country),
-        ),
+    return showSearch(
+      context: context,
+      delegate: _getCountrySelector(
+        onCountrySelected: (country) => Navigator.pop(context, country),
       ),
     );
   }
