@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
-import 'package:phone_form_field/src/helpers/country_translator.dart';
+import 'package:phone_form_field/src/helpers/localized_country_registry.dart';
 
 import '../../helpers/country_finder.dart';
 import '../../models/all_countries.dart';
@@ -56,7 +56,7 @@ class CountrySelector extends StatefulWidget {
     this.favoriteCountries = const [],
     List<Country>? countries,
     this.searchAutofocus = kIsWeb,
-  })  : countries = countries ?? allCountries,
+  })  : countries = countries ?? allIsoCodes,
         super(key: key);
 
   @override
@@ -89,8 +89,8 @@ class _CountrySelectorState extends State<CountrySelector> {
     // perform a copy so we don't modify original value
     return countriesList
       ..sort((Country a, Country b) {
-        return CountryTranslator.localisedName(context, a)
-            .compareTo(CountryTranslator.localisedName(context, b));
+        return LocalizedCountryListBuilder.localisedName(context, a)
+            .compareTo(LocalizedCountryListBuilder.localisedName(context, b));
       });
   }
 

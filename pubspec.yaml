@@ -13,9 +13,12 @@ dependencies:
   flutter_localizations: # Add this line
     sdk: flutter
 
-  circle_flags: ^0.0.2
-  phone_numbers_parser: ^4.2.1
-  dart_countries: ^2.1.0
+  circle_flags: ^0.0.3
+  phone_numbers_parser:
+    git:
+      url: git@github.com:cedvdb/phone_numbers_parser.git
+      ref: iso_code
+  dart_countries: ^3.0.1
   intl: ^0.17.0
 
 dev_dependencies:

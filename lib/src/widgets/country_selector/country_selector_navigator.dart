@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/all_countries.dart';
 import '../../models/country.dart';
 import 'country_selector.dart';
 
@@ -31,7 +30,7 @@ abstract class CountrySelectorNavigator {
     ScrollController? scrollController,
   }) =>
       CountrySelector(
-        countries: countries ?? allCountries,
+        countries: countries ?? allIsoCodes,
         onCountrySelected: onCountrySelected,
         favoriteCountries: favorites ?? [],
         addFavoritesSeparator: addSeparator,

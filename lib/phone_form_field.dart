@@ -13,7 +13,7 @@ export 'src/models/selector_config.dart';
 export 'src/models/phone_form_field_controller.dart';
 export 'src/models/country.dart';
 export 'src/models/all_countries.dart';
-export 'src/helpers/country_translator.dart';
+export 'src/helpers/localized_country_registry.dart';
 
 export 'package:phone_numbers_parser/phone_numbers_parser.dart'
     show PhoneNumber, PhoneNumberType;

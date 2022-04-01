@@ -28,7 +28,7 @@ class CountryCodeChip extends StatelessWidget {
       children: [
         if (showFlag) ...[
           CircleFlag(
-            country.isoCode,
+            country.isoCode.name,
             size: flagSize,
           ),
           const SizedBox(width: 8),
