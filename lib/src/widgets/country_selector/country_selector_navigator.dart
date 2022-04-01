@@ -53,6 +53,16 @@ abstract class CountrySelectorNavigator {
     // ignore: deprecated_member_use_from_same_package
   }) = DialogNavigator;
 
+  const factory CountrySelectorNavigator.page({
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator,
+    bool showCountryCode,
+    bool sortCountries,
+    String? noResultMessage,
+    bool searchAutofocus,
+  }) = PageNavigator._;
+
   const factory CountrySelectorNavigator.bottomSheet({
     List<Country>? countries,
     List<String>? favorites,
@@ -119,6 +129,40 @@ class DialogNavigator extends CountrySelectorNavigator {
       builder: (_) => Dialog(
         child: _getCountrySelector(
           onCountrySelected: (country) => Navigator.pop(context, country),
+        ),
+      ),
+    );
+  }
+}
+
+class PageNavigator extends CountrySelectorNavigator {
+  const PageNavigator._({
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator = true,
+    bool showCountryCode = true,
+    bool sortCountries = false,
+    String? noResultMessage,
+    bool searchAutofocus = kIsWeb,
+  }) : super(
+          countries: countries,
+          favorites: favorites,
+          addSeparator: addSeparator,
+          showCountryCode: showCountryCode,
+          sortCountries: sortCountries,
+          noResultMessage: noResultMessage,
+          searchAutofocus: searchAutofocus,
+        );
+
+  @override
+  Future<Country?> navigate(BuildContext context) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(),
+          body: _getCountrySelector(
+            onCountrySelected: (country) => Navigator.pop(context, country),
+          ),
         ),
       ),
     );

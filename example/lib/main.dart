@@ -210,6 +210,10 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                                 child: Text('Dialog'),
                                 value: CountrySelectorNavigator.dialog(),
                               ),
+                              DropdownMenuItem(
+                                child: Text('Page'),
+                                value: CountrySelectorNavigator.page(),
+                              ),
                             ],
                           ),
                         ],
