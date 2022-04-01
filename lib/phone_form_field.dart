@@ -1,8 +1,8 @@
 library phone_number_input;
 
 export 'src/widgets/phone_form_field.dart';
-export 'src/widgets/country_picker/country_selector_navigator.dart';
-export 'src/widgets/country_picker/country_selector.dart';
+export 'src/widgets/country_selector/country_selector_navigator.dart';
+export 'src/widgets/country_selector/country_selector.dart';
 export 'src/widgets/country_code_chip.dart';
 
 export 'src/validator/phone_validator.dart';
@@ -17,4 +17,4 @@ export 'src/helpers/country_translator.dart';
 
 export 'package:phone_numbers_parser/phone_numbers_parser.dart'
     show PhoneNumber, PhoneNumberType;
-export 'src/widgets/country_picker/country_selector_navigator.dart';
+export 'src/widgets/country_selector/country_selector_navigator.dart';

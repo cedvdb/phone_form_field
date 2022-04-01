@@ -1,4 +1,9 @@
 
+## [4.6.0] 01/04/2022
+- Added factories for country selector navigator. 
+  Example `CountrySelectorNavigator.dialog()` instead of `DialogCountrySelectorNavigator`  as it's simpler for auto completion.
+- renamed param `selectorNavigator` to `countrySelectorNavigator`
+
 ## [4.5.3] 23 / 03 / 2022
 
 - Fix inner border when there is a theme with focussed border

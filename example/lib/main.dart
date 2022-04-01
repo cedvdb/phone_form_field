@@ -54,7 +54,7 @@ class PhoneFieldView extends StatelessWidget {
         shouldFormat: shouldFormat,
         autofocus: true,
         autofillHints: const [AutofillHints.telephoneNumber],
-        selectorNavigator: selectorNavigator,
+        countrySelectorNavigator: selectorNavigator,
         defaultCountry: 'FR',
         decoration: InputDecoration(
           label: withLabel ? const Text('Phone') : null,
@@ -119,7 +119,8 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool shouldFormat = true;
   bool required = false;
   bool withLabel = true;
-  CountrySelectorNavigator selectorNavigator = const BottomSheetNavigator();
+  CountrySelectorNavigator selectorNavigator =
+      const CountrySelectorNavigator.bottomSheet();
   final formKey = GlobalKey<FormState>();
   final phoneKey = GlobalKey<FormFieldState<PhoneNumber>>();
 
@@ -193,19 +194,21 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                             items: const [
                               DropdownMenuItem(
                                 child: Text('Bottom sheet'),
-                                value: BottomSheetNavigator(),
+                                value: CountrySelectorNavigator.bottomSheet(),
                               ),
                               DropdownMenuItem(
                                 child: Text('Draggable modal sheet'),
-                                value: DraggableModalBottomSheetNavigator(),
+                                value: CountrySelectorNavigator
+                                    .draggableBottomSheet(),
                               ),
                               DropdownMenuItem(
                                 child: Text('Modal sheet'),
-                                value: ModalBottomSheetNavigator(),
+                                value:
+                                    CountrySelectorNavigator.modalBottomSheet(),
                               ),
                               DropdownMenuItem(
                                 child: Text('Dialog'),
-                                value: DialogNavigator(),
+                                value: CountrySelectorNavigator.dialog(),
                               ),
                             ],
                           ),
