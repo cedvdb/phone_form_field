@@ -1,4 +1,7 @@
 
+## [4.6.0] 01/04/2022
+- 
+
 ## [4.5.3] 23 / 03 / 2022
 
 - Fix inner border when there is a theme with focussed border
