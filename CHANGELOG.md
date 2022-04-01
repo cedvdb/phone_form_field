@@ -1,4 +1,18 @@
 
+## [5.0.0] 01/04/2022
+
+
+- fix bug when copy pasting an incomplete phone number like "+33" the phone number was interpreted as
+  `PhoneNumber(isoCode: FR, nsn: '33')`, now is correctly `PhoneNumber(isoCode: FR, nsn: '')`
+- updated country flags for better cultural accuracy
+- Remove deprecated constructor, use factories instead
+- Fix a cursor bug where the cursor would be misplaced
+- Added `PageNavigator` for country selection.
+- Refactor of internal to accomodate for different UI for country selection
+- Slight refactor of search process
+- [Breaking] use updated version of phone_number_parser which uses `IsoCode` for iso codes instead 
+  of plain string.
+
 ## [4.6.0] 01/04/2022
 - Added factories for country selector navigator. 
   Example `CountrySelectorNavigator.dialog()` instead of `DialogCountrySelectorNavigator`  as it's simpler for auto completion.
