@@ -26,6 +26,9 @@ class PhoneFieldLocalizationTr extends PhoneFieldLocalization {
   String get noResultMessage => 'Sonuç yok';
 
   @override
+  String get ac_ => 'Yükselme adası';
+
+  @override
   String get ad_ => 'Andora';
 
   @override
@@ -114,6 +117,9 @@ class PhoneFieldLocalizationTr extends PhoneFieldLocalization {
 
   @override
   String get bo_ => 'Bolivya';
+
+  @override
+  String get bq_ => 'Bonaire';
 
   @override
   String get br_ => 'Brezilya';
@@ -648,6 +654,9 @@ class PhoneFieldLocalizationTr extends PhoneFieldLocalization {
 
   @override
   String get sz_ => 'Esvati̇ni̇';
+
+  @override
+  String get ta_ => 'Tristan da Cunha';
 
   @override
   String get tc_ => 'Turks ve Caicos Adaları ';
