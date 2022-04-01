@@ -66,7 +66,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         _childController.isoCode == _controller.value?.isoCode) {
       return;
     }
-    if (_childController.national == null && _childController.isoCode == null) {
+    if (_childController.national == null) {
       return _controller.value = null;
     }
     // we convert the multiple controllers from the child controller

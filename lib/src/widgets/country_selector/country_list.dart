@@ -34,6 +34,7 @@ class CountryList extends StatelessWidget {
       if (favorites.isNotEmpty) null, // delimiter
       ...countries,
     ];
+    print(' all $_allListElement');
   }
 
   @override

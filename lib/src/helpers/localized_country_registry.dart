@@ -1,7 +1,5 @@
 import 'package:phone_form_field/phone_form_field.dart';
 
-import '../models/iso_code.dart';
-
 /// this saves the localized countries for each country
 /// for a given language in a cache, so it does not
 /// have to be recreated
@@ -12,8 +10,10 @@ class LocalizedCountryRegistry {
   static LocalizedCountryRegistry? _instance;
 
   late final Map<IsoCode, Country> _localizedCountries = Map.fromIterable(
-      IsoCode.values,
-      value: (isoCode) => Country(isoCode, _names[isoCode] ?? isoCode.name));
+    // remove iso codes that do not have a traduction yet..
+    IsoCode.values.where((iso) => _names.containsKey(iso)),
+    value: (isoCode) => Country(isoCode, _names[isoCode]!),
+  );
 
   LocalizedCountryRegistry._(this._localization);
 
@@ -33,6 +33,7 @@ class LocalizedCountryRegistry {
     final omitSet = Set.from(omit);
     return isoCodes
         .where((isoCode) => !omitSet.contains(isoCode))
+        .where((isoCode) => _localizedCountries.containsKey(isoCode))
         .map((iso) => _localizedCountries[iso]!)
         .toList();
   }
@@ -230,9 +231,7 @@ class LocalizedCountryRegistry {
     IsoCode.SD: _localization.sd_,
     IsoCode.SE: _localization.se_,
     IsoCode.SG: _localization.sg_,
-    IsoCode.SH: _localization.sh_,
     IsoCode.SI: _localization.si_,
-    IsoCode.SJ: _localization.sj_,
     IsoCode.SK: _localization.sk_,
     IsoCode.SL: _localization.sl_,
     IsoCode.SM: _localization.sm_,

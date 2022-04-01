@@ -77,9 +77,8 @@ class _CountrySelectorState extends State<CountrySelector> {
   }
 
   _onSearch(String txt) {
-    setState(() {
-      _countryFinder.filter(txt);
-    });
+    _countryFinder.filter(txt);
+    setState(() {});
   }
 
   @override
@@ -95,7 +94,7 @@ class _CountrySelectorState extends State<CountrySelector> {
           ),
         ),
         Flexible(
-          child: _countryFinder.isNotEmpty && _favoriteCountryFinder.isNotEmpty
+          child: _countryFinder.isNotEmpty || _favoriteCountryFinder.isNotEmpty
               ? CountryList(
                   favorites: _favoriteCountryFinder.filteredCountries,
                   countries: _countryFinder.filteredCountries,
