@@ -16,7 +16,7 @@ void main() {
         );
 
     testWidgets('should navigate to dialog', (tester) async {
-      const nav = DialogNavigator();
+      const nav = CountrySelectorNavigator.dialog();
       await tester.pumpWidget(getApp((ctx) => nav.navigate(ctx)));
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
@@ -24,7 +24,7 @@ void main() {
     });
 
     testWidgets('should navigate to modal bottom sheet', (tester) async {
-      const nav = ModalBottomSheetNavigator();
+      const nav = CountrySelectorNavigator.modalBottomSheet();
       await tester.pumpWidget(getApp((ctx) => nav.navigate(ctx)));
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
@@ -32,7 +32,15 @@ void main() {
     });
 
     testWidgets('should navigate to bottom sheet', (tester) async {
-      const nav = BottomSheetNavigator();
+      const nav = CountrySelectorNavigator.bottomSheet();
+      await tester.pumpWidget(getApp((ctx) => nav.navigate(ctx)));
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle();
+      expect(find.byType(CountrySelector), findsOneWidget);
+    });
+
+    testWidgets('should navigate to draggable sheet', (tester) async {
+      const nav = CountrySelectorNavigator.draggableBottomSheet();
       await tester.pumpWidget(getApp((ctx) => nav.navigate(ctx)));
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();

@@ -41,18 +41,68 @@ abstract class CountrySelectorNavigator {
         scrollController: scrollController,
         searchAutofocus: searchAutofocus,
       );
+
+  const factory CountrySelectorNavigator.dialog({
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator,
+    bool showCountryCode,
+    bool sortCountries,
+    String? noResultMessage,
+    bool searchAutofocus,
+    // ignore: deprecated_member_use_from_same_package
+  }) = DialogNavigator;
+
+  const factory CountrySelectorNavigator.bottomSheet({
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator,
+    bool showCountryCode,
+    bool sortCountries,
+    String? noResultMessage,
+    bool searchAutofocus,
+    // ignore: deprecated_member_use_from_same_package
+  }) = BottomSheetNavigator;
+
+  const factory CountrySelectorNavigator.modalBottomSheet({
+    double? height,
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator,
+    bool showCountryCode,
+    bool sortCountries,
+    String? noResultMessage,
+    bool searchAutofocus,
+    // ignore: deprecated_member_use_from_same_package
+  }) = ModalBottomSheetNavigator;
+
+  const factory CountrySelectorNavigator.draggableBottomSheet({
+    double initialChildSize,
+    double minChildSize,
+    double maxChildSize,
+    BorderRadiusGeometry? borderRadius,
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator,
+    bool showCountryCode,
+    bool sortCountries,
+    String? noResultMessage,
+    bool searchAutofocus,
+    // ignore: deprecated_member_use_from_same_package
+  }) = DraggableModalBottomSheetNavigator;
 }
 
 class DialogNavigator extends CountrySelectorNavigator {
-  const DialogNavigator(
-      {List<Country>? countries,
-      List<String>? favorites,
-      bool addSeparator = true,
-      bool showCountryCode = true,
-      bool sortCountries = false,
-      String? noResultMessage,
-      bool searchAutofocus = kIsWeb})
-      : super(
+  @Deprecated('use CountrySelectorNavigator.dialog() instead')
+  const DialogNavigator({
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator = true,
+    bool showCountryCode = true,
+    bool sortCountries = false,
+    String? noResultMessage,
+    bool searchAutofocus = kIsWeb,
+  }) : super(
           countries: countries,
           favorites: favorites,
           addSeparator: addSeparator,
@@ -76,15 +126,16 @@ class DialogNavigator extends CountrySelectorNavigator {
 }
 
 class BottomSheetNavigator extends CountrySelectorNavigator {
-  const BottomSheetNavigator(
-      {List<Country>? countries,
-      List<String>? favorites,
-      bool addSeparator = true,
-      bool showCountryCode = true,
-      bool sortCountries = false,
-      String? noResultMessage,
-      bool searchAutofocus = kIsWeb})
-      : super(
+  @Deprecated('use CountrySelectorNavigator.bottomSheet() instead')
+  const BottomSheetNavigator({
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator = true,
+    bool showCountryCode = true,
+    bool sortCountries = false,
+    String? noResultMessage,
+    bool searchAutofocus = kIsWeb,
+  }) : super(
             countries: countries,
             favorites: favorites,
             addSeparator: addSeparator,
@@ -112,6 +163,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
 class ModalBottomSheetNavigator extends CountrySelectorNavigator {
   final double? height;
 
+  @Deprecated('use CountrySelectorNavigator.modalBottomSheet() instead')
   const ModalBottomSheetNavigator({
     this.height,
     List<Country>? countries,
@@ -151,19 +203,20 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
   final double maxChildSize;
   final BorderRadiusGeometry? borderRadius;
 
-  const DraggableModalBottomSheetNavigator(
-      {this.initialChildSize = 0.5,
-      this.minChildSize = 0.25,
-      this.maxChildSize = 0.85,
-      this.borderRadius,
-      List<Country>? countries,
-      List<String>? favorites,
-      bool addSeparator = true,
-      bool showCountryCode = true,
-      bool sortCountries = false,
-      String? noResultMessage,
-      bool searchAutofocus = kIsWeb})
-      : super(
+  @Deprecated('use CountrySelectorNavigator.draggableBottomSheet() instead')
+  const DraggableModalBottomSheetNavigator({
+    this.initialChildSize = 0.5,
+    this.minChildSize = 0.25,
+    this.maxChildSize = 0.85,
+    this.borderRadius,
+    List<Country>? countries,
+    List<String>? favorites,
+    bool addSeparator = true,
+    bool showCountryCode = true,
+    bool sortCountries = false,
+    String? noResultMessage,
+    bool searchAutofocus = kIsWeb,
+  }) : super(
             countries: countries,
             favorites: favorites,
             addSeparator: addSeparator,
