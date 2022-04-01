@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+import 'package:phone_form_field/src/widgets/country_selector/country_selector_page.dart';
 
 abstract class CountrySelectorNavigator {
   final List<IsoCode>? countries;
@@ -23,7 +24,7 @@ abstract class CountrySelectorNavigator {
 
   Future<Country?> navigate(BuildContext context);
 
-  CountrySelector _getCountrySelector({
+  Widget _getCountrySelector({
     required ValueChanged<Country> onCountrySelected,
     ScrollController? scrollController,
   }) {
@@ -47,8 +48,7 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
-    // ignore: deprecated_member_use_from_same_package
-  }) = DialogNavigator;
+  }) = DialogNavigator._;
 
   const factory CountrySelectorNavigator.page({
     List<IsoCode>? countries,
@@ -68,8 +68,7 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
-    // ignore: deprecated_member_use_from_same_package
-  }) = BottomSheetNavigator;
+  }) = BottomSheetNavigator._;
 
   const factory CountrySelectorNavigator.modalBottomSheet({
     double? height,
@@ -80,8 +79,7 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
-    // ignore: deprecated_member_use_from_same_package
-  }) = ModalBottomSheetNavigator;
+  }) = ModalBottomSheetNavigator._;
 
   const factory CountrySelectorNavigator.draggableBottomSheet({
     double initialChildSize,
@@ -95,13 +93,11 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
-    // ignore: deprecated_member_use_from_same_package
-  }) = DraggableModalBottomSheetNavigator;
+  }) = DraggableModalBottomSheetNavigator._;
 }
 
 class DialogNavigator extends CountrySelectorNavigator {
-  @Deprecated('use CountrySelectorNavigator.dialog() instead')
-  const DialogNavigator({
+  const DialogNavigator._({
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
     bool addSeparator = true,
@@ -152,14 +148,28 @@ class PageNavigator extends CountrySelectorNavigator {
         );
 
   @override
+  Widget _getCountrySelector({
+    required ValueChanged<Country> onCountrySelected,
+    ScrollController? scrollController,
+  }) {
+    return CountrySelectorPage(
+      onCountrySelected: onCountrySelected,
+      scrollController: scrollController,
+      addFavoritesSeparator: addSeparator,
+      countries: countries,
+      favoriteCountries: favorites ?? [],
+      noResultMessage: noResultMessage,
+      searchAutofocus: searchAutofocus,
+      showCountryCode: showCountryCode,
+    );
+  }
+
+  @override
   Future<Country?> navigate(BuildContext context) {
     return Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => Scaffold(
-          appBar: AppBar(),
-          body: _getCountrySelector(
-            onCountrySelected: (country) => Navigator.pop(context, country),
-          ),
+        builder: (_) => _getCountrySelector(
+          onCountrySelected: (country) => Navigator.pop(context, country),
         ),
       ),
     );
@@ -167,8 +177,7 @@ class PageNavigator extends CountrySelectorNavigator {
 }
 
 class BottomSheetNavigator extends CountrySelectorNavigator {
-  @Deprecated('use CountrySelectorNavigator.bottomSheet() instead')
-  const BottomSheetNavigator({
+  const BottomSheetNavigator._({
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
     bool addSeparator = true,
@@ -204,8 +213,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
 class ModalBottomSheetNavigator extends CountrySelectorNavigator {
   final double? height;
 
-  @Deprecated('use CountrySelectorNavigator.modalBottomSheet() instead')
-  const ModalBottomSheetNavigator({
+  const ModalBottomSheetNavigator._({
     this.height,
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
@@ -244,8 +252,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
   final double maxChildSize;
   final BorderRadiusGeometry? borderRadius;
 
-  @Deprecated('use CountrySelectorNavigator.draggableBottomSheet() instead')
-  const DraggableModalBottomSheetNavigator({
+  const DraggableModalBottomSheetNavigator._({
     this.initialChildSize = 0.5,
     this.minChildSize = 0.25,
     this.maxChildSize = 0.85,

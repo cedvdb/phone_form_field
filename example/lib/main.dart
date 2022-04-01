@@ -120,7 +120,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool required = false;
   bool withLabel = true;
   CountrySelectorNavigator selectorNavigator =
-      const CountrySelectorNavigator.bottomSheet();
+      const CountrySelectorNavigator.page();
   final formKey = GlobalKey<FormState>();
   final phoneKey = GlobalKey<FormFieldState<PhoneNumber>>();
 
