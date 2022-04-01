@@ -10,47 +10,37 @@ class CountryList extends StatelessWidget {
   /// List of countries to display
   final List<Country> countries;
 
+  /// list of favorite countries to display at the top
+  final List<Country> favorites;
+
   /// proxy to the ListView.builder controller (ie: [ScrollView.controller])
   final ScrollController? scrollController;
 
   /// whether the country dialcode should be displayed as the [ListTile.subtitle]
   final bool showDialCode;
 
-  /// the index of the listview where divider should be added
-  final int? separatorIndex;
-
   const CountryList({
     Key? key,
     required this.countries,
+    required this.favorites,
     required this.onTap,
     this.scrollController,
-    this.separatorIndex,
     this.showDialCode = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final int listLength = countries.isNotEmpty && separatorIndex != null
-        ? countries.length + 1
-        : countries.length;
-
     return ListView.builder(
       controller: scrollController,
       shrinkWrap: true,
-      itemCount: listLength,
+      // +1 for separator
+      itemCount: favorites.length + 1 + countries.length,
       itemBuilder: (BuildContext context, int index) {
-        if (index == separatorIndex) {
+        if (index < favorites.length)
           return Divider(key: ValueKey('countryListSeparator-$index'));
-        }
-
-        // when separator is reached, the country list index is shift
-        // by 1 from the list builder index
-        final countryIndexDelta =
-            separatorIndex != null && index >= separatorIndex! ? 1 : 0;
-        Country country = countries[index - countryIndexDelta];
 
         return ListTile(
-          key: ValueKey(country.isoCode),
+          key: ValueKey(country.isoCode.name),
           leading: CircleFlag(
             country.isoCode.name,
             size: showDialCode ? null : 40,

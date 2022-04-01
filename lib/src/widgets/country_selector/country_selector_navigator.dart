@@ -1,12 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../../models/country.dart';
-import 'country_selector.dart';
+import 'package:phone_form_field/phone_form_field.dart';
+import 'package:phone_form_field/src/models/iso_code.dart';
 
 abstract class CountrySelectorNavigator {
-  final List<Country>? countries;
-  final List<String>? favorites;
+  final List<IsoCode>? countries;
+  final List<IsoCode>? favorites;
   final bool addSeparator;
   final bool showCountryCode;
   final bool sortCountries;
@@ -28,22 +27,22 @@ abstract class CountrySelectorNavigator {
   CountrySelector _getCountrySelector({
     required ValueChanged<Country> onCountrySelected,
     ScrollController? scrollController,
-  }) =>
-      CountrySelector(
-        countries: countries ?? allIsoCodes,
-        onCountrySelected: onCountrySelected,
-        favoriteCountries: favorites ?? [],
-        addFavoritesSeparator: addSeparator,
-        showCountryCode: showCountryCode,
-        sortCountries: sortCountries,
-        noResultMessage: noResultMessage,
-        scrollController: scrollController,
-        searchAutofocus: searchAutofocus,
-      );
+  }) {
+    return CountrySelector(
+      countries: countries,
+      onCountrySelected: onCountrySelected,
+      favoriteCountries: favorites ?? [],
+      addFavoritesSeparator: addSeparator,
+      showCountryCode: showCountryCode,
+      noResultMessage: noResultMessage,
+      scrollController: scrollController,
+      searchAutofocus: searchAutofocus,
+    );
+  }
 
   const factory CountrySelectorNavigator.dialog({
-    List<Country>? countries,
-    List<String>? favorites,
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator,
     bool showCountryCode,
     bool sortCountries,
@@ -53,8 +52,8 @@ abstract class CountrySelectorNavigator {
   }) = DialogNavigator;
 
   const factory CountrySelectorNavigator.page({
-    List<Country>? countries,
-    List<String>? favorites,
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator,
     bool showCountryCode,
     bool sortCountries,
@@ -63,8 +62,8 @@ abstract class CountrySelectorNavigator {
   }) = PageNavigator._;
 
   const factory CountrySelectorNavigator.bottomSheet({
-    List<Country>? countries,
-    List<String>? favorites,
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator,
     bool showCountryCode,
     bool sortCountries,
@@ -75,8 +74,8 @@ abstract class CountrySelectorNavigator {
 
   const factory CountrySelectorNavigator.modalBottomSheet({
     double? height,
-    List<Country>? countries,
-    List<String>? favorites,
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator,
     bool showCountryCode,
     bool sortCountries,
@@ -90,8 +89,8 @@ abstract class CountrySelectorNavigator {
     double minChildSize,
     double maxChildSize,
     BorderRadiusGeometry? borderRadius,
-    List<Country>? countries,
-    List<String>? favorites,
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator,
     bool showCountryCode,
     bool sortCountries,
@@ -104,8 +103,8 @@ abstract class CountrySelectorNavigator {
 class DialogNavigator extends CountrySelectorNavigator {
   @Deprecated('use CountrySelectorNavigator.dialog() instead')
   const DialogNavigator({
-    List<Country>? countries,
-    List<String>? favorites,
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator = true,
     bool showCountryCode = true,
     bool sortCountries = false,
@@ -136,8 +135,8 @@ class DialogNavigator extends CountrySelectorNavigator {
 
 class PageNavigator extends CountrySelectorNavigator {
   const PageNavigator._({
-    List<Country>? countries,
-    List<String>? favorites,
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator = true,
     bool showCountryCode = true,
     bool sortCountries = false,
@@ -171,8 +170,8 @@ class PageNavigator extends CountrySelectorNavigator {
 class BottomSheetNavigator extends CountrySelectorNavigator {
   @Deprecated('use CountrySelectorNavigator.bottomSheet() instead')
   const BottomSheetNavigator({
-    List<Country>? countries,
-    List<String>? favorites,
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator = true,
     bool showCountryCode = true,
     bool sortCountries = false,
@@ -209,8 +208,8 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
   @Deprecated('use CountrySelectorNavigator.modalBottomSheet() instead')
   const ModalBottomSheetNavigator({
     this.height,
-    List<Country>? countries,
-    List<String>? favorites,
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator = true,
     bool showCountryCode = true,
     bool sortCountries = false,
@@ -252,8 +251,8 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
     this.minChildSize = 0.25,
     this.maxChildSize = 0.85,
     this.borderRadius,
-    List<Country>? countries,
-    List<String>? favorites,
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator = true,
     bool showCountryCode = true,
     bool sortCountries = false,

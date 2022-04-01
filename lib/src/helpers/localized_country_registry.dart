@@ -2,25 +2,40 @@ import 'package:phone_form_field/phone_form_field.dart';
 
 import '../models/iso_code.dart';
 
-class LocalizedCountryListBuilder {
-  PhoneFieldLocalization _localization;
-  static LocalizedCountryListBuilder? _instance;
+/// this saves the localized countries for each country
+/// for a given language in a cache, so it does not
+/// have to be recreated
 
-  LocalizedCountryListBuilder._(this._localization);
+class LocalizedCountryRegistry {
+  final PhoneFieldLocalization _localization;
 
-  factory LocalizedCountryListBuilder.cached(
-    PhoneFieldLocalization localization,
-  ) {
+  static LocalizedCountryRegistry? _instance;
+
+  late final Map<IsoCode, Country> _localizedCountries = Map.fromIterable(
+      IsoCode.values,
+      value: (isoCode) => Country(isoCode, _names[isoCode]!));
+
+  LocalizedCountryRegistry._(this._localization);
+
+  factory LocalizedCountryRegistry.cached(PhoneFieldLocalization localization) {
     final instance = _instance;
     if (instance != null && instance._localization == localization) {
       return instance;
     }
-    return LocalizedCountryListBuilder._(localization);
+    return LocalizedCountryRegistry._(localization);
   }
 
-  List<Country> build() => IsoCode.values
-      .map((isoCode) => Country(isoCode, _names[isoCode]!))
-      .toList();
+  /// gets localized countries from isocodes
+  List<Country> whereIsoIn(
+    List<IsoCode> isoCodes, {
+    List<IsoCode> omit = const [],
+  }) {
+    final omitSet = Set.from(omit);
+    return isoCodes
+        .where((isoCode) => !omitSet.contains(isoCode))
+        .map((iso) => _localizedCountries[iso]!)
+        .toList();
+  }
 
   late final Map<IsoCode, String> _names = {
     IsoCode.AD: _localization.ad_,

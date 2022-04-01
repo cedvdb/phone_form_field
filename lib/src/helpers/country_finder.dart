@@ -1,6 +1,5 @@
 // responsible of searching through the country list
 
-import 'package:flutter/cupertino.dart';
 import 'package:phone_form_field/src/models/iso_code.dart';
 
 import '../models/country.dart';
@@ -10,13 +9,18 @@ class CountryFinder {
   late List<Country> _filteredCountries;
   List<Country> get filteredCountries => _filteredCountries;
 
-  CountryFinder(List<Country> allCountries) {
-    _allCountries = [...allCountries]..sort((a, b) => a.name.compareTo(b.name));
+  bool get isNotEmpty => _filteredCountries.isNotEmpty;
+
+  CountryFinder(List<Country> allCountries, {bool sort = true}) {
+    _allCountries = [...allCountries];
+    if (sort) {
+      _allCountries.sort((a, b) => a.name.compareTo(b.name));
+    }
     _filteredCountries = [..._allCountries];
   }
 
   // filter a
-  void filter(String txt, BuildContext context) {
+  void filter(String txt) {
     // reset search
     if (txt.isEmpty) {
       _filteredCountries = [..._allCountries];
@@ -29,7 +33,7 @@ class CountryFinder {
       // toString to remove any + in front if its an int
       _filterByCountryCallingCode(txt);
     } else {
-      _filterByName(txt, context);
+      _filterByName(txt);
     }
   }
 
@@ -44,7 +48,7 @@ class CountryFinder {
       ..sort((a, b) => getSortPoint(b) - getSortPoint(a));
   }
 
-  void _filterByName(String searchTxt, BuildContext context) {
+  void _filterByName(String searchTxt) {
     searchTxt = searchTxt.toLowerCase();
     // since we keep countries that contain the searched text,
     // we need to put the countries that start with that text in front.

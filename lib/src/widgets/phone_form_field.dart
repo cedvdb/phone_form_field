@@ -90,7 +90,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final ValueChanged<PhoneNumber?>? onChanged;
 
   /// country that is displayed when there is no value
-  final String defaultCountry;
+  final IsoCode defaultCountry;
 
   /// the focusNode of the national number
   final FocusNode? focusNode;
@@ -105,7 +105,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     CountrySelectorNavigator countrySelectorNavigator =
         const CountrySelectorNavigator.bottomSheet(),
     Function(PhoneNumber?)? onSaved,
-    this.defaultCountry = 'US',
+    this.defaultCountry = IsoCode.US,
     InputDecoration decoration =
         const InputDecoration(border: UnderlineInputBorder()),
     AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
