@@ -1,51 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:phone_form_field/src/models/iso_code.dart';
 
 class PhoneFieldController extends ChangeNotifier {
-  late final ValueNotifier<String?> isoCodeController;
-  late final TextEditingController nationalController;
-  final String defaultIsoCode;
+  late final ValueNotifier<IsoCode> isoCodeController;
+  late final TextEditingController nationalNumberController;
 
   /// focus node of the national number
   final FocusNode focusNode;
 
-  String? get isoCode => isoCodeController.value;
-  String? get national =>
-      nationalController.text.isEmpty ? null : nationalController.text;
-  set isoCode(String? isoCode) => isoCodeController.value = isoCode;
+  IsoCode get isoCode => isoCodeController.value;
+  String? get national => nationalNumberController.text;
+
+  set isoCode(IsoCode isoCode) => isoCodeController.value = isoCode;
+
   set national(String? national) {
-    final currentSelectionOffset = nationalController.selection.extentOffset;
+    national = national ?? '';
+    final currentSelectionOffset =
+        nationalNumberController.selection.extentOffset;
     final isCursorAtEnd =
-        currentSelectionOffset == nationalController.text.length;
+        currentSelectionOffset == nationalNumberController.text.length;
+    var offset = national.length;
+
+    if (isCursorAtEnd) {
+      offset = national.length;
+    } else if (currentSelectionOffset <= national.length) {
+      offset = currentSelectionOffset;
+    }
     // when the cursor is at the end we need to preserve that
     // since there is formatting going on we need to explicitely do it
-    nationalController.value = TextEditingValue(
-      text: national ?? '',
+    nationalNumberController.value = TextEditingValue(
+      text: national,
       selection: TextSelection.fromPosition(
-        TextPosition(
-          offset: isCursorAtEnd
-              ? (national?.length ?? currentSelectionOffset)
-              : currentSelectionOffset,
-        ),
+        TextPosition(offset: offset),
       ),
     );
   }
 
   PhoneFieldController({
     required String? national,
-    required String? isoCode,
-    required this.defaultIsoCode,
+    required IsoCode isoCode,
     required this.focusNode,
   }) {
     isoCodeController = ValueNotifier(isoCode);
-    nationalController = TextEditingController(text: national);
+    nationalNumberController = TextEditingController(text: national);
     isoCodeController.addListener(notifyListeners);
-    nationalController.addListener(notifyListeners);
+    nationalNumberController.addListener(notifyListeners);
   }
 
   selectNationalNumber() {
-    nationalController.selection = TextSelection(
+    nationalNumberController.selection = TextSelection(
       baseOffset: 0,
-      extentOffset: nationalController.value.text.length,
+      extentOffset: nationalNumberController.value.text.length,
     );
     focusNode.requestFocus();
   }
@@ -53,7 +58,7 @@ class PhoneFieldController extends ChangeNotifier {
   @override
   void dispose() {
     isoCodeController.dispose();
-    nationalController.dispose();
+    nationalNumberController.dispose();
     super.dispose();
   }
 }

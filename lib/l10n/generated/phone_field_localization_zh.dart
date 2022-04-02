@@ -26,6 +26,9 @@ class PhoneFieldLocalizationZh extends PhoneFieldLocalization {
   String get noResultMessage => '没有结果';
 
   @override
+  String get ac_ => '阿森松岛';
+
+  @override
   String get ad_ => '安道尔';
 
   @override
@@ -114,6 +117,9 @@ class PhoneFieldLocalizationZh extends PhoneFieldLocalization {
 
   @override
   String get bo_ => '玻利维亚多民族国';
+
+  @override
+  String get bq_ => '博内尔岛';
 
   @override
   String get br_ => '巴西';
@@ -648,6 +654,9 @@ class PhoneFieldLocalizationZh extends PhoneFieldLocalization {
 
   @override
   String get sz_ => '斯威士兰';
+
+  @override
+  String get ta_ => '特里斯坦达库尼亚';
 
   @override
   String get tc_ => '特克斯和凯科斯群岛';

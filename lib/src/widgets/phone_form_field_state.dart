@@ -13,8 +13,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     super.initState();
     _controller = widget.controller ?? PhoneController(value);
     _childController = PhoneFieldController(
-      defaultIsoCode: widget.defaultCountry,
-      isoCode: _controller.value?.isoCode,
+      isoCode: _controller.value?.isoCode ?? widget.defaultCountry,
       national: _getFormattedNsn(),
       focusNode: widget.focusNode ?? FocusNode(),
     );
@@ -56,7 +55,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       _childController.national = formatted;
     }
     if (_childController.isoCode != phone?.isoCode) {
-      _childController.isoCode = phone?.isoCode;
+      _childController.isoCode = phone?.isoCode ?? widget.defaultCountry;
     }
   }
 
@@ -67,7 +66,8 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         _childController.isoCode == _controller.value?.isoCode) {
       return;
     }
-    if (_childController.national == null && _childController.isoCode == null) {
+
+    if (_childController.national == null) {
       return _controller.value = null;
     }
     // we convert the multiple controllers from the child controller
@@ -83,10 +83,14 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       // if starts with + then we parse the whole number
       // to figure out the country code
       final international = childNsn;
-      phoneNumber = PhoneNumber.fromRaw(international);
+      try {
+        phoneNumber = PhoneNumber.fromRaw(international);
+      } on PhoneNumberException {
+        return;
+      }
     } else {
       phoneNumber = PhoneNumber.fromNational(
-        _childController.isoCode ?? _childController.defaultIsoCode,
+        _childController.isoCode,
         childNsn ?? '',
       );
     }

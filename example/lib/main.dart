@@ -50,12 +50,13 @@ class PhoneFieldView extends StatelessWidget {
     return AutofillGroup(
       child: PhoneFormField(
         key: inputKey,
-        controller: controller,
+        // controller: controller,
         shouldFormat: shouldFormat,
         autofocus: true,
+        initialValue: PhoneNumber.fromRaw('+336787678'),
         autofillHints: const [AutofillHints.telephoneNumber],
         countrySelectorNavigator: selectorNavigator,
-        defaultCountry: 'FR',
+        defaultCountry: IsoCode.US,
         decoration: InputDecoration(
           label: withLabel ? const Text('Phone') : null,
           border: outlineBorder
@@ -120,7 +121,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool required = false;
   bool withLabel = true;
   CountrySelectorNavigator selectorNavigator =
-      const CountrySelectorNavigator.bottomSheet();
+      const CountrySelectorNavigator.searchDelegate();
   final formKey = GlobalKey<FormState>();
   final phoneKey = GlobalKey<FormFieldState<PhoneNumber>>();
 
@@ -204,11 +205,18 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                               DropdownMenuItem(
                                 child: Text('Modal sheet'),
                                 value:
-                                    CountrySelectorNavigator.modalBottomSheet(),
+                                    CountrySelectorNavigator.modalBottomSheet(
+                                  favorites: [IsoCode.US, IsoCode.BE],
+                                ),
                               ),
                               DropdownMenuItem(
                                 child: Text('Dialog'),
                                 value: CountrySelectorNavigator.dialog(),
+                              ),
+                              DropdownMenuItem(
+                                child: Text('Page'),
+                                value:
+                                    CountrySelectorNavigator.searchDelegate(),
                               ),
                             ],
                           ),
@@ -251,7 +259,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     ElevatedButton(
                       onPressed: () =>
                           controller.value = PhoneNumber.fromIsoCode(
-                        'fr',
+                        IsoCode.FR,
                         '699999999',
                       ),
                       child: const Text('Set +33 699 999 999'),
