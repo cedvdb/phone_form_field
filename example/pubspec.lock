@@ -56,7 +56,7 @@ packages:
       name: dart_countries
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   fake_async:
     dependency: transitive
     description:
