@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+import 'package:phone_form_field/src/widgets/country_selector/country_list.dart';
 
 void main() {
   group('PhoneFormField', () {
@@ -63,12 +64,12 @@ void main() {
       testWidgets('Should open dialog when country code is clicked',
           (tester) async {
         await tester.pumpWidget(getWidget());
-        expect(find.byType(CountrySelector), findsNothing);
-        await tester.tap(find.byType(TextField));
+        expect(find.byType(CountryList), findsNothing);
+        await tester.tap(find.byType(PhoneFormField));
         await tester.pumpAndSettle();
         await tester.tap(find.byKey(const Key('country-code-overlay')));
         await tester.pumpAndSettle();
-        expect(find.byType(CountrySelector), findsOneWidget);
+        expect(find.byType(CountryList), findsOneWidget);
       });
       testWidgets('Should have a default country', (tester) async {
         await tester.pumpWidget(getWidget(defaultCountry: IsoCode.FR));
