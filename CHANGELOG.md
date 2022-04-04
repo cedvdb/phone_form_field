@@ -10,6 +10,7 @@
 - Added `PageNavigator` for country selection.
 - Refactor of internal to accomodate for different UI for country selection
 - Slight refactor of search process
+- Added possibility of styling hint text (thanks @xvrh)
 - [Breaking] use updated version of phone_number_parser which uses `IsoCode` for iso codes instead 
   of plain string.
 
