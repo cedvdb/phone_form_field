@@ -1,6 +1,6 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/src/helpers/country_translator.dart';
+import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 
 import '../../models/country.dart';
 
@@ -11,55 +11,67 @@ class CountryList extends StatelessWidget {
   /// List of countries to display
   final List<Country> countries;
 
+  /// list of favorite countries to display at the top
+  final List<Country> favorites;
+
   /// proxy to the ListView.builder controller (ie: [ScrollView.controller])
   final ScrollController? scrollController;
 
   /// whether the country dialcode should be displayed as the [ListTile.subtitle]
   final bool showDialCode;
 
-  /// the index of the listview where divider should be added
-  final int? separatorIndex;
+  final String? noResultMessage;
 
-  const CountryList({
+  late final List<Country?> _allListElement;
+
+  CountryList({
     Key? key,
     required this.countries,
+    required this.favorites,
     required this.onTap,
+    required this.noResultMessage,
     this.scrollController,
-    this.separatorIndex,
     this.showDialCode = true,
-  }) : super(key: key);
+  }) : super(key: key) {
+    _allListElement = [
+      ...favorites,
+      if (favorites.isNotEmpty) null, // delimiter
+      ...countries,
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
-    final int listLength = countries.isNotEmpty && separatorIndex != null
-        ? countries.length + 1
-        : countries.length;
-
+    if (_allListElement.isEmpty) {
+      return Center(
+        child: Text(
+          noResultMessage ??
+              PhoneFieldLocalization.of(context)?.noResultMessage ??
+              'No result found',
+          key: const ValueKey('no-result'),
+        ),
+      );
+    }
     return ListView.builder(
       controller: scrollController,
       shrinkWrap: true,
-      itemCount: listLength,
+      itemCount: _allListElement.length,
       itemBuilder: (BuildContext context, int index) {
-        if (index == separatorIndex) {
-          return Divider(key: ValueKey('countryListSeparator-$index'));
+        final country = _allListElement[index];
+        if (country == null) {
+          return const Divider(key: ValueKey('countryListSeparator'));
         }
 
-        // when separator is reached, the country list index is shift
-        // by 1 from the list builder index
-        final countryIndexDelta =
-            separatorIndex != null && index >= separatorIndex! ? 1 : 0;
-        Country country = countries[index - countryIndexDelta];
-
         return ListTile(
-          key: ValueKey(country.isoCode),
+          key: ValueKey(country.isoCode.name),
           leading: CircleFlag(
-            country.isoCode,
+            country.isoCode.name,
             size: showDialCode ? null : 40,
           ),
           title: Align(
             alignment: AlignmentDirectional.centerStart,
             child: Text(
-              CountryTranslator.localisedName(context, country),
+              country.name,
               textAlign: TextAlign.start,
             ),
           ),

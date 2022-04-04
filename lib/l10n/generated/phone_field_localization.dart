@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -71,18 +72,15 @@ import 'phone_field_localization_zh.dart';
 /// be consistent with the languages listed in the PhoneFieldLocalization.supportedLocales
 /// property.
 abstract class PhoneFieldLocalization {
-  PhoneFieldLocalization(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  PhoneFieldLocalization(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static PhoneFieldLocalization? of(BuildContext context) {
-    return Localizations.of<PhoneFieldLocalization>(
-        context, PhoneFieldLocalization);
+    return Localizations.of<PhoneFieldLocalization>(context, PhoneFieldLocalization);
   }
 
-  static const LocalizationsDelegate<PhoneFieldLocalization> delegate =
-      _PhoneFieldLocalizationDelegate();
+  static const LocalizationsDelegate<PhoneFieldLocalization> delegate = _PhoneFieldLocalizationDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -94,10 +92,11 @@ abstract class PhoneFieldLocalization {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
-    ...GlobalMaterialLocalizations.delegates,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
   ];
 
   /// A list of this localizations delegate's supported locales.
@@ -152,6 +151,12 @@ abstract class PhoneFieldLocalization {
   /// In en, this message translates to:
   /// **'No result'**
   String get noResultMessage;
+
+  /// No description provided for @ac_.
+  ///
+  /// In en, this message translates to:
+  /// **'Ascension Island'**
+  String get ac_;
 
   /// No description provided for @ad_.
   ///
@@ -332,6 +337,12 @@ abstract class PhoneFieldLocalization {
   /// In en, this message translates to:
   /// **'Bolivia, Plurinational State of'**
   String get bo_;
+
+  /// No description provided for @bq_.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonaire'**
+  String get bq_;
 
   /// No description provided for @br_.
   ///
@@ -1401,6 +1412,12 @@ abstract class PhoneFieldLocalization {
   /// **'Swaziland'**
   String get sz_;
 
+  /// No description provided for @ta_.
+  ///
+  /// In en, this message translates to:
+  /// **'Tristan da Cunha'**
+  String get ta_;
+
   /// No description provided for @tc_.
   ///
   /// In en, this message translates to:
@@ -1606,71 +1623,45 @@ abstract class PhoneFieldLocalization {
   String get zw_;
 }
 
-class _PhoneFieldLocalizationDelegate
-    extends LocalizationsDelegate<PhoneFieldLocalization> {
+class _PhoneFieldLocalizationDelegate extends LocalizationsDelegate<PhoneFieldLocalization> {
   const _PhoneFieldLocalizationDelegate();
 
   @override
   Future<PhoneFieldLocalization> load(Locale locale) {
-    return SynchronousFuture<PhoneFieldLocalization>(
-        lookupPhoneFieldLocalization(locale));
+    return SynchronousFuture<PhoneFieldLocalization>(lookupPhoneFieldLocalization(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>[
-        'ar',
-        'de',
-        'en',
-        'es',
-        'fr',
-        'hi',
-        'it',
-        'nl',
-        'pt',
-        'ru',
-        'sv',
-        'tr',
-        'zh'
-      ].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'de', 'en', 'es', 'fr', 'hi', 'it', 'nl', 'pt', 'ru', 'sv', 'tr', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_PhoneFieldLocalizationDelegate old) => false;
 }
 
 PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'ar':
-      return PhoneFieldLocalizationAr();
-    case 'de':
-      return PhoneFieldLocalizationDe();
-    case 'en':
-      return PhoneFieldLocalizationEn();
-    case 'es':
-      return PhoneFieldLocalizationEs();
-    case 'fr':
-      return PhoneFieldLocalizationFr();
-    case 'hi':
-      return PhoneFieldLocalizationHi();
-    case 'it':
-      return PhoneFieldLocalizationIt();
-    case 'nl':
-      return PhoneFieldLocalizationNl();
-    case 'pt':
-      return PhoneFieldLocalizationPt();
-    case 'ru':
-      return PhoneFieldLocalizationRu();
-    case 'sv':
-      return PhoneFieldLocalizationSv();
-    case 'tr':
-      return PhoneFieldLocalizationTr();
-    case 'zh':
-      return PhoneFieldLocalizationZh();
+    case 'ar': return PhoneFieldLocalizationAr();
+    case 'de': return PhoneFieldLocalizationDe();
+    case 'en': return PhoneFieldLocalizationEn();
+    case 'es': return PhoneFieldLocalizationEs();
+    case 'fr': return PhoneFieldLocalizationFr();
+    case 'hi': return PhoneFieldLocalizationHi();
+    case 'it': return PhoneFieldLocalizationIt();
+    case 'nl': return PhoneFieldLocalizationNl();
+    case 'pt': return PhoneFieldLocalizationPt();
+    case 'ru': return PhoneFieldLocalizationRu();
+    case 'sv': return PhoneFieldLocalizationSv();
+    case 'tr': return PhoneFieldLocalizationTr();
+    case 'zh': return PhoneFieldLocalizationZh();
   }
 
   throw FlutterError(
-      'PhoneFieldLocalization.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'PhoneFieldLocalization.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

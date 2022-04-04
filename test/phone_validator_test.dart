@@ -24,7 +24,8 @@ void main() async {
         },
       ]);
 
-      expect(validator(const PhoneNumber(isoCode: '', nsn: '')), isNull);
+      expect(
+          validator(const PhoneNumber(isoCode: IsoCode.FR, nsn: '')), isNull);
       expect(first, isTrue);
       expect(second, isTrue);
       expect(last, isTrue);
@@ -47,7 +48,7 @@ void main() async {
           return null;
         },
       ]);
-      expect(validator(const PhoneNumber(isoCode: '', nsn: '')),
+      expect(validator(const PhoneNumber(isoCode: IsoCode.FR, nsn: '')),
           equals('validation failed'));
       expect(firstValidationDone, isTrue);
       expect(lastValidationDone, isFalse);
@@ -58,7 +59,7 @@ void main() async {
     testWidgets('should be required value', (WidgetTester tester) async {
       final validator = PhoneValidator.required();
       expect(
-        validator(const PhoneNumber(isoCode: 'US', nsn: '')),
+        validator(const PhoneNumber(isoCode: IsoCode.US, nsn: '')),
         equals('requiredPhoneNumber'),
       );
 
@@ -66,7 +67,7 @@ void main() async {
         errorText: 'custom message',
       );
       expect(
-        validatorWithText(const PhoneNumber(isoCode: 'US', nsn: '')),
+        validatorWithText(const PhoneNumber(isoCode: IsoCode.US, nsn: '')),
         equals('custom message'),
       );
     });
@@ -76,7 +77,7 @@ void main() async {
     testWidgets('should be invalid', (WidgetTester tester) async {
       final validator = PhoneValidator.valid();
       expect(
-        validator(const PhoneNumber(isoCode: 'FR', nsn: '123')),
+        validator(const PhoneNumber(isoCode: IsoCode.FR, nsn: '123')),
         equals('invalidPhoneNumber'),
       );
 
@@ -84,7 +85,7 @@ void main() async {
         errorText: 'custom message',
       );
       expect(
-        validatorWithText(const PhoneNumber(isoCode: 'FR', nsn: '123')),
+        validatorWithText(const PhoneNumber(isoCode: IsoCode.FR, nsn: '123')),
         equals('custom message'),
       );
     });
@@ -93,13 +94,13 @@ void main() async {
         (WidgetTester tester) async {
       final validator = PhoneValidator.valid();
       expect(
-        validator(const PhoneNumber(isoCode: 'FR', nsn: '')),
+        validator(const PhoneNumber(isoCode: IsoCode.FR, nsn: '')),
         isNull,
       );
 
       final validatorNotEmpty = PhoneValidator.valid(allowEmpty: false);
       expect(
-        validatorNotEmpty(const PhoneNumber(isoCode: 'FR', nsn: '')),
+        validatorNotEmpty(const PhoneNumber(isoCode: IsoCode.FR, nsn: '')),
         equals('invalidPhoneNumber'),
       );
     });
@@ -109,7 +110,7 @@ void main() async {
     testWidgets('should be invalid mobile type', (WidgetTester tester) async {
       final validator = PhoneValidator.validMobile();
       expect(
-        validator(const PhoneNumber(isoCode: 'FR', nsn: '412345678')),
+        validator(const PhoneNumber(isoCode: IsoCode.FR, nsn: '412345678')),
         equals('invalidMobilePhoneNumber'),
       );
 
@@ -117,7 +118,8 @@ void main() async {
         errorText: 'custom type message',
       );
       expect(
-        validatorWithText(const PhoneNumber(isoCode: 'FR', nsn: '412345678')),
+        validatorWithText(
+            const PhoneNumber(isoCode: IsoCode.FR, nsn: '412345678')),
         equals('custom type message'),
       );
     });
@@ -126,13 +128,13 @@ void main() async {
         (WidgetTester tester) async {
       final validator = PhoneValidator.validMobile();
       expect(
-        validator(const PhoneNumber(isoCode: 'FR', nsn: '')),
+        validator(const PhoneNumber(isoCode: IsoCode.FR, nsn: '')),
         isNull,
       );
 
       final validatorNotEmpty = PhoneValidator.validMobile(allowEmpty: false);
       expect(
-        validatorNotEmpty(const PhoneNumber(isoCode: 'FR', nsn: '')),
+        validatorNotEmpty(const PhoneNumber(isoCode: IsoCode.FR, nsn: '')),
         equals('invalidMobilePhoneNumber'),
       );
     });
@@ -141,7 +143,7 @@ void main() async {
         (WidgetTester tester) async {
       final validator = PhoneValidator.validFixedLine();
       expect(
-        validator(const PhoneNumber(isoCode: 'FR', nsn: '612345678')),
+        validator(const PhoneNumber(isoCode: IsoCode.FR, nsn: '612345678')),
         equals('invalidFixedLinePhoneNumber'),
       );
 
@@ -149,7 +151,8 @@ void main() async {
         errorText: 'custom fixed type message',
       );
       expect(
-        validatorWithText(const PhoneNumber(isoCode: 'FR', nsn: '612345678')),
+        validatorWithText(
+            const PhoneNumber(isoCode: IsoCode.FR, nsn: '612345678')),
         equals('custom fixed type message'),
       );
     });
@@ -158,12 +161,13 @@ void main() async {
         'should (not) be invalid fixed line type when (no) value entered',
         (WidgetTester tester) async {
       final validator = PhoneValidator.validFixedLine();
-      expect(validator(const PhoneNumber(isoCode: 'FR', nsn: '')), isNull);
+      expect(
+          validator(const PhoneNumber(isoCode: IsoCode.FR, nsn: '')), isNull);
 
       final validatorNotEmpty =
           PhoneValidator.validFixedLine(allowEmpty: false);
       expect(
-        validatorNotEmpty(const PhoneNumber(isoCode: 'FR', nsn: '')),
+        validatorNotEmpty(const PhoneNumber(isoCode: IsoCode.FR, nsn: '')),
         equals('invalidFixedLinePhoneNumber'),
       );
     });
@@ -171,36 +175,28 @@ void main() async {
 
   group('PhoneValidator.country', () {
     testWidgets('should be invalid country', (WidgetTester tester) async {
-      final validator = PhoneValidator.validCountry(['FR', 'BE']);
+      final validator = PhoneValidator.validCountry([IsoCode.FR, IsoCode.BE]);
       expect(
-        validator(const PhoneNumber(isoCode: 'US', nsn: '112')),
+        validator(const PhoneNumber(isoCode: IsoCode.US, nsn: '112')),
         equals('invalidCountry'),
       );
     });
 
     testWidgets('should (not) be invalid country when (no) value entered',
         (WidgetTester tester) async {
-      final validator = PhoneValidator.validCountry(['US', 'BE']);
+      final validator = PhoneValidator.validCountry([IsoCode.US, IsoCode.BE]);
       expect(
-        validator(const PhoneNumber(isoCode: 'FR', nsn: '')),
+        validator(const PhoneNumber(isoCode: IsoCode.FR, nsn: '')),
         isNull,
       );
 
       final validatorNotEmpty = PhoneValidator.validCountry(
-        ['US', 'BE'],
+        [IsoCode.US, IsoCode.BE],
         allowEmpty: false,
       );
       expect(
-        validatorNotEmpty(const PhoneNumber(isoCode: 'FR', nsn: '')),
+        validatorNotEmpty(const PhoneNumber(isoCode: IsoCode.FR, nsn: '')),
         equals('invalidCountry'),
-      );
-    });
-
-    testWidgets('country validator should refuse invalid isoCode',
-        (WidgetTester tester) async {
-      expect(
-        () => PhoneValidator.validCountry(['INVALID_ISO_CODE']),
-        throwsAssertionError,
       );
     });
   });

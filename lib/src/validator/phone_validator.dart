@@ -1,4 +1,3 @@
-import 'package:dart_countries/dart_countries.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
 typedef PhoneNumberInputValidator = String? Function(PhoneNumber? phoneNumber);
@@ -155,7 +154,7 @@ class PhoneValidator {
   @Deprecated('Use valid country, naming was backward')
   static invalidCountry(
     /// list of valid country isocode
-    List<String> expectedCountries, {
+    List<IsoCode> expectedCountries, {
 
     /// custom error message
     String? errorText,
@@ -171,7 +170,7 @@ class PhoneValidator {
 
   static PhoneNumberInputValidator validCountry(
     /// list of valid country isocode
-    List<String> expectedCountries, {
+    List<IsoCode> expectedCountries, {
 
     /// custom error message
     String? errorText,
@@ -179,11 +178,6 @@ class PhoneValidator {
     /// determine whether a missing value should be reported as invalid
     bool allowEmpty = true,
   }) {
-    assert(
-      expectedCountries.every((isoCode) => isoCodes.contains(isoCode)),
-      'Each expectedCountries value be valid country isoCode',
-    );
-
     return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
