@@ -180,6 +180,7 @@ class _PhoneFieldState extends State<PhoneField> {
   InputDecoration _getInnerInputDecoration() {
     return InputDecoration.collapsed(
       hintText: widget.decoration.hintText,
+      hintStyle: widget.decoration.hintStyle,
     ).copyWith(
       focusedBorder: InputBorder.none,
       errorBorder: InputBorder.none,
