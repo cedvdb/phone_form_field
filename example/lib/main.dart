@@ -61,6 +61,7 @@ class PhoneFieldView extends StatelessWidget {
           border: outlineBorder
               ? const OutlineInputBorder()
               : const UnderlineInputBorder(),
+          hintText: withLabel ? '' : 'Phone',
         ),
         enabled: true,
         showFlagInInput: true,
