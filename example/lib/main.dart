@@ -50,10 +50,9 @@ class PhoneFieldView extends StatelessWidget {
     return AutofillGroup(
       child: PhoneFormField(
         key: inputKey,
-        // controller: controller,
+        controller: controller,
         shouldFormat: shouldFormat,
         autofocus: true,
-        initialValue: PhoneNumber.fromRaw('+336787678'),
         autofillHints: const [AutofillHints.telephoneNumber],
         countrySelectorNavigator: selectorNavigator,
         defaultCountry: IsoCode.US,
