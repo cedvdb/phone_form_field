@@ -45,6 +45,7 @@ class _PhoneFieldState extends State<PhoneField> {
     return MouseRegion(
       cursor: SystemMouseCursors.text,
       child: Stack(
+        textDirection: widget.textDirection,
         children: [
           MeasureSize(
             onChange: (size) => setState(() => _sizeInput = size),
@@ -160,7 +161,7 @@ class _PhoneFieldState extends State<PhoneField> {
     return MeasureSize(
       onChange: (size) => setState(() => _countryCodeSize = size),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+        padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
         child: CountryCodeChip(
           key: const ValueKey('country-code-chip'),
           isoCode: controller.isoCode,
@@ -172,6 +173,7 @@ class _PhoneFieldState extends State<PhoneField> {
                 color: Theme.of(context).textTheme.caption?.color,
               ),
           flagSize: widget.flagSize,
+          textDirection: widget.textDirection,
         ),
       ),
     );
@@ -191,10 +193,12 @@ class _PhoneFieldState extends State<PhoneField> {
   }
 
   InputDecoration _getOutterInputDecoration() {
+    final useSuffix = Directionality.of(context) != widget.textDirection;
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
-      prefix: _getCountryCodeChip(),
+      prefix: useSuffix ? null : _getCountryCodeChip(),
+      suffix: useSuffix ? _getCountryCodeChip() : null,
     );
   }
 
