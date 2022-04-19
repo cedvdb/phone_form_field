@@ -614,13 +614,7 @@ class PhoneFieldLocalizationAr extends PhoneFieldLocalization {
   String get sg_ => 'سنغافورة';
 
   @override
-  String get sh_ => 'سانت هيلانة وأسنسيون وتريستان دا كونها';
-
-  @override
   String get si_ => 'سلوفينيا';
-
-  @override
-  String get sj_ => 'سفالبارد وجان ماين';
 
   @override
   String get sk_ => 'سلوفاكيا';

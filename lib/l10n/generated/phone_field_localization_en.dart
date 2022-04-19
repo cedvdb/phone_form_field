@@ -341,7 +341,7 @@ class PhoneFieldLocalizationEn extends PhoneFieldLocalization {
   String get iq_ => 'Iraq';
 
   @override
-  String get ir_ => 'Iran, Islamic Republic of Persian Gulf';
+  String get ir_ => 'Iran, Islamic Republic of';
 
   @override
   String get is_ => 'Iceland';
@@ -614,13 +614,7 @@ class PhoneFieldLocalizationEn extends PhoneFieldLocalization {
   String get sg_ => 'Singapore';
 
   @override
-  String get sh_ => 'Saint Helena, Ascension and Tristan Da Cunha';
-
-  @override
   String get si_ => 'Slovenia';
-
-  @override
-  String get sj_ => 'Svalbard and Jan Mayen';
 
   @override
   String get sk_ => 'Slovakia';
