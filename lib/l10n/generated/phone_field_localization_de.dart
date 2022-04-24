@@ -614,13 +614,7 @@ class PhoneFieldLocalizationDe extends PhoneFieldLocalization {
   String get sg_ => 'Singapur';
 
   @override
-  String get sh_ => 'St. Helena, Himmelfahrt und Tristan Da Cunha';
-
-  @override
   String get si_ => 'Slowenien';
-
-  @override
-  String get sj_ => 'Spitzbergen und Jan Mayen';
 
   @override
   String get sk_ => 'Slowakei';

@@ -2,6 +2,11 @@
 - fix inkwell overflow on error
 - update docs
 
+## 5.0.2 24/04/2022
+
+- added el language (@kwstasarva)
+- added rtl text direction support (@minusium)
+
 ## [5.0.0] 01/04/2022
 
 

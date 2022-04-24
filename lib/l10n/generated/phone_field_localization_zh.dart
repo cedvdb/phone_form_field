@@ -614,13 +614,7 @@ class PhoneFieldLocalizationZh extends PhoneFieldLocalization {
   String get sg_ => '新加坡';
 
   @override
-  String get sh_ => '圣海伦娜，升天和特里斯坦·达库纳';
-
-  @override
   String get si_ => '斯洛文尼亚';
-
-  @override
-  String get sj_ => '斯瓦尔巴和扬·马延';
 
   @override
   String get sk_ => '斯洛伐克';

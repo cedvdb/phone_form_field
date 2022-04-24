@@ -8,8 +8,10 @@ import 'package:intl/intl.dart' as intl;
 
 import 'phone_field_localization_ar.dart';
 import 'phone_field_localization_de.dart';
+import 'phone_field_localization_el.dart';
 import 'phone_field_localization_en.dart';
 import 'phone_field_localization_es.dart';
+import 'phone_field_localization_fa.dart';
 import 'phone_field_localization_fr.dart';
 import 'phone_field_localization_hi.dart';
 import 'phone_field_localization_it.dart';
@@ -103,8 +105,10 @@ abstract class PhoneFieldLocalization {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
     Locale('de'),
+    Locale('el'),
     Locale('en'),
     Locale('es'),
+    Locale('fa'),
     Locale('fr'),
     Locale('hi'),
     Locale('it'),
@@ -785,7 +789,7 @@ abstract class PhoneFieldLocalization {
   /// No description provided for @ir_.
   ///
   /// In en, this message translates to:
-  /// **'Iran, Islamic Republic of Persian Gulf'**
+  /// **'Iran, Islamic Republic of'**
   String get ir_;
 
   /// No description provided for @is_.
@@ -1328,23 +1332,11 @@ abstract class PhoneFieldLocalization {
   /// **'Singapore'**
   String get sg_;
 
-  /// No description provided for @sh_.
-  ///
-  /// In en, this message translates to:
-  /// **'Saint Helena, Ascension and Tristan Da Cunha'**
-  String get sh_;
-
   /// No description provided for @si_.
   ///
   /// In en, this message translates to:
   /// **'Slovenia'**
   String get si_;
-
-  /// No description provided for @sj_.
-  ///
-  /// In en, this message translates to:
-  /// **'Svalbard and Jan Mayen'**
-  String get sj_;
 
   /// No description provided for @sk_.
   ///
@@ -1632,7 +1624,7 @@ class _PhoneFieldLocalizationDelegate extends LocalizationsDelegate<PhoneFieldLo
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['ar', 'de', 'en', 'es', 'fr', 'hi', 'it', 'nl', 'pt', 'ru', 'sv', 'tr', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'de', 'el', 'en', 'es', 'fa', 'fr', 'hi', 'it', 'nl', 'pt', 'ru', 'sv', 'tr', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_PhoneFieldLocalizationDelegate old) => false;
@@ -1645,8 +1637,10 @@ PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
   switch (locale.languageCode) {
     case 'ar': return PhoneFieldLocalizationAr();
     case 'de': return PhoneFieldLocalizationDe();
+    case 'el': return PhoneFieldLocalizationEl();
     case 'en': return PhoneFieldLocalizationEn();
     case 'es': return PhoneFieldLocalizationEs();
+    case 'fa': return PhoneFieldLocalizationFa();
     case 'fr': return PhoneFieldLocalizationFr();
     case 'hi': return PhoneFieldLocalizationHi();
     case 'it': return PhoneFieldLocalizationIt();
