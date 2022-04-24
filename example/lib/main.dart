@@ -19,6 +19,7 @@ class PhoneFieldView extends StatelessWidget {
   final bool shouldFormat;
   final bool required;
   final bool mobileOnly;
+  final bool useRtl;
 
   const PhoneFieldView({
     Key? key,
@@ -30,6 +31,7 @@ class PhoneFieldView extends StatelessWidget {
     required this.shouldFormat,
     required this.required,
     required this.mobileOnly,
+    required this.useRtl,
   }) : super(key: key);
 
   PhoneNumberInputValidator? _getValidator() {
@@ -48,31 +50,35 @@ class PhoneFieldView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutofillGroup(
-      child: PhoneFormField(
-        key: inputKey,
-        // controller: controller,
-        shouldFormat: shouldFormat,
-        autofocus: true,
-        initialValue: PhoneNumber.fromRaw('+336787678'),
-        autofillHints: const [AutofillHints.telephoneNumber],
-        countrySelectorNavigator: selectorNavigator,
-        defaultCountry: IsoCode.US,
-        decoration: InputDecoration(
-          label: withLabel ? const Text('Phone') : null,
-          border: outlineBorder
-              ? const OutlineInputBorder()
-              : const UnderlineInputBorder(),
-          hintText: withLabel ? '' : 'Phone',
+      child: Directionality(
+        textDirection: useRtl ? TextDirection.rtl : TextDirection.ltr,
+        child: PhoneFormField(
+          key: inputKey,
+          // controller: controller,
+          shouldFormat: shouldFormat,
+          autofocus: true,
+          initialValue: PhoneNumber.fromRaw('+336787678'),
+          autofillHints: const [AutofillHints.telephoneNumber],
+          countrySelectorNavigator: selectorNavigator,
+          defaultCountry: IsoCode.US,
+          decoration: InputDecoration(
+            label: withLabel ? const Text('Phone') : null,
+            border: outlineBorder
+                ? const OutlineInputBorder()
+                : const UnderlineInputBorder(),
+            hintText: withLabel ? '' : 'Phone',
+          ),
+          enabled: true,
+          showFlagInInput: true,
+          validator: _getValidator(),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          cursorColor: Theme.of(context).colorScheme.primary,
+          // ignore: avoid_print
+          onSaved: (p) => print('saved $p'),
+          // ignore: avoid_print
+          onChanged: (p) => print('changed $p'),
+          textDirection: TextDirection.ltr,
         ),
-        enabled: true,
-        showFlagInInput: true,
-        validator: _getValidator(),
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        cursorColor: Theme.of(context).colorScheme.primary,
-        // ignore: avoid_print
-        onSaved: (p) => print('saved $p'),
-        // ignore: avoid_print
-        onChanged: (p) => print('changed $p'),
       ),
     );
   }
@@ -121,6 +127,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool shouldFormat = true;
   bool required = false;
   bool withLabel = true;
+  bool useRtl = false;
   CountrySelectorNavigator selectorNavigator =
       const CountrySelectorNavigator.searchDelegate();
   final formKey = GlobalKey<FormState>();
@@ -180,6 +187,11 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       onChanged: (v) => setState(() => shouldFormat = v),
                       title: const Text('Should format'),
                     ),
+                    SwitchListTile(
+                      value: useRtl,
+                      onChanged: (v) => setState(() => useRtl = v),
+                      title: const Text('RTL'),
+                    ),
                     ListTile(
                       title: Wrap(
                         alignment: WrapAlignment.spaceBetween,
@@ -236,6 +248,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         required: required,
                         mobileOnly: mobileOnly,
                         shouldFormat: shouldFormat,
+                        useRtl: useRtl,
                       ),
                     ),
                     const SizedBox(height: 12),
