@@ -131,7 +131,7 @@ class _PhoneFieldState extends State<PhoneField> {
     // when there is an error the widget height contains the error
     // se we need to remove the error height
     if (widget.errorText != null) {
-      height -= 20;
+      height -= 24;
     }
 
     if (_isOutlineBorder) {

@@ -1,3 +1,6 @@
+## [5.0.1] 05/04/2022
+- fix inkwell overflow on error
+- update docs
 
 ## 5.0.2 24/04/2022
 
