@@ -97,10 +97,14 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [
         Locale('en', ''),
         Locale('es', ''),
+        Locale('el', ''),
         Locale('de', ''),
         Locale('fr', ''),
         Locale('it', ''),
         Locale('ru', ''),
+        Locale('sv', ''),
+        Locale('tr', ''),
+        Locale('zh', ''),
         // ...
       ],
       title: 'Phone field demo',

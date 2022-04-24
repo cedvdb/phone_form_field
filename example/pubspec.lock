@@ -134,24 +134,20 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "5.0.0"
+    version: "5.0.2"
   phone_number_metadata:
     dependency: transitive
     description:
-      path: "."
-      ref: iso_code
-      resolved-ref: e8d08064d20ed37d615e19528a9929280a20eec8
-      url: "https://github.com/cedvdb/dart_phone_metadata"
-    source: git
-    version: "4.0.2"
+      name: phone_number_metadata
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0"
   phone_numbers_parser:
     dependency: transitive
     description:
-      path: "."
-      ref: iso_code
-      resolved-ref: "5ea29d2a65c3278b0f6e13691145f13eeb62e301"
-      url: "git@github.com:cedvdb/phone_numbers_parser.git"
-    source: git
+      name: phone_numbers_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "5.0.0"
   sky_engine:
     dependency: transitive
