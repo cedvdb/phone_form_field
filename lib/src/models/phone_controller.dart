@@ -6,13 +6,14 @@ import 'package:phone_form_field/phone_form_field.dart';
 class PhoneController extends ValueNotifier<PhoneNumber?> {
   final PhoneNumber? initialValue;
   // when we want to select the national number
-  final StreamController<void> _selectionRequest$ = StreamController();
-  Stream<void> get selectionRequest$ => _selectionRequest$.stream;
+  final StreamController<void> _selectionRequestController =
+      StreamController.broadcast();
+  Stream<void> get selectionRequestStream => _selectionRequestController.stream;
 
   PhoneController(this.initialValue) : super(initialValue);
 
   selectNationalNumber() {
-    _selectionRequest$.add(null);
+    _selectionRequestController.add(null);
   }
 
   reset() {
@@ -21,7 +22,7 @@ class PhoneController extends ValueNotifier<PhoneNumber?> {
 
   @override
   void dispose() {
-    _selectionRequest$.close();
+    _selectionRequestController.close();
     super.dispose();
   }
 }

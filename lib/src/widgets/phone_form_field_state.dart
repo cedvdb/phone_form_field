@@ -20,7 +20,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     _controller.addListener(_onControllerChange);
     _childController.addListener(() => _onChildControllerChange());
     // to expose text selection of national number
-    _selectionSubscription = _controller.selectionRequest$
+    _selectionSubscription = _controller.selectionRequestStream
         .listen((event) => _childController.selectNationalNumber());
   }
 
@@ -29,6 +29,7 @@ class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     super.dispose();
     _childController.dispose();
     _selectionSubscription.cancel();
+    _controller.removeListener(_onControllerChange);
     // dispose the controller only when it's initialised in this instance
     // otherwise this should be done where instance is created
     if (widget.controller == null) {
