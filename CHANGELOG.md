@@ -2,6 +2,7 @@
 ## [5.0.3] 
 
 - correctly remove listener from controller on dispose.
+- fix error that happened when a controller was reused.
 
 ## [5.0.2] 24/04/2022
 

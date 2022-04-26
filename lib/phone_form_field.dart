@@ -10,7 +10,7 @@ export 'src/validator/phone_validator.dart';
 export 'l10n/generated/phone_field_localization.dart';
 
 export 'src/models/selector_config.dart';
-export 'src/models/phone_form_field_controller.dart';
+export 'src/models/phone_controller.dart';
 export 'src/models/country.dart';
 export 'src/helpers/localized_country_registry.dart';
 
