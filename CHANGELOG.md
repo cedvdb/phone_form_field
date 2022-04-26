@@ -1,5 +1,5 @@
 
-## [5.0.3] 
+## [5.0.3] 26/04/2022
 
 - correctly remove listener from controller on dispose.
 - fix error that happened when a controller was reused.
@@ -12,7 +12,6 @@
 ## [5.0.1] 05/04/2022
 - fix inkwell overflow on error
 - update docs
-
 
 ## [5.0.0] 01/04/2022
 
