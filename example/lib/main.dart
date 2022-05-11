@@ -77,7 +77,6 @@ class PhoneFieldView extends StatelessWidget {
           onSaved: (p) => print('saved $p'),
           // ignore: avoid_print
           onChanged: (p) => print('changed $p'),
-          textDirection: TextDirection.ltr,
         ),
       ),
     );

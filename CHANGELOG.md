@@ -1,3 +1,5 @@
+## [5.0.4] 11/05/2022
+- fix empty text direction bug
 
 ## [5.0.3] 26/04/2022
 
