@@ -1,3 +1,6 @@
+## [5.0.5] 14/05/2022
+- require flutter 3
+
 ## [5.0.4] 11/05/2022
 - fix empty text direction bug
 
