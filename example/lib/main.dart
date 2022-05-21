@@ -197,7 +197,7 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       title: const Text('Should format'),
                     ),
                     SwitchListTile(
-                      value: useRtlTextDirection,
+                      value: useRtlDirection,
                       onChanged: (v) => setState(() => useRtlDirection = v),
                       title: const Text('RTL'),
                     ),
