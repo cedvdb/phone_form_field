@@ -193,8 +193,7 @@ class _PhoneFieldState extends State<PhoneField> {
   }
 
   InputDecoration _getOutterInputDecoration() {
-    final useSuffix = widget.textDirection == TextDirection.rtl &&
-        widget.textDirection == null &&
+    final useSuffix = widget.textDirection != null &&
         Directionality.of(context) == TextDirection.rtl;
     return widget.decoration.copyWith(
       hintText: null,
