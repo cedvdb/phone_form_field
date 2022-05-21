@@ -1,11 +1,6 @@
 part of 'phone_field.dart';
 
 class _PhoneFieldState extends State<PhoneField> {
-  /// size of input so we can render inkwell at correct height
-  Size? _sizeInput;
-  Size? _countryCodeSize;
-
-  bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
   PhoneFieldController get controller => widget.controller;
 
   _PhoneFieldState();
@@ -38,30 +33,6 @@ class _PhoneFieldState extends State<PhoneField> {
 
   @override
   Widget build(BuildContext context) {
-    // The idea here is to have an InputDecorat with a prefix where the prefix
-    // is the flag + country code which visible (when focussed).
-    // Then we stack an InkWell with the country code (invisible) so
-    // it is the right width
-    return MouseRegion(
-      cursor: SystemMouseCursors.text,
-      child: Stack(
-        textDirection: widget.textDirection,
-        children: [
-          MeasureSize(
-            onChange: (size) => setState(() => _sizeInput = size),
-            child: GestureDetector(
-              onTap: () => controller.focusNode.requestFocus(),
-              child: _textField(),
-            ),
-          ),
-          if (controller.focusNode.hasFocus || controller.national != null)
-            _getInkWellOverlay(),
-        ],
-      ),
-    );
-  }
-
-  Widget _textField() {
     return InputDecorator(
       decoration: _getOutterInputDecoration(),
       isFocused: controller.focusNode.hasFocus,
@@ -121,45 +92,9 @@ class _PhoneFieldState extends State<PhoneField> {
     );
   }
 
-  /// gets the inkwell that is displayed on top of the input
-  /// for feedback on country code click
-  Widget _getInkWellOverlay() {
-    // width and height calculation are a bit hacky but a better way
-    // that works when the input is resized was not found
-    var height = _sizeInput?.height ?? 0;
-    var width = _countryCodeSize?.width ?? 0;
-    // when there is an error the widget height contains the error
-    // se we need to remove the error height
-    if (widget.errorText != null) {
-      height -= 24;
-    }
-
-    if (_isOutlineBorder) {
-      // outline border adds padding to the left
-      width += 12;
-    }
-
-    if (widget.decoration.prefixIconConstraints != null) {
-      width += widget.decoration.prefixIconConstraints!.maxWidth;
-    } else if (widget.decoration.prefixIcon != null) {
-      // prefix icon default size is 48px
-      width += 48;
-    }
-
-    return InkWell(
-      key: const ValueKey('country-code-overlay'),
-      onTap: () {},
-      onTapDown: (_) => selectCountry(),
-      child: SizedBox(
-        height: height,
-        width: width,
-      ),
-    );
-  }
-
   Widget _getCountryCodeChip() {
-    return MeasureSize(
-      onChange: (size) => setState(() => _countryCodeSize = size),
+    return InkWell(
+      onTap: selectCountry,
       child: Padding(
         padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
         child: CountryCodeChip(
