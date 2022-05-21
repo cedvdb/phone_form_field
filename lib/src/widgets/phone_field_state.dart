@@ -194,7 +194,7 @@ class _PhoneFieldState extends State<PhoneField> {
 
   InputDecoration _getOutterInputDecoration() {
     final useSuffix = widget.textDirection != null &&
-        Directionality.of(context) == TextDirection.rtl;
+        Directionality.of(context) != widget.textDirection;
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
