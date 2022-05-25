@@ -18,6 +18,7 @@ void main() {
       IsoCode defaultCountry = IsoCode.US,
       bool shouldFormat = false,
       PhoneNumberInputValidator? validator,
+      TextDirection textDirection = TextDirection.ltr,
     }) =>
         MaterialApp(
           localizationsDelegates: const [
@@ -38,6 +39,7 @@ void main() {
                 defaultCountry: defaultCountry,
                 shouldFormat: shouldFormat,
                 validator: validator,
+                textDirection: textDirection,
               ),
             ),
           ),
@@ -282,6 +284,20 @@ void main() {
         formKey.currentState?.reset();
         await tester.pumpAndSettle();
         expect(find.text(national), findsNothing);
+      });
+    });
+
+    group('Directionality', () {
+      testWidgets('Using textDirection.LTR on RTL context', (tester) async {
+        await tester.pumpWidget(Directionality(
+          textDirection: TextDirection.rtl,
+          child: getWidget(
+            textDirection: TextDirection.ltr,
+          ),
+        ));
+        final finder = find.byType(Directionality);
+        final widget = finder.at(1).evaluate().single.widget as Directionality;
+        expect(widget.textDirection, TextDirection.ltr);
       });
     });
   });
