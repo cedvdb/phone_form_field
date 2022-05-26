@@ -19,7 +19,8 @@ class PhoneFieldView extends StatelessWidget {
   final bool shouldFormat;
   final bool required;
   final bool mobileOnly;
-  final bool useRtl;
+  final bool useRtlDirection;
+  final bool useRtlTextDirection;
 
   const PhoneFieldView({
     Key? key,
@@ -31,7 +32,8 @@ class PhoneFieldView extends StatelessWidget {
     required this.shouldFormat,
     required this.required,
     required this.mobileOnly,
-    required this.useRtl,
+    required this.useRtlDirection,
+    required this.useRtlTextDirection,
   }) : super(key: key);
 
   PhoneNumberInputValidator? _getValidator() {
@@ -51,7 +53,7 @@ class PhoneFieldView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AutofillGroup(
       child: Directionality(
-        textDirection: useRtl ? TextDirection.rtl : TextDirection.ltr,
+        textDirection: useRtlDirection ? TextDirection.rtl : TextDirection.ltr,
         child: PhoneFormField(
           key: inputKey,
           // controller: controller,
@@ -73,6 +75,8 @@ class PhoneFieldView extends StatelessWidget {
           validator: _getValidator(),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           cursorColor: Theme.of(context).colorScheme.primary,
+          textDirection:
+              useRtlTextDirection ? TextDirection.rtl : TextDirection.ltr,
           // ignore: avoid_print
           onSaved: (p) => print('saved $p'),
           // ignore: avoid_print
@@ -98,6 +102,7 @@ class MyApp extends StatelessWidget {
         Locale('es', ''),
         Locale('el', ''),
         Locale('de', ''),
+        Locale('fa', ''),
         Locale('fr', ''),
         Locale('it', ''),
         Locale('ru', ''),
@@ -130,7 +135,8 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool shouldFormat = true;
   bool required = false;
   bool withLabel = true;
-  bool useRtl = false;
+  bool useRtlDirection = false;
+  bool useRtlTextDirection = false;
   CountrySelectorNavigator selectorNavigator =
       const CountrySelectorNavigator.searchDelegate();
   final formKey = GlobalKey<FormState>();
@@ -191,9 +197,14 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       title: const Text('Should format'),
                     ),
                     SwitchListTile(
-                      value: useRtl,
-                      onChanged: (v) => setState(() => useRtl = v),
+                      value: useRtlDirection,
+                      onChanged: (v) => setState(() => useRtlDirection = v),
                       title: const Text('RTL'),
+                    ),
+                    SwitchListTile(
+                      value: useRtlTextDirection,
+                      onChanged: (v) => setState(() => useRtlTextDirection = v),
+                      title: const Text('RTL TextDirection'),
                     ),
                     ListTile(
                       title: Wrap(
@@ -251,7 +262,8 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         required: required,
                         mobileOnly: mobileOnly,
                         shouldFormat: shouldFormat,
-                        useRtl: useRtl,
+                        useRtlDirection: useRtlDirection,
+                        useRtlTextDirection: useRtlTextDirection,
                       ),
                     ),
                     const SizedBox(height: 12),

@@ -69,51 +69,54 @@ class _PhoneFieldState extends State<PhoneField> {
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              focusNode: controller.focusNode,
-              controller: controller.nationalNumberController,
-              enabled: widget.enabled,
-              decoration: _getInnerInputDecoration(),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(
-                    '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
-              ],
-              autofillHints: widget.autofillHints,
-              keyboardType: widget.keyboardType,
-              textInputAction: widget.textInputAction,
-              style: widget.style,
-              strutStyle: widget.strutStyle,
-              textAlign: widget.textAlign,
-              textAlignVertical: widget.textAlignVertical,
-              textDirection: widget.textDirection,
-              autofocus: widget.autofocus,
-              obscuringCharacter: widget.obscuringCharacter,
-              obscureText: widget.obscureText,
-              autocorrect: widget.autocorrect,
-              smartDashesType: widget.smartDashesType,
-              smartQuotesType: widget.smartQuotesType,
-              enableSuggestions: widget.enableSuggestions,
-              toolbarOptions: widget.toolbarOptions,
-              showCursor: widget.showCursor,
-              onEditingComplete: widget.onEditingComplete,
-              onSubmitted: widget.onSubmitted,
-              onAppPrivateCommand: widget.onAppPrivateCommand,
-              cursorWidth: widget.cursorWidth,
-              cursorHeight: widget.cursorHeight,
-              cursorRadius: widget.cursorRadius,
-              cursorColor: widget.cursorColor,
-              selectionHeightStyle: widget.selectionHeightStyle,
-              selectionWidthStyle: widget.selectionWidthStyle,
-              keyboardAppearance: widget.keyboardAppearance,
-              scrollPadding: widget.scrollPadding,
-              enableInteractiveSelection: widget.enableInteractiveSelection,
-              selectionControls: widget.selectionControls,
-              mouseCursor: widget.mouseCursor,
-              scrollController: widget.scrollController,
-              scrollPhysics: widget.scrollPhysics,
-              restorationId: widget.restorationId,
-              enableIMEPersonalizedLearning:
-                  widget.enableIMEPersonalizedLearning,
+            child: Directionality(
+              textDirection: widget.textDirection ?? Directionality.of(context),
+              child: TextField(
+                focusNode: controller.focusNode,
+                controller: controller.nationalNumberController,
+                enabled: widget.enabled,
+                decoration: _getInnerInputDecoration(),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(
+                      '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
+                ],
+                autofillHints: widget.autofillHints,
+                keyboardType: widget.keyboardType,
+                textInputAction: widget.textInputAction,
+                style: widget.style,
+                strutStyle: widget.strutStyle,
+                textAlign: widget.textAlign,
+                textAlignVertical: widget.textAlignVertical,
+                textDirection: widget.textDirection,
+                autofocus: widget.autofocus,
+                obscuringCharacter: widget.obscuringCharacter,
+                obscureText: widget.obscureText,
+                autocorrect: widget.autocorrect,
+                smartDashesType: widget.smartDashesType,
+                smartQuotesType: widget.smartQuotesType,
+                enableSuggestions: widget.enableSuggestions,
+                toolbarOptions: widget.toolbarOptions,
+                showCursor: widget.showCursor,
+                onEditingComplete: widget.onEditingComplete,
+                onSubmitted: widget.onSubmitted,
+                onAppPrivateCommand: widget.onAppPrivateCommand,
+                cursorWidth: widget.cursorWidth,
+                cursorHeight: widget.cursorHeight,
+                cursorRadius: widget.cursorRadius,
+                cursorColor: widget.cursorColor,
+                selectionHeightStyle: widget.selectionHeightStyle,
+                selectionWidthStyle: widget.selectionWidthStyle,
+                keyboardAppearance: widget.keyboardAppearance,
+                scrollPadding: widget.scrollPadding,
+                enableInteractiveSelection: widget.enableInteractiveSelection,
+                selectionControls: widget.selectionControls,
+                mouseCursor: widget.mouseCursor,
+                scrollController: widget.scrollController,
+                scrollPhysics: widget.scrollPhysics,
+                restorationId: widget.restorationId,
+                enableIMEPersonalizedLearning:
+                    widget.enableIMEPersonalizedLearning,
+              ),
             ),
           ),
         ],
@@ -189,18 +192,14 @@ class _PhoneFieldState extends State<PhoneField> {
       disabledBorder: InputBorder.none,
       enabledBorder: InputBorder.none,
       focusedErrorBorder: InputBorder.none,
+      prefix: _getCountryCodeChip(),
     );
   }
 
   InputDecoration _getOutterInputDecoration() {
-    final useSuffix = widget.textDirection == TextDirection.rtl &&
-        widget.textDirection == null &&
-        Directionality.of(context) == TextDirection.rtl;
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
-      prefix: useSuffix ? null : _getCountryCodeChip(),
-      suffix: useSuffix ? _getCountryCodeChip() : null,
     );
   }
 
