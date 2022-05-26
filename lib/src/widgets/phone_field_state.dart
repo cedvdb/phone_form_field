@@ -1,11 +1,6 @@
 part of 'phone_field.dart';
 
 class _PhoneFieldState extends State<PhoneField> {
-  /// size of input so we can render inkwell at correct height
-  Size? _sizeInput;
-  Size? _countryCodeSize;
-
-  bool get _isOutlineBorder => widget.decoration.border is OutlineInputBorder;
   PhoneFieldController get controller => widget.controller;
 
   _PhoneFieldState();
@@ -38,142 +33,100 @@ class _PhoneFieldState extends State<PhoneField> {
 
   @override
   Widget build(BuildContext context) {
-    // The idea here is to have an InputDecorat with a prefix where the prefix
-    // is the flag + country code which visible (when focussed).
-    // Then we stack an InkWell with the country code (invisible) so
-    // it is the right width
+    // the idea here is to have a mouse region that surround every thing
+    // that has a text cursor.
+    // When the country chip is not shown it request focus.
+    // When the country chip is shown, clicking on it request country selection
     return MouseRegion(
       cursor: SystemMouseCursors.text,
-      child: Stack(
-        textDirection: widget.textDirection,
-        children: [
-          MeasureSize(
-            onChange: (size) => setState(() => _sizeInput = size),
-            child: GestureDetector(
-              onTap: () => controller.focusNode.requestFocus(),
-              child: _textField(),
+      child: GestureDetector(
+        onTap: controller.focusNode.requestFocus,
+        child: AbsorbPointer(
+          // absorb pointer when the country chip is not shown, else flutter
+          // still allows the country chip to be clicked even though it is not shown
+          absorbing: _isEffectivelyEmpty() && !controller.focusNode.hasFocus,
+          child: Directionality(
+            textDirection: widget.textDirection ?? Directionality.of(context),
+            child: InputDecorator(
+              decoration: _getOutterInputDecoration(),
+              isFocused: controller.focusNode.hasFocus,
+              isEmpty: _isEffectivelyEmpty(),
+              child: TextField(
+                focusNode: controller.focusNode,
+                controller: controller.nationalNumberController,
+                enabled: widget.enabled,
+                decoration: _getInnerInputDecoration(),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(
+                      '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
+                ],
+                autofillHints: widget.autofillHints,
+                keyboardType: widget.keyboardType,
+                textInputAction: widget.textInputAction,
+                style: widget.style,
+                strutStyle: widget.strutStyle,
+                textAlign: widget.textAlign,
+                textAlignVertical: widget.textAlignVertical,
+                autofocus: widget.autofocus,
+                obscuringCharacter: widget.obscuringCharacter,
+                obscureText: widget.obscureText,
+                autocorrect: widget.autocorrect,
+                smartDashesType: widget.smartDashesType,
+                smartQuotesType: widget.smartQuotesType,
+                enableSuggestions: widget.enableSuggestions,
+                toolbarOptions: widget.toolbarOptions,
+                showCursor: widget.showCursor,
+                onEditingComplete: widget.onEditingComplete,
+                onSubmitted: widget.onSubmitted,
+                onAppPrivateCommand: widget.onAppPrivateCommand,
+                cursorWidth: widget.cursorWidth,
+                cursorHeight: widget.cursorHeight,
+                cursorRadius: widget.cursorRadius,
+                cursorColor: widget.cursorColor,
+                selectionHeightStyle: widget.selectionHeightStyle,
+                selectionWidthStyle: widget.selectionWidthStyle,
+                keyboardAppearance: widget.keyboardAppearance,
+                scrollPadding: widget.scrollPadding,
+                enableInteractiveSelection: widget.enableInteractiveSelection,
+                selectionControls: widget.selectionControls,
+                mouseCursor: widget.mouseCursor,
+                scrollController: widget.scrollController,
+                scrollPhysics: widget.scrollPhysics,
+                restorationId: widget.restorationId,
+                enableIMEPersonalizedLearning:
+                    widget.enableIMEPersonalizedLearning,
+              ),
             ),
           ),
-          if (controller.focusNode.hasFocus || controller.national != null)
-            _getInkWellOverlay(),
-        ],
-      ),
-    );
-  }
-
-  Widget _textField() {
-    return InputDecorator(
-      decoration: _getOutterInputDecoration(),
-      isFocused: controller.focusNode.hasFocus,
-      isEmpty: _isEffectivelyEmpty(),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              focusNode: controller.focusNode,
-              controller: controller.nationalNumberController,
-              enabled: widget.enabled,
-              decoration: _getInnerInputDecoration(),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(
-                    '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
-              ],
-              autofillHints: widget.autofillHints,
-              keyboardType: widget.keyboardType,
-              textInputAction: widget.textInputAction,
-              style: widget.style,
-              strutStyle: widget.strutStyle,
-              textAlign: widget.textAlign,
-              textAlignVertical: widget.textAlignVertical,
-              textDirection: widget.textDirection,
-              autofocus: widget.autofocus,
-              obscuringCharacter: widget.obscuringCharacter,
-              obscureText: widget.obscureText,
-              autocorrect: widget.autocorrect,
-              smartDashesType: widget.smartDashesType,
-              smartQuotesType: widget.smartQuotesType,
-              enableSuggestions: widget.enableSuggestions,
-              toolbarOptions: widget.toolbarOptions,
-              showCursor: widget.showCursor,
-              onEditingComplete: widget.onEditingComplete,
-              onSubmitted: widget.onSubmitted,
-              onAppPrivateCommand: widget.onAppPrivateCommand,
-              cursorWidth: widget.cursorWidth,
-              cursorHeight: widget.cursorHeight,
-              cursorRadius: widget.cursorRadius,
-              cursorColor: widget.cursorColor,
-              selectionHeightStyle: widget.selectionHeightStyle,
-              selectionWidthStyle: widget.selectionWidthStyle,
-              keyboardAppearance: widget.keyboardAppearance,
-              scrollPadding: widget.scrollPadding,
-              enableInteractiveSelection: widget.enableInteractiveSelection,
-              selectionControls: widget.selectionControls,
-              mouseCursor: widget.mouseCursor,
-              scrollController: widget.scrollController,
-              scrollPhysics: widget.scrollPhysics,
-              restorationId: widget.restorationId,
-              enableIMEPersonalizedLearning:
-                  widget.enableIMEPersonalizedLearning,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// gets the inkwell that is displayed on top of the input
-  /// for feedback on country code click
-  Widget _getInkWellOverlay() {
-    // width and height calculation are a bit hacky but a better way
-    // that works when the input is resized was not found
-    var height = _sizeInput?.height ?? 0;
-    var width = _countryCodeSize?.width ?? 0;
-    // when there is an error the widget height contains the error
-    // se we need to remove the error height
-    if (widget.errorText != null) {
-      height -= 24;
-    }
-
-    if (_isOutlineBorder) {
-      // outline border adds padding to the left
-      width += 12;
-    }
-
-    if (widget.decoration.prefixIconConstraints != null) {
-      width += widget.decoration.prefixIconConstraints!.maxWidth;
-    } else if (widget.decoration.prefixIcon != null) {
-      // prefix icon default size is 48px
-      width += 48;
-    }
-
-    return InkWell(
-      key: const ValueKey('country-code-overlay'),
-      onTap: () {},
-      onTapDown: (_) => selectCountry(),
-      child: SizedBox(
-        height: height,
-        width: width,
+        ),
       ),
     );
   }
 
   Widget _getCountryCodeChip() {
-    return MeasureSize(
-      onChange: (size) => setState(() => _countryCodeSize = size),
-      child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-        child: CountryCodeChip(
-          key: const ValueKey('country-code-chip'),
-          isoCode: controller.isoCode,
-          showFlag: widget.showFlagInInput,
-          textStyle: widget.countryCodeStyle ??
-              widget.decoration.labelStyle ??
-              TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).textTheme.caption?.color,
-              ),
-          flagSize: widget.flagSize,
-          textDirection: widget.textDirection,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: selectCountry,
+        // material here else the click pass through empty spaces
+        child: Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+            child: CountryCodeChip(
+              key: const ValueKey('country-code-chip'),
+              isoCode: controller.isoCode,
+              showFlag: widget.showFlagInInput,
+              textStyle: widget.countryCodeStyle ??
+                  widget.decoration.labelStyle ??
+                  TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).textTheme.caption?.color,
+                  ),
+              flagSize: widget.flagSize,
+              textDirection: widget.textDirection,
+            ),
+          ),
         ),
       ),
     );
@@ -200,7 +153,7 @@ class _PhoneFieldState extends State<PhoneField> {
       hintText: null,
       errorText: widget.errorText,
       prefix: useSuffix ? null : _getCountryCodeChip(),
-      suffix: useSuffix ? _getCountryCodeChip() : null,
+      // suffix: useSuffix ? _getCountryCodeChip() : null,
     );
   }
 
