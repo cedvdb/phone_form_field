@@ -54,10 +54,10 @@ class CountrySelector extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CountrySelectorState createState() => _CountrySelectorState();
+  CountrySelectorState createState() => CountrySelectorState();
 }
 
-class _CountrySelectorState extends State<CountrySelector> {
+class CountrySelectorState extends State<CountrySelector> {
   late CountryFinder _countryFinder;
   late CountryFinder _favoriteCountryFinder;
 

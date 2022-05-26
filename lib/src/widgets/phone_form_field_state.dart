@@ -1,6 +1,6 @@
 part of 'phone_form_field.dart';
 
-class _PhoneFormFieldState extends FormFieldState<PhoneNumber> {
+class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   late final PhoneController _controller;
   late final PhoneFieldController _childController;
   late final StreamSubscription<void> _selectionSubscription;
