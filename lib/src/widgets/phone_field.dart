@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/constants/constants.dart';
 import 'package:phone_form_field/src/models/phone_field_controller.dart';
-import 'package:phone_form_field/src/widgets/measure_initial_size.dart';
 
 import '../../phone_form_field.dart';
 
