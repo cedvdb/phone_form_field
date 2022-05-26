@@ -1,3 +1,9 @@
+## [6.1.0] 26/05/2022
+- Revert RTL support as it is incomplete. (Feel free to resubmit a PR).
+- Fix a country selection search input auto focus issue.
+- Removed the inkWell around country code, which now has thinner clicking area.
+  This was done to clean the internals.
+
 ## [6.0.0] 14/05/2022
 - require flutter 3
 

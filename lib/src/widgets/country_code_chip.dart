@@ -29,7 +29,6 @@ class CountryCodeChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      textDirection: textDirection,
       children: [
         if (showFlag) ...[
           CircleFlag(
