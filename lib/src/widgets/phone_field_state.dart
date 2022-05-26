@@ -33,13 +33,22 @@ class _PhoneFieldState extends State<PhoneField> {
 
   @override
   Widget build(BuildContext context) {
-    return InputDecorator(
-      decoration: _getOutterInputDecoration(),
-      isFocused: controller.focusNode.hasFocus,
-      isEmpty: _isEffectivelyEmpty(),
-      child: Row(
-        children: [
-          Expanded(
+    // the idea here is to have a mouse region that surround every thing
+    // that has a text cursor.
+    // When the country chip is not shown it request focus.
+    // When the country chip is shown, clicking on it request country selection
+    return MouseRegion(
+      cursor: SystemMouseCursors.text,
+      child: GestureDetector(
+        onTap: controller.focusNode.requestFocus,
+        child: AbsorbPointer(
+          // absorb pointer when the country chip is not shown, else flutter
+          // still allows the country chip to be clicked even though it is not shown
+          absorbing: _isEffectivelyEmpty() && !controller.focusNode.hasFocus,
+          child: InputDecorator(
+            decoration: _getOutterInputDecoration(),
+            isFocused: controller.focusNode.hasFocus,
+            isEmpty: _isEffectivelyEmpty(),
             child: TextField(
               focusNode: controller.focusNode,
               controller: controller.nationalNumberController,
@@ -87,28 +96,35 @@ class _PhoneFieldState extends State<PhoneField> {
                   widget.enableIMEPersonalizedLearning,
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 
   Widget _getCountryCodeChip() {
-    return InkWell(
-      onTap: selectCountry,
-      child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-        child: CountryCodeChip(
-          key: const ValueKey('country-code-chip'),
-          isoCode: controller.isoCode,
-          showFlag: widget.showFlagInInput,
-          textStyle: widget.countryCodeStyle ??
-              widget.decoration.labelStyle ??
-              TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).textTheme.caption?.color,
-              ),
-          flagSize: widget.flagSize,
-          textDirection: widget.textDirection,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: selectCountry,
+        // material here else the click pass through empty spaces
+        child: Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+            child: CountryCodeChip(
+              key: const ValueKey('country-code-chip'),
+              isoCode: controller.isoCode,
+              showFlag: widget.showFlagInInput,
+              textStyle: widget.countryCodeStyle ??
+                  widget.decoration.labelStyle ??
+                  TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).textTheme.caption?.color,
+                  ),
+              flagSize: widget.flagSize,
+              textDirection: widget.textDirection,
+            ),
+          ),
         ),
       ),
     );
@@ -135,7 +151,7 @@ class _PhoneFieldState extends State<PhoneField> {
       hintText: null,
       errorText: widget.errorText,
       prefix: useSuffix ? null : _getCountryCodeChip(),
-      suffix: useSuffix ? _getCountryCodeChip() : null,
+      // suffix: useSuffix ? _getCountryCodeChip() : null,
     );
   }
 
