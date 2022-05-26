@@ -1,9 +1,9 @@
 part of 'phone_field.dart';
 
-class _PhoneFieldState extends State<PhoneField> {
+class PhoneFieldState extends State<PhoneField> {
   PhoneFieldController get controller => widget.controller;
 
-  _PhoneFieldState();
+  PhoneFieldState();
 
   @override
   void initState() {

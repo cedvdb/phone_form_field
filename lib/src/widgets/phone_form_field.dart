@@ -165,7 +165,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           validator: validator ?? PhoneValidator.valid(),
           restorationId: restorationId,
           builder: (state) {
-            final field = state as _PhoneFormFieldState;
+            final field = state as PhoneFormFieldState;
             return PhoneField(
               controller: field._childController,
               showFlagInInput: showFlagInInput,
@@ -216,5 +216,5 @@ class PhoneFormField extends FormField<PhoneNumber> {
         );
 
   @override
-  _PhoneFormFieldState createState() => _PhoneFormFieldState();
+  PhoneFormFieldState createState() => PhoneFormFieldState();
 }
