@@ -11,6 +11,8 @@ abstract class CountrySelectorNavigator {
   final bool sortCountries;
   final String? noResultMessage;
   final bool searchAutofocus;
+  final TextStyle? subtitleStyle;
+  final TextStyle? titleStyle;
 
   const CountrySelectorNavigator({
     this.countries,
@@ -20,6 +22,8 @@ abstract class CountrySelectorNavigator {
     this.sortCountries = false,
     this.noResultMessage,
     required this.searchAutofocus,
+    this.subtitleStyle,
+    this.titleStyle,
   });
 
   Future<Country?> navigate(BuildContext context);
@@ -37,6 +41,8 @@ abstract class CountrySelectorNavigator {
       noResultMessage: noResultMessage,
       scrollController: scrollController,
       searchAutofocus: searchAutofocus,
+      subtitleStyle: subtitleStyle,
+      titleStyle: titleStyle,
     );
   }
 
@@ -68,6 +74,8 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
+    TextStyle? subtitleStyle,
+    TextStyle? titleStyle,
   }) = BottomSheetNavigator._;
 
   const factory CountrySelectorNavigator.modalBottomSheet({
@@ -184,14 +192,19 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
     bool sortCountries = false,
     String? noResultMessage,
     bool searchAutofocus = kIsWeb,
+    TextStyle? subtitleStyle,
+    TextStyle? titleStyle,
   }) : super(
-            countries: countries,
-            favorites: favorites,
-            addSeparator: addSeparator,
-            showCountryCode: showCountryCode,
-            sortCountries: sortCountries,
-            noResultMessage: noResultMessage,
-            searchAutofocus: searchAutofocus);
+          countries: countries,
+          favorites: favorites,
+          addSeparator: addSeparator,
+          showCountryCode: showCountryCode,
+          sortCountries: sortCountries,
+          noResultMessage: noResultMessage,
+          searchAutofocus: searchAutofocus,
+          subtitleStyle: subtitleStyle,
+          titleStyle: titleStyle,
+        );
 
   @override
   Future<Country?> navigate(BuildContext context) {
