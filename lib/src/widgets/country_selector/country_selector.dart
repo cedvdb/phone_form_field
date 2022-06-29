@@ -41,6 +41,9 @@ class CountrySelector extends StatefulWidget {
   /// whether the search input is auto focussed
   final bool searchAutofocus;
 
+  final TextStyle? subtitleStyle;
+  final TextStyle? titleStyle;
+
   const CountrySelector({
     Key? key,
     required this.onCountrySelected,
@@ -51,6 +54,8 @@ class CountrySelector extends StatefulWidget {
     this.favoriteCountries = const [],
     this.countries,
     this.searchAutofocus = kIsWeb,
+    this.subtitleStyle,
+    this.titleStyle,
   }) : super(key: key);
 
   @override
@@ -102,6 +107,8 @@ class CountrySelectorState extends State<CountrySelector> {
             onTap: widget.onCountrySelected,
             scrollController: widget.scrollController,
             noResultMessage: widget.noResultMessage,
+            titleStyle: widget.titleStyle,
+            subtitleStyle: widget.subtitleStyle,
           ),
         ),
       ],
