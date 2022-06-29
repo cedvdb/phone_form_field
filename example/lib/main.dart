@@ -120,10 +120,10 @@ class PhoneFormFieldScreen extends StatefulWidget {
   const PhoneFormFieldScreen({Key? key}) : super(key: key);
 
   @override
-  _PhoneFormFieldScreenState createState() => _PhoneFormFieldScreenState();
+  PhoneFormFieldScreenState createState() => PhoneFormFieldScreenState();
 }
 
-class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
+class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   late PhoneController controller;
   bool outlineBorder = true;
   bool mobileOnly = true;
@@ -210,29 +210,29 @@ class _PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                             },
                             items: const [
                               DropdownMenuItem(
-                                child: Text('Bottom sheet'),
                                 value: CountrySelectorNavigator.bottomSheet(),
+                                child: Text('Bottom sheet'),
                               ),
                               DropdownMenuItem(
-                                child: Text('Draggable modal sheet'),
                                 value: CountrySelectorNavigator
                                     .draggableBottomSheet(),
+                                child: Text('Draggable modal sheet'),
                               ),
                               DropdownMenuItem(
-                                child: Text('Modal sheet'),
                                 value:
                                     CountrySelectorNavigator.modalBottomSheet(
                                   favorites: [IsoCode.US, IsoCode.BE],
                                 ),
+                                child: Text('Modal sheet'),
                               ),
                               DropdownMenuItem(
-                                child: Text('Dialog'),
                                 value: CountrySelectorNavigator.dialog(),
+                                child: Text('Dialog'),
                               ),
                               DropdownMenuItem(
-                                child: Text('Page'),
                                 value:
                                     CountrySelectorNavigator.searchDelegate(),
+                                child: Text('Page'),
                               ),
                             ],
                           ),
