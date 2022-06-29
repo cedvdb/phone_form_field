@@ -24,6 +24,9 @@ class CountryList extends StatelessWidget {
 
   late final List<Country?> _allListElement;
 
+  final TextStyle? subtitleStyle;
+  final TextStyle? titleStyle;
+
   CountryList({
     Key? key,
     required this.countries,
@@ -32,6 +35,8 @@ class CountryList extends StatelessWidget {
     required this.noResultMessage,
     this.scrollController,
     this.showDialCode = true,
+    this.subtitleStyle,
+    this.titleStyle,
   }) : super(key: key) {
     _allListElement = [
       ...favorites,
@@ -73,6 +78,7 @@ class CountryList extends StatelessWidget {
             child: Text(
               country.name,
               textAlign: TextAlign.start,
+              style: titleStyle,
             ),
           ),
           subtitle: showDialCode
@@ -82,6 +88,7 @@ class CountryList extends StatelessWidget {
                     country.displayCountryCode,
                     textDirection: TextDirection.ltr,
                     textAlign: TextAlign.start,
+                    style: subtitleStyle,
                   ),
                 )
               : null,
