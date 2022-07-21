@@ -136,11 +136,12 @@ class DialogNavigator extends CountrySelectorNavigator {
       context: context,
       builder: (_) => Dialog(
         child: SizedBox(
-            width: width,
-            height: height,
-            child: _getCountrySelector(
-              onCountrySelected: (country) => Navigator.pop(context, country),
-            )),
+          width: width,
+          height: height,
+          child: _getCountrySelector(
+            onCountrySelected: (country) => Navigator.pop(context, country),
+          ),
+        ),
       ),
     );
   }
