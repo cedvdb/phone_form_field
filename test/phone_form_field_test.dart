@@ -284,5 +284,17 @@ void main() {
         expect(find.text(national), findsNothing);
       });
     });
+
+    group('Directionality', () {
+      testWidgets('Using textDirection.LTR on RTL context', (tester) async {
+        await tester.pumpWidget(Directionality(
+          textDirection: TextDirection.rtl,
+          child: getWidget(),
+        ));
+        final finder = find.byType(Directionality);
+        final widget = finder.at(1).evaluate().single.widget as Directionality;
+        expect(widget.textDirection, TextDirection.ltr);
+      });
+    });
   });
 }
