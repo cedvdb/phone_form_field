@@ -1,3 +1,7 @@
+## [6.1.1] 22/07/2022
+- Removed diacritics from search
+- Added height and width to dialog
+
 ## [6.1.0] 26/05/2022
 - Revert RTL support as it is incomplete. (Feel free to resubmit a PR).
 - Fix a country selection search input auto focus issue.
