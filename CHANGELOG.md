@@ -1,4 +1,5 @@
 ## [6.1.1] 22/07/2022
+- Readd RTL support
 - Removed diacritics from search
 - Added height and width to dialog
 
