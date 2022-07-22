@@ -47,6 +47,8 @@ abstract class CountrySelectorNavigator {
   }
 
   const factory CountrySelectorNavigator.dialog({
+    double? height,
+    double? width,
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
     bool addSeparator,
@@ -105,7 +107,12 @@ abstract class CountrySelectorNavigator {
 }
 
 class DialogNavigator extends CountrySelectorNavigator {
+  final double? height;
+  final double? width;
+
   const DialogNavigator._({
+    this.width,
+    this.height,
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
     bool addSeparator = true,
@@ -128,8 +135,12 @@ class DialogNavigator extends CountrySelectorNavigator {
     return showDialog(
       context: context,
       builder: (_) => Dialog(
-        child: _getCountrySelector(
-          onCountrySelected: (country) => Navigator.pop(context, country),
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: _getCountrySelector(
+            onCountrySelected: (country) => Navigator.pop(context, country),
+          ),
         ),
       ),
     );

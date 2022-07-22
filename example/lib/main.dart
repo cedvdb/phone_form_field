@@ -95,10 +95,10 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [
         Locale('en', ''),
+        Locale('fr', ''),
         Locale('es', ''),
         Locale('el', ''),
         Locale('de', ''),
-        Locale('fr', ''),
         Locale('it', ''),
         Locale('ru', ''),
         Locale('sv', ''),
@@ -226,7 +226,8 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                                 child: Text('Modal sheet'),
                               ),
                               DropdownMenuItem(
-                                value: CountrySelectorNavigator.dialog(),
+                                value:
+                                    CountrySelectorNavigator.dialog(width: 720),
                                 child: Text('Dialog'),
                               ),
                               DropdownMenuItem(

@@ -30,7 +30,6 @@ class PhoneField extends StatefulWidget {
   final StrutStyle? strutStyle;
   final TextAlign textAlign;
   final TextAlignVertical? textAlignVertical;
-  final TextDirection? textDirection;
   final bool autofocus;
   final String obscuringCharacter;
   final bool obscureText;
@@ -79,7 +78,6 @@ class PhoneField extends StatefulWidget {
     required this.strutStyle,
     required this.textAlign,
     required this.textAlignVertical,
-    required this.textDirection,
     required this.autofocus,
     required this.obscuringCharacter,
     required this.obscureText,
