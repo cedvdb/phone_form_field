@@ -95,10 +95,10 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [
         Locale('en', ''),
+        Locale('fr', ''),
         Locale('es', ''),
         Locale('el', ''),
         Locale('de', ''),
-        Locale('fr', ''),
         Locale('it', ''),
         Locale('ru', ''),
         Locale('sv', ''),
