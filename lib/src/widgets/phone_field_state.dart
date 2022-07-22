@@ -45,12 +45,12 @@ class PhoneFieldState extends State<PhoneField> {
           // absorb pointer when the country chip is not shown, else flutter
           // still allows the country chip to be clicked even though it is not shown
           absorbing: _isEffectivelyEmpty() && !controller.focusNode.hasFocus,
-          child: Directionality(
-            textDirection: widget.textDirection ?? Directionality.of(context),
-            child: InputDecorator(
-              decoration: _getOutterInputDecoration(),
-              isFocused: controller.focusNode.hasFocus,
-              isEmpty: _isEffectivelyEmpty(),
+          child: InputDecorator(
+            decoration: _getOutterInputDecoration(),
+            isFocused: controller.focusNode.hasFocus,
+            isEmpty: _isEffectivelyEmpty(),
+            child: Directionality(
+              textDirection: TextDirection.ltr,
               child: TextField(
                 focusNode: controller.focusNode,
                 controller: controller.nationalNumberController,
@@ -124,7 +124,6 @@ class PhoneFieldState extends State<PhoneField> {
                     color: Theme.of(context).textTheme.caption?.color,
                   ),
               flagSize: widget.flagSize,
-              textDirection: widget.textDirection,
             ),
           ),
         ),
@@ -142,18 +141,14 @@ class PhoneFieldState extends State<PhoneField> {
       disabledBorder: InputBorder.none,
       enabledBorder: InputBorder.none,
       focusedErrorBorder: InputBorder.none,
+      prefix: _getCountryCodeChip(),
     );
   }
 
   InputDecoration _getOutterInputDecoration() {
-    final useSuffix = widget.textDirection == TextDirection.rtl &&
-        widget.textDirection == null &&
-        Directionality.of(context) == TextDirection.rtl;
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
-      prefix: useSuffix ? null : _getCountryCodeChip(),
-      // suffix: useSuffix ? _getCountryCodeChip() : null,
     );
   }
 

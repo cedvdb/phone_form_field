@@ -1,5 +1,6 @@
 // responsible of searching through the country list
 
+import 'package:diacritic/diacritic.dart';
 import 'package:phone_form_field/src/models/iso_code.dart';
 
 import '../models/country.dart';
@@ -55,7 +56,7 @@ class CountryFinder {
   }
 
   void _filterByName(String searchTxt) {
-    searchTxt = searchTxt.toLowerCase();
+    searchTxt = removeDiacritics(searchTxt.toLowerCase());
     // since we keep countries that contain the searched text,
     // we need to put the countries that start with that text in front.
     int getSortPoint(String name, IsoCode isoCode) {
@@ -71,9 +72,10 @@ class CountryFinder {
       return sortPoint == 0 ? a.name.compareTo(b.name) : sortPoint;
     }
 
-    _filteredCountries = _allCountries
-        .where((country) => country.name.toLowerCase().contains(searchTxt))
-        .toList()
+    _filteredCountries = _allCountries.where((country) {
+      final countryName = removeDiacritics(country.name.toLowerCase());
+      return countryName.contains(searchTxt);
+    }).toList()
       // puts the ones that begin by txt first
       ..sort(compareCountries);
   }
