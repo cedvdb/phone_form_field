@@ -1,3 +1,6 @@
+## [7.0.0] 25/07/2022
+- [Breaking] Update phone_numbers_parser major version
+
 ## [6.1.1] 22/07/2022
 - Readd RTL support
 - Removed diacritics from search
