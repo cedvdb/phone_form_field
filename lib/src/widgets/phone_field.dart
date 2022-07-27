@@ -60,6 +60,7 @@ class PhoneField extends StatefulWidget {
   final Iterable<String>? autofillHints;
   final String? restorationId;
   final bool enableIMEPersonalizedLearning;
+  final List<TextInputFormatter>? inputFormatters;
 
   const PhoneField({
     // form field params
@@ -107,6 +108,7 @@ class PhoneField extends StatefulWidget {
     required this.autofillHints,
     required this.restorationId,
     required this.enableIMEPersonalizedLearning,
+    required this.inputFormatters,
   }) : super(key: key);
 
   @override

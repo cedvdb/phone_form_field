@@ -56,10 +56,11 @@ class PhoneFieldState extends State<PhoneField> {
                 controller: controller.nationalNumberController,
                 enabled: widget.enabled,
                 decoration: _getInnerInputDecoration(),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(
-                      '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
-                ],
+                inputFormatters: widget.inputFormatters ??
+                    [
+                      FilteringTextInputFormatter.allow(RegExp(
+                          '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
+                    ],
                 autofillHints: widget.autofillHints,
                 keyboardType: widget.keyboardType,
                 textInputAction: widget.textInputAction,

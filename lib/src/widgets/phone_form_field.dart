@@ -209,6 +209,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
               scrollPhysics: scrollPhysics,
               restorationId: restorationId,
               enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
+              inputFormatters: inputFormatters,
             );
           },
         );
