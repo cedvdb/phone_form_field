@@ -142,7 +142,6 @@ class PhoneFieldState extends State<PhoneField> {
       disabledBorder: InputBorder.none,
       enabledBorder: InputBorder.none,
       focusedErrorBorder: InputBorder.none,
-      prefix: _getCountryCodeChip(),
     );
   }
 
@@ -150,6 +149,7 @@ class PhoneFieldState extends State<PhoneField> {
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
+      prefix: _getCountryCodeChip(),
     );
   }
 
