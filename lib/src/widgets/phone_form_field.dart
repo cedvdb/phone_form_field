@@ -112,6 +112,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
     PhoneNumber? initialValue,
     double flagSize = 16,
     PhoneNumberInputValidator? validator,
+    bool isCountrySelectionEnabled = true,
+    bool isCountryChipPersistent = false,
     // textfield inputs
     TextInputType keyboardType = TextInputType.phone,
     TextInputAction? textInputAction,
@@ -173,6 +175,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
               flagSize: flagSize,
               decoration: decoration,
               enabled: enabled,
+              isCountrySelectionEnabled: isCountrySelectionEnabled,
+              isCountryChipPersistent: isCountryChipPersistent,
               // textfield params
               autofillHints: autofillHints,
               keyboardType: keyboardType,
