@@ -22,6 +22,9 @@ class PhoneFieldState extends State<PhoneField> {
   }
 
   void selectCountry() async {
+    if (!widget.isCountrySelectionEnabled) {
+      return;
+    }
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     final selected = await widget.selectorNavigator.navigate(context);
     if (selected != null) {
@@ -49,53 +52,51 @@ class PhoneFieldState extends State<PhoneField> {
             decoration: _getOutterInputDecoration(),
             isFocused: controller.focusNode.hasFocus,
             isEmpty: _isEffectivelyEmpty(),
-            child: Directionality(
-              textDirection: TextDirection.ltr,
-              child: TextField(
-                focusNode: controller.focusNode,
-                controller: controller.nationalNumberController,
-                enabled: widget.enabled,
-                decoration: _getInnerInputDecoration(),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(
-                      '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
-                ],
-                autofillHints: widget.autofillHints,
-                keyboardType: widget.keyboardType,
-                textInputAction: widget.textInputAction,
-                style: widget.style,
-                strutStyle: widget.strutStyle,
-                textAlign: widget.textAlign,
-                textAlignVertical: widget.textAlignVertical,
-                autofocus: widget.autofocus,
-                obscuringCharacter: widget.obscuringCharacter,
-                obscureText: widget.obscureText,
-                autocorrect: widget.autocorrect,
-                smartDashesType: widget.smartDashesType,
-                smartQuotesType: widget.smartQuotesType,
-                enableSuggestions: widget.enableSuggestions,
-                toolbarOptions: widget.toolbarOptions,
-                showCursor: widget.showCursor,
-                onEditingComplete: widget.onEditingComplete,
-                onSubmitted: widget.onSubmitted,
-                onAppPrivateCommand: widget.onAppPrivateCommand,
-                cursorWidth: widget.cursorWidth,
-                cursorHeight: widget.cursorHeight,
-                cursorRadius: widget.cursorRadius,
-                cursorColor: widget.cursorColor,
-                selectionHeightStyle: widget.selectionHeightStyle,
-                selectionWidthStyle: widget.selectionWidthStyle,
-                keyboardAppearance: widget.keyboardAppearance,
-                scrollPadding: widget.scrollPadding,
-                enableInteractiveSelection: widget.enableInteractiveSelection,
-                selectionControls: widget.selectionControls,
-                mouseCursor: widget.mouseCursor,
-                scrollController: widget.scrollController,
-                scrollPhysics: widget.scrollPhysics,
-                restorationId: widget.restorationId,
-                enableIMEPersonalizedLearning:
-                    widget.enableIMEPersonalizedLearning,
-              ),
+            child: TextField(
+              focusNode: controller.focusNode,
+              controller: controller.nationalNumberController,
+              enabled: widget.enabled,
+              decoration: _getInnerInputDecoration(),
+              inputFormatters: widget.inputFormatters ??
+                  [
+                    FilteringTextInputFormatter.allow(RegExp(
+                        '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
+                  ],
+              autofillHints: widget.autofillHints,
+              keyboardType: widget.keyboardType,
+              textInputAction: widget.textInputAction,
+              style: widget.style,
+              strutStyle: widget.strutStyle,
+              textAlign: widget.textAlign,
+              textAlignVertical: widget.textAlignVertical,
+              autofocus: widget.autofocus,
+              obscuringCharacter: widget.obscuringCharacter,
+              obscureText: widget.obscureText,
+              autocorrect: widget.autocorrect,
+              smartDashesType: widget.smartDashesType,
+              smartQuotesType: widget.smartQuotesType,
+              enableSuggestions: widget.enableSuggestions,
+              toolbarOptions: widget.toolbarOptions,
+              showCursor: widget.showCursor,
+              onEditingComplete: widget.onEditingComplete,
+              onSubmitted: widget.onSubmitted,
+              onAppPrivateCommand: widget.onAppPrivateCommand,
+              cursorWidth: widget.cursorWidth,
+              cursorHeight: widget.cursorHeight,
+              cursorRadius: widget.cursorRadius,
+              cursorColor: widget.cursorColor,
+              selectionHeightStyle: widget.selectionHeightStyle,
+              selectionWidthStyle: widget.selectionWidthStyle,
+              keyboardAppearance: widget.keyboardAppearance,
+              scrollPadding: widget.scrollPadding,
+              enableInteractiveSelection: widget.enableInteractiveSelection,
+              selectionControls: widget.selectionControls,
+              mouseCursor: widget.mouseCursor,
+              scrollController: widget.scrollController,
+              scrollPhysics: widget.scrollPhysics,
+              restorationId: widget.restorationId,
+              enableIMEPersonalizedLearning:
+                  widget.enableIMEPersonalizedLearning,
             ),
           ),
         ),
@@ -141,7 +142,6 @@ class PhoneFieldState extends State<PhoneField> {
       disabledBorder: InputBorder.none,
       enabledBorder: InputBorder.none,
       focusedErrorBorder: InputBorder.none,
-      prefix: _getCountryCodeChip(),
     );
   }
 
@@ -149,10 +149,12 @@ class PhoneFieldState extends State<PhoneField> {
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
+      prefix: _getCountryCodeChip(),
     );
   }
 
   bool _isEffectivelyEmpty() {
+    if (widget.isCountryChipPersistent) return false;
     final outterDecoration = _getOutterInputDecoration();
     // when there is not label and an hint text we need to have
     // isEmpty false so the country code is displayed along the

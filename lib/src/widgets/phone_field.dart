@@ -18,6 +18,8 @@ class PhoneField extends StatefulWidget {
   final String? errorText;
   final double flagSize;
   final InputDecoration decoration;
+  final bool isCountrySelectionEnabled;
+  final bool isCountryChipPersistent;
 
   /// configures the way the country picker selector is shown
   final CountrySelectorNavigator selectorNavigator;
@@ -60,6 +62,7 @@ class PhoneField extends StatefulWidget {
   final Iterable<String>? autofillHints;
   final String? restorationId;
   final bool enableIMEPersonalizedLearning;
+  final List<TextInputFormatter>? inputFormatters;
 
   const PhoneField({
     // form field params
@@ -70,6 +73,8 @@ class PhoneField extends StatefulWidget {
     required this.flagSize,
     required this.errorText,
     required this.decoration,
+    required this.isCountrySelectionEnabled,
+    required this.isCountryChipPersistent,
     // textfield  inputs
     required this.keyboardType,
     required this.textInputAction,
@@ -107,6 +112,7 @@ class PhoneField extends StatefulWidget {
     required this.autofillHints,
     required this.restorationId,
     required this.enableIMEPersonalizedLearning,
+    required this.inputFormatters,
   }) : super(key: key);
 
   @override

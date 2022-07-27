@@ -1,3 +1,8 @@
+## [7.0.1] 27/07/2022
+- fix country code not shown when there is an hint
+- added `isCountryChipPersistent`
+- added `isCountrySelectionEnabled`
+
 ## [7.0.0] 25/07/2022
 - [Breaking] Update phone_numbers_parser major version
 

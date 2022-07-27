@@ -31,20 +31,21 @@ PhoneFormField(
   controller: null,     // controller & initialValue value
   initialValue: null,   // can't be supplied simultaneously
   shouldFormat: true    // default 
-  defaultCountry: 'US', // default 
+  defaultCountry: IsoCode.US, // default 
   decoration: InputDecoration(
     labelText: 'Phone',          // default to null
     border: OutlineInputBorder() // default to UnderlineInputBorder(),
     // ...
   ),
   validator: PhoneValidator.validMobile(),   // default PhoneValidator.valid()
+  isCountryChipPersistent: false, // default
+  isCountrySelectionEnabled: true, // default
   countrySelectorNavigator: CountrySelectorNavigator.bottomSheet(),
   showFlagInInput: true,  // default
   flagSize: 16,           // default
   autofillHints: [AutofillHints.telephoneNumber], // default to null
   enabled: true,          // default
   autofocus: false,       // default
-  autovalidateMode: AutovalidateMode.onUserInteraction, // default 
   onSaved: (PhoneNumber p) => print('saved $p'),   // default null
   onChanged: (PhoneNumber p) => print('saved $p'), // default null
   // ... + other textfield params

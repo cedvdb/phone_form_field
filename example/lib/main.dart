@@ -17,7 +17,7 @@ class PhoneFieldView extends StatelessWidget {
   final bool withLabel;
   final bool outlineBorder;
   final bool shouldFormat;
-  final bool required;
+  final bool isCountryChipPersistent;
   final bool mobileOnly;
   final bool useRtl;
 
@@ -29,16 +29,13 @@ class PhoneFieldView extends StatelessWidget {
     required this.withLabel,
     required this.outlineBorder,
     required this.shouldFormat,
-    required this.required,
+    required this.isCountryChipPersistent,
     required this.mobileOnly,
     required this.useRtl,
   }) : super(key: key);
 
   PhoneNumberInputValidator? _getValidator() {
     List<PhoneNumberInputValidator> validators = [];
-    if (required) {
-      validators.add(PhoneValidator.required());
-    }
     if (mobileOnly) {
       validators.add(PhoneValidator.validMobile());
     } else {
@@ -55,7 +52,7 @@ class PhoneFieldView extends StatelessWidget {
         child: PhoneFormField(
           key: inputKey,
           // controller: controller,
-          shouldFormat: shouldFormat,
+          shouldFormat: shouldFormat && !useRtl,
           autofocus: true,
           initialValue: PhoneNumber.fromRaw('+336787678'),
           autofillHints: const [AutofillHints.telephoneNumber],
@@ -77,6 +74,7 @@ class PhoneFieldView extends StatelessWidget {
           onSaved: (p) => print('saved $p'),
           // ignore: avoid_print
           onChanged: (p) => print('changed $p'),
+          isCountryChipPersistent: isCountryChipPersistent,
         ),
       ),
     );
@@ -128,7 +126,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool outlineBorder = true;
   bool mobileOnly = true;
   bool shouldFormat = true;
-  bool required = false;
+  bool isCountryChipPersistent = false;
   bool withLabel = true;
   bool useRtl = false;
   CountrySelectorNavigator selectorNavigator =
@@ -176,9 +174,10 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       title: const Text('Label'),
                     ),
                     SwitchListTile(
-                      value: required,
-                      onChanged: (v) => setState(() => required = v),
-                      title: const Text('Required'),
+                      value: isCountryChipPersistent,
+                      onChanged: (v) =>
+                          setState(() => isCountryChipPersistent = v),
+                      title: const Text('Persistent country chip'),
                     ),
                     SwitchListTile(
                       value: mobileOnly,
@@ -192,7 +191,9 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     ),
                     SwitchListTile(
                       value: useRtl,
-                      onChanged: (v) => setState(() => useRtl = v),
+                      onChanged: (v) {
+                        setState(() => useRtl = v);
+                      },
                       title: const Text('RTL'),
                     ),
                     ListTile(
@@ -249,7 +250,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         selectorNavigator: selectorNavigator,
                         withLabel: withLabel,
                         outlineBorder: outlineBorder,
-                        required: required,
+                        isCountryChipPersistent: isCountryChipPersistent,
                         mobileOnly: mobileOnly,
                         shouldFormat: shouldFormat,
                         useRtl: useRtl,
