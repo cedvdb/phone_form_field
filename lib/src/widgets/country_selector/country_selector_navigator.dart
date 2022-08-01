@@ -56,6 +56,8 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
+    TextStyle? subtitleStyle,
+    TextStyle? titleStyle,
   }) = DialogNavigator._;
 
   const factory CountrySelectorNavigator.searchDelegate({
@@ -66,6 +68,8 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
+    TextStyle? subtitleStyle,
+    TextStyle? titleStyle,
   }) = SearchDelegateNavigator._;
 
   const factory CountrySelectorNavigator.bottomSheet({
@@ -89,6 +93,8 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
+    TextStyle? subtitleStyle,
+    TextStyle? titleStyle,
   }) = ModalBottomSheetNavigator._;
 
   const factory CountrySelectorNavigator.draggableBottomSheet({
@@ -103,6 +109,8 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
+    TextStyle? subtitleStyle,
+    TextStyle? titleStyle,
   }) = DraggableModalBottomSheetNavigator._;
 }
 
@@ -120,6 +128,8 @@ class DialogNavigator extends CountrySelectorNavigator {
     bool sortCountries = false,
     String? noResultMessage,
     bool searchAutofocus = kIsWeb,
+    TextStyle? subtitleStyle,
+    TextStyle? titleStyle,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -128,6 +138,8 @@ class DialogNavigator extends CountrySelectorNavigator {
           sortCountries: sortCountries,
           noResultMessage: noResultMessage,
           searchAutofocus: searchAutofocus,
+          subtitleStyle: subtitleStyle,
+          titleStyle: titleStyle,
         );
 
   @override
@@ -156,6 +168,8 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
     bool sortCountries = false,
     String? noResultMessage,
     bool searchAutofocus = kIsWeb,
+    TextStyle? subtitleStyle,
+    TextStyle? titleStyle,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -164,6 +178,8 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
           sortCountries: sortCountries,
           noResultMessage: noResultMessage,
           searchAutofocus: searchAutofocus,
+          subtitleStyle: subtitleStyle,
+          titleStyle: titleStyle,
         );
 
   @override
@@ -245,14 +261,19 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
     bool sortCountries = false,
     String? noResultMessage,
     bool searchAutofocus = kIsWeb,
+    TextStyle? subtitleStyle,
+    TextStyle? titleStyle,
   }) : super(
-            countries: countries,
-            favorites: favorites,
-            addSeparator: addSeparator,
-            showCountryCode: showCountryCode,
-            sortCountries: sortCountries,
-            noResultMessage: noResultMessage,
-            searchAutofocus: searchAutofocus);
+          countries: countries,
+          favorites: favorites,
+          addSeparator: addSeparator,
+          showCountryCode: showCountryCode,
+          sortCountries: sortCountries,
+          noResultMessage: noResultMessage,
+          searchAutofocus: searchAutofocus,
+          subtitleStyle: subtitleStyle,
+          titleStyle: titleStyle,
+        );
 
   @override
   Future<Country?> navigate(BuildContext context) {
@@ -287,14 +308,19 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
     bool sortCountries = false,
     String? noResultMessage,
     bool searchAutofocus = kIsWeb,
+    TextStyle? subtitleStyle,
+    TextStyle? titleStyle,
   }) : super(
-            countries: countries,
-            favorites: favorites,
-            addSeparator: addSeparator,
-            showCountryCode: showCountryCode,
-            sortCountries: sortCountries,
-            noResultMessage: noResultMessage,
-            searchAutofocus: searchAutofocus);
+          countries: countries,
+          favorites: favorites,
+          addSeparator: addSeparator,
+          showCountryCode: showCountryCode,
+          sortCountries: sortCountries,
+          noResultMessage: noResultMessage,
+          searchAutofocus: searchAutofocus,
+          subtitleStyle: subtitleStyle,
+          titleStyle: titleStyle,
+        );
 
   @override
   Future<Country?> navigate(BuildContext context) {
