@@ -13,6 +13,9 @@ abstract class CountrySelectorNavigator {
   final bool searchAutofocus;
   final TextStyle? subtitleStyle;
   final TextStyle? titleStyle;
+  final InputDecoration? searchBoxDecoration;
+  final TextStyle? searchBoxTextStyle;
+  final Color? searchBoxIconColor;
 
   const CountrySelectorNavigator({
     this.countries,
@@ -24,6 +27,9 @@ abstract class CountrySelectorNavigator {
     required this.searchAutofocus,
     this.subtitleStyle,
     this.titleStyle,
+    this.searchBoxDecoration,
+    this.searchBoxTextStyle,
+    this.searchBoxIconColor,
   });
 
   Future<Country?> navigate(BuildContext context);
@@ -43,6 +49,9 @@ abstract class CountrySelectorNavigator {
       searchAutofocus: searchAutofocus,
       subtitleStyle: subtitleStyle,
       titleStyle: titleStyle,
+      searchBoxDecoration: searchBoxDecoration,
+      searchBoxTextStyle: searchBoxTextStyle,
+      searchBoxIconColor: searchBoxIconColor,
     );
   }
 
@@ -58,6 +67,9 @@ abstract class CountrySelectorNavigator {
     bool searchAutofocus,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
+    InputDecoration? searchBoxDecoration,
+    TextStyle? searchBoxTextStyle,
+    Color? searchBoxIconColor,
   }) = DialogNavigator._;
 
   const factory CountrySelectorNavigator.searchDelegate({
@@ -70,6 +82,9 @@ abstract class CountrySelectorNavigator {
     bool searchAutofocus,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
+    InputDecoration? searchBoxDecoration,
+    TextStyle? searchBoxTextStyle,
+    Color? searchBoxIconColor,
   }) = SearchDelegateNavigator._;
 
   const factory CountrySelectorNavigator.bottomSheet({
@@ -82,6 +97,9 @@ abstract class CountrySelectorNavigator {
     bool searchAutofocus,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
+    InputDecoration? searchBoxDecoration,
+    TextStyle? searchBoxTextStyle,
+    Color? searchBoxIconColor,
   }) = BottomSheetNavigator._;
 
   const factory CountrySelectorNavigator.modalBottomSheet({
@@ -95,6 +113,9 @@ abstract class CountrySelectorNavigator {
     bool searchAutofocus,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
+    InputDecoration? searchBoxDecoration,
+    TextStyle? searchBoxTextStyle,
+    Color? searchBoxIconColor,
   }) = ModalBottomSheetNavigator._;
 
   const factory CountrySelectorNavigator.draggableBottomSheet({
@@ -111,6 +132,9 @@ abstract class CountrySelectorNavigator {
     bool searchAutofocus,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
+    InputDecoration? searchBoxDecoration,
+    TextStyle? searchBoxTextStyle,
+    Color? searchBoxIconColor,
   }) = DraggableModalBottomSheetNavigator._;
 }
 
@@ -130,6 +154,9 @@ class DialogNavigator extends CountrySelectorNavigator {
     bool searchAutofocus = kIsWeb,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
+    InputDecoration? searchBoxDecoration,
+    TextStyle? searchBoxTextStyle,
+    Color? searchBoxIconColor,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -140,6 +167,9 @@ class DialogNavigator extends CountrySelectorNavigator {
           searchAutofocus: searchAutofocus,
           subtitleStyle: subtitleStyle,
           titleStyle: titleStyle,
+          searchBoxDecoration: searchBoxDecoration,
+          searchBoxTextStyle: searchBoxTextStyle,
+          searchBoxIconColor: searchBoxIconColor,
         );
 
   @override
@@ -170,6 +200,9 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
     bool searchAutofocus = kIsWeb,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
+    InputDecoration? searchBoxDecoration,
+    TextStyle? searchBoxTextStyle,
+    Color? searchBoxIconColor,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -180,6 +213,9 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
           searchAutofocus: searchAutofocus,
           subtitleStyle: subtitleStyle,
           titleStyle: titleStyle,
+          searchBoxDecoration: searchBoxDecoration,
+          searchBoxTextStyle: searchBoxTextStyle,
+          searchBoxIconColor: searchBoxIconColor,
         );
 
   @override
@@ -221,6 +257,9 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
     bool searchAutofocus = kIsWeb,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
+    InputDecoration? searchBoxDecoration,
+    TextStyle? searchBoxTextStyle,
+    Color? searchBoxIconColor,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -231,6 +270,9 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
           searchAutofocus: searchAutofocus,
           subtitleStyle: subtitleStyle,
           titleStyle: titleStyle,
+          searchBoxDecoration: searchBoxDecoration,
+          searchBoxTextStyle: searchBoxTextStyle,
+          searchBoxIconColor: searchBoxIconColor,
         );
 
   @override
@@ -263,6 +305,9 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
     bool searchAutofocus = kIsWeb,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
+    InputDecoration? searchBoxDecoration,
+    TextStyle? searchBoxTextStyle,
+    Color? searchBoxIconColor,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -273,6 +318,9 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
           searchAutofocus: searchAutofocus,
           subtitleStyle: subtitleStyle,
           titleStyle: titleStyle,
+          searchBoxDecoration: searchBoxDecoration,
+          searchBoxTextStyle: searchBoxTextStyle,
+          searchBoxIconColor: searchBoxIconColor,
         );
 
   @override
@@ -310,6 +358,9 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
     bool searchAutofocus = kIsWeb,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
+    InputDecoration? searchBoxDecoration,
+    TextStyle? searchBoxTextStyle,
+    Color? searchBoxIconColor,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -320,6 +371,9 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
           searchAutofocus: searchAutofocus,
           subtitleStyle: subtitleStyle,
           titleStyle: titleStyle,
+          searchBoxDecoration: searchBoxDecoration,
+          searchBoxTextStyle: searchBoxTextStyle,
+          searchBoxIconColor: searchBoxIconColor,
         );
 
   @override
