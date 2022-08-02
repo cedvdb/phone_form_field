@@ -16,6 +16,7 @@ abstract class CountrySelectorNavigator {
   final InputDecoration? searchBoxDecoration;
   final TextStyle? searchBoxTextStyle;
   final Color? searchBoxIconColor;
+  final ScrollPhysics? scrollPhysics;
 
   const CountrySelectorNavigator({
     this.countries,
@@ -30,6 +31,7 @@ abstract class CountrySelectorNavigator {
     this.searchBoxDecoration,
     this.searchBoxTextStyle,
     this.searchBoxIconColor,
+    this.scrollPhysics,
   });
 
   Future<Country?> navigate(BuildContext context);
@@ -52,6 +54,7 @@ abstract class CountrySelectorNavigator {
       searchBoxDecoration: searchBoxDecoration,
       searchBoxTextStyle: searchBoxTextStyle,
       searchBoxIconColor: searchBoxIconColor,
+      scrollPhysics: scrollPhysics,
     );
   }
 
@@ -70,6 +73,7 @@ abstract class CountrySelectorNavigator {
     InputDecoration? searchBoxDecoration,
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
+    ScrollPhysics? scrollPhysics,
   }) = DialogNavigator._;
 
   const factory CountrySelectorNavigator.searchDelegate({
@@ -85,6 +89,7 @@ abstract class CountrySelectorNavigator {
     InputDecoration? searchBoxDecoration,
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
+    ScrollPhysics? scrollPhysics,
   }) = SearchDelegateNavigator._;
 
   const factory CountrySelectorNavigator.bottomSheet({
@@ -100,6 +105,7 @@ abstract class CountrySelectorNavigator {
     InputDecoration? searchBoxDecoration,
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
+    ScrollPhysics? scrollPhysics,
   }) = BottomSheetNavigator._;
 
   const factory CountrySelectorNavigator.modalBottomSheet({
@@ -116,6 +122,7 @@ abstract class CountrySelectorNavigator {
     InputDecoration? searchBoxDecoration,
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
+    ScrollPhysics? scrollPhysics,
   }) = ModalBottomSheetNavigator._;
 
   const factory CountrySelectorNavigator.draggableBottomSheet({
@@ -135,6 +142,7 @@ abstract class CountrySelectorNavigator {
     InputDecoration? searchBoxDecoration,
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
+    ScrollPhysics? scrollPhysics,
   }) = DraggableModalBottomSheetNavigator._;
 }
 
@@ -157,6 +165,7 @@ class DialogNavigator extends CountrySelectorNavigator {
     InputDecoration? searchBoxDecoration,
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
+    ScrollPhysics? scrollPhysics,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -170,6 +179,7 @@ class DialogNavigator extends CountrySelectorNavigator {
           searchBoxDecoration: searchBoxDecoration,
           searchBoxTextStyle: searchBoxTextStyle,
           searchBoxIconColor: searchBoxIconColor,
+          scrollPhysics: scrollPhysics,
         );
 
   @override
@@ -203,6 +213,7 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
     InputDecoration? searchBoxDecoration,
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
+    ScrollPhysics? scrollPhysics,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -216,6 +227,7 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
           searchBoxDecoration: searchBoxDecoration,
           searchBoxTextStyle: searchBoxTextStyle,
           searchBoxIconColor: searchBoxIconColor,
+          scrollPhysics: scrollPhysics,
         );
 
   @override
@@ -260,6 +272,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
     InputDecoration? searchBoxDecoration,
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
+    ScrollPhysics? scrollPhysics,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -273,6 +286,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
           searchBoxDecoration: searchBoxDecoration,
           searchBoxTextStyle: searchBoxTextStyle,
           searchBoxIconColor: searchBoxIconColor,
+          scrollPhysics: scrollPhysics,
         );
 
   @override
@@ -308,6 +322,7 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
     InputDecoration? searchBoxDecoration,
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
+    ScrollPhysics? scrollPhysics,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -321,6 +336,7 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
           searchBoxDecoration: searchBoxDecoration,
           searchBoxTextStyle: searchBoxTextStyle,
           searchBoxIconColor: searchBoxIconColor,
+          scrollPhysics: scrollPhysics,
         );
 
   @override
@@ -361,6 +377,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
     InputDecoration? searchBoxDecoration,
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
+    ScrollPhysics? scrollPhysics,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -374,6 +391,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
           searchBoxDecoration: searchBoxDecoration,
           searchBoxTextStyle: searchBoxTextStyle,
           searchBoxIconColor: searchBoxIconColor,
+          scrollPhysics: scrollPhysics,
         );
 
   @override

@@ -22,6 +22,9 @@ class CountrySelector extends StatefulWidget {
   /// ListView.builder scroll controller (ie: [ScrollView.controller])
   final ScrollController? scrollController;
 
+  /// The [ScrollPhysics] of the Country List
+  final ScrollPhysics? scrollPhysics;
+
   /// Determine the countries to be displayed on top of the list
   /// Check [addFavoritesSeparator] property to enable/disable adding a
   /// list divider between favorites and others defaults countries
@@ -60,6 +63,7 @@ class CountrySelector extends StatefulWidget {
     Key? key,
     required this.onCountrySelected,
     this.scrollController,
+    this.scrollPhysics,
     this.addFavoritesSeparator = true,
     this.showCountryCode = false,
     this.noResultMessage,
@@ -121,6 +125,7 @@ class CountrySelectorState extends State<CountrySelector> {
             showDialCode: widget.showCountryCode,
             onTap: widget.onCountrySelected,
             scrollController: widget.scrollController,
+            scrollPhysics: widget.scrollPhysics,
             noResultMessage: widget.noResultMessage,
             titleStyle: widget.titleStyle,
             subtitleStyle: widget.subtitleStyle,
