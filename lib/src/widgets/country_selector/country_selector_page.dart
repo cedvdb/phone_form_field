@@ -24,6 +24,9 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
   /// ListView.builder scroll controller (ie: [ScrollView.controller])
   final ScrollController? scrollController;
 
+  /// The [ScrollPhysics] of the Country List
+  final ScrollPhysics? scrollPhysics;
+
   /// Determine the countries to be displayed on top of the list
   /// Check [addFavoritesSeparator] property to enable/disable adding a
   /// list divider between favorites and others defaults countries
@@ -49,6 +52,7 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
     Key? key,
     required this.onCountrySelected,
     this.scrollController,
+    this.scrollPhysics,
     this.addFavoritesSeparator = true,
     this.showCountryCode = false,
     this.noResultMessage,
@@ -69,16 +73,14 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
   }
 
   void _initIfRequired(BuildContext context) {
-    final localization =
-        PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
+    final localization = PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
     final countryRegistry = LocalizedCountryRegistry.cached(localization);
     // if localization has not changed no need to do anything
     if (countryRegistry == _localizedCountryRegistry) {
       return;
     }
     _localizedCountryRegistry = countryRegistry;
-    final notFavoriteCountries =
-        countryRegistry.whereIsoIn(countriesIso, omit: favoriteCountriesIso);
+    final notFavoriteCountries = countryRegistry.whereIsoIn(countriesIso, omit: favoriteCountriesIso);
     final favoriteCountries = countryRegistry.whereIsoIn(favoriteCountriesIso);
     _countryFinder = CountryFinder(notFavoriteCountries);
     _favoriteCountryFinder = CountryFinder(favoriteCountries, sort: false);
@@ -107,6 +109,7 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
       showDialCode: showCountryCode,
       onTap: onCountrySelected,
       scrollController: scrollController,
+      scrollPhysics: scrollPhysics,
       noResultMessage: noResultMessage,
     );
   }
