@@ -5,6 +5,7 @@
 - added scroll physics to bottom sheet navigator
 - added ukrainian language
 - improved russian language
+- fix example
 
 ## [7.0.1] 27/07/2022
 - fix country code not shown when there is an hint
