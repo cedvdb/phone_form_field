@@ -145,11 +145,9 @@ packages:
   phone_numbers_parser:
     dependency: transitive
     description:
-      path: "."
-      ref: v7
-      resolved-ref: "9ceed62d448409470d0f4ece006aedc154f87791"
-      url: "https://github.com/cedvdb/phone_numbers_parser.git"
-    source: git
+      name: phone_numbers_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "7.0.0"
   sky_engine:
     dependency: transitive
