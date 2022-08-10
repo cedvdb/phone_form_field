@@ -51,7 +51,7 @@ class PhoneValidator {
     return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
-          !valueCandidate.validate()) {
+          !valueCandidate.isValid()) {
         return errorText ?? 'invalidPhoneNumber';
       }
       return null;
@@ -91,7 +91,7 @@ class PhoneValidator {
     return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
-          !valueCandidate.validate(type: expectedType)) {
+          !valueCandidate.isValid(type: expectedType)) {
         return errorText ?? defaultMessage;
       }
       return null;

@@ -1,3 +1,12 @@
+## [7.0.2] 10/08/2022
+- updated phone metadata
+- updated parser library
+- added new customization properties to country selector navigator: `titleStyle` & `subtitleStyle`. For searchbox: `InputDecoration`, `TextStyle`.
+- added scroll physics to bottom sheet navigator
+- added ukrainian language
+- improved russian language
+- fix example
+
 ## [7.0.1] 27/07/2022
 - fix country code not shown when there is an hint
 - added `isCountryChipPersistent`

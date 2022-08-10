@@ -1,6 +1,3 @@
-
-
-
 import 'phone_field_localization.dart';
 
 /// The translations for Turkish (`tr`).

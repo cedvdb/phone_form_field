@@ -17,6 +17,9 @@ class CountryList extends StatelessWidget {
   /// proxy to the ListView.builder controller (ie: [ScrollView.controller])
   final ScrollController? scrollController;
 
+  /// The [ScrollPhysics] of the Country List
+  final ScrollPhysics? scrollPhysics;
+
   /// whether the country dialcode should be displayed as the [ListTile.subtitle]
   final bool showDialCode;
 
@@ -34,6 +37,7 @@ class CountryList extends StatelessWidget {
     required this.onTap,
     required this.noResultMessage,
     this.scrollController,
+    this.scrollPhysics,
     this.showDialCode = true,
     this.subtitleStyle,
     this.titleStyle,
@@ -50,14 +54,13 @@ class CountryList extends StatelessWidget {
     if (_allListElement.isEmpty) {
       return Center(
         child: Text(
-          noResultMessage ??
-              PhoneFieldLocalization.of(context)?.noResultMessage ??
-              'No result found',
+          noResultMessage ?? PhoneFieldLocalization.of(context)?.noResultMessage ?? 'No result found',
           key: const ValueKey('no-result'),
         ),
       );
     }
     return ListView.builder(
+      physics: scrollPhysics,
       controller: scrollController,
       shrinkWrap: true,
       itemCount: _allListElement.length,

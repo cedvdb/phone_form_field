@@ -91,14 +91,14 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       // to figure out the country code
       final international = childNsn;
       try {
-        phoneNumber = PhoneNumber.fromRaw(international);
+        phoneNumber = PhoneNumber.parse(international);
       } on PhoneNumberException {
         return;
       }
     } else {
-      phoneNumber = PhoneNumber.fromNational(
-        _childController.isoCode,
+      phoneNumber = PhoneNumber.parse(
         childNsn ?? '',
+        destinationCountry: _childController.isoCode,
       );
     }
     _controller.value = phoneNumber;
