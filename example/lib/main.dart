@@ -51,10 +51,9 @@ class PhoneFieldView extends StatelessWidget {
         textDirection: useRtl ? TextDirection.rtl : TextDirection.ltr,
         child: PhoneFormField(
           key: inputKey,
-          // controller: controller,
+          controller: controller,
           shouldFormat: shouldFormat && !useRtl,
           autofocus: true,
-          initialValue: PhoneNumber.fromRaw('+336787678'),
           autofillHints: const [AutofillHints.telephoneNumber],
           countrySelectorNavigator: selectorNavigator,
           defaultCountry: IsoCode.US,
@@ -259,9 +258,9 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     const SizedBox(height: 12),
                     Text(controller.value.toString()),
                     Text('is valid mobile number '
-                        '${controller.value?.validate(type: PhoneNumberType.mobile) ?? 'false'}'),
+                        '${controller.value?.isValid(type: PhoneNumberType.mobile) ?? 'false'}'),
                     Text(
-                        'is valid fixed line number ${controller.value?.validate(type: PhoneNumberType.fixedLine) ?? 'false'}'),
+                        'is valid fixed line number ${controller.value?.isValid(type: PhoneNumberType.fixedLine) ?? 'false'}'),
                     const SizedBox(height: 12),
                     ElevatedButton(
                       onPressed: controller.value == null
@@ -276,10 +275,9 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     ),
                     const SizedBox(height: 12),
                     ElevatedButton(
-                      onPressed: () =>
-                          controller.value = PhoneNumber.fromIsoCode(
-                        IsoCode.FR,
+                      onPressed: () => controller.value = PhoneNumber.parse(
                         '699999999',
+                        destinationCountry: IsoCode.FR,
                       ),
                       child: const Text('Set +33 699 999 999'),
                     ),
