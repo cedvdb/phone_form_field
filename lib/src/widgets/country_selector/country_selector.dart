@@ -22,6 +22,9 @@ class CountrySelector extends StatefulWidget {
   /// ListView.builder scroll controller (ie: [ScrollView.controller])
   final ScrollController? scrollController;
 
+  /// The [ScrollPhysics] of the Country List
+  final ScrollPhysics? scrollPhysics;
+
   /// Determine the countries to be displayed on top of the list
   /// Check [addFavoritesSeparator] property to enable/disable adding a
   /// list divider between favorites and others defaults countries
@@ -41,13 +44,26 @@ class CountrySelector extends StatefulWidget {
   /// whether the search input is auto focussed
   final bool searchAutofocus;
 
+  /// The [TextStyle] of the country subtitle
   final TextStyle? subtitleStyle;
+
+  /// The [TextStyle] of the country title
   final TextStyle? titleStyle;
+
+  /// The [InputDecoration] of the Search Box
+  final InputDecoration? searchBoxDecoration;
+
+  /// The [TextStyle] of the Search Box
+  final TextStyle? searchBoxTextStyle;
+
+  /// The [Color] of the Search Icon in the Search Box
+  final Color? searchBoxIconColor;
 
   const CountrySelector({
     Key? key,
     required this.onCountrySelected,
     this.scrollController,
+    this.scrollPhysics,
     this.addFavoritesSeparator = true,
     this.showCountryCode = false,
     this.noResultMessage,
@@ -56,6 +72,9 @@ class CountrySelector extends StatefulWidget {
     this.searchAutofocus = kIsWeb,
     this.subtitleStyle,
     this.titleStyle,
+    this.searchBoxDecoration,
+    this.searchBoxTextStyle,
+    this.searchBoxIconColor,
   }) : super(key: key);
 
   @override
@@ -69,14 +88,11 @@ class CountrySelectorState extends State<CountrySelector> {
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
-    final localization =
-        PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
+    final localization = PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
     final isoCodes = widget.countries ?? IsoCode.values;
     final countryRegistry = LocalizedCountryRegistry.cached(localization);
-    final notFavoriteCountries =
-        countryRegistry.whereIsoIn(isoCodes, omit: widget.favoriteCountries);
-    final favoriteCountries =
-        countryRegistry.whereIsoIn(widget.favoriteCountries);
+    final notFavoriteCountries = countryRegistry.whereIsoIn(isoCodes, omit: widget.favoriteCountries);
+    final favoriteCountries = countryRegistry.whereIsoIn(widget.favoriteCountries);
     _countryFinder = CountryFinder(notFavoriteCountries);
     _favoriteCountryFinder = CountryFinder(favoriteCountries, sort: false);
   }
@@ -97,6 +113,9 @@ class CountrySelectorState extends State<CountrySelector> {
           child: SearchBox(
             autofocus: widget.searchAutofocus,
             onChanged: _onSearch,
+            decoration: widget.searchBoxDecoration,
+            style: widget.searchBoxTextStyle,
+            searchIconColor: widget.searchBoxIconColor,
           ),
         ),
         Flexible(
@@ -106,6 +125,7 @@ class CountrySelectorState extends State<CountrySelector> {
             showDialCode: widget.showCountryCode,
             onTap: widget.onCountrySelected,
             scrollController: widget.scrollController,
+            scrollPhysics: widget.scrollPhysics,
             noResultMessage: widget.noResultMessage,
             titleStyle: widget.titleStyle,
             subtitleStyle: widget.subtitleStyle,
