@@ -14,7 +14,10 @@ dependencies:
     sdk: flutter
 
   circle_flags: ^0.0.3
-  phone_numbers_parser: ^6.0.0
+  phone_numbers_parser:
+    git:
+      url: https://github.com/cedvdb/phone_numbers_parser.git
+      ref: v7
   dart_countries: ^3.0.2
   intl: ^0.17.0
   diacritic: ^0.1.3
