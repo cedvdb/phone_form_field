@@ -45,6 +45,7 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
 
   /// whether the search input is auto focussed
   final bool searchAutofocus;
+  final double flagSize;
 
   LocalizedCountryRegistry? _localizedCountryRegistry;
 
@@ -59,6 +60,7 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
     List<IsoCode> favoriteCountries = const [],
     List<IsoCode>? countries,
     this.searchAutofocus = kIsWeb,
+    this.flagSize = 40,
   })  : countriesIso = countries ?? IsoCode.values,
         favoriteCountriesIso = favoriteCountries;
 
@@ -108,6 +110,7 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
       countries: _countryFinder.filteredCountries,
       showDialCode: showCountryCode,
       onTap: onCountrySelected,
+      flagSize: flagSize ,
       scrollController: scrollController,
       scrollPhysics: scrollPhysics,
       noResultMessage: noResultMessage,
