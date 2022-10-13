@@ -433,6 +433,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
           );
         },
       ),
+      useRootNavigator: true,
       isScrollControlled: true,
     );
   }
