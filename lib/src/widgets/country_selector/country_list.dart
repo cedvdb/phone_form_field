@@ -76,7 +76,7 @@ class CountryList extends StatelessWidget {
           key: ValueKey(country.isoCode.name),
           leading: CircleFlag(
             country.isoCode.name,
-            size: flagSize,
+            size: showDialCode ? null : flagSize,
           ),
           title: Align(
             alignment: AlignmentDirectional.centerStart,

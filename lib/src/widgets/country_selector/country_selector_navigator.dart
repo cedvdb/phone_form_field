@@ -138,7 +138,6 @@ abstract class CountrySelectorNavigator {
     bool addSeparator,
     bool showCountryCode,
     double flagSize,
-
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
