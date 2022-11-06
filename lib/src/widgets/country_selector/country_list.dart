@@ -39,7 +39,7 @@ class CountryList extends StatelessWidget {
     required this.noResultMessage,
     this.scrollController,
     this.scrollPhysics,
-    this.showDialCode = false,
+    this.showDialCode = true,
     this.flagSize = 40,
     this.subtitleStyle,
     this.titleStyle,
