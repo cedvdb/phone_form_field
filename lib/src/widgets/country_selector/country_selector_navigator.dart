@@ -18,6 +18,7 @@ abstract class CountrySelectorNavigator {
   final Color? searchBoxIconColor;
   final ScrollPhysics? scrollPhysics;
   final double flagSize;
+  final bool useRootNavigator;
 
   const CountrySelectorNavigator({
     this.countries,
@@ -34,6 +35,7 @@ abstract class CountrySelectorNavigator {
     this.searchBoxIconColor,
     this.scrollPhysics,
     this.flagSize = 40,
+    this.useRootNavigator = true,
   });
 
   Future<Country?> navigate(BuildContext context);
@@ -383,6 +385,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
     ScrollPhysics? scrollPhysics,
+    bool useRootNavigator = true,
   }) : super(
           countries: countries,
           favorites: favorites,
@@ -432,7 +435,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
           );
         },
       ),
-      useRootNavigator: true,
+      useRootNavigator: useRootNavigator,
       isScrollControlled: true,
     );
   }
