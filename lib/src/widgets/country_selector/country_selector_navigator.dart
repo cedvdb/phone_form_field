@@ -251,6 +251,8 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
       noResultMessage: noResultMessage,
       searchAutofocus: searchAutofocus,
       showCountryCode: showCountryCode,
+      titleStyle: titleStyle,
+      subtitleStyle: subtitleStyle,
     );
   }
 

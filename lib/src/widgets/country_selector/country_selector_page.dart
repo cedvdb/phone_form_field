@@ -49,6 +49,12 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
 
   LocalizedCountryRegistry? _localizedCountryRegistry;
 
+  /// Override default title TextStyle
+  final TextStyle? titleStyle;
+
+  /// Override default subtitle TextStyle
+  final TextStyle? subtitleStyle;
+
   CountrySelectorSearchDelegate({
     Key? key,
     required this.onCountrySelected,
@@ -61,6 +67,8 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
     List<IsoCode>? countries,
     this.searchAutofocus = kIsWeb,
     this.flagSize = 40,
+    this.titleStyle,
+    this.subtitleStyle,
   })  : countriesIso = countries ?? IsoCode.values,
         favoriteCountriesIso = favoriteCountries;
 
@@ -75,14 +83,18 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
   }
 
   void _initIfRequired(BuildContext context) {
-    final localization = PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
+    final localization =
+        PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
     final countryRegistry = LocalizedCountryRegistry.cached(localization);
     // if localization has not changed no need to do anything
     if (countryRegistry == _localizedCountryRegistry) {
       return;
     }
     _localizedCountryRegistry = countryRegistry;
-    final notFavoriteCountries = countryRegistry.whereIsoIn(countriesIso, omit: favoriteCountriesIso);
+    final notFavoriteCountries = countryRegistry.whereIsoIn(
+      countriesIso,
+      omit: favoriteCountriesIso,
+    );
     final favoriteCountries = countryRegistry.whereIsoIn(favoriteCountriesIso);
     _countryFinder = CountryFinder(notFavoriteCountries);
     _favoriteCountryFinder = CountryFinder(favoriteCountries, sort: false);
@@ -110,10 +122,12 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
       countries: _countryFinder.filteredCountries,
       showDialCode: showCountryCode,
       onTap: onCountrySelected,
-      flagSize: flagSize ,
+      flagSize: flagSize,
       scrollController: scrollController,
       scrollPhysics: scrollPhysics,
       noResultMessage: noResultMessage,
+      titleStyle: titleStyle,
+      subtitleStyle: subtitleStyle,
     );
   }
 
