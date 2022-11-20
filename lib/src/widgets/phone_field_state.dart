@@ -59,8 +59,8 @@ class PhoneFieldState extends State<PhoneField> {
               decoration: _getInnerInputDecoration(),
               inputFormatters: widget.inputFormatters ??
                   [
-                    FilteringTextInputFormatter.allow(RegExp(
-                        '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
+                    FilteringTextInputFormatter.allow(
+                        RegExp('[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
                   ],
               autofillHints: widget.autofillHints,
               keyboardType: widget.keyboardType,
@@ -95,8 +95,7 @@ class PhoneFieldState extends State<PhoneField> {
               scrollController: widget.scrollController,
               scrollPhysics: widget.scrollPhysics,
               restorationId: widget.restorationId,
-              enableIMEPersonalizedLearning:
-                  widget.enableIMEPersonalizedLearning,
+              enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
             ),
           ),
         ),
@@ -105,26 +104,29 @@ class PhoneFieldState extends State<PhoneField> {
   }
 
   Widget _getCountryCodeChip() {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: selectCountry,
-        // material here else the click pass through empty spaces
-        child: Material(
-          color: Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-            child: CountryCodeChip(
-              key: const ValueKey('country-code-chip'),
-              isoCode: controller.isoCode,
-              showFlag: widget.showFlagInInput,
-              textStyle: widget.countryCodeStyle ??
-                  widget.decoration.labelStyle ??
-                  TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).textTheme.caption?.color,
-                  ),
-              flagSize: widget.flagSize,
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: selectCountry,
+          // material here else the click pass through empty spaces
+          child: Material(
+            color: Colors.transparent,
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+              child: CountryCodeChip(
+                key: const ValueKey('country-code-chip'),
+                isoCode: controller.isoCode,
+                showFlag: widget.showFlagInInput,
+                textStyle: widget.countryCodeStyle ??
+                    widget.decoration.labelStyle ??
+                    TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).textTheme.caption?.color,
+                    ),
+                flagSize: widget.flagSize,
+              ),
             ),
           ),
         ),
@@ -149,7 +151,8 @@ class PhoneFieldState extends State<PhoneField> {
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
-      prefix: _getCountryCodeChip(),
+      prefix: Directionality.of(context) == TextDirection.ltr ? _getCountryCodeChip() : null,
+      suffix: Directionality.of(context) == TextDirection.ltr ? null : _getCountryCodeChip(),
     );
   }
 
