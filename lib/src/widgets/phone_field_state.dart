@@ -105,7 +105,7 @@ class PhoneFieldState extends State<PhoneField> {
 
   Widget _getCountryCodeChip() {
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: widget.fixCountryChipOnLeft ? TextDirection.ltr : Directionality.of(context),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
@@ -151,8 +151,16 @@ class PhoneFieldState extends State<PhoneField> {
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
-      prefix: Directionality.of(context) == TextDirection.ltr ? _getCountryCodeChip() : null,
-      suffix: Directionality.of(context) == TextDirection.ltr ? null : _getCountryCodeChip(),
+      prefix: widget.fixCountryChipOnLeft
+          ? Directionality.of(context) == TextDirection.ltr
+          ? _getCountryCodeChip()
+          : null
+          : _getCountryCodeChip(),
+      suffix: widget.fixCountryChipOnLeft
+          ? widget.fixCountryChipOnLeft && Directionality.of(context) == TextDirection.ltr
+          ? null
+          : _getCountryCodeChip()
+          : null,
     );
   }
 

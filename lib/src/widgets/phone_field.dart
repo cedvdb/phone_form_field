@@ -20,7 +20,7 @@ class PhoneField extends StatefulWidget {
   final InputDecoration decoration;
   final bool isCountrySelectionEnabled;
   final bool isCountryChipPersistent;
-
+  final bool fixCountryChipOnLeft;
   /// configures the way the country picker selector is shown
   final CountrySelectorNavigator selectorNavigator;
 
@@ -113,6 +113,7 @@ class PhoneField extends StatefulWidget {
     required this.restorationId,
     required this.enableIMEPersonalizedLearning,
     required this.inputFormatters,
+    required this.fixCountryChipOnLeft,
   }) : super(key: key);
 
   @override
