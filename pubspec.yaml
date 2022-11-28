@@ -13,7 +13,7 @@ dependencies:
   flutter_localizations: # Add this line
     sdk: flutter
 
-  circle_flags: ^0.0.3
+  flutter_circle_flags_svg: ^1.0.4
   phone_numbers_parser: ^7.0.0
   dart_countries: ^3.0.2
   intl: ^0.17.0

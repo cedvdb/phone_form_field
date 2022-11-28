@@ -1,4 +1,4 @@
-import 'package:circle_flags/circle_flags.dart';
+import 'package:flutter_circle_flags_svg/flutter_circle_flags_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/src/models/iso_code.dart';
 
