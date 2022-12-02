@@ -27,7 +27,7 @@ void main() {
       const nav = CountrySelectorNavigator.modalBottomSheet();
       await tester.pumpWidget(getApp((ctx) => nav.navigate(ctx)));
       await tester.tap(find.byType(ElevatedButton));
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(seconds: 1));
       expect(find.byType(CountrySelector), findsOneWidget);
     });
 
@@ -35,7 +35,7 @@ void main() {
       const nav = CountrySelectorNavigator.bottomSheet();
       await tester.pumpWidget(getApp((ctx) => nav.navigate(ctx)));
       await tester.tap(find.byType(ElevatedButton));
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(seconds: 1));
       expect(find.byType(CountrySelector), findsOneWidget);
     });
 
@@ -43,7 +43,7 @@ void main() {
       const nav = CountrySelectorNavigator.draggableBottomSheet();
       await tester.pumpWidget(getApp((ctx) => nav.navigate(ctx)));
       await tester.tap(find.byType(ElevatedButton));
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(seconds: 1));
       expect(find.byType(CountrySelector), findsOneWidget);
     });
   });
