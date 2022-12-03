@@ -10,6 +10,7 @@ class CountryList extends StatelessWidget {
 
   /// List of countries to display
   final List<Country> countries;
+  final double flagSize;
 
   /// list of favorite countries to display at the top
   final List<Country> favorites;
@@ -39,6 +40,7 @@ class CountryList extends StatelessWidget {
     this.scrollController,
     this.scrollPhysics,
     this.showDialCode = true,
+    this.flagSize = 40,
     this.subtitleStyle,
     this.titleStyle,
   }) : super(key: key) {
@@ -74,7 +76,7 @@ class CountryList extends StatelessWidget {
           key: ValueKey(country.isoCode.name),
           leading: CircleFlag(
             country.isoCode.name,
-            size: showDialCode ? null : 40,
+            size: showDialCode ? null : flagSize,
           ),
           title: Align(
             alignment: AlignmentDirectional.centerStart,
