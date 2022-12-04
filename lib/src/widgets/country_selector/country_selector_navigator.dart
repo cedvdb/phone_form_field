@@ -197,7 +197,8 @@ class DialogNavigator extends CountrySelectorNavigator {
           width: width,
           height: height,
           child: _getCountrySelector(
-            onCountrySelected: (country) => Navigator.pop(context, country),
+            onCountrySelected: (country) =>
+                Navigator.of(context, rootNavigator: true).pop(country),
           ),
         ),
       ),
@@ -250,6 +251,8 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
       noResultMessage: noResultMessage,
       searchAutofocus: searchAutofocus,
       showCountryCode: showCountryCode,
+      titleStyle: titleStyle,
+      subtitleStyle: subtitleStyle,
     );
   }
 

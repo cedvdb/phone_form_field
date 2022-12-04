@@ -1,3 +1,9 @@
+## [7.0.3] 03/12/2022
+
+- use svg instead of png reducing the memory footprint by about 800kb.
+- added titleStyle and subtitleStyle to search delegate
+- added flag size
+
 ## [7.0.2] 10/08/2022
 - updated phone metadata
 - updated parser library
