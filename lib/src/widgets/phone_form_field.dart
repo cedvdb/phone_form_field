@@ -145,7 +145,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     Brightness? keyboardAppearance,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
-    bool fixCountryChipOnLeft = false,
+    TextDirection? countryChipDirection,
     TextSelectionControls? selectionControls,
     MouseCursor? mouseCursor,
     ScrollPhysics? scrollPhysics,
@@ -178,7 +178,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
               enabled: enabled,
               isCountrySelectionEnabled: isCountrySelectionEnabled,
               isCountryChipPersistent: isCountryChipPersistent,
-              fixCountryChipOnLeft:fixCountryChipOnLeft,
+              countryChipDirection: countryChipDirection,
               // textfield params
               autofillHints: autofillHints,
               keyboardType: keyboardType,

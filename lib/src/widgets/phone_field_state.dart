@@ -105,7 +105,7 @@ class PhoneFieldState extends State<PhoneField> {
 
   Widget _getCountryCodeChip() {
     return Directionality(
-      textDirection: widget.fixCountryChipOnLeft ? TextDirection.ltr : Directionality.of(context),
+      textDirection: widget.countryChipDirection ?? Directionality.of(context),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
@@ -148,19 +148,34 @@ class PhoneFieldState extends State<PhoneField> {
   }
 
   InputDecoration _getOutterInputDecoration() {
+    final fixedDirectionality = widget.countryChipDirection != null;
+
+    Widget? prefix;
+    Widget? suffix;
+
+    if (fixedDirectionality) {
+      if (widget.countryChipDirection == TextDirection.ltr) {
+        if (Directionality.of(context) == TextDirection.ltr) {
+          prefix = _getCountryCodeChip();
+        } else {
+          suffix = _getCountryCodeChip();
+        }
+      } else {
+        if (Directionality.of(context) == TextDirection.rtl) {
+          prefix = _getCountryCodeChip();
+        } else {
+          suffix = _getCountryCodeChip();
+        }
+      }
+    } else {
+      prefix = _getCountryCodeChip();
+    }
+
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
-      prefix: widget.fixCountryChipOnLeft
-          ? Directionality.of(context) == TextDirection.ltr
-          ? _getCountryCodeChip()
-          : null
-          : _getCountryCodeChip(),
-      suffix: widget.fixCountryChipOnLeft
-          ? widget.fixCountryChipOnLeft && Directionality.of(context) == TextDirection.ltr
-          ? null
-          : _getCountryCodeChip()
-          : null,
+      prefix: prefix,
+      suffix: suffix,
     );
   }
 
