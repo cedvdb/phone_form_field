@@ -105,26 +105,29 @@ class PhoneFieldState extends State<PhoneField> {
   }
 
   Widget _getCountryCodeChip() {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: selectCountry,
-        // material here else the click pass through empty spaces
-        child: Material(
-          color: Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-            child: CountryCodeChip(
-              key: const ValueKey('country-code-chip'),
-              isoCode: controller.isoCode,
-              showFlag: widget.showFlagInInput,
-              textStyle: widget.countryCodeStyle ??
-                  widget.decoration.labelStyle ??
-                  TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).textTheme.caption?.color,
-                  ),
-              flagSize: widget.flagSize,
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: selectCountry,
+          // material here else the click pass through empty spaces
+          child: Material(
+            color: Colors.transparent,
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+              child: CountryCodeChip(
+                key: const ValueKey('country-code-chip'),
+                isoCode: controller.isoCode,
+                showFlag: widget.showFlagInInput,
+                textStyle: widget.countryCodeStyle ??
+                    widget.decoration.labelStyle ??
+                    TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).textTheme.caption?.color,
+                    ),
+                flagSize: widget.flagSize,
+              ),
             ),
           ),
         ),
@@ -146,10 +149,13 @@ class PhoneFieldState extends State<PhoneField> {
   }
 
   InputDecoration _getOutterInputDecoration() {
+    final directionality = Directionality.of(context);
+
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
-      prefix: _getCountryCodeChip(),
+      prefix: directionality == TextDirection.ltr ? _getCountryCodeChip() : null,
+      suffix: directionality == TextDirection.rtl ? _getCountryCodeChip() : null,
     );
   }
 
