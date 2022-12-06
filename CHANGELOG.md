@@ -1,3 +1,8 @@
+## [7.0.4]
+
+- Fixed flag size in draggable bottom sheet
+- Fixed initial svg rendering 
+
 ## [7.0.3] 03/12/2022
 
 - use svg instead of png reducing the memory footprint by about 800kb.
