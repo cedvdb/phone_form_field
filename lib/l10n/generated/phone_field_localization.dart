@@ -1,39 +1,25 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'phone_field_localization_ar.dart'
-    deferred as phone_field_localization_ar;
-import 'phone_field_localization_de.dart'
-    deferred as phone_field_localization_de;
-import 'phone_field_localization_el.dart'
-    deferred as phone_field_localization_el;
-import 'phone_field_localization_en.dart'
-    deferred as phone_field_localization_en;
-import 'phone_field_localization_es.dart'
-    deferred as phone_field_localization_es;
-import 'phone_field_localization_fr.dart'
-    deferred as phone_field_localization_fr;
-import 'phone_field_localization_hi.dart'
-    deferred as phone_field_localization_hi;
-import 'phone_field_localization_it.dart'
-    deferred as phone_field_localization_it;
-import 'phone_field_localization_nl.dart'
-    deferred as phone_field_localization_nl;
-import 'phone_field_localization_pt.dart'
-    deferred as phone_field_localization_pt;
-import 'phone_field_localization_ru.dart'
-    deferred as phone_field_localization_ru;
-import 'phone_field_localization_sv.dart'
-    deferred as phone_field_localization_sv;
-import 'phone_field_localization_tr.dart'
-    deferred as phone_field_localization_tr;
-import 'phone_field_localization_uk.dart'
-    deferred as phone_field_localization_uk;
-import 'phone_field_localization_zh.dart'
-    deferred as phone_field_localization_zh;
+import 'phone_field_localization_ar.dart';
+import 'phone_field_localization_de.dart';
+import 'phone_field_localization_el.dart';
+import 'phone_field_localization_en.dart';
+import 'phone_field_localization_es.dart';
+import 'phone_field_localization_fr.dart';
+import 'phone_field_localization_hi.dart';
+import 'phone_field_localization_it.dart';
+import 'phone_field_localization_nl.dart';
+import 'phone_field_localization_pt.dart';
+import 'phone_field_localization_ru.dart';
+import 'phone_field_localization_sv.dart';
+import 'phone_field_localization_tr.dart';
+import 'phone_field_localization_uk.dart';
+import 'phone_field_localization_zh.dart';
 
 /// Callers can lookup localized strings with an instance of PhoneFieldLocalization
 /// returned by `PhoneFieldLocalization.of(context)`.
@@ -1638,7 +1624,8 @@ class _PhoneFieldLocalizationDelegate
 
   @override
   Future<PhoneFieldLocalization> load(Locale locale) {
-    return lookupPhoneFieldLocalization(locale);
+    return SynchronousFuture<PhoneFieldLocalization>(
+        lookupPhoneFieldLocalization(locale));
   }
 
   @override
@@ -1664,54 +1651,39 @@ class _PhoneFieldLocalizationDelegate
   bool shouldReload(_PhoneFieldLocalizationDelegate old) => false;
 }
 
-Future<PhoneFieldLocalization> lookupPhoneFieldLocalization(Locale locale) {
+PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'ar':
-      return phone_field_localization_ar.loadLibrary().then((dynamic _) =>
-          phone_field_localization_ar.PhoneFieldLocalizationAr());
+      return PhoneFieldLocalizationAr();
     case 'de':
-      return phone_field_localization_de.loadLibrary().then((dynamic _) =>
-          phone_field_localization_de.PhoneFieldLocalizationDe());
+      return PhoneFieldLocalizationDe();
     case 'el':
-      return phone_field_localization_el.loadLibrary().then((dynamic _) =>
-          phone_field_localization_el.PhoneFieldLocalizationEl());
+      return PhoneFieldLocalizationEl();
     case 'en':
-      return phone_field_localization_en.loadLibrary().then((dynamic _) =>
-          phone_field_localization_en.PhoneFieldLocalizationEn());
+      return PhoneFieldLocalizationEn();
     case 'es':
-      return phone_field_localization_es.loadLibrary().then((dynamic _) =>
-          phone_field_localization_es.PhoneFieldLocalizationEs());
+      return PhoneFieldLocalizationEs();
     case 'fr':
-      return phone_field_localization_fr.loadLibrary().then((dynamic _) =>
-          phone_field_localization_fr.PhoneFieldLocalizationFr());
+      return PhoneFieldLocalizationFr();
     case 'hi':
-      return phone_field_localization_hi.loadLibrary().then((dynamic _) =>
-          phone_field_localization_hi.PhoneFieldLocalizationHi());
+      return PhoneFieldLocalizationHi();
     case 'it':
-      return phone_field_localization_it.loadLibrary().then((dynamic _) =>
-          phone_field_localization_it.PhoneFieldLocalizationIt());
+      return PhoneFieldLocalizationIt();
     case 'nl':
-      return phone_field_localization_nl.loadLibrary().then((dynamic _) =>
-          phone_field_localization_nl.PhoneFieldLocalizationNl());
+      return PhoneFieldLocalizationNl();
     case 'pt':
-      return phone_field_localization_pt.loadLibrary().then((dynamic _) =>
-          phone_field_localization_pt.PhoneFieldLocalizationPt());
+      return PhoneFieldLocalizationPt();
     case 'ru':
-      return phone_field_localization_ru.loadLibrary().then((dynamic _) =>
-          phone_field_localization_ru.PhoneFieldLocalizationRu());
+      return PhoneFieldLocalizationRu();
     case 'sv':
-      return phone_field_localization_sv.loadLibrary().then((dynamic _) =>
-          phone_field_localization_sv.PhoneFieldLocalizationSv());
+      return PhoneFieldLocalizationSv();
     case 'tr':
-      return phone_field_localization_tr.loadLibrary().then((dynamic _) =>
-          phone_field_localization_tr.PhoneFieldLocalizationTr());
+      return PhoneFieldLocalizationTr();
     case 'uk':
-      return phone_field_localization_uk.loadLibrary().then((dynamic _) =>
-          phone_field_localization_uk.PhoneFieldLocalizationUk());
+      return PhoneFieldLocalizationUk();
     case 'zh':
-      return phone_field_localization_zh.loadLibrary().then((dynamic _) =>
-          phone_field_localization_zh.PhoneFieldLocalizationZh());
+      return PhoneFieldLocalizationZh();
   }
 
   throw FlutterError(

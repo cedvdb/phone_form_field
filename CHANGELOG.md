@@ -2,7 +2,6 @@
 
 - Better rendering of flags on the web
 - Added lost Netherlands Antilla's flag
-- Use deferred loading for localization
 
 ## [7.0.4]
 
