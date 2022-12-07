@@ -85,8 +85,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     // we parse it accordingly.
     // we assume it's a whole phone number if it starts with +
     final childNsn = _childController.national;
-    if (childNsn != null &&
-        childNsn.startsWith(RegExp('[${Constants.plus}]'))) {
+    if (childNsn != null && childNsn.startsWith(RegExp('[${Patterns.plus}]'))) {
       // if starts with + then we parse the whole number
       // to figure out the country code
       final international = childNsn;

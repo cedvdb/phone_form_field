@@ -14,10 +14,11 @@ class PhoneFieldLocalizationTr extends PhoneFieldLocalization {
   String get invalidMobilePhoneNumber => 'Geçersiz cep telefonu numarası';
 
   @override
-  String get invalidFixedLinePhoneNumber => 'Geçersiz sabit hat telefon numarası';
+  String get invalidFixedLinePhoneNumber =>
+      'Geçersiz sabit hat telefon numarası';
 
   @override
-  String get requiredPhoneNumber => 'Gerekli telefon Numarası';
+  String get requiredPhoneNumber => 'Telefon numarası gerekli';
 
   @override
   String get noResultMessage => 'Sonuç yok';

@@ -1,4 +1,4 @@
-class Constants {
+class Patterns {
   /// accepted punctuation within a phone number
   static const String punctuation = r' ()\[\]\-\.\/\\';
   static const String plus = r'\+＋';

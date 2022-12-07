@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_form_field/src/constants/constants.dart';
+import 'package:phone_form_field/src/constants/patterns.dart';
 import 'package:phone_form_field/src/helpers/validator_translator.dart';
 import 'package:phone_form_field/src/models/phone_field_controller.dart';
 import 'package:phone_form_field/src/models/phone_controller.dart';

@@ -60,7 +60,7 @@ class PhoneFieldState extends State<PhoneField> {
               inputFormatters: widget.inputFormatters ??
                   [
                     FilteringTextInputFormatter.allow(RegExp(
-                        '[${Constants.plus}${Constants.digits}${Constants.punctuation}]')),
+                        '[${Patterns.plus}${Patterns.digits}${Patterns.punctuation}]')),
                   ],
               autofillHints: widget.autofillHints,
               keyboardType: widget.keyboardType,
@@ -124,7 +124,7 @@ class PhoneFieldState extends State<PhoneField> {
                     widget.decoration.labelStyle ??
                     TextStyle(
                       fontSize: 16,
-                      color: Theme.of(context).textTheme.caption?.color,
+                      color: Theme.of(context).textTheme.bodySmall?.color,
                     ),
                 flagSize: widget.flagSize,
               ),
@@ -154,8 +154,10 @@ class PhoneFieldState extends State<PhoneField> {
     return widget.decoration.copyWith(
       hintText: null,
       errorText: widget.errorText,
-      prefix: directionality == TextDirection.ltr ? _getCountryCodeChip() : null,
-      suffix: directionality == TextDirection.rtl ? _getCountryCodeChip() : null,
+      prefix:
+          directionality == TextDirection.ltr ? _getCountryCodeChip() : null,
+      suffix:
+          directionality == TextDirection.rtl ? _getCountryCodeChip() : null,
     );
   }
 

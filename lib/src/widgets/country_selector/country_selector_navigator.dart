@@ -40,7 +40,7 @@ abstract class CountrySelectorNavigator {
 
   Future<Country?> navigate(BuildContext context);
 
-  dynamic _getCountrySelector({
+  CountrySelector _getCountrySelector({
     required ValueChanged<Country> onCountrySelected,
     ScrollController? scrollController,
   }) {
@@ -237,8 +237,7 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
           scrollPhysics: scrollPhysics,
         );
 
-  @override
-  dynamic _getCountrySelector({
+  CountrySelectorSearchDelegate _getCountrySelectorSearchDelegate({
     required ValueChanged<Country> onCountrySelected,
     ScrollController? scrollController,
   }) {
@@ -260,7 +259,7 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
   Future<Country?> navigate(BuildContext context) {
     return showSearch(
       context: context,
-      delegate: _getCountrySelector(
+      delegate: _getCountrySelectorSearchDelegate(
         onCountrySelected: (country) => Navigator.pop(context, country),
       ),
     );
