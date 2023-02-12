@@ -374,7 +374,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
   final BorderRadiusGeometry? borderRadius;
 
   const DraggableModalBottomSheetNavigator._({
-    this.initialChildSize = 0.5,
+    this.initialChildSize = 0.7,
     this.minChildSize = 0.25,
     this.maxChildSize = 0.85,
     this.borderRadius,
