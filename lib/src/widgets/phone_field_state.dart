@@ -79,7 +79,7 @@ class PhoneFieldState extends State<PhoneField> {
                   smartDashesType: widget.smartDashesType,
                   smartQuotesType: widget.smartQuotesType,
                   enableSuggestions: widget.enableSuggestions,
-                  toolbarOptions: widget.toolbarOptions,
+                  contextMenuBuilder: widget.contextMenuBuilder,
                   showCursor: widget.showCursor,
                   onEditingComplete: widget.onEditingComplete,
                   onSubmitted: widget.onSubmitted,
@@ -112,8 +112,8 @@ class PhoneFieldState extends State<PhoneField> {
                 alignment: Alignment.centerLeft,
                 child: SizedBox(
                   height: constraints.maxWidth,
-                  width: (widget.decoration?.contentPadding?.horizontal ?? 10) +
-                      20,
+                  width:
+                      (widget.decoration.contentPadding?.horizontal ?? 10) + 20,
                   child: MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
@@ -121,7 +121,7 @@ class PhoneFieldState extends State<PhoneField> {
                       onTap: selectCountry,
                       child: SizedBox(
                         height: constraints.maxWidth,
-                        width: (widget.decoration?.contentPadding?.horizontal ??
+                        width: (widget.decoration.contentPadding?.horizontal ??
                                 10) +
                             20,
                       ),
