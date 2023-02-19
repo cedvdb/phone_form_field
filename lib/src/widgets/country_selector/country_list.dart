@@ -1,7 +1,7 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 
+import '../../../l10n/generated/phone_field_localization.dart';
 import '../../models/country.dart';
 
 class CountryList extends StatelessWidget {
@@ -56,7 +56,9 @@ class CountryList extends StatelessWidget {
     if (_allListElement.isEmpty) {
       return Center(
         child: Text(
-          noResultMessage ?? PhoneFieldLocalization.of(context)?.noResultMessage ?? 'No result found',
+          noResultMessage ??
+              PhoneFieldLocalization.of(context)?.noResultMessage ??
+              'No result found',
           key: const ValueKey('no-result'),
         ),
       );
@@ -64,7 +66,6 @@ class CountryList extends StatelessWidget {
     return ListView.builder(
       physics: scrollPhysics,
       controller: scrollController,
-      shrinkWrap: true,
       itemCount: _allListElement.length,
       itemBuilder: (BuildContext context, int index) {
         final country = _allListElement[index];

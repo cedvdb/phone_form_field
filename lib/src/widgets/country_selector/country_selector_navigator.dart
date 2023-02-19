@@ -302,11 +302,16 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
     Country? selected;
     final ctrl = showBottomSheet(
       context: context,
-      builder: (_) => _getCountrySelector(
-        onCountrySelected: (country) {
-          selected = country;
-          Navigator.pop(context, country);
-        },
+      builder: (_) => MediaQuery(
+        data: MediaQueryData.fromWindow(WidgetsBinding.instance.window),
+        child: SafeArea(
+          child: _getCountrySelector(
+            onCountrySelected: (country) {
+              selected = country;
+              Navigator.pop(context, country);
+            },
+          ),
+        ),
       ),
     );
     return ctrl.closed.then((_) => selected);
@@ -369,7 +374,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
   final BorderRadiusGeometry? borderRadius;
 
   const DraggableModalBottomSheetNavigator._({
-    this.initialChildSize = 0.5,
+    this.initialChildSize = 0.7,
     this.minChildSize = 0.25,
     this.maxChildSize = 0.85,
     this.borderRadius,

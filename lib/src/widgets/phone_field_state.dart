@@ -76,7 +76,7 @@ class PhoneFieldState extends State<PhoneField> {
               smartDashesType: widget.smartDashesType,
               smartQuotesType: widget.smartQuotesType,
               enableSuggestions: widget.enableSuggestions,
-              toolbarOptions: widget.toolbarOptions,
+              contextMenuBuilder: widget.contextMenuBuilder,
               showCursor: widget.showCursor,
               onEditingComplete: widget.onEditingComplete,
               onSubmitted: widget.onSubmitted,

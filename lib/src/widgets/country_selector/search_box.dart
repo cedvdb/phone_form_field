@@ -23,6 +23,7 @@ class SearchBox extends StatelessWidget {
       child: TextField(
         autofocus: autofocus,
         onChanged: onChanged,
+        cursorColor: style?.color,
         style: style,
         decoration: decoration ??
             InputDecoration(

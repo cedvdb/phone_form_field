@@ -16,4 +16,3 @@ export 'src/helpers/localized_country_registry.dart';
 
 export 'package:phone_numbers_parser/phone_numbers_parser.dart'
     show PhoneNumber, PhoneNumberType, IsoCode;
-export 'src/widgets/country_selector/country_selector_navigator.dart';

@@ -39,7 +39,7 @@ class PhoneField extends StatefulWidget {
   final SmartDashesType? smartDashesType;
   final SmartQuotesType? smartQuotesType;
   final bool enableSuggestions;
-  final ToolbarOptions? toolbarOptions;
+  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
   final bool? showCursor;
   final VoidCallback? onEditingComplete;
   final ValueChanged<String>? onSubmitted;
@@ -90,7 +90,7 @@ class PhoneField extends StatefulWidget {
     required this.smartDashesType,
     required this.smartQuotesType,
     required this.enableSuggestions,
-    required this.toolbarOptions,
+    required this.contextMenuBuilder,
     required this.showCursor,
     required this.onEditingComplete,
     required this.onSubmitted,
