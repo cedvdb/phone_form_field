@@ -1,3 +1,11 @@
+## [7.0.6]
+
+- upgrade to phone numbers parser 7.0.1
+- upgrade circle flags to 1.0.4 
+- fix flag rendering issues
+- fix parsing issue were some phone numbers were incorrectly parsed when the start of the phone number was the same as country code
+
+
 ## [7.0.5]
 
 - Better rendering of flags on the web
