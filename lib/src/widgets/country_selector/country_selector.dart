@@ -109,12 +109,10 @@ class CountrySelectorState extends State<CountrySelector> {
   }
 
   onSubmitted() {
-    if (_countryFinder.filteredCountries.isNotEmpty) {
-      widget.onCountrySelected(_countryFinder.filteredCountries.first);
-    }
-
     if (_favoriteCountryFinder.filteredCountries.isNotEmpty) {
       widget.onCountrySelected(_favoriteCountryFinder.filteredCountries.first);
+    } else if (_countryFinder.filteredCountries.isNotEmpty) {
+      widget.onCountrySelected(_countryFinder.filteredCountries.first);
     }
   }
 
