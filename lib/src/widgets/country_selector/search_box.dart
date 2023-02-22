@@ -28,6 +28,7 @@ class SearchBox extends StatelessWidget {
         onSubmitted: (_) => onSubmitted(),
         cursorColor: style?.color,
         style: style,
+        autofillHints: const [AutofillHints.countryName],
         decoration: decoration ??
             InputDecoration(
               prefixIcon: Icon(
