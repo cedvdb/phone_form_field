@@ -428,6 +428,11 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
         maxChildSize: maxChildSize,
         expand: false,
         builder: (context, scrollController) {
+          // hide the keyboard when scrolling the list, so it doesn't overlap the list
+          scrollController.addListener(() {
+            FocusManager.instance.primaryFocus?.unfocus();
+          });
+
           return Container(
             decoration: ShapeDecoration(
               color: Theme.of(context).canvasColor,
