@@ -95,7 +95,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// the focusNode of the national number
   final FocusNode? focusNode;
 
-  // show Dial Code or not
+  /// show Dial Code or not
   final bool showDialCode;
 
   PhoneFormField({

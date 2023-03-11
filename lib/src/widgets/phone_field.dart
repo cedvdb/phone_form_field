@@ -64,6 +64,7 @@ class PhoneField extends StatefulWidget {
   final String? restorationId;
   final bool enableIMEPersonalizedLearning;
   final List<TextInputFormatter>? inputFormatters;
+
   const PhoneField({
     // form field params
     Key? key,
