@@ -62,7 +62,6 @@ class PhoneValidator {
   static PhoneNumberInputValidator invalidType(
     /// expected phonetype
     PhoneNumberType expectedType, {
-
     /// custom error message
     String? errorText,
 
@@ -78,7 +77,6 @@ class PhoneValidator {
   static PhoneNumberInputValidator validType(
     /// expected phonetype
     PhoneNumberType expectedType, {
-
     /// custom error message
     String? errorText,
 
@@ -155,7 +153,6 @@ class PhoneValidator {
   static invalidCountry(
     /// list of valid country isocode
     List<IsoCode> expectedCountries, {
-
     /// custom error message
     String? errorText,
 
@@ -171,7 +168,6 @@ class PhoneValidator {
   static PhoneNumberInputValidator validCountry(
     /// list of valid country isocode
     List<IsoCode> expectedCountries, {
-
     /// custom error message
     String? errorText,
 

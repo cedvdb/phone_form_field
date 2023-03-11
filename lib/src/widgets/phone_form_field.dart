@@ -95,6 +95,9 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// the focusNode of the national number
   final FocusNode? focusNode;
 
+  // show Dial Code or not
+  final bool showDialCode;
+
   PhoneFormField({
     Key? key,
     this.controller,
@@ -152,6 +155,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     Iterable<String>? autofillHints,
     String? restorationId,
     bool enableIMEPersonalizedLearning = true,
+    this.showDialCode = true,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
@@ -172,6 +176,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
               showFlagInInput: showFlagInInput,
               selectorNavigator: countrySelectorNavigator,
               errorText: field.getErrorText(),
+              showDialCode: showDialCode,
               flagSize: flagSize,
               decoration: decoration,
               enabled: enabled,

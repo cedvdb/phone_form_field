@@ -15,6 +15,7 @@ part 'phone_field_state.dart';
 class PhoneField extends StatefulWidget {
   final PhoneFieldController controller;
   final bool showFlagInInput;
+  final bool showDialCode;
   final String? errorText;
   final double flagSize;
   final InputDecoration decoration;
@@ -63,7 +64,6 @@ class PhoneField extends StatefulWidget {
   final String? restorationId;
   final bool enableIMEPersonalizedLearning;
   final List<TextInputFormatter>? inputFormatters;
-
   const PhoneField({
     // form field params
     Key? key,
@@ -113,6 +113,7 @@ class PhoneField extends StatefulWidget {
     required this.restorationId,
     required this.enableIMEPersonalizedLearning,
     required this.inputFormatters,
+    required this.showDialCode,
   }) : super(key: key);
 
   @override
