@@ -97,7 +97,22 @@ void main() {
         await tester.pump(const Duration(seconds: 1));
         expect(find.text('6 77 77 77 77'), findsOneWidget);
       });
-      testWidgets('Show or hide dial code', (tester) async {
+
+      testWidgets('Should show dial code', (tester) async {
+        PhoneNumber? phoneNumber = PhoneNumber.parse(
+          '',
+          destinationCountry: IsoCode.FR,
+        );
+
+        await tester.pumpWidget(getWidget(
+            initialValue: phoneNumber,
+            showDialCode: true,
+            defaultCountry: IsoCode.FR));
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text('+ 33'), findsOneWidget);
+      });
+
+      testWidgets('Should hide dial code', (tester) async {
         PhoneNumber? phoneNumber = PhoneNumber.parse(
           '',
           destinationCountry: IsoCode.FR,
@@ -109,10 +124,6 @@ void main() {
             defaultCountry: IsoCode.FR));
         await tester.pump(const Duration(seconds: 1));
         expect(find.text('+ 33'), findsNothing);
-        // final phoneField = find.byType(PhoneFormField);
-        // await tester.enterText(phoneField, '677777777');
-        // await tester.pump(const Duration(seconds: 1));
-        // expect(find.text('677777777'), findsOneWidget);
       });
     });
 
