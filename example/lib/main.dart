@@ -17,12 +17,10 @@ class PhoneFieldView extends StatelessWidget {
   final bool withLabel;
   final bool outlineBorder;
   final bool shouldFormat;
-  final bool isCountrySelectionEnabled;
   final bool isCountryChipPersistent;
   final bool mobileOnly;
   final bool useRtl;
-  final bool showFlagInput;
-  final bool showDialCode;
+
   const PhoneFieldView({
     Key? key,
     required this.inputKey,
@@ -34,9 +32,6 @@ class PhoneFieldView extends StatelessWidget {
     required this.isCountryChipPersistent,
     required this.mobileOnly,
     required this.useRtl,
-    required this.isCountrySelectionEnabled,
-    required this.showFlagInput,
-    required this.showDialCode,
   }) : super(key: key);
 
   PhoneNumberInputValidator? _getValidator() {
@@ -56,16 +51,12 @@ class PhoneFieldView extends StatelessWidget {
         textDirection: useRtl ? TextDirection.rtl : TextDirection.ltr,
         child: PhoneFormField(
           key: inputKey,
-
           controller: controller,
           shouldFormat: shouldFormat && !useRtl,
           autofocus: true,
           autofillHints: const [AutofillHints.telephoneNumber],
           countrySelectorNavigator: selectorNavigator,
           defaultCountry: IsoCode.US,
-          showDialCode: showDialCode,
-          isCountrySelectionEnabled: isCountrySelectionEnabled,
-          showFlagInInput: showFlagInput,
           decoration: InputDecoration(
             label: withLabel ? const Text('Phone') : null,
             border: outlineBorder
@@ -74,6 +65,7 @@ class PhoneFieldView extends StatelessWidget {
             hintText: withLabel ? '' : 'Phone',
           ),
           enabled: true,
+          showFlagInInput: true,
           validator: _getValidator(),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           cursorColor: Theme.of(context).colorScheme.primary,
@@ -134,9 +126,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool mobileOnly = true;
   bool shouldFormat = true;
   bool isCountryChipPersistent = false;
-  bool isCountrySelectionEnabled = true;
-  bool showFlagInput = true;
-  bool showDialCode = true;
   bool withLabel = true;
   bool useRtl = false;
   CountrySelectorNavigator selectorNavigator =
@@ -188,22 +177,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       onChanged: (v) =>
                           setState(() => isCountryChipPersistent = v),
                       title: const Text('Persistent country chip'),
-                    ),
-                    SwitchListTile(
-                      value: showDialCode,
-                      onChanged: (v) => setState(() => showDialCode = v),
-                      title: const Text('Show Dial Code'),
-                    ),
-                    SwitchListTile(
-                      value: isCountrySelectionEnabled,
-                      onChanged: (v) =>
-                          setState(() => isCountrySelectionEnabled = v),
-                      title: const Text('Is Country Selection enabled'),
-                    ),
-                    SwitchListTile(
-                      value: showFlagInput,
-                      onChanged: (v) => setState(() => showFlagInput = v),
-                      title: const Text('show Flag Input'),
                     ),
                     SwitchListTile(
                       value: mobileOnly,
@@ -271,18 +244,16 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     Form(
                       key: formKey,
                       child: PhoneFieldView(
-                          inputKey: phoneKey,
-                          controller: controller,
-                          selectorNavigator: selectorNavigator,
-                          withLabel: withLabel,
-                          outlineBorder: outlineBorder,
-                          isCountryChipPersistent: isCountryChipPersistent,
-                          showFlagInput: showFlagInput,
-                          mobileOnly: mobileOnly,
-                          shouldFormat: shouldFormat,
-                          useRtl: useRtl,
-                          showDialCode: showDialCode,
-                          isCountrySelectionEnabled: isCountrySelectionEnabled),
+                        inputKey: phoneKey,
+                        controller: controller,
+                        selectorNavigator: selectorNavigator,
+                        withLabel: withLabel,
+                        outlineBorder: outlineBorder,
+                        isCountryChipPersistent: isCountryChipPersistent,
+                        mobileOnly: mobileOnly,
+                        shouldFormat: shouldFormat,
+                        useRtl: useRtl,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     Text(controller.value.toString()),

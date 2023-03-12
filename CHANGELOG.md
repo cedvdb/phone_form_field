@@ -1,7 +1,6 @@
 ## [7.0.7]
 
-- Solve parameter show dial code not found
-- add more attributes in example
+- Solve parameter show dial code not found to show or hide dial code
 
 ## [7.0.6]
 
