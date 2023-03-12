@@ -98,7 +98,8 @@ void main() {
         expect(find.text('6 77 77 77 77'), findsOneWidget);
       });
 
-      testWidgets('Should show dial code', (tester) async {
+      testWidgets('Should show dial code when showDialCode is true',
+          (tester) async {
         PhoneNumber? phoneNumber = PhoneNumber.parse(
           '',
           destinationCountry: IsoCode.FR,
@@ -112,7 +113,8 @@ void main() {
         expect(find.text('+ 33'), findsOneWidget);
       });
 
-      testWidgets('Should hide dial code', (tester) async {
+      testWidgets('Should hide dial code when showDialCode is false',
+          (tester) async {
         PhoneNumber? phoneNumber = PhoneNumber.parse(
           '',
           destinationCountry: IsoCode.FR,
