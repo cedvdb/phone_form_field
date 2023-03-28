@@ -49,6 +49,10 @@ class PhoneValidator {
     bool allowEmpty = true,
   }) {
     return (PhoneNumber? valueCandidate) {
+      if (valueCandidate == null && !allowEmpty) {
+        return errorText ?? 'invalidPhoneNumber';
+      }
+
       if (valueCandidate != null &&
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
           !valueCandidate.isValid()) {
