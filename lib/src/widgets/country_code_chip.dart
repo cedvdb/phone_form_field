@@ -37,12 +37,14 @@ class CountryCodeChip extends StatelessWidget {
           ),
           const SizedBox(width: 8),
         ],
-        if (showDialCode)
+        if (showDialCode) ...[
           Text(
             country.displayCountryCode,
             style: textStyle,
             textDirection: textDirection,
           ),
+          const Icon(Icons.expand_more),
+        ]
       ],
     );
   }

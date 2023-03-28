@@ -125,10 +125,7 @@ class PhoneFieldState extends State<PhoneField> {
                 showDialCode: widget.showDialCode,
                 textStyle: widget.countryCodeStyle ??
                     widget.decoration.labelStyle ??
-                    TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).textTheme.bodySmall?.color,
-                    ),
+                    Theme.of(context).textTheme.bodyLarge!,
                 flagSize: widget.flagSize,
               ),
             ),
