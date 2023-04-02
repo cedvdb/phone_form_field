@@ -90,11 +90,14 @@ class CountrySelectorState extends State<CountrySelector> {
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
-    final localization = PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
+    final localization =
+        PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
     final isoCodes = widget.countries ?? IsoCode.values;
     final countryRegistry = LocalizedCountryRegistry.cached(localization);
-    final notFavoriteCountries = countryRegistry.whereIsoIn(isoCodes, omit: widget.favoriteCountries);
-    final favoriteCountries = countryRegistry.whereIsoIn(widget.favoriteCountries);
+    final notFavoriteCountries =
+        countryRegistry.whereIsoIn(isoCodes, omit: widget.favoriteCountries);
+    final favoriteCountries =
+        countryRegistry.whereIsoIn(widget.favoriteCountries);
     _countryFinder = CountryFinder(notFavoriteCountries);
     _favoriteCountryFinder = CountryFinder(favoriteCountries, sort: false);
   }
@@ -103,6 +106,14 @@ class CountrySelectorState extends State<CountrySelector> {
     _countryFinder.filter(searchedText);
     _favoriteCountryFinder.filter(searchedText);
     setState(() {});
+  }
+
+  onSubmitted() {
+    if (_favoriteCountryFinder.filteredCountries.isNotEmpty) {
+      widget.onCountrySelected(_favoriteCountryFinder.filteredCountries.first);
+    } else if (_countryFinder.filteredCountries.isNotEmpty) {
+      widget.onCountrySelected(_countryFinder.filteredCountries.first);
+    }
   }
 
   @override
@@ -114,8 +125,9 @@ class CountrySelectorState extends State<CountrySelector> {
           width: 50,
           height: 4,
           decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              borderRadius: BorderRadius.circular(8)),
+            color: Theme.of(context).colorScheme.secondary,
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
         SizedBox(
           height: 70,
@@ -123,6 +135,7 @@ class CountrySelectorState extends State<CountrySelector> {
           child: SearchBox(
             autofocus: widget.searchAutofocus,
             onChanged: _onSearch,
+            onSubmitted: onSubmitted,
             decoration: widget.searchBoxDecoration,
             style: widget.searchBoxTextStyle,
             searchIconColor: widget.searchBoxIconColor,

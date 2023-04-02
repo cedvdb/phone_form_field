@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class SearchBox extends StatelessWidget {
   final Function(String) onChanged;
+  final Function() onSubmitted;
   final bool autofocus;
   final InputDecoration? decoration;
   final TextStyle? style;
@@ -10,6 +11,7 @@ class SearchBox extends StatelessWidget {
   const SearchBox({
     Key? key,
     required this.onChanged,
+    required this.onSubmitted,
     required this.autofocus,
     this.decoration,
     this.style,
@@ -23,14 +25,17 @@ class SearchBox extends StatelessWidget {
       child: TextField(
         autofocus: autofocus,
         onChanged: onChanged,
+        onSubmitted: (_) => onSubmitted(),
         cursorColor: style?.color,
         style: style,
         decoration: decoration ??
             InputDecoration(
               prefixIcon: Icon(
                 Icons.search,
-                color:
-                    searchIconColor ?? (Theme.of(context).brightness == Brightness.dark ? Colors.white54 : Colors.black38),
+                color: searchIconColor ??
+                    (Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white54
+                        : Colors.black38),
               ),
               filled: true,
               isDense: true,
