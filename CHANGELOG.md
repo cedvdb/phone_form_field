@@ -1,6 +1,7 @@
 ## [7.1.0]
 
 - Relax intl version matching
+- Fix invalid initial value from controller 
 
 ## [7.0.7]
 
