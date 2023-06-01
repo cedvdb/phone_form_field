@@ -48,7 +48,11 @@ class PhoneValidator {
     /// determine whether a missing value should be reported as invalid
     bool allowEmpty = true,
   }) {
+    
     return (PhoneNumber? valueCandidate) {
+      if (valueCandidate == null && !allowEmpty) {
+        return errorText ?? 'invalidPhoneNumber';
+      }
       if (valueCandidate != null &&
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
           !valueCandidate.isValid()) {
@@ -62,7 +66,6 @@ class PhoneValidator {
   static PhoneNumberInputValidator invalidType(
     /// expected phonetype
     PhoneNumberType expectedType, {
-
     /// custom error message
     String? errorText,
 
@@ -78,7 +81,6 @@ class PhoneValidator {
   static PhoneNumberInputValidator validType(
     /// expected phonetype
     PhoneNumberType expectedType, {
-
     /// custom error message
     String? errorText,
 
@@ -155,7 +157,6 @@ class PhoneValidator {
   static invalidCountry(
     /// list of valid country isocode
     List<IsoCode> expectedCountries, {
-
     /// custom error message
     String? errorText,
 
@@ -171,7 +172,6 @@ class PhoneValidator {
   static PhoneNumberInputValidator validCountry(
     /// list of valid country isocode
     List<IsoCode> expectedCountries, {
-
     /// custom error message
     String? errorText,
 
