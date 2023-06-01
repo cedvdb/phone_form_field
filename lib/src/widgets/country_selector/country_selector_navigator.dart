@@ -303,7 +303,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
     final ctrl = showBottomSheet(
       context: context,
       builder: (_) => MediaQuery(
-        data: MediaQueryData.fromWindow(WidgetsBinding.instance.window),
+        data: MediaQueryData.fromView(View.of(context)),
         child: SafeArea(
           child: _getCountrySelector(
             onCountrySelected: (country) {
