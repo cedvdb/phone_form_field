@@ -30,26 +30,28 @@ class _SearchBoxState extends State<SearchBox> {
     super.initState();
   }
 
+  void handleChange(e) {
+    widget.onChanged(e);
+
+    // detect length difference
+    final diff = e.length - _previousValue.length;
+    if (diff > 3) {
+      // more than 3 characters added, probably a paste / autofill of country name
+      widget.onSubmitted();
+    }
+
+    setState(() {
+      _previousValue = e;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: TextField(
         autofocus: widget.autofocus,
-        onChanged: (e) {
-          widget.onChanged(e);
-
-          // detect length difference
-          final diff = e.length - _previousValue.length;
-          if (diff > 3) {
-            // more than 3 characters added, probably a paste / autofill of country name
-            widget.onSubmitted();
-          }
-
-          setState(() {
-            _previousValue = e;
-          });
-        },
+        onChanged: handleChange,
         onSubmitted: (_) => widget.onSubmitted(),
         cursorColor: widget.style?.color,
         style: widget.style,
