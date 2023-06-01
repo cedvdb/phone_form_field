@@ -15,6 +15,7 @@ void main() {
       PhoneNumber? initialValue,
       PhoneController? controller,
       bool showFlagInInput = true,
+      bool showDialCode = true,
       IsoCode defaultCountry = IsoCode.US,
       bool shouldFormat = false,
       PhoneNumberInputValidator? validator,
@@ -34,6 +35,7 @@ void main() {
                 onChanged: onChanged,
                 onSaved: onSaved,
                 showFlagInInput: showFlagInInput,
+                showDialCode: showDialCode,
                 controller: controller,
                 defaultCountry: defaultCountry,
                 shouldFormat: shouldFormat,
@@ -79,6 +81,51 @@ void main() {
       testWidgets('Should hide flag', (tester) async {
         await tester.pumpWidget(getWidget(showFlagInInput: false));
         expect(find.byType(CircleFlag), findsNothing);
+      });
+
+      testWidgets('Should format when shouldFormat is true', (tester) async {
+        PhoneNumber? phoneNumber = PhoneNumber.parse(
+          '',
+          destinationCountry: IsoCode.FR,
+        );
+
+        await tester.pumpWidget(
+            getWidget(initialValue: phoneNumber, shouldFormat: true));
+        await tester.pump(const Duration(seconds: 1));
+        final phoneField = find.byType(PhoneFormField);
+        await tester.enterText(phoneField, '677777777');
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text('6 77 77 77 77'), findsOneWidget);
+      });
+
+      testWidgets('Should show dial code when showDialCode is true',
+          (tester) async {
+        PhoneNumber? phoneNumber = PhoneNumber.parse(
+          '',
+          destinationCountry: IsoCode.FR,
+        );
+
+        await tester.pumpWidget(getWidget(
+            initialValue: phoneNumber,
+            showDialCode: true,
+            defaultCountry: IsoCode.FR));
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text('+ 33'), findsOneWidget);
+      });
+
+      testWidgets('Should hide dial code when showDialCode is false',
+          (tester) async {
+        PhoneNumber? phoneNumber = PhoneNumber.parse(
+          '',
+          destinationCountry: IsoCode.FR,
+        );
+
+        await tester.pumpWidget(getWidget(
+            initialValue: phoneNumber,
+            showDialCode: false,
+            defaultCountry: IsoCode.FR));
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text('+ 33'), findsNothing);
       });
     });
 
