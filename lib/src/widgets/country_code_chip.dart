@@ -1,8 +1,8 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/src/models/iso_code.dart';
+import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import '../models/country.dart';
+import 'country_selector/country.dart';
 
 class CountryCodeChip extends StatelessWidget {
   final Country country;

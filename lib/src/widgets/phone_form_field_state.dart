@@ -26,8 +26,11 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
   @override
   void didChangeDependencies() {
-    if (Directionality.of(context) == TextDirection.rtl) {}
     super.didChangeDependencies();
+    // preload flags
+    for (final isoCode in IsoCode.values) {
+      CircleFlagLoader.load(isoCode.name);
+    }
   }
 
   @override
