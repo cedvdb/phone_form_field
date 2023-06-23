@@ -1,3 +1,13 @@
+## [8.0.0]
+
+- Reduced memory footprint of flags by loading them via network
+- upgrade to latest phone metadata
+- upgrade parser
+- [isCountryChipPersistent] now default to true, as setting it to false results in a buggy focus behavior.
+  This might be deprecated in the future if no solution is found.
+- small file reorganization
+
+
 ## [7.1.0]
 
 - Relax intl version matching

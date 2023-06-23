@@ -3,7 +3,7 @@ import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/constants/patterns.dart';
-import 'package:phone_form_field/src/models/phone_field_controller.dart';
+import 'package:phone_form_field/src/controllers/phone_field_controller.dart';
 
 import '../../phone_form_field.dart';
 

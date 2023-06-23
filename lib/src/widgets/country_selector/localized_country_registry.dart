@@ -1,5 +1,8 @@
 import 'package:phone_form_field/phone_form_field.dart';
 
+// NOTE: this is ugly, something else needs to be used.
+// If someone has the hearth for some refactor...
+
 /// this saves the localized countries for each country
 /// for a given language in a cache, so it does not
 /// have to be recreated
