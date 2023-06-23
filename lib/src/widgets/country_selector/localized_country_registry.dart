@@ -1,6 +1,6 @@
 import 'package:phone_form_field/phone_form_field.dart';
 
-// TODO this is ugly, something else needs to be used.
+// NOTE: this is ugly, something else needs to be used.
 // If someone has the hearth for some refactor...
 
 /// this saves the localized countries for each country

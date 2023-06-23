@@ -3,8 +3,6 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
-import 'country.dart';
-
 class CountryFinder {
   late final List<Country> _allCountries;
   late List<Country> _filteredCountries;

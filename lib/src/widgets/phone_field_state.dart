@@ -52,7 +52,7 @@ class PhoneFieldState extends State<PhoneField> {
         child: InputDecorator(
           decoration: _getOutterInputDecoration(),
           isFocused: controller.focusNode.hasFocus,
-          isEmpty: false,
+          isEmpty: _isEffectivelyEmpty(),
           child: TextField(
             focusNode: controller.focusNode,
             controller: controller.nationalNumberController,
