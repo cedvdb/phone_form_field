@@ -2,7 +2,7 @@ import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/generated/phone_field_localization.dart';
-import '../../models/country.dart';
+import 'country.dart';
 
 class CountryList extends StatelessWidget {
   /// Callback function triggered when user select a country
@@ -66,6 +66,7 @@ class CountryList extends StatelessWidget {
     return ListView.builder(
       physics: scrollPhysics,
       controller: scrollController,
+      cacheExtent: 100,
       itemCount: _allListElement.length,
       itemBuilder: (BuildContext context, int index) {
         final country = _allListElement[index];
@@ -76,6 +77,7 @@ class CountryList extends StatelessWidget {
         return ListTile(
           key: ValueKey(country.isoCode.name),
           leading: CircleFlag(
+            key: ValueKey('circle-flag-${country.isoCode.name}'),
             country.isoCode.name,
             size: flagSize,
           ),
