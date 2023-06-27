@@ -2,13 +2,18 @@ part of 'phone_field.dart';
 
 class PhoneFieldState extends State<PhoneField> {
   PhoneFieldController get controller => widget.controller;
-
+  final _flagCache = FlagCache();
   PhoneFieldState();
 
   @override
   void initState() {
     controller.focusNode.addListener(onFocusChange);
+    _preloadFlagsInMemory();
     super.initState();
+  }
+
+  void _preloadFlagsInMemory() {
+    _flagCache.preload(IsoCode.values.map((isoCode) => isoCode.name));
   }
 
   void onFocusChange() {
@@ -26,7 +31,8 @@ class PhoneFieldState extends State<PhoneField> {
       return;
     }
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    final selected = await widget.selectorNavigator.navigate(context);
+    final selected =
+        await widget.selectorNavigator.navigate(context, _flagCache);
     if (selected != null) {
       controller.isoCode = selected.isoCode;
     }

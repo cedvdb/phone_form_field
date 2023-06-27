@@ -1,6 +1,6 @@
 name: phone_form_field
 description: Flutter phone input integrated with flutter internationalization
-version: 8.0.0
+version: 8.1.0
 homepage: https://github.com/cedvdb/phone_form_field
 
 environment:
@@ -13,7 +13,7 @@ dependencies:
   flutter_localizations: # Add this line
     sdk: flutter
 
-  circle_flags: ^2.0.9
+  circle_flags: ^3.0.1
   phone_numbers_parser: ^8.0.0
   intl: ">=0.17.0 <=1.0.0"
   diacritic: ^0.1.3

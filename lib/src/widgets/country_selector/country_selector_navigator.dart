@@ -1,3 +1,4 @@
+import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/phone_form_field.dart';
@@ -38,10 +39,11 @@ abstract class CountrySelectorNavigator {
     this.useRootNavigator = true,
   });
 
-  Future<Country?> navigate(BuildContext context);
+  Future<Country?> navigate(BuildContext context, FlagCache flagCache);
 
   CountrySelector _getCountrySelector({
     required ValueChanged<Country> onCountrySelected,
+    required FlagCache flagCache,
     ScrollController? scrollController,
   }) {
     return CountrySelector(
@@ -60,6 +62,7 @@ abstract class CountrySelectorNavigator {
       searchBoxIconColor: searchBoxIconColor,
       scrollPhysics: scrollPhysics,
       flagSize: flagSize,
+      flagCache: flagCache,
     );
   }
 
@@ -189,7 +192,7 @@ class DialogNavigator extends CountrySelectorNavigator {
         );
 
   @override
-  Future<Country?> navigate(BuildContext context) {
+  Future<Country?> navigate(BuildContext context, FlagCache flagCache) {
     return showDialog(
       context: context,
       builder: (_) => Dialog(
@@ -199,6 +202,7 @@ class DialogNavigator extends CountrySelectorNavigator {
           child: _getCountrySelector(
             onCountrySelected: (country) =>
                 Navigator.of(context, rootNavigator: true).pop(country),
+            flagCache: flagCache,
           ),
         ),
       ),
@@ -239,28 +243,30 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
 
   CountrySelectorSearchDelegate _getCountrySelectorSearchDelegate({
     required ValueChanged<Country> onCountrySelected,
+    required FlagCache flagCache,
     ScrollController? scrollController,
   }) {
     return CountrySelectorSearchDelegate(
-      onCountrySelected: onCountrySelected,
-      scrollController: scrollController,
-      addFavoritesSeparator: addSeparator,
-      countries: countries,
-      favoriteCountries: favorites ?? [],
-      noResultMessage: noResultMessage,
-      searchAutofocus: searchAutofocus,
-      showCountryCode: showCountryCode,
-      titleStyle: titleStyle,
-      subtitleStyle: subtitleStyle,
-    );
+        onCountrySelected: onCountrySelected,
+        scrollController: scrollController,
+        addFavoritesSeparator: addSeparator,
+        countries: countries,
+        favoriteCountries: favorites ?? [],
+        noResultMessage: noResultMessage,
+        searchAutofocus: searchAutofocus,
+        showCountryCode: showCountryCode,
+        titleStyle: titleStyle,
+        subtitleStyle: subtitleStyle,
+        flagCache: flagCache);
   }
 
   @override
-  Future<Country?> navigate(BuildContext context) {
+  Future<Country?> navigate(BuildContext context, FlagCache flagCache) {
     return showSearch(
       context: context,
       delegate: _getCountrySelectorSearchDelegate(
         onCountrySelected: (country) => Navigator.pop(context, country),
+        flagCache: flagCache,
       ),
     );
   }
@@ -298,7 +304,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
         );
 
   @override
-  Future<Country?> navigate(BuildContext context) {
+  Future<Country?> navigate(BuildContext context, FlagCache flagCache) {
     Country? selected;
     final ctrl = showBottomSheet(
       context: context,
@@ -310,6 +316,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
               selected = country;
               Navigator.pop(context, country);
             },
+            flagCache: flagCache,
           ),
         ),
       ),
@@ -353,13 +360,17 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
         );
 
   @override
-  Future<Country?> navigate(BuildContext context) {
+  Future<Country?> navigate(
+    BuildContext context,
+    FlagCache flagCache,
+  ) {
     return showModalBottomSheet<Country>(
       context: context,
       builder: (_) => SizedBox(
         height: height ?? MediaQuery.of(context).size.height - 90,
         child: _getCountrySelector(
           onCountrySelected: (country) => Navigator.pop(context, country),
+          flagCache: flagCache,
         ),
       ),
       isScrollControlled: true,
@@ -411,7 +422,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
         );
 
   @override
-  Future<Country?> navigate(BuildContext context) {
+  Future<Country?> navigate(BuildContext context, FlagCache flagCache) {
     final effectiveBorderRadius = borderRadius ??
         const BorderRadius.only(
           topLeft: Radius.circular(16),
@@ -438,6 +449,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
             child: _getCountrySelector(
               onCountrySelected: (country) => Navigator.pop(context, country),
               scrollController: scrollController,
+              flagCache: flagCache,
             ),
           );
         },

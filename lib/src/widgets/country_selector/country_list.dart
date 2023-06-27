@@ -30,6 +30,7 @@ class CountryList extends StatelessWidget {
 
   final TextStyle? subtitleStyle;
   final TextStyle? titleStyle;
+  final FlagCache? flagCache;
 
   CountryList({
     Key? key,
@@ -37,6 +38,7 @@ class CountryList extends StatelessWidget {
     required this.favorites,
     required this.onTap,
     required this.noResultMessage,
+    required this.flagCache,
     this.scrollController,
     this.scrollPhysics,
     this.showDialCode = true,
@@ -66,7 +68,6 @@ class CountryList extends StatelessWidget {
     return ListView.builder(
       physics: scrollPhysics,
       controller: scrollController,
-      cacheExtent: 100,
       itemCount: _allListElement.length,
       itemBuilder: (BuildContext context, int index) {
         final country = _allListElement[index];
@@ -77,9 +78,10 @@ class CountryList extends StatelessWidget {
         return ListTile(
           key: ValueKey(country.isoCode.name),
           leading: CircleFlag(
-            key: ValueKey('circle-flag-${country.isoCode.name}'),
             country.isoCode.name,
+            key: ValueKey('circle-flag-${country.isoCode.name}'),
             size: flagSize,
+            cache: flagCache,
           ),
           title: Align(
             alignment: AlignmentDirectional.centerStart,

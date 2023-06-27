@@ -1,3 +1,4 @@
+import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,7 +10,10 @@ void main() {
     group('Without internationalization', () {
       final app = MaterialApp(
         home: Scaffold(
-          body: CountrySelector(onCountrySelected: (c) {}),
+          body: CountrySelector(
+            onCountrySelected: (c) {},
+            flagCache: FlagCache(),
+          ),
         ),
       );
 
@@ -47,7 +51,10 @@ void main() {
         ],
         supportedLocales: const [Locale('es', '')],
         home: Scaffold(
-          body: CountrySelector(onCountrySelected: (c) {}),
+          body: CountrySelector(
+            onCountrySelected: (c) {},
+            flagCache: FlagCache(),
+          ),
         ),
       );
 
@@ -93,6 +100,7 @@ void main() {
                 onCountrySelected: (c) {},
                 addFavoritesSeparator: addFavoritesSeparator,
                 favoriteCountries: favorites ?? const [],
+                flagCache: FlagCache(),
               ),
             ),
           );
@@ -177,6 +185,7 @@ void main() {
               body: CountrySelector(
                 onCountrySelected: (c) {},
                 noResultMessage: noResultMessage,
+                flagCache: FlagCache(),
               ),
             ),
           );
@@ -187,6 +196,7 @@ void main() {
           home: Scaffold(
             body: CountrySelector(
               onCountrySelected: (c) {},
+              flagCache: FlagCache(),
             ),
           ),
         ));

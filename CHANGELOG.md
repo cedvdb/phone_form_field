@@ -1,6 +1,10 @@
+## [8.1.0]
+- flag loaded from assets (revert from previous version) 
+- flags in country list should now render instantaneously
+
 ## [8.0.0]
 
-- Reduced memory footprint of flags by loading them via network
+- Temporary reduced memory footprint of flags by loading them via network to gauge impact (reverted)
 - upgrade to latest phone metadata
 - upgrade parser
 - [isCountryChipPersistent] now default to true, as setting it to false results in a buggy focus behavior.

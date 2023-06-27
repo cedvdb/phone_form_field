@@ -25,15 +25,6 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // preload flags
-    for (final isoCode in IsoCode.values) {
-      CircleFlagLoader.load(isoCode.name);
-    }
-  }
-
-  @override
   void dispose() {
     super.dispose();
     _childController.dispose();
