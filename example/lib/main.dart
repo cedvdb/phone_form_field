@@ -74,6 +74,7 @@ class PhoneFieldView extends StatelessWidget {
           // ignore: avoid_print
           onChanged: (p) => print('changed $p'),
           isCountryChipPersistent: isCountryChipPersistent,
+          // separator: const SizedBox(height: 18, child: VerticalDivider()),
         ),
       ),
     );

@@ -156,6 +156,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     String? restorationId,
     bool enableIMEPersonalizedLearning = true,
     this.showDialCode = true,
+    Widget? separator,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
@@ -218,6 +219,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
               restorationId: restorationId,
               enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
               inputFormatters: inputFormatters,
+              separator: separator,
             );
           },
         );
