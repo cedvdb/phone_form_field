@@ -422,7 +422,7 @@ class PhoneFieldLocalizationEn extends PhoneFieldLocalization {
   String get lv_ => 'Latvia';
 
   @override
-  String get ly_ => 'Libyan Arab Jamahiriya';
+  String get ly_ => 'Libya';
 
   @override
   String get ma_ => 'Morocco';

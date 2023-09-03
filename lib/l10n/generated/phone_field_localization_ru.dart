@@ -14,8 +14,7 @@ class PhoneFieldLocalizationRu extends PhoneFieldLocalization {
   String get invalidMobilePhoneNumber => 'Неверный номер мобильного телефона';
 
   @override
-  String get invalidFixedLinePhoneNumber =>
-      'Недействительный номер стационарного телефона';
+  String get invalidFixedLinePhoneNumber => 'Недействительный номер стационарного телефона';
 
   @override
   String get requiredPhoneNumber => 'Требуется номер телефона';
