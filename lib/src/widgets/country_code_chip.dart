@@ -13,6 +13,7 @@ class CountryCodeChip extends StatelessWidget {
   final double flagSize;
   final TextDirection? textDirection;
   final Widget? separator;
+  final bool showIsoCode;
 
   CountryCodeChip({
     Key? key,
@@ -24,6 +25,7 @@ class CountryCodeChip extends StatelessWidget {
     this.flagSize = 20,
     this.textDirection,
     this.separator,
+    this.showIsoCode = false,
   })  : country = Country(isoCode, ''),
         super(key: key);
 
@@ -31,7 +33,14 @@ class CountryCodeChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
+        if (showIsoCode) ...[
+          Text(
+            country.isoCode.name,
+            style: textStyle,
+          ),
+          const SizedBox(width: 8),
+        ],
         if (showFlag) ...[
           CircleFlag(
             country.isoCode.name,

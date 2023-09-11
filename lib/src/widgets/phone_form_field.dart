@@ -98,6 +98,9 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// show Dial Code or not
   final bool showDialCode;
 
+  /// show selected iso code or not
+  final bool showIsoCodeInInput;
+
   PhoneFormField({
     Key? key,
     this.controller,
@@ -157,6 +160,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     bool enableIMEPersonalizedLearning = true,
     this.showDialCode = true,
     Widget? separator,
+    this.showIsoCodeInInput = false,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
@@ -174,6 +178,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
             return PhoneField(
               controller: field._childController,
               showFlagInInput: showFlagInInput,
+              showIsoCodeInInput: showIsoCodeInInput,
               selectorNavigator: countrySelectorNavigator,
               errorText: field.getErrorText(),
               showDialCode: showDialCode,
