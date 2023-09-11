@@ -12,6 +12,7 @@ class CountryCodeChip extends StatelessWidget {
   final EdgeInsets padding;
   final double flagSize;
   final TextDirection? textDirection;
+  final Widget? separator;
 
   CountryCodeChip({
     Key? key,
@@ -22,6 +23,7 @@ class CountryCodeChip extends StatelessWidget {
     this.padding = const EdgeInsets.all(20),
     this.flagSize = 20,
     this.textDirection,
+    this.separator,
   })  : country = Country(isoCode, ''),
         super(key: key);
 
@@ -43,6 +45,7 @@ class CountryCodeChip extends StatelessWidget {
             style: textStyle,
             textDirection: textDirection,
           ),
+        if (separator != null) separator!,
       ],
     );
   }
