@@ -1,8 +1,8 @@
 import 'phone_field_localization.dart';
 
-/// The translations for English (`en`).
-class PhoneFieldLocalizationEn extends PhoneFieldLocalization {
-  PhoneFieldLocalizationEn([String locale = 'uz']) : super(locale);
+/// The translations for Uzbek (`uz`).
+class PhoneFieldLocalizationUz extends PhoneFieldLocalization {
+  PhoneFieldLocalizationUz([String locale = 'uz']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Telefon raqami noto‘g‘ri';
@@ -14,7 +14,7 @@ class PhoneFieldLocalizationEn extends PhoneFieldLocalization {
   String get invalidMobilePhoneNumber => 'Telfon raqami noto‘g‘ri';
 
   @override
-  String get invalidFixedLinePhoneNumber => 'Ruxsat etilgan telefon raqami yaroqsiz';
+  String get invalidFixedLinePhoneNumber => 'Telefon raqami yaroqsiz';
 
   @override
   String get requiredPhoneNumber => 'Telfon raqami majburiy';
@@ -743,7 +743,7 @@ class PhoneFieldLocalizationEn extends PhoneFieldLocalization {
   String get yt_ => 'Mayotte';
 
   @override
-  String get za_ => 'South Africa';
+  String get za_ => 'Janubiy Afrika';
 
   @override
   String get zm_ => 'Zambia';

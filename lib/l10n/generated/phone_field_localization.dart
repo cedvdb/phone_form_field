@@ -19,6 +19,7 @@ import 'phone_field_localization_pt.dart';
 import 'phone_field_localization_ru.dart';
 import 'phone_field_localization_sv.dart';
 import 'phone_field_localization_tr.dart';
+import 'phone_field_localization_uz.dart';
 import 'phone_field_localization_uk.dart';
 import 'phone_field_localization_zh.dart';
 
@@ -117,6 +118,7 @@ abstract class PhoneFieldLocalization {
     Locale('ru'),
     Locale('sv'),
     Locale('tr'),
+    Locale('uz'),
     Locale('uk'),
     Locale('zh')
   ];
@@ -1625,7 +1627,7 @@ class _PhoneFieldLocalizationDelegate extends LocalizationsDelegate<PhoneFieldLo
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['ar', 'de', 'el', 'en', 'es', 'fa', 'fr', 'hi', 'it', 'nl', 'pt', 'ru', 'sv', 'tr', 'uk', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'de', 'el', 'en', 'es', 'fa', 'fr', 'hi', 'it', 'nl', 'pt', 'ru', 'sv', 'tr', 'uz', 'uk', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_PhoneFieldLocalizationDelegate old) => false;
@@ -1650,6 +1652,7 @@ PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
     case 'ru': return PhoneFieldLocalizationRu();
     case 'sv': return PhoneFieldLocalizationSv();
     case 'tr': return PhoneFieldLocalizationTr();
+    case 'uz': return PhoneFieldLocalizationUz();
     case 'uk': return PhoneFieldLocalizationUk();
     case 'zh': return PhoneFieldLocalizationZh();
   }
