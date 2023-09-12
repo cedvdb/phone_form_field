@@ -124,6 +124,7 @@ abstract class PhoneFieldLocalization {
     Locale('ru'),
     Locale('sv'),
     Locale('tr'),
+    Locale('uz'),
     Locale('uk'),
     Locale('uz'),
     Locale('zh')
