@@ -16,6 +16,7 @@ part 'phone_field_state.dart';
 class PhoneField extends StatefulWidget {
   final PhoneFieldController controller;
   final bool showFlagInInput;
+  final bool showIsoCodeInInput;
   final bool showDialCode;
   final String? errorText;
   final double flagSize;
@@ -116,6 +117,7 @@ class PhoneField extends StatefulWidget {
     required this.enableIMEPersonalizedLearning,
     required this.inputFormatters,
     required this.showDialCode,
+    required this.showIsoCodeInInput,
   }) : super(key: key);
 
   @override

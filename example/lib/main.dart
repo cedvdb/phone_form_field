@@ -65,6 +65,7 @@ class PhoneFieldView extends StatelessWidget {
             hintText: withLabel ? '' : 'Phone',
           ),
           enabled: true,
+          showIsoCodeInInput: true,
           showFlagInInput: true,
           validator: _getValidator(),
           autovalidateMode: AutovalidateMode.onUserInteraction,

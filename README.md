@@ -166,6 +166,7 @@ PhoneFormField(
         const Locale('es', ''),
         const Locale('fr', ''),
         const Locale('ru', ''),
+        const Locale('uz', ''),
         const Locale('uk', ''),
         // ...
       ],
@@ -187,6 +188,7 @@ PhoneFormField(
     - 'nl',
     - 'pt',
     - 'ru',
+    - 'uz',
     - 'uk',
     - 'tr',
     - 'zh',
