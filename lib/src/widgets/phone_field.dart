@@ -47,6 +47,7 @@ class PhoneField extends StatefulWidget {
   final VoidCallback? onEditingComplete;
   final ValueChanged<String>? onSubmitted;
   final AppPrivateCommandCallback? onAppPrivateCommand;
+  final Function(PointerDownEvent)? onTapOutside;
   final bool? enabled;
   final double cursorWidth;
   final double? cursorHeight;
@@ -118,6 +119,7 @@ class PhoneField extends StatefulWidget {
     required this.inputFormatters,
     required this.showDialCode,
     required this.showIsoCodeInInput,
+    required this.onTapOutside,
   }) : super(key: key);
 
   @override
