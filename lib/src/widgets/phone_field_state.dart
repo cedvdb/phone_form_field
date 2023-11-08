@@ -2,13 +2,18 @@ part of 'phone_field.dart';
 
 class PhoneFieldState extends State<PhoneField> {
   PhoneFieldController get controller => widget.controller;
-
+  final _flagCache = FlagCache();
   PhoneFieldState();
 
   @override
   void initState() {
     controller.focusNode.addListener(onFocusChange);
+    _preloadFlagsInMemory();
     super.initState();
+  }
+
+  void _preloadFlagsInMemory() {
+    _flagCache.preload(IsoCode.values.map((isoCode) => isoCode.name));
   }
 
   void onFocusChange() {
@@ -26,7 +31,8 @@ class PhoneFieldState extends State<PhoneField> {
       return;
     }
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    final selected = await widget.selectorNavigator.navigate(context);
+    final selected =
+        await widget.selectorNavigator.navigate(context, _flagCache);
     if (selected != null) {
       controller.isoCode = selected.isoCode;
     }
@@ -34,70 +40,79 @@ class PhoneFieldState extends State<PhoneField> {
     SystemChannels.textInput.invokeMethod('TextInput.show');
   }
 
+  // TODO: Would be cleaner if we could infer it from
+  // TextField._defaultContextMenuBuilder, but it's private
+  static Widget _defaultContextMenuBuilder(
+      BuildContext context, EditableTextState editableTextState) {
+    return AdaptiveTextSelectionToolbar.editableText(
+      editableTextState: editableTextState,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // the idea here is to have a mouse region that surround every thing
-    // that has a text cursor.
-    // When the country chip is not shown it request focus.
+    // the idea here is to have a mouse region that surround the input which
+    // contains a flag button and a text field. The text field is surrounded
+    // by padding so we want to request focus even when clicking outside of the
+    // inner field.
+    // When the country chip is not shown it request focus to the inner text
+    // field which doesn't span the whole input
     // When the country chip is shown, clicking on it request country selection
     return MouseRegion(
       cursor: SystemMouseCursors.text,
       child: GestureDetector(
         onTap: controller.focusNode.requestFocus,
-        child: AbsorbPointer(
-          // absorb pointer when the country chip is not shown, else flutter
-          // still allows the country chip to be clicked even though it is not shown
-          absorbing: _isEffectivelyEmpty() && !controller.focusNode.hasFocus,
-          child: InputDecorator(
-            decoration: _getOutterInputDecoration(),
-            isFocused: controller.focusNode.hasFocus,
-            isEmpty: _isEffectivelyEmpty(),
-            child: TextField(
-              focusNode: controller.focusNode,
-              controller: controller.nationalNumberController,
-              enabled: widget.enabled,
-              decoration: _getInnerInputDecoration(),
-              inputFormatters: widget.inputFormatters ??
-                  [
-                    FilteringTextInputFormatter.allow(RegExp(
-                        '[${Patterns.plus}${Patterns.digits}${Patterns.punctuation}]')),
-                  ],
-              autofillHints: widget.autofillHints,
-              keyboardType: widget.keyboardType,
-              textInputAction: widget.textInputAction,
-              style: widget.style,
-              strutStyle: widget.strutStyle,
-              textAlign: widget.textAlign,
-              textAlignVertical: widget.textAlignVertical,
-              autofocus: widget.autofocus,
-              obscuringCharacter: widget.obscuringCharacter,
-              obscureText: widget.obscureText,
-              autocorrect: widget.autocorrect,
-              smartDashesType: widget.smartDashesType,
-              smartQuotesType: widget.smartQuotesType,
-              enableSuggestions: widget.enableSuggestions,
-              contextMenuBuilder: widget.contextMenuBuilder,
-              showCursor: widget.showCursor,
-              onEditingComplete: widget.onEditingComplete,
-              onSubmitted: widget.onSubmitted,
-              onAppPrivateCommand: widget.onAppPrivateCommand,
-              cursorWidth: widget.cursorWidth,
-              cursorHeight: widget.cursorHeight,
-              cursorRadius: widget.cursorRadius,
-              cursorColor: widget.cursorColor,
-              selectionHeightStyle: widget.selectionHeightStyle,
-              selectionWidthStyle: widget.selectionWidthStyle,
-              keyboardAppearance: widget.keyboardAppearance,
-              scrollPadding: widget.scrollPadding,
-              enableInteractiveSelection: widget.enableInteractiveSelection,
-              selectionControls: widget.selectionControls,
-              mouseCursor: widget.mouseCursor,
-              scrollController: widget.scrollController,
-              scrollPhysics: widget.scrollPhysics,
-              restorationId: widget.restorationId,
-              enableIMEPersonalizedLearning:
-                  widget.enableIMEPersonalizedLearning,
-            ),
+        // absorb pointer when the country chip is not shown, else flutter
+        // still allows the country chip to be clicked even though it is not shown
+        child: InputDecorator(
+          decoration: _getOutterInputDecoration(),
+          isFocused: controller.focusNode.hasFocus,
+          isEmpty: _isEffectivelyEmpty(),
+          child: TextField(
+            focusNode: controller.focusNode,
+            controller: controller.nationalNumberController,
+            enabled: widget.enabled,
+            decoration: _getInnerInputDecoration(),
+            inputFormatters: widget.inputFormatters ??
+                [
+                  FilteringTextInputFormatter.allow(RegExp(
+                      '[${Patterns.plus}${Patterns.digits}${Patterns.punctuation}]')),
+                ],
+            autofillHints: widget.autofillHints,
+            keyboardType: widget.keyboardType,
+            textInputAction: widget.textInputAction,
+            style: widget.style,
+            strutStyle: widget.strutStyle,
+            textAlign: widget.textAlign,
+            textAlignVertical: widget.textAlignVertical,
+            autofocus: widget.autofocus,
+            obscuringCharacter: widget.obscuringCharacter,
+            obscureText: widget.obscureText,
+            autocorrect: widget.autocorrect,
+            smartDashesType: widget.smartDashesType,
+            smartQuotesType: widget.smartQuotesType,
+            enableSuggestions: widget.enableSuggestions,
+            contextMenuBuilder:
+                widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
+            showCursor: widget.showCursor,
+            onEditingComplete: widget.onEditingComplete,
+            onSubmitted: widget.onSubmitted,
+            onAppPrivateCommand: widget.onAppPrivateCommand,
+            cursorWidth: widget.cursorWidth,
+            cursorHeight: widget.cursorHeight,
+            cursorRadius: widget.cursorRadius,
+            cursorColor: widget.cursorColor,
+            selectionHeightStyle: widget.selectionHeightStyle,
+            selectionWidthStyle: widget.selectionWidthStyle,
+            keyboardAppearance: widget.keyboardAppearance,
+            scrollPadding: widget.scrollPadding,
+            enableInteractiveSelection: widget.enableInteractiveSelection,
+            selectionControls: widget.selectionControls,
+            mouseCursor: widget.mouseCursor,
+            scrollController: widget.scrollController,
+            scrollPhysics: widget.scrollPhysics,
+            restorationId: widget.restorationId,
+            enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
           ),
         ),
       ),
@@ -122,6 +137,7 @@ class PhoneFieldState extends State<PhoneField> {
                 key: const ValueKey('country-code-chip'),
                 isoCode: controller.isoCode,
                 showFlag: widget.showFlagInInput,
+                showIsoCode: widget.showIsoCodeInInput,
                 showDialCode: widget.showDialCode,
                 textStyle: widget.countryCodeStyle ??
                     widget.decoration.labelStyle ??

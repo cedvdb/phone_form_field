@@ -1,4 +1,5 @@
-import 'package:dart_countries/dart_countries.dart';
+import 'package:phone_numbers_parser/metadata.dart';
+import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 /// Country regroup informations for displaying a list of countries
 class Country {
@@ -15,7 +16,7 @@ class Country {
   String get displayCountryCode => '+ $countryCode';
 
   Country(this.isoCode, this.name)
-      : countryCode = countriesCountryCode[isoCode]!;
+      : countryCode = metadataByIsoCode[isoCode]?.countryCode ?? '';
 
   @override
   bool operator ==(Object other) =>
