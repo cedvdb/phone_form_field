@@ -40,6 +40,15 @@ class PhoneFieldState extends State<PhoneField> {
     SystemChannels.textInput.invokeMethod('TextInput.show');
   }
 
+  // TODO: Would be cleaner if we could infer it from
+  // TextField._defaultContextMenuBuilder, but it's private
+  static Widget _defaultContextMenuBuilder(
+      BuildContext context, EditableTextState editableTextState) {
+    return AdaptiveTextSelectionToolbar.editableText(
+      editableTextState: editableTextState,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // the idea here is to have a mouse region that surround the input which
@@ -83,7 +92,8 @@ class PhoneFieldState extends State<PhoneField> {
             smartDashesType: widget.smartDashesType,
             smartQuotesType: widget.smartQuotesType,
             enableSuggestions: widget.enableSuggestions,
-            contextMenuBuilder: widget.contextMenuBuilder,
+            contextMenuBuilder:
+                widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
             showCursor: widget.showCursor,
             onEditingComplete: widget.onEditingComplete,
             onSubmitted: widget.onSubmitted,
