@@ -25,12 +25,6 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   @override
-  void didChangeDependencies() {
-    if (Directionality.of(context) == TextDirection.rtl) {}
-    super.didChangeDependencies();
-  }
-
-  @override
   void dispose() {
     super.dispose();
     _childController.dispose();

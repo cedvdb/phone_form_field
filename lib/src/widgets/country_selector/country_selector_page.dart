@@ -1,12 +1,13 @@
+import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization_en.dart';
-import 'package:phone_form_field/src/helpers/localized_country_registry.dart';
-import 'package:phone_form_field/src/models/iso_code.dart';
+import 'package:phone_form_field/src/widgets/country_selector/localized_country_registry.dart';
+import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import '../../helpers/country_finder.dart';
-import '../../models/country.dart';
+import 'country_finder.dart';
+import 'country.dart';
 import 'country_list.dart';
 
 class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
@@ -55,9 +56,12 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
   /// Override default subtitle TextStyle
   final TextStyle? subtitleStyle;
 
+  final FlagCache? flagCache;
+
   CountrySelectorSearchDelegate({
     Key? key,
     required this.onCountrySelected,
+    required this.flagCache,
     this.scrollController,
     this.scrollPhysics,
     this.addFavoritesSeparator = true,
@@ -128,6 +132,7 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
       noResultMessage: noResultMessage,
       titleStyle: titleStyle,
       subtitleStyle: subtitleStyle,
+      flagCache: flagCache,
     );
   }
 

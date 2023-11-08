@@ -6,10 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import '../constants/patterns.dart';
-import '../helpers/validator_translator.dart';
-import '../models/phone_controller.dart';
-import '../models/phone_field_controller.dart';
-import '../validator/phone_validator.dart';
+import '../controllers/phone_controller.dart';
+import '../controllers/phone_field_controller.dart';
+import '../validation/phone_validator.dart';
+import '../validation/validator_translator.dart';
 import 'country_selector/country_selector_navigator.dart';
 import 'phone_field.dart';
 
@@ -98,6 +98,9 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// show Dial Code or not
   final bool showDialCode;
 
+  /// show selected iso code or not
+  final bool showIsoCodeInInput;
+
   PhoneFormField({
     Key? key,
     this.controller,
@@ -116,7 +119,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     double flagSize = 16,
     PhoneNumberInputValidator? validator,
     bool isCountrySelectionEnabled = true,
-    bool isCountryChipPersistent = false,
+    bool isCountryChipPersistent = true,
     // textfield inputs
     TextInputType keyboardType = TextInputType.phone,
     TextInputAction? textInputAction,
@@ -156,6 +159,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     String? restorationId,
     bool enableIMEPersonalizedLearning = true,
     this.showDialCode = true,
+    this.showIsoCodeInInput = false,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
@@ -164,8 +168,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
           key: key,
           autovalidateMode: autovalidateMode,
           enabled: enabled,
-          initialValue:
-              controller != null ? controller.value : initialValue,
+          initialValue: controller != null ? controller.value : initialValue,
           onSaved: onSaved,
           validator: validator ?? PhoneValidator.valid(),
           restorationId: restorationId,
@@ -174,6 +177,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
             return PhoneField(
               controller: field._childController,
               showFlagInInput: showFlagInInput,
+              showIsoCodeInInput: showIsoCodeInInput,
               selectorNavigator: countrySelectorNavigator,
               errorText: field.getErrorText(),
               showDialCode: showDialCode,

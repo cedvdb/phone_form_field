@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/src/models/iso_code.dart';
+import 'package:phone_form_field/phone_form_field.dart';
 
 class PhoneFieldController extends ChangeNotifier {
   late final ValueNotifier<IsoCode> isoCodeController;
