@@ -428,6 +428,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         );
+
     return showModalBottomSheet<Country>(
       context: context,
       shape: RoundedRectangleBorder(
@@ -439,18 +440,9 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
         maxChildSize: maxChildSize,
         expand: false,
         builder: (context, scrollController) {
-          // hide the keyboard when scrolling the list, so it doesn't overlap the list
-          scrollController.addListener(() {
-            FocusManager.instance.primaryFocus?.unfocus();
-          });
-
-          return Container(
-            decoration: ShapeDecoration(
-              color: Theme.of(context).canvasColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: effectiveBorderRadius,
-              ),
-            ),
+          return _CountrySelectorWidget(
+            scrollController: scrollController,
+            borderRadius: effectiveBorderRadius,
             child: _getCountrySelector(
               onCountrySelected: (country) => Navigator.pop(context, country),
               scrollController: scrollController,
@@ -461,6 +453,52 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
       ),
       useRootNavigator: useRootNavigator,
       isScrollControlled: true,
+    );
+  }
+}
+
+class _CountrySelectorWidget extends StatefulWidget {
+  final ScrollController scrollController;
+  final BorderRadiusGeometry borderRadius;
+  final Widget child;
+
+  const _CountrySelectorWidget({
+    required this.scrollController,
+    required this.child,
+    required this.borderRadius,
+  });
+
+  @override
+  State<_CountrySelectorWidget> createState() => _CountrySelectorWidgetState();
+}
+
+class _CountrySelectorWidgetState extends State<_CountrySelectorWidget> {
+  @override
+  initState() {
+    super.initState();
+    widget.scrollController.addListener(_onScrollListener);
+  }
+
+  @override
+  dispose() {
+    widget.scrollController.removeListener(_onScrollListener);
+    super.dispose();
+  }
+
+  _onScrollListener() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: ShapeDecoration(
+        color: Theme.of(context).canvasColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: widget.borderRadius,
+        ),
+      ),
+      child: widget.child,
     );
   }
 }
