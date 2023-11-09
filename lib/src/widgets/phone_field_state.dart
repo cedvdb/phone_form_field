@@ -92,6 +92,7 @@ class PhoneFieldState extends State<PhoneField> {
             cursorHeight: widget.cursorHeight,
             cursorRadius: widget.cursorRadius,
             cursorColor: widget.cursorColor,
+            onTapOutside: widget.onTapOutside,
             selectionHeightStyle: widget.selectionHeightStyle,
             selectionWidthStyle: widget.selectionWidthStyle,
             keyboardAppearance: widget.keyboardAppearance,
