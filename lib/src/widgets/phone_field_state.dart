@@ -116,7 +116,7 @@ class PhoneFieldState extends State<PhoneField> {
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
-          onTap: selectCountry,
+          onTap: widget.enabled ? selectCountry : null,
           // material here else the click pass through empty spaces
           child: Material(
             color: Colors.transparent,
@@ -137,6 +137,7 @@ class PhoneFieldState extends State<PhoneField> {
                       color: Theme.of(context).textTheme.bodySmall?.color,
                     ),
                 flagSize: widget.flagSize,
+                enabled: widget.enabled,
               ),
             ),
           ),
