@@ -185,6 +185,7 @@ PhoneFormField(
     - 'fr',
     - 'hin',
     - 'it',
+    - 'nb',
     - 'nl',
     - 'pt',
     - 'ru',
