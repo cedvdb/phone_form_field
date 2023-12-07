@@ -2,7 +2,7 @@ import 'phone_field_localization.dart';
 
 /// The translations for Arabic (`ar`).
 class PhoneFieldLocalizationAr extends PhoneFieldLocalization {
-  PhoneFieldLocalizationAr([String locale = 'ar']) : super(locale);
+  PhoneFieldLocalizationAr([super.locale = 'ar']);
 
   @override
   String get invalidPhoneNumber => 'رقم الهاتف غير صحيح';

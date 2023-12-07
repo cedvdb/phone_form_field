@@ -15,7 +15,7 @@ class CountryCodeChip extends StatelessWidget {
   final bool showIsoCode;
 
   CountryCodeChip({
-    Key? key,
+    super.key,
     required IsoCode isoCode,
     this.textStyle = const TextStyle(),
     this.showFlag = true,
@@ -24,8 +24,7 @@ class CountryCodeChip extends StatelessWidget {
     this.flagSize = 20,
     this.textDirection,
     this.showIsoCode = false,
-  })  : country = Country(isoCode, ''),
-        super(key: key);
+  }) : country = Country(isoCode, '');
 
   @override
   Widget build(BuildContext context) {

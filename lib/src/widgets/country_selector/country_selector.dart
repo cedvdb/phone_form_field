@@ -63,7 +63,7 @@ class CountrySelector extends StatefulWidget {
   final FlagCache flagCache;
 
   const CountrySelector({
-    Key? key,
+    super.key,
     required this.onCountrySelected,
     required this.flagCache,
     this.scrollController,
@@ -80,7 +80,7 @@ class CountrySelector extends StatefulWidget {
     this.searchBoxTextStyle,
     this.searchBoxIconColor,
     this.flagSize = 40,
-  }) : super(key: key);
+  });
 
   @override
   CountrySelectorState createState() => CountrySelectorState();

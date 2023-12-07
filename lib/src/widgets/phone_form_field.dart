@@ -102,7 +102,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool showIsoCodeInInput;
 
   PhoneFormField({
-    Key? key,
+    super.key,
     this.controller,
     this.shouldFormat = true,
     this.onChanged,
@@ -110,11 +110,11 @@ class PhoneFormField extends FormField<PhoneNumber> {
     bool showFlagInInput = true,
     CountrySelectorNavigator countrySelectorNavigator =
         const CountrySelectorNavigator.searchDelegate(),
-    Function(PhoneNumber?)? onSaved,
+    Function(PhoneNumber?)? super.onSaved,
     this.defaultCountry = IsoCode.US,
     InputDecoration decoration =
         const InputDecoration(border: UnderlineInputBorder()),
-    AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
+    AutovalidateMode super.autovalidateMode = AutovalidateMode.onUserInteraction,
     PhoneNumber? initialValue,
     double flagSize = 16,
     PhoneNumberInputValidator? validator,
@@ -142,7 +142,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     AppPrivateCommandCallback? onAppPrivateCommand,
     Function(PointerDownEvent)? onTapOutside,
     List<TextInputFormatter>? inputFormatters,
-    bool enabled = true,
+    super.enabled,
     double cursorWidth = 2.0,
     double? cursorHeight,
     Radius? cursorRadius,
@@ -157,7 +157,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     ScrollPhysics? scrollPhysics,
     ScrollController? scrollController,
     Iterable<String>? autofillHints,
-    String? restorationId,
+    super.restorationId,
     bool enableIMEPersonalizedLearning = true,
     this.showDialCode = true,
     this.showIsoCodeInInput = false,
@@ -166,13 +166,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
           'One of initialValue or controller can be specified at a time',
         ),
         super(
-          key: key,
-          autovalidateMode: autovalidateMode,
-          enabled: enabled,
           initialValue: controller != null ? controller.value : initialValue,
-          onSaved: onSaved,
           validator: validator ?? PhoneValidator.valid(),
-          restorationId: restorationId,
           builder: (state) {
             final field = state as PhoneFormFieldState;
             return PhoneField(
