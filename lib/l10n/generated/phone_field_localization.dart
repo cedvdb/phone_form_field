@@ -20,7 +20,6 @@ import 'phone_field_localization_pt.dart';
 import 'phone_field_localization_ru.dart';
 import 'phone_field_localization_sv.dart';
 import 'phone_field_localization_tr.dart';
-import 'phone_field_localization_uz.dart';
 import 'phone_field_localization_uk.dart';
 import 'phone_field_localization_uz.dart';
 import 'phone_field_localization_zh.dart';
@@ -125,7 +124,6 @@ abstract class PhoneFieldLocalization {
     Locale('ru'),
     Locale('sv'),
     Locale('tr'),
-    Locale('uz'),
     Locale('uk'),
     Locale('uz'),
     Locale('zh')
