@@ -14,13 +14,14 @@ import 'phone_field_localization_fa.dart';
 import 'phone_field_localization_fr.dart';
 import 'phone_field_localization_hi.dart';
 import 'phone_field_localization_it.dart';
+import 'phone_field_localization_nb.dart';
 import 'phone_field_localization_nl.dart';
 import 'phone_field_localization_pt.dart';
 import 'phone_field_localization_ru.dart';
 import 'phone_field_localization_sv.dart';
 import 'phone_field_localization_tr.dart';
-import 'phone_field_localization_uz.dart';
 import 'phone_field_localization_uk.dart';
+import 'phone_field_localization_uz.dart';
 import 'phone_field_localization_zh.dart';
 
 /// Callers can lookup localized strings with an instance of PhoneFieldLocalization
@@ -113,13 +114,14 @@ abstract class PhoneFieldLocalization {
     Locale('fr'),
     Locale('hi'),
     Locale('it'),
+    Locale('nb'),
     Locale('nl'),
     Locale('pt'),
     Locale('ru'),
     Locale('sv'),
     Locale('tr'),
-    Locale('uz'),
     Locale('uk'),
+    Locale('uz'),
     Locale('zh')
   ];
 
@@ -1476,7 +1478,7 @@ abstract class PhoneFieldLocalization {
   /// No description provided for @tr_.
   ///
   /// In en, this message translates to:
-  /// **'Turkey'**
+  /// **'Türkiye'**
   String get tr_;
 
   /// No description provided for @tt_.
@@ -1627,7 +1629,7 @@ class _PhoneFieldLocalizationDelegate extends LocalizationsDelegate<PhoneFieldLo
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['ar', 'de', 'el', 'en', 'es', 'fa', 'fr', 'hi', 'it', 'nl', 'pt', 'ru', 'sv', 'tr', 'uz', 'uk', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'de', 'el', 'en', 'es', 'fa', 'fr', 'hi', 'it', 'nb', 'nl', 'pt', 'ru', 'sv', 'tr', 'uk', 'uz', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_PhoneFieldLocalizationDelegate old) => false;
@@ -1647,13 +1649,14 @@ PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
     case 'fr': return PhoneFieldLocalizationFr();
     case 'hi': return PhoneFieldLocalizationHi();
     case 'it': return PhoneFieldLocalizationIt();
+    case 'nb': return PhoneFieldLocalizationNb();
     case 'nl': return PhoneFieldLocalizationNl();
     case 'pt': return PhoneFieldLocalizationPt();
     case 'ru': return PhoneFieldLocalizationRu();
     case 'sv': return PhoneFieldLocalizationSv();
     case 'tr': return PhoneFieldLocalizationTr();
-    case 'uz': return PhoneFieldLocalizationUz();
     case 'uk': return PhoneFieldLocalizationUk();
+    case 'uz': return PhoneFieldLocalizationUz();
     case 'zh': return PhoneFieldLocalizationZh();
   }
 
