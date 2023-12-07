@@ -20,6 +20,7 @@ void main() {
       IsoCode defaultCountry = IsoCode.US,
       bool shouldFormat = false,
       PhoneNumberInputValidator? validator,
+      bool enabled = true,
     }) =>
         MaterialApp(
           localizationsDelegates: const [
@@ -42,6 +43,7 @@ void main() {
                 defaultCountry: defaultCountry,
                 shouldFormat: shouldFormat,
                 validator: validator,
+                enabled: enabled,
               ),
             ),
           ),
@@ -61,6 +63,20 @@ void main() {
       testWidgets('Should display flag', (tester) async {
         await tester.pumpWidget(getWidget());
         expect(find.byType(CircleFlag), findsWidgets);
+      });
+
+      testWidgets('enabled, country chip should be enabled', (tester) async {
+        await tester.pumpWidget(getWidget(enabled: true));
+        final countryChip =
+            tester.widget<CountryCodeChip>(find.byType(CountryCodeChip));
+        expect(countryChip.enabled, true);
+      });
+
+      testWidgets('disabled, country chip should be disabled', (tester) async {
+        await tester.pumpWidget(getWidget(enabled: false));
+        final countryChip =
+            tester.widget<CountryCodeChip>(find.byType(CountryCodeChip));
+        expect(countryChip.enabled, false);
       });
     });
 
