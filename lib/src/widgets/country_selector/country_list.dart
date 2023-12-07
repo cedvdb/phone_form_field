@@ -33,7 +33,7 @@ class CountryList extends StatelessWidget {
   final FlagCache? flagCache;
 
   CountryList({
-    Key? key,
+    super.key,
     required this.countries,
     required this.favorites,
     required this.onTap,
@@ -45,7 +45,7 @@ class CountryList extends StatelessWidget {
     this.flagSize = 40,
     this.subtitleStyle,
     this.titleStyle,
-  }) : super(key: key) {
+  }) {
     _allListElement = [
       ...favorites,
       if (favorites.isNotEmpty) null, // delimiter

@@ -9,14 +9,14 @@ class SearchBox extends StatelessWidget {
   final Color? searchIconColor;
 
   const SearchBox({
-    Key? key,
+    super.key,
     required this.onChanged,
     required this.onSubmitted,
     required this.autofocus,
     this.decoration,
     this.style,
     this.searchIconColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

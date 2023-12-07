@@ -70,7 +70,7 @@ class PhoneField extends StatefulWidget {
 
   const PhoneField({
     // form field params
-    Key? key,
+    super.key,
     required this.controller,
     required this.showFlagInInput,
     required this.selectorNavigator,
@@ -120,7 +120,7 @@ class PhoneField extends StatefulWidget {
     required this.showDialCode,
     required this.showIsoCodeInInput,
     required this.onTapOutside,
-  }) : super(key: key);
+  });
 
   @override
   PhoneFieldState createState() => PhoneFieldState();
