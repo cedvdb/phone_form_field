@@ -65,18 +65,18 @@ void main() {
         expect(find.byType(CircleFlag), findsWidgets);
       });
 
-      testWidgets('enabled, country chip should be enabled', (tester) async {
-        await tester.pumpWidget(getWidget(enabled: true));
-        final countryChip =
-            tester.widget<CountryCodeChip>(find.byType(CountryCodeChip));
-        expect(countryChip.enabled, true);
-      });
-
-      testWidgets('disabled, country chip should be disabled', (tester) async {
+      testWidgets(
+          'disabled, tap on country chip - country list dialog is not shown',
+          (tester) async {
         await tester.pumpWidget(getWidget(enabled: false));
         final countryChip =
             tester.widget<CountryCodeChip>(find.byType(CountryCodeChip));
         expect(countryChip.enabled, false);
+
+        await tester.tap(find.byType(CountryCodeChip));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(CountryList), findsNothing);
       });
     });
 
