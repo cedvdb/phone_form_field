@@ -12,6 +12,7 @@ void main() {
     Widget getWidget({
       Function(PhoneNumber?)? onChanged,
       Function(PhoneNumber?)? onSaved,
+      Function(PointerDownEvent)? onTapOutside,
       PhoneNumber? initialValue,
       PhoneController? controller,
       bool showFlagInInput = true,
@@ -34,6 +35,7 @@ void main() {
                 initialValue: initialValue,
                 onChanged: onChanged,
                 onSaved: onSaved,
+                onTapOutside: onTapOutside,
                 showFlagInInput: showFlagInInput,
                 showDialCode: showDialCode,
                 controller: controller,
@@ -344,6 +346,74 @@ void main() {
               '479281938',
               destinationCountry: IsoCode.FR,
             )));
+      });
+      testWidgets('Should call onTapOutside', (tester) async {
+        PhoneNumber? phoneNumber = PhoneNumber.parse(
+          '',
+          destinationCountry: IsoCode.FR,
+        );
+
+        void onTapOutside(PointerDownEvent event) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+
+        await tester.pumpWidget(getWidget(
+          initialValue: phoneNumber,
+          onTapOutside: onTapOutside,
+        ));
+
+        final FocusScopeNode primaryFocus =
+            FocusManager.instance.primaryFocus as FocusScopeNode;
+
+        // Verify that the PhoneFormField is unfocused
+        expect(primaryFocus.focusedChild, isNull);
+
+        // Tap on the PhoneFormField to focus it
+        final phoneField = find.byType(PhoneFormField);
+        await tester.enterText(phoneField, '479281938');
+        await tester.pump(const Duration(seconds: 1));
+
+        // Verify that the PhoneFormField has focus
+        expect(primaryFocus.focusedChild, isNotNull);
+
+        // Tap outside the PhoneFormField to unfocus it
+        await tester.tap(find.byType(Scaffold));
+        await tester.pumpAndSettle();
+
+        // Verify that the PhoneFormField is unfocused
+        expect(primaryFocus.focusedChild, isNull);
+      });
+      testWidgets(
+          'Should call onTapOutside not unfocus keyboard if already unfocused',
+          (tester) async {
+        PhoneNumber? phoneNumber = PhoneNumber.parse(
+          '',
+          destinationCountry: IsoCode.FR,
+        );
+
+        void onTapOutside(PointerDownEvent event) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+
+        await tester.pumpWidget(getWidget(
+          initialValue: phoneNumber,
+          onTapOutside: onTapOutside,
+        ));
+
+        // Verify that the PhoneFormField is unfocused initially
+        expect(
+          (FocusManager.instance.primaryFocus as FocusScopeNode).focusedChild,
+          isNull,
+        );
+        // Tap outside the PhoneFormField
+        await tester.tap(find.byType(Scaffold));
+        await tester.pump();
+
+        // Verify that the PhoneFormField is still unfocused
+        expect(
+          (FocusManager.instance.primaryFocus as FocusScopeNode).focusedChild,
+          isNull,
+        );
       });
 
       testWidgets('Should reset', (tester) async {

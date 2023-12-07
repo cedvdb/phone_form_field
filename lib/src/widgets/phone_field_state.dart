@@ -92,6 +92,7 @@ class PhoneFieldState extends State<PhoneField> {
             cursorHeight: widget.cursorHeight,
             cursorRadius: widget.cursorRadius,
             cursorColor: widget.cursorColor,
+            onTapOutside: widget.onTapOutside,
             selectionHeightStyle: widget.selectionHeightStyle,
             selectionWidthStyle: widget.selectionWidthStyle,
             keyboardAppearance: widget.keyboardAppearance,
@@ -127,6 +128,7 @@ class PhoneFieldState extends State<PhoneField> {
                 key: const ValueKey('country-code-chip'),
                 isoCode: controller.isoCode,
                 showFlag: widget.showFlagInInput,
+                showIsoCode: widget.showIsoCodeInInput,
                 showDialCode: widget.showDialCode,
                 textStyle: widget.countryCodeStyle ??
                     widget.decoration.labelStyle ??

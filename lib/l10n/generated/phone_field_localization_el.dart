@@ -14,8 +14,7 @@ class PhoneFieldLocalizationEl extends PhoneFieldLocalization {
   String get invalidMobilePhoneNumber => 'Μη έγκυρος αριθμός κινητού τηλεφώνου';
 
   @override
-  String get invalidFixedLinePhoneNumber =>
-      'Μη έγκυρος αριθμός σταθερού τηλεφώνου';
+  String get invalidFixedLinePhoneNumber => 'Μη έγκυρος αριθμός σταθερού τηλεφώνου';
 
   @override
   String get requiredPhoneNumber => 'Απαιτούμενος αριθμός τηλεφώνου';
