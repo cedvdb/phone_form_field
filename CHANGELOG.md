@@ -1,3 +1,11 @@
+## [8.1.1]
+- Upgraded phone_numbers_parser lib to 8.1.0
+- Added norwegian language (PR #203) thanks @sidlatau
+- Added onTapOutside (PR #195) thanks @andgar2010
+- Added Uzbek language (PR #192) thanks @akbarali1
+- various fix in languages (thanks @Hpanery, @mohn93, @themmfa, @farzadaqajani)
+
+
 ## [8.1.0]
 - flag loaded from assets (revert from previous version) 
 - flags in country list should now render instantaneously
