@@ -48,7 +48,7 @@ class PhoneField extends StatefulWidget {
   final ValueChanged<String>? onSubmitted;
   final AppPrivateCommandCallback? onAppPrivateCommand;
   final Function(PointerDownEvent)? onTapOutside;
-  final bool? enabled;
+  final bool enabled;
   final double cursorWidth;
   final double? cursorHeight;
   final Radius? cursorRadius;

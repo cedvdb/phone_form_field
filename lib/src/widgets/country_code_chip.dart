@@ -13,6 +13,7 @@ class CountryCodeChip extends StatelessWidget {
   final double flagSize;
   final TextDirection? textDirection;
   final bool showIsoCode;
+  final bool enabled;
 
   CountryCodeChip({
     super.key,
@@ -24,6 +25,7 @@ class CountryCodeChip extends StatelessWidget {
     this.flagSize = 20,
     this.textDirection,
     this.showIsoCode = false,
+    this.enabled = true,
   }) : country = Country(isoCode, '');
 
   @override
@@ -34,7 +36,9 @@ class CountryCodeChip extends StatelessWidget {
         if (showIsoCode) ...[
           Text(
             country.isoCode.name,
-            style: textStyle,
+            style: textStyle.copyWith(
+              color: enabled ? null : Theme.of(context).disabledColor,
+            ),
           ),
           const SizedBox(width: 8),
         ],
@@ -48,7 +52,9 @@ class CountryCodeChip extends StatelessWidget {
         if (showDialCode)
           Text(
             country.displayCountryCode,
-            style: textStyle,
+            style: textStyle.copyWith(
+              color: enabled ? null : Theme.of(context).disabledColor,
+            ),
             textDirection: textDirection,
           ),
       ],
