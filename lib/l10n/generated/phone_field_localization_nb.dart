@@ -2,7 +2,7 @@ import 'phone_field_localization.dart';
 
 /// The translations for Norwegian Bokmål (`nb`).
 class PhoneFieldLocalizationNb extends PhoneFieldLocalization {
-  PhoneFieldLocalizationNb([super.locale = 'nb']);
+  PhoneFieldLocalizationNb([String locale = 'nb']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Ugyldig telefonnummer';

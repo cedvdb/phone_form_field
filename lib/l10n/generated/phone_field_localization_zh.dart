@@ -2,7 +2,7 @@ import 'phone_field_localization.dart';
 
 /// The translations for Chinese (`zh`).
 class PhoneFieldLocalizationZh extends PhoneFieldLocalization {
-  PhoneFieldLocalizationZh([super.locale = 'zh']);
+  PhoneFieldLocalizationZh([String locale = 'zh']) : super(locale);
 
   @override
   String get invalidPhoneNumber => '无效的电话号码';

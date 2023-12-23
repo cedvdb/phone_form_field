@@ -2,7 +2,7 @@ import 'phone_field_localization.dart';
 
 /// The translations for Swedish (`sv`).
 class PhoneFieldLocalizationSv extends PhoneFieldLocalization {
-  PhoneFieldLocalizationSv([super.locale = 'sv']);
+  PhoneFieldLocalizationSv([String locale = 'sv']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Ogiltigt telefonnummer';
