@@ -14,60 +14,6 @@ part 'phone_field_state.dart';
 ///
 /// This deals with mostly UI and has no dependency on any phone parser library
 class PhoneField extends StatefulWidget {
-  final PhoneFieldController controller;
-  final bool showFlagInInput;
-  final bool showIsoCodeInInput;
-  final bool showDialCode;
-  final String? errorText;
-  final double flagSize;
-  final InputDecoration decoration;
-  final bool isCountrySelectionEnabled;
-  final bool isCountryChipPersistent;
-
-  /// configures the way the country picker selector is shown
-  final CountrySelectorNavigator selectorNavigator;
-
-  // textfield inputs
-  final TextInputType keyboardType;
-  final TextInputAction? textInputAction;
-  final TextStyle? style;
-  final TextStyle? countryCodeStyle;
-  final StrutStyle? strutStyle;
-  final TextAlign textAlign;
-  final TextAlignVertical? textAlignVertical;
-  final bool autofocus;
-  final String obscuringCharacter;
-  final bool obscureText;
-  final bool autocorrect;
-  final SmartDashesType? smartDashesType;
-  final SmartQuotesType? smartQuotesType;
-  final bool enableSuggestions;
-  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
-  final bool? showCursor;
-  final VoidCallback? onEditingComplete;
-  final ValueChanged<String>? onSubmitted;
-  final AppPrivateCommandCallback? onAppPrivateCommand;
-  final bool? enabled;
-  final double cursorWidth;
-  final double? cursorHeight;
-  final Radius? cursorRadius;
-  final Color? cursorColor;
-  final ui.BoxHeightStyle selectionHeightStyle;
-  final ui.BoxWidthStyle selectionWidthStyle;
-  final Brightness? keyboardAppearance;
-  final EdgeInsets scrollPadding;
-  final bool enableInteractiveSelection;
-  final TextSelectionControls? selectionControls;
-  bool get selectionEnabled => enableInteractiveSelection;
-  final MouseCursor? mouseCursor;
-  final ScrollPhysics? scrollPhysics;
-  final ScrollController? scrollController;
-  final Iterable<String>? autofillHints;
-  final String? restorationId;
-  final bool enableIMEPersonalizedLearning;
-  final List<TextInputFormatter>? inputFormatters;
-  final Widget? countryButtonSuffix;
-
   const PhoneField({
     // form field params
     Key? key,
@@ -122,6 +68,62 @@ class PhoneField extends StatefulWidget {
     required this.showIsoCodeInInput,
   }) : super(key: key);
 
+  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
+  final bool autocorrect;
+  final Iterable<String>? autofillHints;
+  final bool autofocus;
+  final PhoneFieldController controller;
+  final Widget? countryButtonSuffix;
+  final TextStyle? countryCodeStyle;
+  final Color? cursorColor;
+  final double? cursorHeight;
+  final Radius? cursorRadius;
+  final double cursorWidth;
+  final InputDecoration decoration;
+  final bool enableIMEPersonalizedLearning;
+  final bool enableInteractiveSelection;
+  final bool enableSuggestions;
+  final bool? enabled;
+  final String? errorText;
+  final double flagSize;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool isCountryChipPersistent;
+  final bool isCountrySelectionEnabled;
+  final Brightness? keyboardAppearance;
+  // textfield inputs
+  final TextInputType keyboardType;
+
+  final MouseCursor? mouseCursor;
+  final bool obscureText;
+  final String obscuringCharacter;
+  final AppPrivateCommandCallback? onAppPrivateCommand;
+  final VoidCallback? onEditingComplete;
+  final ValueChanged<String>? onSubmitted;
+  final String? restorationId;
+  final ScrollController? scrollController;
+  final EdgeInsets scrollPadding;
+  final ScrollPhysics? scrollPhysics;
+  final TextSelectionControls? selectionControls;
+  final ui.BoxHeightStyle selectionHeightStyle;
+  final ui.BoxWidthStyle selectionWidthStyle;
+
+  /// configures the way the country picker selector is shown
+  final CountrySelectorNavigator selectorNavigator;
+
+  final bool? showCursor;
+  final bool showDialCode;
+  final bool showFlagInInput;
+  final bool showIsoCodeInInput;
+  final SmartDashesType? smartDashesType;
+  final SmartQuotesType? smartQuotesType;
+  final StrutStyle? strutStyle;
+  final TextStyle? style;
+  final TextAlign textAlign;
+  final TextAlignVertical? textAlignVertical;
+  final TextInputAction? textInputAction;
+
   @override
   PhoneFieldState createState() => PhoneFieldState();
+
+  bool get selectionEnabled => enableInteractiveSelection;
 }
