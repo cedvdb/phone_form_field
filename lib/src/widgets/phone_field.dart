@@ -66,7 +66,7 @@ class PhoneField extends StatefulWidget {
   final String? restorationId;
   final bool enableIMEPersonalizedLearning;
   final List<TextInputFormatter>? inputFormatters;
-  final Widget? separator;
+  final Widget? countryButtonSuffix;
 
   const PhoneField({
     // form field params
@@ -118,7 +118,7 @@ class PhoneField extends StatefulWidget {
     required this.enableIMEPersonalizedLearning,
     required this.inputFormatters,
     required this.showDialCode,
-    this.separator,
+    this.countryButtonSuffix,
     required this.showIsoCodeInInput,
   }) : super(key: key);
 

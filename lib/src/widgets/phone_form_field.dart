@@ -159,7 +159,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     String? restorationId,
     bool enableIMEPersonalizedLearning = true,
     this.showDialCode = true,
-    Widget? separator,
+    Widget? countryButtonSuffix,
     this.showIsoCodeInInput = false,
   })  : assert(
           initialValue == null || controller == null,
@@ -224,7 +224,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
               restorationId: restorationId,
               enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
               inputFormatters: inputFormatters,
-              separator: separator,
+              countryButtonSuffix: countryButtonSuffix,
             );
           },
         );
