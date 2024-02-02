@@ -46,33 +46,6 @@ class _SearchBoxState extends State<SearchBox> {
   }
 
   @override
-  State<SearchBox> createState() => _SearchBoxState();
-}
-
-class _SearchBoxState extends State<SearchBox> {
-  String _previousValue = '';
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void handleChange(e) {
-    widget.onChanged(e);
-
-    // detect length difference
-    final diff = e.length - _previousValue.length;
-    if (diff > 3) {
-      // more than 3 characters added, probably a paste / autofill of country name
-      widget.onSubmitted();
-    }
-
-    setState(() {
-      _previousValue = e;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
