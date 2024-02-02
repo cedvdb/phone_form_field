@@ -58,6 +58,9 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
 
   final FlagCache? flagCache;
 
+  /// Override default app bar theme
+  final ThemeData? customAppBarTheme;
+
   CountrySelectorSearchDelegate({
     Key? key,
     required this.onCountrySelected,
@@ -73,6 +76,7 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
     this.flagSize = 40,
     this.titleStyle,
     this.subtitleStyle,
+    this.customAppBarTheme,
   })  : countriesIso = countries ?? IsoCode.values,
         favoriteCountriesIso = favoriteCountries;
 
@@ -139,5 +143,10 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
   @override
   Widget buildResults(BuildContext context) {
     return buildSuggestions(context);
+  }
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return customAppBarTheme ?? super.appBarTheme(context);
   }
 }

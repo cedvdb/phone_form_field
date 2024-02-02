@@ -98,6 +98,7 @@ abstract class CountrySelectorNavigator {
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
     ScrollPhysics? scrollPhysics,
+    ThemeData? appBarTheme,
   }) = SearchDelegateNavigator._;
 
   const factory CountrySelectorNavigator.bottomSheet({
@@ -211,7 +212,10 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
     super.searchBoxTextStyle,
     super.searchBoxIconColor,
     super.scrollPhysics,
+    this.appBarTheme,
   });
+
+  final ThemeData? appBarTheme;
 
   CountrySelectorSearchDelegate _getCountrySelectorSearchDelegate({
     required ValueChanged<Country> onCountrySelected,
@@ -219,17 +223,19 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
     ScrollController? scrollController,
   }) {
     return CountrySelectorSearchDelegate(
-        onCountrySelected: onCountrySelected,
-        scrollController: scrollController,
-        addFavoritesSeparator: addSeparator,
-        countries: countries,
-        favoriteCountries: favorites ?? [],
-        noResultMessage: noResultMessage,
-        searchAutofocus: searchAutofocus,
-        showCountryCode: showCountryCode,
-        titleStyle: titleStyle,
-        subtitleStyle: subtitleStyle,
-        flagCache: flagCache);
+      onCountrySelected: onCountrySelected,
+      scrollController: scrollController,
+      addFavoritesSeparator: addSeparator,
+      countries: countries,
+      favoriteCountries: favorites ?? [],
+      noResultMessage: noResultMessage,
+      searchAutofocus: searchAutofocus,
+      showCountryCode: showCountryCode,
+      titleStyle: titleStyle,
+      subtitleStyle: subtitleStyle,
+      flagCache: flagCache,
+      customAppBarTheme: appBarTheme,
+    );
   }
 
   @override
