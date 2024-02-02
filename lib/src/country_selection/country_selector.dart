@@ -3,33 +3,33 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization_en.dart';
-import 'package:phone_form_field/src/widgets/country_selector/localized_country_registry.dart';
+import 'package:phone_form_field/src/country/localize_country.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
+import '../country/localized_country.dart';
 import 'country_finder.dart';
-import 'country.dart';
-import 'country_list.dart';
+import 'country_list_view.dart';
 import 'search_box.dart';
 
 class CountrySelector extends StatefulWidget {
   /// List of countries to display in the selector
   /// Value optional in constructor.
   /// when omitted, the full country list is displayed
-  final List<IsoCode>? countries;
+  final List<IsoCode> countries;
+
+  /// Determine the countries to be displayed on top of the list
+  /// Check [addFavoritesSeparator] property to enable/disable adding a
+  /// list divider between favorites and others defaults countries
+  final List<IsoCode> favoriteCountries;
 
   /// Callback triggered when user select a country
-  final ValueChanged<Country> onCountrySelected;
+  final ValueChanged<LocalizedCountry> onCountrySelected;
 
   /// ListView.builder scroll controller (ie: [ScrollView.controller])
   final ScrollController? scrollController;
 
   /// The [ScrollPhysics] of the Country List
   final ScrollPhysics? scrollPhysics;
-
-  /// Determine the countries to be displayed on top of the list
-  /// Check [addFavoritesSeparator] property to enable/disable adding a
-  /// list divider between favorites and others defaults countries
-  final List<IsoCode> favoriteCountries;
 
   /// Whether to add a list divider between favorites & defaults
   /// countries.
@@ -72,7 +72,7 @@ class CountrySelector extends StatefulWidget {
     this.showCountryCode = false,
     this.noResultMessage,
     this.favoriteCountries = const [],
-    this.countries,
+    this.countries = IsoCode.values,
     this.searchAutofocus = kIsWeb,
     this.subtitleStyle,
     this.titleStyle,
@@ -87,35 +87,47 @@ class CountrySelector extends StatefulWidget {
 }
 
 class CountrySelectorState extends State<CountrySelector> {
-  late CountryFinder _countryFinder;
-  late CountryFinder _favoriteCountryFinder;
+  final countryFinder = CountryFinder();
+  List<LocalizedCountry> _localizedCountries = [];
+  List<LocalizedCountry> _filteredLocalizedCountries = [];
+  List<LocalizedCountry> _favoriteLocalizedCountries = [];
+  List<LocalizedCountry> _filteredFavoriteLocalizedCountries = [];
 
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
+    _localizedCountries = _buildLocalizedCountryList(context, widget.countries);
+    _favoriteLocalizedCountries =
+        _buildLocalizedCountryList(context, widget.favoriteCountries);
+    _filteredLocalizedCountries = _localizedCountries;
+  }
+
+  _buildLocalizedCountryList(BuildContext context, List<IsoCode> isoCodes) {
     final localization =
         PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
-    final isoCodes = widget.countries ?? IsoCode.values;
-    final countryRegistry = LocalizedCountryRegistry.cached(localization);
-    final notFavoriteCountries =
-        countryRegistry.whereIsoIn(isoCodes, omit: widget.favoriteCountries);
-    final favoriteCountries =
-        countryRegistry.whereIsoIn(widget.favoriteCountries);
-    _countryFinder = CountryFinder(notFavoriteCountries);
-    _favoriteCountryFinder = CountryFinder(favoriteCountries, sort: false);
+    return isoCodes
+        .map((isoCode) =>
+            LocalizedCountry(isoCode, localization.countryName(isoCode)))
+        .toList();
   }
 
   _onSearch(String searchedText) {
-    _countryFinder.filter(searchedText);
-    _favoriteCountryFinder.filter(searchedText);
+    _filteredLocalizedCountries = countryFinder.whereText(
+      text: searchedText,
+      countries: _localizedCountries,
+    );
+    _filteredFavoriteLocalizedCountries = countryFinder.whereText(
+      text: searchedText,
+      countries: _favoriteLocalizedCountries,
+    );
     setState(() {});
   }
 
   onSubmitted() {
-    if (_favoriteCountryFinder.filteredCountries.isNotEmpty) {
-      widget.onCountrySelected(_favoriteCountryFinder.filteredCountries.first);
-    } else if (_countryFinder.filteredCountries.isNotEmpty) {
-      widget.onCountrySelected(_countryFinder.filteredCountries.first);
+    if (_filteredFavoriteLocalizedCountries.isNotEmpty) {
+      widget.onCountrySelected(_filteredFavoriteLocalizedCountries.first);
+    } else if (_filteredLocalizedCountries.isNotEmpty) {
+      widget.onCountrySelected(_filteredLocalizedCountries.first);
     }
   }
 
@@ -147,9 +159,9 @@ class CountrySelectorState extends State<CountrySelector> {
         const SizedBox(height: 16),
         const Divider(height: 0, thickness: 1.2),
         Flexible(
-          child: CountryList(
-            favorites: _favoriteCountryFinder.filteredCountries,
-            countries: _countryFinder.filteredCountries,
+          child: CountryListView(
+            favorites: _filteredFavoriteLocalizedCountries,
+            countries: _filteredLocalizedCountries,
             showDialCode: widget.showCountryCode,
             onTap: widget.onCountrySelected,
             flagSize: widget.flagSize,

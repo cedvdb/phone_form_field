@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/widgets/country_selector/country_list.dart';
+import 'package:phone_form_field/src/country_selection/country_list_view.dart';
 
 void main() {
   group('PhoneFormField', () {
@@ -57,7 +57,7 @@ void main() {
 
       testWidgets('Should display country code', (tester) async {
         await tester.pumpWidget(getWidget());
-        expect(find.byType(CountryCodeChip), findsWidgets);
+        expect(find.byType(CountryChip), findsWidgets);
       });
 
       testWidgets('Should display flag', (tester) async {
@@ -70,13 +70,13 @@ void main() {
           (tester) async {
         await tester.pumpWidget(getWidget(enabled: false));
         final countryChip =
-            tester.widget<CountryCodeChip>(find.byType(CountryCodeChip));
+            tester.widget<CountryChip>(find.byType(CountryChip));
         expect(countryChip.enabled, false);
 
-        await tester.tap(find.byType(CountryCodeChip));
+        await tester.tap(find.byType(CountryChip));
         await tester.pumpAndSettle();
 
-        expect(find.byType(CountryList), findsNothing);
+        expect(find.byType(CountryListView), findsNothing);
       });
     });
 
@@ -84,12 +84,12 @@ void main() {
       testWidgets('Should open dialog when country code is clicked',
           (tester) async {
         await tester.pumpWidget(getWidget());
-        expect(find.byType(CountryList), findsNothing);
+        expect(find.byType(CountryListView), findsNothing);
         await tester.tap(find.byType(PhoneFormField));
         await tester.pump(const Duration(seconds: 1));
-        await tester.tap(find.byType(CountryCodeChip));
+        await tester.tap(find.byType(CountryChip));
         await tester.pumpAndSettle();
-        expect(find.byType(CountryList), findsOneWidget);
+        expect(find.byType(CountryListView), findsOneWidget);
       });
       testWidgets('Should have a default country', (tester) async {
         await tester.pumpWidget(getWidget(defaultCountry: IsoCode.FR));

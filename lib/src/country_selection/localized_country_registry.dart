@@ -12,10 +12,11 @@ class LocalizedCountryRegistry {
 
   static LocalizedCountryRegistry? _instance;
 
-  late final Map<IsoCode, Country> _localizedCountries = Map.fromIterable(
+  late final Map<IsoCode, LocalizedCountry> _localizedCountries =
+      Map.fromIterable(
     // remove iso codes that do not have a traduction yet..
     IsoCode.values.where((iso) => _names.containsKey(iso)),
-    value: (isoCode) => Country(isoCode, _names[isoCode]!),
+    value: (isoCode) => LocalizedCountry(isoCode, _names[isoCode]!),
   );
 
   LocalizedCountryRegistry._(this._localization);
@@ -28,10 +29,10 @@ class LocalizedCountryRegistry {
     return LocalizedCountryRegistry._(localization);
   }
 
-  Country? find(IsoCode isoCode) => _localizedCountries[isoCode];
+  LocalizedCountry? find(IsoCode isoCode) => _localizedCountries[isoCode];
 
   /// gets localized countries from isocodes
-  List<Country> whereIsoIn(
+  List<LocalizedCountry> whereIsoIn(
     List<IsoCode> isoCodes, {
     List<IsoCode> omit = const [],
   }) {

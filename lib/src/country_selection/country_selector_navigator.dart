@@ -2,7 +2,7 @@ import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/widgets/country_selector/country_selector_page.dart';
+import 'package:phone_form_field/src/country_selection/country_selector_page.dart';
 
 abstract class CountrySelectorNavigator {
   final List<IsoCode>? countries;
@@ -39,17 +39,17 @@ abstract class CountrySelectorNavigator {
     this.useRootNavigator = true,
   });
 
-  Future<Country?> navigate(BuildContext context, FlagCache flagCache);
+  Future<LocalizedCountry?> navigate(BuildContext context, FlagCache flagCache);
 
   CountrySelector _getCountrySelector({
-    required ValueChanged<Country> onCountrySelected,
+    required ValueChanged<LocalizedCountry> onCountrySelected,
     required FlagCache flagCache,
     ScrollController? scrollController,
   }) {
     return CountrySelector(
-      countries: countries,
-      onCountrySelected: onCountrySelected,
+      countries: countries ?? IsoCode.values,
       favoriteCountries: favorites ?? [],
+      onCountrySelected: onCountrySelected,
       addFavoritesSeparator: addSeparator,
       showCountryCode: showCountryCode,
       noResultMessage: noResultMessage,
@@ -179,7 +179,8 @@ class DialogNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<Country?> navigate(BuildContext context, FlagCache flagCache) {
+  Future<LocalizedCountry?> navigate(
+      BuildContext context, FlagCache flagCache) {
     return showDialog(
       context: context,
       builder: (_) => Dialog(
@@ -218,7 +219,7 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
   final ThemeData? appBarTheme;
 
   CountrySelectorSearchDelegate _getCountrySelectorSearchDelegate({
-    required ValueChanged<Country> onCountrySelected,
+    required ValueChanged<LocalizedCountry> onCountrySelected,
     required FlagCache flagCache,
     ScrollController? scrollController,
   }) {
@@ -226,7 +227,7 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
       onCountrySelected: onCountrySelected,
       scrollController: scrollController,
       addFavoritesSeparator: addSeparator,
-      countries: countries,
+      countries: countries ?? IsoCode.values,
       favoriteCountries: favorites ?? [],
       noResultMessage: noResultMessage,
       searchAutofocus: searchAutofocus,
@@ -239,7 +240,8 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
   }
 
   @override
-  Future<Country?> navigate(BuildContext context, FlagCache flagCache) {
+  Future<LocalizedCountry?> navigate(
+      BuildContext context, FlagCache flagCache) {
     return showSearch(
       context: context,
       delegate: _getCountrySelectorSearchDelegate(
@@ -268,8 +270,9 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<Country?> navigate(BuildContext context, FlagCache flagCache) {
-    Country? selected;
+  Future<LocalizedCountry?> navigate(
+      BuildContext context, FlagCache flagCache) {
+    LocalizedCountry? selected;
     final ctrl = showBottomSheet(
       context: context,
       builder: (_) => MediaQuery(
@@ -310,11 +313,11 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<Country?> navigate(
+  Future<LocalizedCountry?> navigate(
     BuildContext context,
     FlagCache flagCache,
   ) {
-    return showModalBottomSheet<Country>(
+    return showModalBottomSheet<LocalizedCountry>(
       context: context,
       builder: (_) => SizedBox(
         height: height ?? MediaQuery.of(context).size.height - 90,
@@ -357,14 +360,15 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<Country?> navigate(BuildContext context, FlagCache flagCache) {
+  Future<LocalizedCountry?> navigate(
+      BuildContext context, FlagCache flagCache) {
     final effectiveBorderRadius = borderRadius ??
         const BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         );
 
-    return showModalBottomSheet<Country>(
+    return showModalBottomSheet<LocalizedCountry>(
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: effectiveBorderRadius,

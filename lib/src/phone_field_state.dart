@@ -76,7 +76,7 @@ class PhoneFieldState extends State<PhoneField> {
             inputFormatters: widget.inputFormatters ??
                 [
                   FilteringTextInputFormatter.allow(RegExp(
-                      '[${Patterns.plus}${Patterns.digits}${Patterns.punctuation}]')),
+                      '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
                 ],
             autofillHints: widget.autofillHints,
             keyboardType: widget.keyboardType,
@@ -134,7 +134,7 @@ class PhoneFieldState extends State<PhoneField> {
               padding: !widget.showDialCode && !widget.showFlagInInput
                   ? EdgeInsets.zero
                   : const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-              child: CountryCodeChip(
+              child: CountryChip(
                 key: const ValueKey('country-code-chip'),
                 isoCode: controller.isoCode,
                 showFlag: widget.showFlagInInput,

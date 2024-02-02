@@ -1,19 +1,19 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 
-import '../../../l10n/generated/phone_field_localization.dart';
-import 'country.dart';
+import '../../l10n/generated/phone_field_localization.dart';
+import '../country/localized_country.dart';
 
-class CountryList extends StatelessWidget {
+class CountryListView extends StatelessWidget {
   /// Callback function triggered when user select a country
-  final Function(Country) onTap;
+  final Function(LocalizedCountry) onTap;
 
   /// List of countries to display
-  final List<Country> countries;
+  final List<LocalizedCountry> countries;
   final double flagSize;
 
   /// list of favorite countries to display at the top
-  final List<Country> favorites;
+  final List<LocalizedCountry> favorites;
 
   /// proxy to the ListView.builder controller (ie: [ScrollView.controller])
   final ScrollController? scrollController;
@@ -26,13 +26,13 @@ class CountryList extends StatelessWidget {
 
   final String? noResultMessage;
 
-  late final List<Country?> _allListElement;
+  late final List<LocalizedCountry?> _allListElement;
 
   final TextStyle? subtitleStyle;
   final TextStyle? titleStyle;
   final FlagCache? flagCache;
 
-  CountryList({
+  CountryListView({
     super.key,
     required this.countries,
     required this.favorites,
@@ -95,7 +95,7 @@ class CountryList extends StatelessWidget {
               ? Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    country.displayCountryCode,
+                    country.formattedCountryDialingCode,
                     textDirection: TextDirection.ltr,
                     textAlign: TextAlign.start,
                     style: subtitleStyle,

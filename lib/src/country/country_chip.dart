@@ -2,10 +2,10 @@ import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import 'country_selector/country.dart';
+import 'localized_country.dart';
 
-class CountryCodeChip extends StatelessWidget {
-  final Country country;
+class CountryChip extends StatelessWidget {
+  final IsoCode isoCode;
   final bool showFlag;
   final bool showDialCode;
   final TextStyle textStyle;
@@ -15,9 +15,9 @@ class CountryCodeChip extends StatelessWidget {
   final bool showIsoCode;
   final bool enabled;
 
-  CountryCodeChip({
+  const CountryChip({
     super.key,
-    required IsoCode isoCode,
+    required this.isoCode,
     this.textStyle = const TextStyle(),
     this.showFlag = true,
     this.showDialCode = true,
@@ -26,10 +26,11 @@ class CountryCodeChip extends StatelessWidget {
     this.textDirection,
     this.showIsoCode = false,
     this.enabled = true,
-  }) : country = Country(isoCode, '');
+  });
 
   @override
   Widget build(BuildContext context) {
+    final country = LocalizedCountry.fromContext(context, isoCode);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -51,7 +52,7 @@ class CountryCodeChip extends StatelessWidget {
         ],
         if (showDialCode)
           Text(
-            country.displayCountryCode,
+            country.formattedCountryDialingCode,
             style: textStyle.copyWith(
               color: enabled ? null : Theme.of(context).disabledColor,
             ),

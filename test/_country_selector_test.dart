@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/widgets/country_selector/search_box.dart';
+import 'package:phone_form_field/src/country_selection/search_box.dart';
 
 void main() {
   group('CountrySelector', () {

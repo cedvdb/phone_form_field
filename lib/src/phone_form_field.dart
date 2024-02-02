@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import '../constants/patterns.dart';
-import '../controllers/phone_controller.dart';
-import '../controllers/phone_field_controller.dart';
-import '../validation/phone_validator.dart';
-import '../validation/validator_translator.dart';
-import 'country_selector/country_selector_navigator.dart';
+import 'validation/allowed_characters.dart';
+import 'phone_controller.dart';
+import 'phone_field_controller.dart';
+import 'validation/phone_validator.dart';
+import 'validation/validator_translator.dart';
+import 'country_selection/country_selector_navigator.dart';
 import 'phone_field.dart';
 
 part 'phone_form_field_state.dart';
@@ -114,7 +114,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.defaultCountry = IsoCode.US,
     InputDecoration decoration =
         const InputDecoration(border: UnderlineInputBorder()),
-    AutovalidateMode super.autovalidateMode = AutovalidateMode.onUserInteraction,
+    AutovalidateMode super.autovalidateMode =
+        AutovalidateMode.onUserInteraction,
     PhoneNumber? initialValue,
     double flagSize = 16,
     PhoneNumberInputValidator? validator,

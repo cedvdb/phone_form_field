@@ -3,14 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization_en.dart';
-import 'package:phone_form_field/src/widgets/country_selector/localized_country_registry.dart';
+import 'package:phone_form_field/src/country_selection/localized_country_registry.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'country_finder.dart';
-import 'country.dart';
-import 'country_list.dart';
+import '../country/localized_country.dart';
+import 'country_list_view.dart';
 
-class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
+class CountrySelectorSearchDelegate extends SearchDelegate<LocalizedCountry> {
   late CountryFinder _countryFinder;
   late CountryFinder _favoriteCountryFinder;
 
@@ -20,7 +20,7 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
   final List<IsoCode> countriesIso;
 
   /// Callback triggered when user select a country
-  final ValueChanged<Country> onCountrySelected;
+  final ValueChanged<LocalizedCountry> onCountrySelected;
 
   /// ListView.builder scroll controller (ie: [ScrollView.controller])
   final ScrollController? scrollController;
@@ -48,8 +48,6 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
   final bool searchAutofocus;
   final double flagSize;
 
-  LocalizedCountryRegistry? _localizedCountryRegistry;
-
   /// Override default title TextStyle
   final TextStyle? titleStyle;
 
@@ -71,13 +69,13 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
     this.showCountryCode = false,
     this.noResultMessage,
     List<IsoCode> favoriteCountries = const [],
-    List<IsoCode>? countries,
+    List<IsoCode> countries = IsoCode.values,
     this.searchAutofocus = kIsWeb,
     this.flagSize = 40,
     this.titleStyle,
     this.subtitleStyle,
     this.customAppBarTheme,
-  })  : countriesIso = countries ?? IsoCode.values,
+  })  : countriesIso = countries,
         favoriteCountriesIso = favoriteCountries;
 
   @override
@@ -93,12 +91,7 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
   void _initIfRequired(BuildContext context) {
     final localization =
         PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
-    final countryRegistry = LocalizedCountryRegistry.cached(localization);
-    // if localization has not changed no need to do anything
-    if (countryRegistry == _localizedCountryRegistry) {
-      return;
-    }
-    _localizedCountryRegistry = countryRegistry;
+
     final notFavoriteCountries = countryRegistry.whereIsoIn(
       countriesIso,
       omit: favoriteCountriesIso,
@@ -109,8 +102,8 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
   }
 
   void _updateList() {
-    _countryFinder.filter(query);
-    _favoriteCountryFinder.filter(query);
+    _countryFinder.whereText(text: query, countries: );
+    _favoriteCountryFinder.whereText(query);
   }
 
   @override
@@ -125,7 +118,7 @@ class CountrySelectorSearchDelegate extends SearchDelegate<Country> {
     _initIfRequired(context);
     _updateList();
 
-    return CountryList(
+    return CountryListView(
       favorites: _favoriteCountryFinder.filteredCountries,
       countries: _countryFinder.filteredCountries,
       showDialCode: showCountryCode,
