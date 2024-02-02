@@ -2,7 +2,6 @@
 
 import 'package:diacritic/diacritic.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/validation/allowed_characters.dart';
 
 class CountryFinder {
   List<LocalizedCountry> whereText({
@@ -10,7 +9,7 @@ class CountryFinder {
     required List<LocalizedCountry> countries,
   }) {
     // remove + if search text starts with +
-    if (text.startsWith(AllowedCharacters.plus)) {
+    if (text.startsWith('+')) {
       text = text.substring(1);
     }
     // reset search
