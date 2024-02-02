@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'phone_field_localization_ar.dart';
+import 'phone_field_localization_ckb.dart';
 import 'phone_field_localization_de.dart';
 import 'phone_field_localization_el.dart';
 import 'phone_field_localization_en.dart';
@@ -14,6 +15,7 @@ import 'phone_field_localization_fa.dart';
 import 'phone_field_localization_fr.dart';
 import 'phone_field_localization_hi.dart';
 import 'phone_field_localization_it.dart';
+import 'phone_field_localization_ku.dart';
 import 'phone_field_localization_nb.dart';
 import 'phone_field_localization_nl.dart';
 import 'phone_field_localization_pt.dart';
@@ -106,6 +108,7 @@ abstract class PhoneFieldLocalization {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
+    Locale('ckb'),
     Locale('de'),
     Locale('el'),
     Locale('en'),
@@ -114,6 +117,7 @@ abstract class PhoneFieldLocalization {
     Locale('fr'),
     Locale('hi'),
     Locale('it'),
+    Locale('ku'),
     Locale('nb'),
     Locale('nl'),
     Locale('pt'),
@@ -160,6 +164,12 @@ abstract class PhoneFieldLocalization {
   /// In en, this message translates to:
   /// **'No result'**
   String get noResultMessage;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
 
   /// No description provided for @ac_.
   ///
@@ -1629,7 +1639,7 @@ class _PhoneFieldLocalizationDelegate extends LocalizationsDelegate<PhoneFieldLo
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['ar', 'de', 'el', 'en', 'es', 'fa', 'fr', 'hi', 'it', 'nb', 'nl', 'pt', 'ru', 'sv', 'tr', 'uk', 'uz', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'ckb', 'de', 'el', 'en', 'es', 'fa', 'fr', 'hi', 'it', 'ku', 'nb', 'nl', 'pt', 'ru', 'sv', 'tr', 'uk', 'uz', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_PhoneFieldLocalizationDelegate old) => false;
@@ -1641,6 +1651,7 @@ PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'ar': return PhoneFieldLocalizationAr();
+    case 'ckb': return PhoneFieldLocalizationCkb();
     case 'de': return PhoneFieldLocalizationDe();
     case 'el': return PhoneFieldLocalizationEl();
     case 'en': return PhoneFieldLocalizationEn();
@@ -1649,6 +1660,7 @@ PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
     case 'fr': return PhoneFieldLocalizationFr();
     case 'hi': return PhoneFieldLocalizationHi();
     case 'it': return PhoneFieldLocalizationIt();
+    case 'ku': return PhoneFieldLocalizationKu();
     case 'nb': return PhoneFieldLocalizationNb();
     case 'nl': return PhoneFieldLocalizationNl();
     case 'pt': return PhoneFieldLocalizationPt();

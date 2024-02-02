@@ -23,6 +23,9 @@ class PhoneFieldLocalizationFa extends PhoneFieldLocalization {
   String get noResultMessage => 'بدون نتیجه';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get ac_ => 'جزیره اسنشن';
 
   @override

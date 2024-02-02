@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 
 class SearchBox extends StatefulWidget {
   final Function(String) onChanged;
@@ -47,32 +48,27 @@ class _SearchBoxState extends State<SearchBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-      child: TextField(
-        autofocus: widget.autofocus,
-        onChanged: handleChange,
-        onSubmitted: (_) => widget.onSubmitted(),
-        cursorColor: widget.style?.color,
-        style: widget.style,
-        autofillHints: const [AutofillHints.countryName],
-        decoration: widget.decoration ??
-            InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: widget.searchIconColor ??
-                    (Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white54
-                        : Colors.black38),
-              ),
-              filled: true,
-              isDense: true,
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(20),
-              ),
+    return TextField(
+      autofocus: widget.autofocus,
+      onChanged: handleChange,
+      onSubmitted: (_) => widget.onSubmitted(),
+      cursorColor: widget.style?.color,
+      style: widget.style ?? Theme.of(context).textTheme.titleLarge,
+      autofillHints: const [AutofillHints.countryName],
+      decoration: widget.decoration ??
+          InputDecoration(
+            prefixIcon: const Icon(
+              Icons.search,
+              size: 24,
             ),
-      ),
+            filled: true,
+            isDense: true,
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            hintText: PhoneFieldLocalization.of(context)?.search,
+          ),
     );
   }
 }

@@ -23,6 +23,9 @@ class PhoneFieldLocalizationHi extends PhoneFieldLocalization {
   String get noResultMessage => 'कोई परिणाम नही';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get ac_ => 'असेंशन द्वीप';
 
   @override

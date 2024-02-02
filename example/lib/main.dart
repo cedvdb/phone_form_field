@@ -106,7 +106,7 @@ class MyApp extends StatelessWidget {
       ],
       title: 'Phone field demo',
       theme: ThemeData(
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         primarySwatch: Colors.blue,
       ),
       home: const PhoneFormFieldScreen(),
@@ -130,7 +130,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool withLabel = true;
   bool useRtl = false;
   CountrySelectorNavigator selectorNavigator =
-      const CountrySelectorNavigator.searchDelegate();
+      const CountrySelectorNavigator.page();
   final formKey = GlobalKey<FormState>();
   final phoneKey = GlobalKey<FormFieldState<PhoneNumber>>();
 
@@ -150,7 +150,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // drawer: AppDrawer(),
       appBar: AppBar(
         title: const Text('Phone_form_field'),
       ),
@@ -221,19 +220,17 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                               ),
                               DropdownMenuItem(
                                 value:
-                                    CountrySelectorNavigator.modalBottomSheet(
-                                  favorites: [IsoCode.US, IsoCode.BE],
-                                ),
+                                    CountrySelectorNavigator.modalBottomSheet(),
                                 child: Text('Modal sheet'),
                               ),
                               DropdownMenuItem(
-                                value:
-                                    CountrySelectorNavigator.dialog(width: 720),
+                                value: CountrySelectorNavigator.dialog(
+                                  width: 720,
+                                ),
                                 child: Text('Dialog'),
                               ),
                               DropdownMenuItem(
-                                value:
-                                    CountrySelectorNavigator.searchDelegate(),
+                                value: CountrySelectorNavigator.page(),
                                 child: Text('Page'),
                               ),
                             ],

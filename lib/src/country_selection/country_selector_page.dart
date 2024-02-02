@@ -3,21 +3,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
 import 'package:phone_form_field/l10n/generated/phone_field_localization_en.dart';
-import 'package:phone_form_field/src/country_selection/localized_country_registry.dart';
+import 'package:phone_form_field/src/country_selection/country_selector_controller.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import 'country_finder.dart';
 import '../country/localized_country.dart';
 import 'country_list_view.dart';
+import 'search_box.dart';
 
-class CountrySelectorSearchDelegate extends SearchDelegate<LocalizedCountry> {
-  late CountryFinder _countryFinder;
-  late CountryFinder _favoriteCountryFinder;
-
+class CountrySelectorPage extends StatefulWidget {
   /// List of countries to display in the selector
   /// Value optional in constructor.
   /// when omitted, the full country list is displayed
-  final List<IsoCode> countriesIso;
+  final List<IsoCode> countries;
+
+  /// Determine the countries to be displayed on top of the list
+  /// Check [addFavoritesSeparator] property to enable/disable adding a
+  /// list divider between favorites and others defaults countries
+  final List<IsoCode> favoriteCountries;
 
   /// Callback triggered when user select a country
   final ValueChanged<LocalizedCountry> onCountrySelected;
@@ -27,11 +29,6 @@ class CountrySelectorSearchDelegate extends SearchDelegate<LocalizedCountry> {
 
   /// The [ScrollPhysics] of the Country List
   final ScrollPhysics? scrollPhysics;
-
-  /// Determine the countries to be displayed on top of the list
-  /// Check [addFavoritesSeparator] property to enable/disable adding a
-  /// list divider between favorites and others defaults countries
-  final List<IsoCode> favoriteCountriesIso;
 
   /// Whether to add a list divider between favorites & defaults
   /// countries.
@@ -46,21 +43,26 @@ class CountrySelectorSearchDelegate extends SearchDelegate<LocalizedCountry> {
 
   /// whether the search input is auto focussed
   final bool searchAutofocus;
-  final double flagSize;
 
-  /// Override default title TextStyle
-  final TextStyle? titleStyle;
-
-  /// Override default subtitle TextStyle
+  /// The [TextStyle] of the country subtitle
   final TextStyle? subtitleStyle;
 
-  final FlagCache? flagCache;
+  /// The [TextStyle] of the country title
+  final TextStyle? titleStyle;
 
-  /// Override default app bar theme
-  final ThemeData? customAppBarTheme;
+  /// The [InputDecoration] of the Search Box
+  final InputDecoration? searchBoxDecoration;
 
-  CountrySelectorSearchDelegate({
-    Key? key,
+  /// The [TextStyle] of the Search Box
+  final TextStyle? searchBoxTextStyle;
+
+  /// The [Color] of the Search Icon in the Search Box
+  final Color? searchBoxIconColor;
+  final double flagSize;
+  final FlagCache flagCache;
+
+  const CountrySelectorPage({
+    super.key,
     required this.onCountrySelected,
     required this.flagCache,
     this.scrollController,
@@ -68,78 +70,86 @@ class CountrySelectorSearchDelegate extends SearchDelegate<LocalizedCountry> {
     this.addFavoritesSeparator = true,
     this.showCountryCode = false,
     this.noResultMessage,
-    List<IsoCode> favoriteCountries = const [],
-    List<IsoCode> countries = IsoCode.values,
+    this.favoriteCountries = const [],
+    this.countries = IsoCode.values,
     this.searchAutofocus = kIsWeb,
-    this.flagSize = 40,
-    this.titleStyle,
     this.subtitleStyle,
-    this.customAppBarTheme,
-  })  : countriesIso = countries,
-        favoriteCountriesIso = favoriteCountries;
+    this.titleStyle,
+    this.searchBoxDecoration,
+    this.searchBoxTextStyle,
+    this.searchBoxIconColor,
+    this.flagSize = 40,
+  });
 
   @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        onPressed: () => query = '',
-        icon: const Icon(Icons.clear),
+  CountrySelectorPageState createState() => CountrySelectorPageState();
+}
+
+class CountrySelectorPageState extends State<CountrySelectorPage> {
+  late final CountrySelectorController _controller;
+  String searchText = '';
+
+  @override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    _controller = CountrySelectorController(
+      context,
+      widget.countries,
+      widget.favoriteCountries,
+    );
+    // language might have changed
+    _controller.search(searchText);
+  }
+
+  _onSearch(String searchedText) {
+    _controller.search(searchedText);
+  }
+
+  onSubmitted() {
+    final first = _controller.findFirst();
+    if (first != null) {
+      widget.onCountrySelected(first);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 2,
+        shadowColor: Theme.of(context).colorScheme.shadow,
+        title: SearchBox(
+          autofocus: widget.searchAutofocus,
+          onChanged: _onSearch,
+          onSubmitted: onSubmitted,
+          decoration: widget.searchBoxDecoration ??
+              InputDecoration(
+                border: InputBorder.none,
+                hintText: PhoneFieldLocalization.of(context)?.search ??
+                    PhoneFieldLocalizationEn().search,
+              ),
+          style: widget.searchBoxTextStyle,
+          searchIconColor: widget.searchBoxIconColor,
+        ),
       ),
-    ];
-  }
-
-  void _initIfRequired(BuildContext context) {
-    final localization =
-        PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
-
-    final notFavoriteCountries = countryRegistry.whereIsoIn(
-      countriesIso,
-      omit: favoriteCountriesIso,
+      body: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
+          return CountryListView(
+            countries: _controller.filteredCountries,
+            favorites: _controller.filteredFavorites,
+            showDialCode: widget.showCountryCode,
+            onTap: widget.onCountrySelected,
+            flagSize: widget.flagSize,
+            scrollController: widget.scrollController,
+            scrollPhysics: widget.scrollPhysics,
+            noResultMessage: widget.noResultMessage,
+            titleStyle: widget.titleStyle,
+            subtitleStyle: widget.subtitleStyle,
+            flagCache: widget.flagCache,
+          );
+        },
+      ),
     );
-    final favoriteCountries = countryRegistry.whereIsoIn(favoriteCountriesIso);
-    _countryFinder = CountryFinder(notFavoriteCountries);
-    _favoriteCountryFinder = CountryFinder(favoriteCountries, sort: false);
-  }
-
-  void _updateList() {
-    _countryFinder.whereText(text: query, countries: );
-    _favoriteCountryFinder.whereText(query);
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return BackButton(
-      onPressed: () => Navigator.of(context).pop(),
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    _initIfRequired(context);
-    _updateList();
-
-    return CountryListView(
-      favorites: _favoriteCountryFinder.filteredCountries,
-      countries: _countryFinder.filteredCountries,
-      showDialCode: showCountryCode,
-      onTap: onCountrySelected,
-      flagSize: flagSize,
-      scrollController: scrollController,
-      scrollPhysics: scrollPhysics,
-      noResultMessage: noResultMessage,
-      titleStyle: titleStyle,
-      subtitleStyle: subtitleStyle,
-      flagCache: flagCache,
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return buildSuggestions(context);
-  }
-
-  @override
-  ThemeData appBarTheme(BuildContext context) {
-    return customAppBarTheme ?? super.appBarTheme(context);
   }
 }

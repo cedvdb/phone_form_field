@@ -23,6 +23,9 @@ class PhoneFieldLocalizationRu extends PhoneFieldLocalization {
   String get noResultMessage => 'Безрезультатно';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get ac_ => 'Остров Вознесения';
 
   @override

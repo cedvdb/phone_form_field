@@ -23,6 +23,9 @@ class PhoneFieldLocalizationAr extends PhoneFieldLocalization {
   String get noResultMessage => 'لا نتيجة';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get ac_ => 'جزيرة أسنسيون';
 
   @override

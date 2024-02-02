@@ -23,6 +23,9 @@ class PhoneFieldLocalizationZh extends PhoneFieldLocalization {
   String get noResultMessage => '没有结果';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get ac_ => '阿森松岛';
 
   @override

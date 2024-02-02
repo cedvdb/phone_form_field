@@ -1,13 +1,10 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization_en.dart';
-import 'package:phone_form_field/src/country/localize_country.dart';
+import 'package:phone_form_field/src/country_selection/country_selector_controller.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import '../country/localized_country.dart';
-import 'country_finder.dart';
 import 'country_list_view.dart';
 import 'search_box.dart';
 
@@ -87,47 +84,30 @@ class CountrySelector extends StatefulWidget {
 }
 
 class CountrySelectorState extends State<CountrySelector> {
-  final countryFinder = CountryFinder();
-  List<LocalizedCountry> _localizedCountries = [];
-  List<LocalizedCountry> _filteredLocalizedCountries = [];
-  List<LocalizedCountry> _favoriteLocalizedCountries = [];
-  List<LocalizedCountry> _filteredFavoriteLocalizedCountries = [];
+  late final CountrySelectorController _controller;
+  String _searchedText = '';
 
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
-    _localizedCountries = _buildLocalizedCountryList(context, widget.countries);
-    _favoriteLocalizedCountries =
-        _buildLocalizedCountryList(context, widget.favoriteCountries);
-    _filteredLocalizedCountries = _localizedCountries;
-  }
-
-  _buildLocalizedCountryList(BuildContext context, List<IsoCode> isoCodes) {
-    final localization =
-        PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
-    return isoCodes
-        .map((isoCode) =>
-            LocalizedCountry(isoCode, localization.countryName(isoCode)))
-        .toList();
+    _controller = CountrySelectorController(
+      context,
+      widget.countries,
+      widget.favoriteCountries,
+    );
+    // language might have changed
+    _controller.search(_searchedText);
   }
 
   _onSearch(String searchedText) {
-    _filteredLocalizedCountries = countryFinder.whereText(
-      text: searchedText,
-      countries: _localizedCountries,
-    );
-    _filteredFavoriteLocalizedCountries = countryFinder.whereText(
-      text: searchedText,
-      countries: _favoriteLocalizedCountries,
-    );
-    setState(() {});
+    _searchedText = searchedText;
+    _controller.search(searchedText);
   }
 
   onSubmitted() {
-    if (_filteredFavoriteLocalizedCountries.isNotEmpty) {
-      widget.onCountrySelected(_filteredFavoriteLocalizedCountries.first);
-    } else if (_filteredLocalizedCountries.isNotEmpty) {
-      widget.onCountrySelected(_filteredLocalizedCountries.first);
+    final first = _controller.findFirst();
+    if (first != null) {
+      widget.onCountrySelected(first);
     }
   }
 
@@ -147,30 +127,38 @@ class CountrySelectorState extends State<CountrySelector> {
         SizedBox(
           height: 70,
           width: double.infinity,
-          child: SearchBox(
-            autofocus: widget.searchAutofocus,
-            onChanged: _onSearch,
-            onSubmitted: onSubmitted,
-            decoration: widget.searchBoxDecoration,
-            style: widget.searchBoxTextStyle,
-            searchIconColor: widget.searchBoxIconColor,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: SearchBox(
+              autofocus: widget.searchAutofocus,
+              onChanged: _onSearch,
+              onSubmitted: onSubmitted,
+              decoration: widget.searchBoxDecoration,
+              style: widget.searchBoxTextStyle,
+              searchIconColor: widget.searchBoxIconColor,
+            ),
           ),
         ),
         const SizedBox(height: 16),
         const Divider(height: 0, thickness: 1.2),
         Flexible(
-          child: CountryListView(
-            favorites: _filteredFavoriteLocalizedCountries,
-            countries: _filteredLocalizedCountries,
-            showDialCode: widget.showCountryCode,
-            onTap: widget.onCountrySelected,
-            flagSize: widget.flagSize,
-            scrollController: widget.scrollController,
-            scrollPhysics: widget.scrollPhysics,
-            noResultMessage: widget.noResultMessage,
-            titleStyle: widget.titleStyle,
-            subtitleStyle: widget.subtitleStyle,
-            flagCache: widget.flagCache,
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, _) {
+              return CountryListView(
+                countries: _controller.filteredCountries,
+                favorites: _controller.filteredFavorites,
+                showDialCode: widget.showCountryCode,
+                onTap: widget.onCountrySelected,
+                flagSize: widget.flagSize,
+                scrollController: widget.scrollController,
+                scrollPhysics: widget.scrollPhysics,
+                noResultMessage: widget.noResultMessage,
+                titleStyle: widget.titleStyle,
+                subtitleStyle: widget.subtitleStyle,
+                flagCache: widget.flagCache,
+              );
+            },
           ),
         ),
       ],

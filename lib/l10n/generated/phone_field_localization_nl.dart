@@ -23,6 +23,9 @@ class PhoneFieldLocalizationNl extends PhoneFieldLocalization {
   String get noResultMessage => 'Geen resultaat';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get ac_ => 'Hemelvaart Eiland';
 
   @override

@@ -11,7 +11,6 @@ export 'l10n/generated/phone_field_localization.dart';
 
 export 'src/phone_controller.dart';
 export 'src/country/localized_country.dart';
-export 'src/country_selection/localized_country_registry.dart';
 
 export 'package:phone_numbers_parser/phone_numbers_parser.dart'
     show PhoneNumber, PhoneNumberType, IsoCode;

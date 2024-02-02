@@ -23,6 +23,9 @@ class PhoneFieldLocalizationTr extends PhoneFieldLocalization {
   String get noResultMessage => 'Sonuç yok';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get ac_ => 'Yükselme adası';
 
   @override

@@ -84,7 +84,7 @@ abstract class CountrySelectorNavigator {
     ScrollPhysics? scrollPhysics,
   }) = DialogNavigator._;
 
-  const factory CountrySelectorNavigator.searchDelegate({
+  const factory CountrySelectorNavigator.page({
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
     bool addSeparator,
@@ -99,7 +99,7 @@ abstract class CountrySelectorNavigator {
     Color? searchBoxIconColor,
     ScrollPhysics? scrollPhysics,
     ThemeData? appBarTheme,
-  }) = SearchDelegateNavigator._;
+  }) = PageNavigator._;
 
   const factory CountrySelectorNavigator.bottomSheet({
     List<IsoCode>? countries,
@@ -198,8 +198,8 @@ class DialogNavigator extends CountrySelectorNavigator {
   }
 }
 
-class SearchDelegateNavigator extends CountrySelectorNavigator {
-  const SearchDelegateNavigator._({
+class PageNavigator extends CountrySelectorNavigator {
+  const PageNavigator._({
     super.countries,
     super.favorites,
     super.addSeparator,
@@ -218,12 +218,12 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
 
   final ThemeData? appBarTheme;
 
-  CountrySelectorSearchDelegate _getCountrySelectorSearchDelegate({
+  CountrySelectorPage _getCountrySelectorPage({
     required ValueChanged<LocalizedCountry> onCountrySelected,
     required FlagCache flagCache,
     ScrollController? scrollController,
   }) {
-    return CountrySelectorSearchDelegate(
+    return CountrySelectorPage(
       onCountrySelected: onCountrySelected,
       scrollController: scrollController,
       addFavoritesSeparator: addSeparator,
@@ -235,18 +235,20 @@ class SearchDelegateNavigator extends CountrySelectorNavigator {
       titleStyle: titleStyle,
       subtitleStyle: subtitleStyle,
       flagCache: flagCache,
-      customAppBarTheme: appBarTheme,
     );
   }
 
   @override
   Future<LocalizedCountry?> navigate(
-      BuildContext context, FlagCache flagCache) {
-    return showSearch(
-      context: context,
-      delegate: _getCountrySelectorSearchDelegate(
-        onCountrySelected: (country) => Navigator.pop(context, country),
-        flagCache: flagCache,
+    BuildContext context,
+    FlagCache flagCache,
+  ) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => _getCountrySelectorPage(
+          onCountrySelected: (country) => Navigator.pop(context, country),
+          flagCache: flagCache,
+        ),
       ),
     );
   }

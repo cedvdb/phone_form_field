@@ -23,6 +23,9 @@ class PhoneFieldLocalizationUz extends PhoneFieldLocalization {
   String get noResultMessage => 'Ma\'lumot topilmadi';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get ac_ => 'Ascension Island';
 
   @override

@@ -23,6 +23,9 @@ class PhoneFieldLocalizationPt extends PhoneFieldLocalization {
   String get noResultMessage => 'Sem resultado';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get ac_ => 'Ilha da Ascensão';
 
   @override
