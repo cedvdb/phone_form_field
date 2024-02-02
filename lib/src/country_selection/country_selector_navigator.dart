@@ -273,7 +273,9 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
 
   @override
   Future<LocalizedCountry?> navigate(
-      BuildContext context, FlagCache flagCache) {
+    BuildContext context,
+    FlagCache flagCache,
+  ) {
     LocalizedCountry? selected;
     final ctrl = showBottomSheet(
       context: context,

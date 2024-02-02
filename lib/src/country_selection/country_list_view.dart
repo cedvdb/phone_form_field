@@ -1,8 +1,9 @@
 import 'package:circle_flags/circle_flags.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../l10n/generated/phone_field_localization.dart';
 import '../country/localized_country.dart';
+import 'no_result_view.dart';
 
 class CountryListView extends StatelessWidget {
   /// Callback function triggered when user select a country
@@ -46,24 +47,21 @@ class CountryListView extends StatelessWidget {
     this.subtitleStyle,
     this.titleStyle,
   }) {
-    _allListElement = [
-      ...favorites,
-      if (favorites.isNotEmpty) null, // delimiter
-      ...countries,
-    ];
+    if (listEquals(countries, favorites)) {
+      _allListElement = countries;
+    } else {
+      _allListElement = [
+        ...favorites,
+        if (favorites.isNotEmpty) null, // delimiter
+        ...countries,
+      ];
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     if (_allListElement.isEmpty) {
-      return Center(
-        child: Text(
-          noResultMessage ??
-              PhoneFieldLocalization.of(context)?.noResultMessage ??
-              'No result found',
-          key: const ValueKey('no-result'),
-        ),
-      );
+      return NoResultView(title: noResultMessage);
     }
     return ListView.builder(
       physics: scrollPhysics,

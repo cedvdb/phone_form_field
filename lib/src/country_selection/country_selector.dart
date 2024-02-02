@@ -8,6 +8,8 @@ import '../country/localized_country.dart';
 import 'country_list_view.dart';
 import 'search_box.dart';
 
+/// Displays a country selector with a search box at the top
+/// and a list of countries underneath.
 class CountrySelector extends StatefulWidget {
   /// List of countries to display in the selector
   /// Value optional in constructor.

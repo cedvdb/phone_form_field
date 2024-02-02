@@ -1,3 +1,12 @@
+## [9.0.0]
+- Various fixes for country selection UX
+- Improve accessibility 
+- [Breaking] : `SearchDelegateNavigator` changed into 
+`PageNavigator`.
+- [Breaking] : `LocalizedCountryRegistry` removed. If you were using it to localize a country name, you should use `PhoneFieldLocalization.of(context).countryName(isoCode)`.
+- Internal refactor in the hope of making contributions easier
+
+
 ## [8.1.1]
 - Upgraded phone_numbers_parser lib to 8.1.0
 - Added norwegian language (PR #203) thanks @sidlatau

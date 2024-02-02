@@ -31,19 +31,14 @@ class _SearchBoxState extends State<SearchBox> {
     super.initState();
   }
 
-  void handleChange(e) {
-    widget.onChanged(e);
+  void handleChange(text) {
+    widget.onChanged(text);
 
-    // detect length difference
-    final diff = e.length - _previousValue.length;
-    if (diff > 3) {
-      // more than 3 characters added, probably a paste / autofill of country name
+    final isAutofill = text.length > 3 && _previousValue == '';
+    if (isAutofill) {
       widget.onSubmitted();
     }
-
-    setState(() {
-      _previousValue = e;
-    });
+    _previousValue = text;
   }
 
   @override
