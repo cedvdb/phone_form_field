@@ -14,7 +14,8 @@ part 'phone_field_state.dart';
 ///
 /// This deals with mostly UI and has no dependency on any phone parser library
 class PhoneField extends StatefulWidget {
-  final PhoneFieldController controller;
+  final FocusNode focusNode;
+  final PhoneController controller;
   final bool showFlagInInput;
   final bool showIsoCodeInInput;
   final bool showDialCode;
@@ -72,6 +73,7 @@ class PhoneField extends StatefulWidget {
     // form field params
     super.key,
     required this.controller,
+    required this.focusNode,
     required this.showFlagInInput,
     required this.selectorNavigator,
     required this.flagSize,

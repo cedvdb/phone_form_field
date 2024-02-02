@@ -1,17 +1,14 @@
-import 'dart:async';
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import 'validation/allowed_characters.dart';
-import 'phone_controller.dart';
+import 'country_selection/country_selector_navigator.dart';
+import 'phone_field.dart';
 import 'phone_field_controller.dart';
 import 'validation/phone_validator.dart';
 import 'validation/validator_translator.dart';
-import 'country_selection/country_selector_navigator.dart';
-import 'phone_field.dart';
 
 part 'phone_form_field_state.dart';
 
@@ -172,7 +169,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
           builder: (state) {
             final field = state as PhoneFormFieldState;
             return PhoneField(
-              controller: field._childController,
+              controller: field.controller,
+              focusNode: field.focusNode,
               showFlagInInput: showFlagInInput,
               showIsoCodeInInput: showIsoCodeInInput,
               selectorNavigator: countrySelectorNavigator,

@@ -1,13 +1,14 @@
 part of 'phone_field.dart';
 
 class PhoneFieldState extends State<PhoneField> {
-  PhoneFieldController get controller => widget.controller;
+  PhoneController get controller => widget.controller;
+  FocusNode get focusNode => widget.focusNode;
+
   final _flagCache = FlagCache();
   PhoneFieldState();
 
   @override
   void initState() {
-    controller.focusNode.addListener(onFocusChange);
     _preloadFlagsInMemory();
     super.initState();
   }
@@ -20,12 +21,6 @@ class PhoneFieldState extends State<PhoneField> {
     setState(() {});
   }
 
-  @override
-  void dispose() {
-    controller.focusNode.removeListener(onFocusChange);
-    super.dispose();
-  }
-
   void selectCountry() async {
     if (!widget.isCountrySelectionEnabled) {
       return;
@@ -34,9 +29,9 @@ class PhoneFieldState extends State<PhoneField> {
     final selected =
         await widget.selectorNavigator.navigate(context, _flagCache);
     if (selected != null) {
-      controller.isoCode = selected.isoCode;
+      controller.changeCountry(selected.isoCode);
     }
-    controller.focusNode.requestFocus();
+    focusNode.requestFocus();
     SystemChannels.textInput.invokeMethod('TextInput.show');
   }
 
@@ -61,15 +56,15 @@ class PhoneFieldState extends State<PhoneField> {
     return MouseRegion(
       cursor: SystemMouseCursors.text,
       child: GestureDetector(
-        onTap: controller.focusNode.requestFocus,
+        onTap: focusNode.requestFocus,
         // absorb pointer when the country chip is not shown, else flutter
         // still allows the country chip to be clicked even though it is not shown
         child: InputDecorator(
           decoration: _getOutterInputDecoration(),
-          isFocused: controller.focusNode.hasFocus,
+          isFocused: focusNode.hasFocus,
           isEmpty: _isEffectivelyEmpty(),
           child: TextField(
-            focusNode: controller.focusNode,
+            focusNode: focusNode,
             controller: controller.nationalNumberController,
             enabled: widget.enabled,
             decoration: _getInnerInputDecoration(),
@@ -136,7 +131,7 @@ class PhoneFieldState extends State<PhoneField> {
                   : const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
               child: CountryChip(
                 key: const ValueKey('country-code-chip'),
-                isoCode: controller.isoCode,
+                isoCode: controller.value.isoCode,
                 showFlag: widget.showFlagInInput,
                 showIsoCode: widget.showIsoCodeInInput,
                 showDialCode: widget.showDialCode,

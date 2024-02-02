@@ -157,7 +157,7 @@ void main() {
       });
 
       testWidgets('Should change value of controller', (tester) async {
-        final controller = PhoneController(null);
+        final controller = PhoneController();
         PhoneNumber? newValue;
         controller.addListener(() {
           newValue = controller.value;
@@ -181,7 +181,7 @@ void main() {
 
       testWidgets('Should change value of input when controller changes',
           (tester) async {
-        final controller = PhoneController(null);
+        final controller = PhoneController();
         // ignore: unused_local_variable
         PhoneNumber? newValue;
         controller.addListener(() {
@@ -198,7 +198,7 @@ void main() {
       testWidgets(
           'Should change value of country code chip when full number copy pasted',
           (tester) async {
-        final controller = PhoneController(null);
+        final controller = PhoneController();
         // ignore: unused_local_variable
         PhoneNumber? newValue;
         controller.addListener(() {
@@ -211,8 +211,8 @@ void main() {
         // non digits should not work
         await tester.enterText(phoneField, '+33 0488 99 77 22');
         await tester.pump();
-        expect(controller.value?.isoCode, equals(IsoCode.FR));
-        expect(controller.value?.nsn, equals('488997722'));
+        expect(controller.value.isoCode, equals(IsoCode.FR));
+        expect(controller.value.nsn, equals('488997722'));
       });
 
       testWidgets('Should call onChange', (tester) async {

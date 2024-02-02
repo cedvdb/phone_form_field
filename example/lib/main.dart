@@ -13,6 +13,7 @@ void main() {
 class PhoneFieldView extends StatelessWidget {
   final Key inputKey;
   final PhoneController controller;
+  final FocusNode focusNode;
   final CountrySelectorNavigator selectorNavigator;
   final bool withLabel;
   final bool outlineBorder;
@@ -25,6 +26,7 @@ class PhoneFieldView extends StatelessWidget {
     Key? key,
     required this.inputKey,
     required this.controller,
+    required this.focusNode,
     required this.selectorNavigator,
     required this.withLabel,
     required this.outlineBorder,
@@ -123,6 +125,7 @@ class PhoneFormFieldScreen extends StatefulWidget {
 
 class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   late PhoneController controller;
+  final FocusNode focusNode = FocusNode();
   bool outlineBorder = true;
   bool mobileOnly = true;
   bool shouldFormat = true;
@@ -137,7 +140,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   @override
   initState() {
     super.initState();
-    controller = PhoneController(null);
+    controller = PhoneController();
     controller.addListener(() => setState(() {}));
   }
 
@@ -245,6 +248,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       child: PhoneFieldView(
                         inputKey: phoneKey,
                         controller: controller,
+                        focusNode: focusNode,
                         selectorNavigator: selectorNavigator,
                         withLabel: withLabel,
                         outlineBorder: outlineBorder,
@@ -257,14 +261,12 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     const SizedBox(height: 12),
                     Text(controller.value.toString()),
                     Text('is valid mobile number '
-                        '${controller.value?.isValid(type: PhoneNumberType.mobile) ?? 'false'}'),
+                        '${controller.value.isValid(type: PhoneNumberType.mobile)}'),
                     Text(
-                        'is valid fixed line number ${controller.value?.isValid(type: PhoneNumberType.fixedLine) ?? 'false'}'),
+                        'is valid fixed line number ${controller.value.isValid(type: PhoneNumberType.fixedLine)}'),
                     const SizedBox(height: 12),
                     ElevatedButton(
-                      onPressed: controller.value == null
-                          ? null
-                          : () => controller.reset(),
+                      onPressed: () => controller.reset(),
                       child: const Text('reset'),
                     ),
                     const SizedBox(height: 12),

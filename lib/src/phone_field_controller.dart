@@ -1,50 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+import 'package:phone_form_field/src/validation/allowed_characters.dart';
 
-class PhoneFieldController extends ChangeNotifier {
-  late final ValueNotifier<IsoCode> isoCodeController;
-  late final TextEditingController nationalNumberController;
+class PhoneController extends ChangeNotifier {
+  final bool shouldFormat;
 
   /// focus node of the national number
-  final FocusNode focusNode;
-
-  IsoCode get isoCode => isoCodeController.value;
-  String? get national => nationalNumberController.text;
-
-  set isoCode(IsoCode isoCode) => isoCodeController.value = isoCode;
-
-  set national(String? national) {
-    national = national ?? '';
-    final currentSelectionOffset =
-        nationalNumberController.selection.extentOffset;
-    final isCursorAtEnd =
-        currentSelectionOffset == nationalNumberController.text.length;
-    var offset = national.length;
-
-    if (isCursorAtEnd) {
-      offset = national.length;
-    } else if (currentSelectionOffset <= national.length) {
-      offset = currentSelectionOffset;
-    }
-    // when the cursor is at the end we need to preserve that
-    // since there is formatting going on we need to explicitely do it
-    nationalNumberController.value = TextEditingValue(
-      text: national,
-      selection: TextSelection.fromPosition(
-        TextPosition(offset: offset),
-      ),
-    );
+  // final FocusNode focusNode;
+  final PhoneNumber initialValue;
+  PhoneNumber _value;
+  PhoneNumber get value => _value;
+  set value(PhoneNumber phoneNumber) {
+    _value = phoneNumber;
+    changeCountry(_value.isoCode);
+    changeText(_value.nsn);
   }
 
-  PhoneFieldController({
-    required String? national,
-    required IsoCode isoCode,
-    required this.focusNode,
-  }) {
-    isoCodeController = ValueNotifier(isoCode);
-    nationalNumberController = TextEditingController(text: national);
-    isoCodeController.addListener(notifyListeners);
-    nationalNumberController.addListener(notifyListeners);
+  late final TextEditingController nationalNumberController;
+
+  PhoneController({
+    this.initialValue = const PhoneNumber(isoCode: IsoCode.US, nsn: ''),
+    this.shouldFormat = true,
+  })  : _value = initialValue,
+        nationalNumberController = TextEditingController(
+            text: shouldFormat
+                ? initialValue.getFormattedNsn()
+                : initialValue.nsn);
+
+  reset() {
+    _value = initialValue;
+    notifyListeners();
+  }
+
+  changeCountry(IsoCode isoCode) {
+    _value = PhoneNumber.parse(
+      _value.nsn,
+      destinationCountry: isoCode,
+    );
+    notifyListeners();
+  }
+
+  changeText(String? text) {
+    text = text ?? '';
+    // if starts with + then we parse the whole number
+    // to figure out the country code
+    if (text.startsWith(RegExp('[${AllowedCharacters.plus}]'))) {
+      _value = PhoneNumber.parse(text);
+    } else {
+      _value = PhoneNumber.parse(
+        text,
+        destinationCountry: _value.isoCode,
+      );
+    }
+    nationalNumberController.text =
+        shouldFormat ? _value.getFormattedNsn() : _value.nsn;
+    notifyListeners();
   }
 
   selectNationalNumber() {
@@ -52,12 +62,10 @@ class PhoneFieldController extends ChangeNotifier {
       baseOffset: 0,
       extentOffset: nationalNumberController.value.text.length,
     );
-    focusNode.requestFocus();
   }
 
   @override
   void dispose() {
-    isoCodeController.dispose();
     nationalNumberController.dispose();
     super.dispose();
   }
