@@ -2,7 +2,7 @@ import 'phone_field_localization.dart';
 
 /// The translations for Turkish (`tr`).
 class PhoneFieldLocalizationTr extends PhoneFieldLocalization {
-  PhoneFieldLocalizationTr([super.locale = 'tr']);
+  PhoneFieldLocalizationTr([String locale = 'tr']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Geçersiz telefon numarası';

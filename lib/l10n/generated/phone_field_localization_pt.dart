@@ -2,7 +2,7 @@ import 'phone_field_localization.dart';
 
 /// The translations for Portuguese (`pt`).
 class PhoneFieldLocalizationPt extends PhoneFieldLocalization {
-  PhoneFieldLocalizationPt([super.locale = 'pt']);
+  PhoneFieldLocalizationPt([String locale = 'pt']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Número de telefone inválido';
