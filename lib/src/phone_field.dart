@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/validation/allowed_characters.dart';
 
 import '../../phone_form_field.dart';
-import 'phone_field_controller.dart';
 
 part 'phone_field_state.dart';
 
@@ -19,11 +18,12 @@ class PhoneField extends StatefulWidget {
   final bool showFlagInInput;
   final bool showIsoCodeInInput;
   final bool showDialCode;
+  final bool isCountryChipPersistent;
   final String? errorText;
   final double flagSize;
   final InputDecoration decoration;
   final bool isCountrySelectionEnabled;
-  final bool isCountryChipPersistent;
+  final EdgeInsets? countryButtonPadding;
 
   /// configures the way the country picker selector is shown
   final CountrySelectorNavigator selectorNavigator;
@@ -81,6 +81,7 @@ class PhoneField extends StatefulWidget {
     required this.decoration,
     required this.isCountrySelectionEnabled,
     required this.isCountryChipPersistent,
+    required this.countryButtonPadding,
     // textfield  inputs
     required this.keyboardType,
     required this.textInputAction,

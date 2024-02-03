@@ -3,31 +3,21 @@ part of 'phone_field.dart';
 class PhoneFieldState extends State<PhoneField> {
   PhoneController get controller => widget.controller;
   FocusNode get focusNode => widget.focusNode;
-
-  final _flagCache = FlagCache();
   PhoneFieldState();
 
   @override
   void initState() {
     _preloadFlagsInMemory();
-    focusNode.addListener(_onFocusChange);
     super.initState();
   }
 
   @override
   void dispose() {
-    focusNode.removeListener(_onFocusChange);
     super.dispose();
   }
 
   void _preloadFlagsInMemory() {
-    _flagCache.preload(IsoCode.values.map((isoCode) => isoCode.name));
-  }
-
-  void _onFocusChange() {
-    // call setState when the text input has focus so
-    // the flag is shown when there is a label
-    setState(() {});
+    CircleFlag.preload(IsoCode.values.map((isoCode) => isoCode.name).toList());
   }
 
   void selectCountry() async {
@@ -35,8 +25,7 @@ class PhoneFieldState extends State<PhoneField> {
       return;
     }
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    final selected =
-        await widget.selectorNavigator.navigate(context, _flagCache);
+    final selected = await widget.selectorNavigator.navigate(context);
     if (selected != null) {
       controller.changeCountry(selected.isoCode);
     }
@@ -55,129 +44,18 @@ class PhoneFieldState extends State<PhoneField> {
 
   @override
   Widget build(BuildContext context) {
-    return InputDecorator(
-      decoration: _getOutterInputDecoration(),
-      isFocused: focusNode.hasFocus,
-      isEmpty: _isEffectivelyEmpty(),
-      child: TextField(
-        focusNode: focusNode,
-        controller: controller.nationalNumberController,
-        enabled: widget.enabled,
-        decoration: _getInnerInputDecoration(),
-        inputFormatters: widget.inputFormatters ??
-            [
-              FilteringTextInputFormatter.allow(RegExp(
-                  '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
-            ],
-        onChanged: (txt) => controller.changeText(txt),
-        autofillHints: widget.autofillHints,
-        keyboardType: widget.keyboardType,
-        textInputAction: widget.textInputAction,
-        style: widget.style,
-        strutStyle: widget.strutStyle,
-        textAlign: widget.textAlign,
-        textAlignVertical: widget.textAlignVertical,
-        autofocus: widget.autofocus,
-        obscuringCharacter: widget.obscuringCharacter,
-        obscureText: widget.obscureText,
-        autocorrect: widget.autocorrect,
-        smartDashesType: widget.smartDashesType,
-        smartQuotesType: widget.smartQuotesType,
-        enableSuggestions: widget.enableSuggestions,
-        contextMenuBuilder:
-            widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
-        showCursor: widget.showCursor,
-        onEditingComplete: widget.onEditingComplete,
-        onSubmitted: widget.onSubmitted,
-        onAppPrivateCommand: widget.onAppPrivateCommand,
-        cursorWidth: widget.cursorWidth,
-        cursorHeight: widget.cursorHeight,
-        cursorRadius: widget.cursorRadius,
-        cursorColor: widget.cursorColor,
-        onTapOutside: widget.onTapOutside,
-        selectionHeightStyle: widget.selectionHeightStyle,
-        selectionWidthStyle: widget.selectionWidthStyle,
-        keyboardAppearance: widget.keyboardAppearance,
-        scrollPadding: widget.scrollPadding,
-        enableInteractiveSelection: widget.enableInteractiveSelection,
-        selectionControls: widget.selectionControls,
-        mouseCursor: widget.mouseCursor,
-        scrollController: widget.scrollController,
-        scrollPhysics: widget.scrollPhysics,
-        restorationId: widget.restorationId,
-        enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
-      ),
-    );
-    return TextFormField(
-      decoration: _getOutterInputDecoration(),
-      focusNode: focusNode,
-      controller: controller.nationalNumberController,
-      enabled: widget.enabled,
-      // decoration: _getInnerInputDecoration(),
-      inputFormatters: widget.inputFormatters ??
-          [
-            FilteringTextInputFormatter.allow(RegExp(
-                '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
-          ],
-      onChanged: (txt) => controller.changeText(txt),
-      autofillHints: widget.autofillHints,
-      keyboardType: widget.keyboardType,
-      textInputAction: widget.textInputAction,
-      style: widget.style,
-      strutStyle: widget.strutStyle,
-      textAlign: widget.textAlign,
-      textAlignVertical: widget.textAlignVertical,
-      autofocus: widget.autofocus,
-      obscuringCharacter: widget.obscuringCharacter,
-      obscureText: widget.obscureText,
-      autocorrect: widget.autocorrect,
-      smartDashesType: widget.smartDashesType,
-      smartQuotesType: widget.smartQuotesType,
-      enableSuggestions: widget.enableSuggestions,
-      contextMenuBuilder:
-          widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
-      showCursor: widget.showCursor,
-      onEditingComplete: widget.onEditingComplete,
-      onAppPrivateCommand: widget.onAppPrivateCommand,
-      cursorWidth: widget.cursorWidth,
-      cursorHeight: widget.cursorHeight,
-      cursorRadius: widget.cursorRadius,
-      cursorColor: widget.cursorColor,
-      onTapOutside: widget.onTapOutside,
-      selectionHeightStyle: widget.selectionHeightStyle,
-      selectionWidthStyle: widget.selectionWidthStyle,
-      keyboardAppearance: widget.keyboardAppearance,
-      scrollPadding: widget.scrollPadding,
-      enableInteractiveSelection: widget.enableInteractiveSelection,
-      selectionControls: widget.selectionControls,
-      mouseCursor: widget.mouseCursor,
-      scrollController: widget.scrollController,
-      scrollPhysics: widget.scrollPhysics,
-      restorationId: widget.restorationId,
-      enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
-    );
-    // the idea here is to have a mouse region that surround the input which
-    // contains a flag button and a text field. The text field is surrounded
-    // by padding so we want to request focus even when clicking outside of the
-    // inner field.
-    // When the country chip is not shown it request focus to the inner text
-    // field which doesn't span the whole input
-    // When the country chip is shown, clicking on it request country selection
-    return MouseRegion(
-      cursor: SystemMouseCursors.text,
-      child: GestureDetector(
-        onTap: focusNode.requestFocus,
-        // absorb pointer when the country chip is not shown, else flutter
-        // still allows the country chip to be clicked even though it is not shown
-        child: InputDecorator(
-          decoration: _getOutterInputDecoration(),
-          isFocused: focusNode.hasFocus,
-          isEmpty: _isEffectivelyEmpty(),
-          child: TextField(
+    return AnimatedBuilder(
+        animation: focusNode,
+        builder: (context, _) {
+          return TextFormField(
+            decoration: widget.decoration.copyWith(
+              errorText: widget.errorText,
+              prefixIcon: _getCountryCodeChip(),
+            ),
             focusNode: focusNode,
             controller: controller.nationalNumberController,
             enabled: widget.enabled,
-            decoration: _getInnerInputDecoration(),
+            // decoration: _getInnerInputDecoration(),
             inputFormatters: widget.inputFormatters ??
                 [
                   FilteringTextInputFormatter.allow(RegExp(
@@ -202,7 +80,6 @@ class PhoneFieldState extends State<PhoneField> {
                 widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
             showCursor: widget.showCursor,
             onEditingComplete: widget.onEditingComplete,
-            onSubmitted: widget.onSubmitted,
             onAppPrivateCommand: widget.onAppPrivateCommand,
             cursorWidth: widget.cursorWidth,
             cursorHeight: widget.cursorHeight,
@@ -220,105 +97,51 @@ class PhoneFieldState extends State<PhoneField> {
             scrollPhysics: widget.scrollPhysics,
             restorationId: widget.restorationId,
             enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+          );
+        });
+  }
+
+  Widget? _getCountryCodeChip() {
+    if (widget.isCountryChipPersistent || focusNode.hasFocus) {
+      return InkWell(
+        onTap: widget.enabled ? selectCountry : null,
+        child: Padding(
+          padding: _computeCountryButtonPadding(),
+          child: CountryChip(
+            key: const ValueKey('country-code-chip'),
+            isoCode: controller.value.isoCode,
+            showFlag: widget.showFlagInInput,
+            showIsoCode: widget.showIsoCodeInInput,
+            showDialCode: widget.showDialCode,
+            textStyle: widget.countryCodeStyle ??
+                widget.decoration.labelStyle ??
+                TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).textTheme.bodySmall?.color,
+                ),
+            flagSize: widget.flagSize,
+            enabled: widget.enabled,
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _getCountryCodeChip() {
-    return InkWell(
-      onTap: () {},
-      child: SizedBox(
-        height: 64,
-        child: CountryChip(
-          key: const ValueKey('country-code-chip'),
-          isoCode: controller.value.isoCode,
-          showFlag: widget.showFlagInInput,
-          showIsoCode: widget.showIsoCodeInInput,
-          showDialCode: widget.showDialCode,
-          textStyle: widget.countryCodeStyle ??
-              widget.decoration.labelStyle ??
-              TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).textTheme.bodySmall?.color,
-              ),
-          flagSize: widget.flagSize,
-          enabled: widget.enabled,
-        ),
-      ),
-    );
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: widget.enabled ? selectCountry : null,
-          // material here else the click pass through empty spaces
-          child: Material(
-            color: Colors.transparent,
-            child: Padding(
-              padding: !widget.showDialCode && !widget.showFlagInInput
-                  ? EdgeInsets.zero
-                  : const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-              child: CountryChip(
-                key: const ValueKey('country-code-chip'),
-                isoCode: controller.value.isoCode,
-                showFlag: widget.showFlagInInput,
-                showIsoCode: widget.showIsoCodeInInput,
-                showDialCode: widget.showDialCode,
-                textStyle: widget.countryCodeStyle ??
-                    widget.decoration.labelStyle ??
-                    TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).textTheme.bodySmall?.color,
-                    ),
-                flagSize: widget.flagSize,
-                enabled: widget.enabled,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  InputDecoration _getInnerInputDecoration() {
-    return InputDecoration(
-      hintText: widget.decoration.hintText,
-      hintStyle: widget.decoration.hintStyle,
-    ).copyWith(
-      focusedBorder: InputBorder.none,
-      errorBorder: InputBorder.none,
-      disabledBorder: InputBorder.none,
-      enabledBorder: InputBorder.none,
-      focusedErrorBorder: InputBorder.none,
-    );
-  }
-
-  InputDecoration _getOutterInputDecoration() {
-    final directionality = Directionality.of(context);
-
-    return widget.decoration.copyWith(
-      hintText: null,
-      isCollapsed: true,
-      errorText: widget.errorText,
-      prefix:
-          directionality == TextDirection.ltr ? _getCountryCodeChip() : null,
-      suffix:
-          directionality == TextDirection.rtl ? _getCountryCodeChip() : null,
-    );
-  }
-
-  bool _isEffectivelyEmpty() {
-    if (widget.isCountryChipPersistent) return false;
-    final outterDecoration = _getOutterInputDecoration();
-    // when there is not label and an hint text we need to have
-    // isEmpty false so the country code is displayed along the
-    // hint text to not have the hint text in the middle
-    if (outterDecoration.label == null && outterDecoration.hintText != null) {
-      return false;
+      );
     }
-    return controller.nationalNumberController.text.isEmpty;
+    return null;
+  }
+
+  EdgeInsets _computeCountryButtonPadding() {
+    final countryButtonPadding = widget.countryButtonPadding;
+    EdgeInsets padding =
+        const EdgeInsets.symmetric(horizontal: 12, vertical: 16);
+    final isUnderline = widget.decoration.border is UnderlineInputBorder;
+    final hasLabel =
+        widget.decoration.label != null || widget.decoration.labelText != null;
+    if (countryButtonPadding != null) {
+      padding = countryButtonPadding;
+    } else if (isUnderline && hasLabel) {
+      padding = const EdgeInsets.fromLTRB(12, 25, 12, 7);
+    } else if (isUnderline && !hasLabel) {
+      padding = const EdgeInsets.fromLTRB(12, 2, 12, 0);
+    }
+    return padding;
   }
 }

@@ -56,6 +56,7 @@ class PhoneFieldView extends StatelessWidget {
           controller: controller,
           focusNode: focusNode,
           shouldFormat: shouldFormat && !useRtl,
+          isCountryChipPersistent: isCountryChipPersistent,
           autofocus: false,
           autofillHints: const [AutofillHints.telephoneNumber],
           countrySelectorNavigator: selectorNavigator,
@@ -77,7 +78,6 @@ class PhoneFieldView extends StatelessWidget {
           onSaved: (p) => print('saved $p'),
           // ignore: avoid_print
           onChanged: (p) => print('changed $p'),
-          isCountryChipPersistent: isCountryChipPersistent,
         ),
       ),
     );
@@ -127,6 +127,7 @@ class PhoneFormFieldScreen extends StatefulWidget {
 class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   late PhoneController controller;
   final FocusNode focusNode = FocusNode();
+
   bool outlineBorder = true;
   bool mobileOnly = true;
   bool shouldFormat = true;
@@ -248,6 +249,26 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       key: formKey,
                       child: Column(
                         children: [
+                          TextFormField(
+                            decoration: InputDecoration(
+                              label: withLabel ? const Text('Phone') : null,
+                              prefix: Icon(Icons.house),
+                              border: outlineBorder
+                                  ? const OutlineInputBorder()
+                                  : const UnderlineInputBorder(),
+                              hintText: withLabel ? '' : 'Phone',
+                            ),
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              label: withLabel ? const Text('Phone') : null,
+                              prefix: Icon(Icons.house),
+                              border: outlineBorder
+                                  ? const OutlineInputBorder()
+                                  : const UnderlineInputBorder(),
+                              hintText: withLabel ? '' : 'Phone',
+                            ),
+                          ),
                           PhoneFieldView(
                             inputKey: phoneKey,
                             controller: controller,
@@ -263,6 +284,16 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                           TextFormField(
                             decoration: InputDecoration(
                               label: withLabel ? const Text('Phone') : null,
+                              border: outlineBorder
+                                  ? const OutlineInputBorder()
+                                  : const UnderlineInputBorder(),
+                              hintText: withLabel ? '' : 'Phone',
+                            ),
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              label: withLabel ? const Text('Phone') : null,
+                              prefix: Icon(Icons.house),
                               border: outlineBorder
                                   ? const OutlineInputBorder()
                                   : const UnderlineInputBorder(),

@@ -98,6 +98,10 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// show selected iso code or not
   final bool showIsoCodeInInput;
 
+  /// padding inside country button,
+  /// this can be used to align the country button with the phone number
+  final EdgeInsets? countryButtonPadding;
+
   PhoneFormField({
     super.key,
     this.controller,
@@ -111,14 +115,17 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.defaultCountry = IsoCode.US,
     InputDecoration decoration =
         const InputDecoration(border: UnderlineInputBorder()),
-    AutovalidateMode super.autovalidateMode =
-        AutovalidateMode.onUserInteraction,
     PhoneNumber? initialValue,
     double flagSize = 16,
     PhoneNumberInputValidator? validator,
     bool isCountrySelectionEnabled = true,
     bool isCountryChipPersistent = true,
+    this.showDialCode = true,
+    this.showIsoCodeInInput = false,
+    this.countryButtonPadding,
     // textfield inputs
+    AutovalidateMode super.autovalidateMode =
+        AutovalidateMode.onUserInteraction,
     TextInputType keyboardType = TextInputType.phone,
     TextInputAction? textInputAction,
     TextStyle? style,
@@ -157,8 +164,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
     Iterable<String>? autofillHints,
     super.restorationId,
     bool enableIMEPersonalizedLearning = true,
-    this.showDialCode = true,
-    this.showIsoCodeInInput = false,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
@@ -181,6 +186,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
               enabled: enabled,
               isCountrySelectionEnabled: isCountrySelectionEnabled,
               isCountryChipPersistent: isCountryChipPersistent,
+              countryButtonPadding: countryButtonPadding,
               // textfield params
               autofillHints: autofillHints,
               keyboardType: keyboardType,
