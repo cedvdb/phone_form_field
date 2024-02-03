@@ -246,17 +246,30 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     const SizedBox(height: 40),
                     Form(
                       key: formKey,
-                      child: PhoneFieldView(
-                        inputKey: phoneKey,
-                        controller: controller,
-                        focusNode: focusNode,
-                        selectorNavigator: selectorNavigator,
-                        withLabel: withLabel,
-                        outlineBorder: outlineBorder,
-                        isCountryChipPersistent: isCountryChipPersistent,
-                        mobileOnly: mobileOnly,
-                        shouldFormat: shouldFormat,
-                        useRtl: useRtl,
+                      child: Column(
+                        children: [
+                          PhoneFieldView(
+                            inputKey: phoneKey,
+                            controller: controller,
+                            focusNode: focusNode,
+                            selectorNavigator: selectorNavigator,
+                            withLabel: withLabel,
+                            outlineBorder: outlineBorder,
+                            isCountryChipPersistent: isCountryChipPersistent,
+                            mobileOnly: mobileOnly,
+                            shouldFormat: shouldFormat,
+                            useRtl: useRtl,
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              label: withLabel ? const Text('Phone') : null,
+                              border: outlineBorder
+                                  ? const OutlineInputBorder()
+                                  : const UnderlineInputBorder(),
+                              hintText: withLabel ? '' : 'Phone',
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 12),

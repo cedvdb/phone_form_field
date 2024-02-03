@@ -55,6 +55,107 @@ class PhoneFieldState extends State<PhoneField> {
 
   @override
   Widget build(BuildContext context) {
+    return InputDecorator(
+      decoration: _getOutterInputDecoration(),
+      isFocused: focusNode.hasFocus,
+      isEmpty: _isEffectivelyEmpty(),
+      child: TextField(
+        focusNode: focusNode,
+        controller: controller.nationalNumberController,
+        enabled: widget.enabled,
+        decoration: _getInnerInputDecoration(),
+        inputFormatters: widget.inputFormatters ??
+            [
+              FilteringTextInputFormatter.allow(RegExp(
+                  '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
+            ],
+        onChanged: (txt) => controller.changeText(txt),
+        autofillHints: widget.autofillHints,
+        keyboardType: widget.keyboardType,
+        textInputAction: widget.textInputAction,
+        style: widget.style,
+        strutStyle: widget.strutStyle,
+        textAlign: widget.textAlign,
+        textAlignVertical: widget.textAlignVertical,
+        autofocus: widget.autofocus,
+        obscuringCharacter: widget.obscuringCharacter,
+        obscureText: widget.obscureText,
+        autocorrect: widget.autocorrect,
+        smartDashesType: widget.smartDashesType,
+        smartQuotesType: widget.smartQuotesType,
+        enableSuggestions: widget.enableSuggestions,
+        contextMenuBuilder:
+            widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
+        showCursor: widget.showCursor,
+        onEditingComplete: widget.onEditingComplete,
+        onSubmitted: widget.onSubmitted,
+        onAppPrivateCommand: widget.onAppPrivateCommand,
+        cursorWidth: widget.cursorWidth,
+        cursorHeight: widget.cursorHeight,
+        cursorRadius: widget.cursorRadius,
+        cursorColor: widget.cursorColor,
+        onTapOutside: widget.onTapOutside,
+        selectionHeightStyle: widget.selectionHeightStyle,
+        selectionWidthStyle: widget.selectionWidthStyle,
+        keyboardAppearance: widget.keyboardAppearance,
+        scrollPadding: widget.scrollPadding,
+        enableInteractiveSelection: widget.enableInteractiveSelection,
+        selectionControls: widget.selectionControls,
+        mouseCursor: widget.mouseCursor,
+        scrollController: widget.scrollController,
+        scrollPhysics: widget.scrollPhysics,
+        restorationId: widget.restorationId,
+        enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+      ),
+    );
+    return TextFormField(
+      decoration: _getOutterInputDecoration(),
+      focusNode: focusNode,
+      controller: controller.nationalNumberController,
+      enabled: widget.enabled,
+      // decoration: _getInnerInputDecoration(),
+      inputFormatters: widget.inputFormatters ??
+          [
+            FilteringTextInputFormatter.allow(RegExp(
+                '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
+          ],
+      onChanged: (txt) => controller.changeText(txt),
+      autofillHints: widget.autofillHints,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      style: widget.style,
+      strutStyle: widget.strutStyle,
+      textAlign: widget.textAlign,
+      textAlignVertical: widget.textAlignVertical,
+      autofocus: widget.autofocus,
+      obscuringCharacter: widget.obscuringCharacter,
+      obscureText: widget.obscureText,
+      autocorrect: widget.autocorrect,
+      smartDashesType: widget.smartDashesType,
+      smartQuotesType: widget.smartQuotesType,
+      enableSuggestions: widget.enableSuggestions,
+      contextMenuBuilder:
+          widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
+      showCursor: widget.showCursor,
+      onEditingComplete: widget.onEditingComplete,
+      onAppPrivateCommand: widget.onAppPrivateCommand,
+      cursorWidth: widget.cursorWidth,
+      cursorHeight: widget.cursorHeight,
+      cursorRadius: widget.cursorRadius,
+      cursorColor: widget.cursorColor,
+      onTapOutside: widget.onTapOutside,
+      selectionHeightStyle: widget.selectionHeightStyle,
+      selectionWidthStyle: widget.selectionWidthStyle,
+      keyboardAppearance: widget.keyboardAppearance,
+      scrollPadding: widget.scrollPadding,
+      enableInteractiveSelection: widget.enableInteractiveSelection,
+      selectionControls: widget.selectionControls,
+      mouseCursor: widget.mouseCursor,
+      scrollController: widget.scrollController,
+      scrollPhysics: widget.scrollPhysics,
+      restorationId: widget.restorationId,
+      enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+    );
     // the idea here is to have a mouse region that surround the input which
     // contains a flag button and a text field. The text field is surrounded
     // by padding so we want to request focus even when clicking outside of the
@@ -126,6 +227,27 @@ class PhoneFieldState extends State<PhoneField> {
   }
 
   Widget _getCountryCodeChip() {
+    return InkWell(
+      onTap: () {},
+      child: SizedBox(
+        height: 64,
+        child: CountryChip(
+          key: const ValueKey('country-code-chip'),
+          isoCode: controller.value.isoCode,
+          showFlag: widget.showFlagInInput,
+          showIsoCode: widget.showIsoCodeInInput,
+          showDialCode: widget.showDialCode,
+          textStyle: widget.countryCodeStyle ??
+              widget.decoration.labelStyle ??
+              TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).textTheme.bodySmall?.color,
+              ),
+          flagSize: widget.flagSize,
+          enabled: widget.enabled,
+        ),
+      ),
+    );
     return Directionality(
       textDirection: TextDirection.ltr,
       child: MouseRegion(
@@ -162,7 +284,7 @@ class PhoneFieldState extends State<PhoneField> {
   }
 
   InputDecoration _getInnerInputDecoration() {
-    return InputDecoration.collapsed(
+    return InputDecoration(
       hintText: widget.decoration.hintText,
       hintStyle: widget.decoration.hintStyle,
     ).copyWith(
@@ -179,6 +301,7 @@ class PhoneFieldState extends State<PhoneField> {
 
     return widget.decoration.copyWith(
       hintText: null,
+      isCollapsed: true,
       errorText: widget.errorText,
       prefix:
           directionality == TextDirection.ltr ? _getCountryCodeChip() : null,
