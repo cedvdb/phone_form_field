@@ -54,6 +54,7 @@ class PhoneFieldView extends StatelessWidget {
         child: PhoneFormField(
           key: inputKey,
           controller: controller,
+          focusNode: focusNode,
           shouldFormat: shouldFormat && !useRtl,
           autofocus: false,
           autofillHints: const [AutofillHints.telephoneNumber],
@@ -271,7 +272,10 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     ),
                     const SizedBox(height: 12),
                     ElevatedButton(
-                      onPressed: () => controller.selectNationalNumber(),
+                      onPressed: () {
+                        controller.selectNationalNumber();
+                        focusNode.requestFocus();
+                      },
                       child: const Text('Select national number'),
                     ),
                     const SizedBox(height: 12),

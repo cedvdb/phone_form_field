@@ -10,14 +10,23 @@ class PhoneFieldState extends State<PhoneField> {
   @override
   void initState() {
     _preloadFlagsInMemory();
+    focusNode.addListener(_onFocusChange);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    focusNode.removeListener(_onFocusChange);
+    super.dispose();
   }
 
   void _preloadFlagsInMemory() {
     _flagCache.preload(IsoCode.values.map((isoCode) => isoCode.name));
   }
 
-  void onFocusChange() {
+  void _onFocusChange() {
+    // call setState when the text input has focus so
+    // the flag is shown when there is a label
     setState(() {});
   }
 
@@ -73,6 +82,7 @@ class PhoneFieldState extends State<PhoneField> {
                   FilteringTextInputFormatter.allow(RegExp(
                       '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
                 ],
+            onChanged: (txt) => controller.changeText(txt),
             autofillHints: widget.autofillHints,
             keyboardType: widget.keyboardType,
             textInputAction: widget.textInputAction,
