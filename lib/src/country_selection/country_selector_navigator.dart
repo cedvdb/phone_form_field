@@ -1,4 +1,3 @@
-import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/phone_form_field.dart';
@@ -39,11 +38,10 @@ abstract class CountrySelectorNavigator {
     this.useRootNavigator = true,
   });
 
-  Future<LocalizedCountry?> navigate(BuildContext context, FlagCache flagCache);
+  Future<LocalizedCountry?> navigate(BuildContext context);
 
   CountrySelector _getCountrySelector({
     required ValueChanged<LocalizedCountry> onCountrySelected,
-    required FlagCache flagCache,
     ScrollController? scrollController,
   }) {
     return CountrySelector(
@@ -62,7 +60,6 @@ abstract class CountrySelectorNavigator {
       searchBoxIconColor: searchBoxIconColor,
       scrollPhysics: scrollPhysics,
       flagSize: flagSize,
-      flagCache: flagCache,
     );
   }
 
@@ -179,8 +176,7 @@ class DialogNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<LocalizedCountry?> navigate(
-      BuildContext context, FlagCache flagCache) {
+  Future<LocalizedCountry?> navigate(BuildContext context) {
     return showDialog(
       context: context,
       builder: (_) => Dialog(
@@ -190,7 +186,6 @@ class DialogNavigator extends CountrySelectorNavigator {
           child: _getCountrySelector(
             onCountrySelected: (country) =>
                 Navigator.of(context, rootNavigator: true).pop(country),
-            flagCache: flagCache,
           ),
         ),
       ),
@@ -220,7 +215,6 @@ class PageNavigator extends CountrySelectorNavigator {
 
   CountrySelectorPage _getCountrySelectorPage({
     required ValueChanged<LocalizedCountry> onCountrySelected,
-    required FlagCache flagCache,
     ScrollController? scrollController,
   }) {
     return CountrySelectorPage(
@@ -234,20 +228,17 @@ class PageNavigator extends CountrySelectorNavigator {
       showCountryCode: showCountryCode,
       titleStyle: titleStyle,
       subtitleStyle: subtitleStyle,
-      flagCache: flagCache,
     );
   }
 
   @override
   Future<LocalizedCountry?> navigate(
     BuildContext context,
-    FlagCache flagCache,
   ) {
     return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => _getCountrySelectorPage(
           onCountrySelected: (country) => Navigator.pop(context, country),
-          flagCache: flagCache,
         ),
       ),
     );
@@ -274,7 +265,6 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
   @override
   Future<LocalizedCountry?> navigate(
     BuildContext context,
-    FlagCache flagCache,
   ) {
     LocalizedCountry? selected;
     final ctrl = showBottomSheet(
@@ -287,7 +277,6 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
               selected = country;
               Navigator.pop(context, country);
             },
-            flagCache: flagCache,
           ),
         ),
       ),
@@ -319,7 +308,6 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
   @override
   Future<LocalizedCountry?> navigate(
     BuildContext context,
-    FlagCache flagCache,
   ) {
     return showModalBottomSheet<LocalizedCountry>(
       context: context,
@@ -327,7 +315,6 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
         height: height ?? MediaQuery.of(context).size.height - 90,
         child: _getCountrySelector(
           onCountrySelected: (country) => Navigator.pop(context, country),
-          flagCache: flagCache,
         ),
       ),
       isScrollControlled: true,
@@ -364,8 +351,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<LocalizedCountry?> navigate(
-      BuildContext context, FlagCache flagCache) {
+  Future<LocalizedCountry?> navigate(BuildContext context) {
     final effectiveBorderRadius = borderRadius ??
         const BorderRadius.only(
           topLeft: Radius.circular(16),
@@ -389,7 +375,6 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
             child: _getCountrySelector(
               onCountrySelected: (country) => Navigator.pop(context, country),
               scrollController: scrollController,
-              flagCache: flagCache,
             ),
           );
         },
