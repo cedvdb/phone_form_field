@@ -155,6 +155,8 @@ class PhoneFormField extends StatefulWidget {
     this.focusNode,
     this.showFlagInInput = true,
     this.countrySelectorNavigator = const CountrySelectorNavigator.page(),
+    @Deprecated(
+        'Use [initialValue] or [controller] to set the initial phone number')
     this.defaultCountry = IsoCode.US,
     this.initialValue,
     this.flagSize = 16,
