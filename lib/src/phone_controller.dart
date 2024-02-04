@@ -26,10 +26,6 @@ class PhoneController extends ChangeNotifier {
           text: initialValue.formatNsn(),
         );
 
-  reset() {
-    value = initialValue;
-  }
-
   changeCountry(IsoCode isoCode) {
     _value = PhoneNumber.parse(
       _value.nsn,

@@ -336,15 +336,15 @@ void main() {
         bool last = false;
 
         final validator = PhoneValidator.compose([
-          (PhoneNumber? p, BuildContext context) {
+          (PhoneNumber? p) {
             first = true;
             return null;
           },
-          (PhoneNumber? p, BuildContext context) {
+          (PhoneNumber? p) {
             second = true;
             return null;
           },
-          (PhoneNumber? p, BuildContext context) {
+          (PhoneNumber? p) {
             last = true;
             return null;
           },
@@ -370,14 +370,14 @@ void main() {
         bool firstValidationDone = false;
         bool lastValidationDone = false;
         final validator = PhoneValidator.compose([
-          (PhoneNumber? p, BuildContext context) {
+          (PhoneNumber? p) {
             firstValidationDone = true;
             return null;
           },
-          (PhoneNumber? p, BuildContext context) {
+          (PhoneNumber? p) {
             return 'validation failed';
           },
-          (PhoneNumber? p, BuildContext context) {
+          (PhoneNumber? p) {
             lastValidationDone = true;
             return null;
           },

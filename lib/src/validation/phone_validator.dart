@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
-
-typedef PhoneNumberInputValidator = String? Function(
-    PhoneNumber? phoneNumber, BuildContext context);
+typedef PhoneNumberInputValidator = String? Function(PhoneNumber? phoneNumber);
 
 class PhoneValidator {
   /// allow to compose several validators
@@ -12,9 +10,9 @@ class PhoneValidator {
   static PhoneNumberInputValidator compose(
     List<PhoneNumberInputValidator> validators,
   ) {
-    return (valueCandidate, context) {
+    return (valueCandidate) {
       for (var validator in validators) {
-        final validatorResult = validator.call(valueCandidate, context);
+        final validatorResult = validator.call(valueCandidate);
         if (validatorResult != null) {
           return validatorResult;
         }
@@ -23,11 +21,12 @@ class PhoneValidator {
     };
   }
 
-  static PhoneNumberInputValidator required({
+  static PhoneNumberInputValidator required(
+    BuildContext context, {
     /// custom error message
     String? errorText,
   }) {
-    return (PhoneNumber? valueCandidate, BuildContext context) {
+    return (PhoneNumber? valueCandidate) {
       if (valueCandidate == null || (valueCandidate.nsn.trim().isEmpty)) {
         return errorText ??
             PhoneFieldLocalization.of(context)?.requiredPhoneNumber ??
@@ -37,30 +36,14 @@ class PhoneValidator {
     };
   }
 
-  static PhoneNumberInputValidator invalid({
+  static PhoneNumberInputValidator valid(
+    BuildContext context, {
     /// custom error message
     String? errorText,
-
-    /// determine whether a missing value should be reported as invalid
-    bool allowEmpty = true,
-  }) =>
-      valid(errorText: errorText, allowEmpty: allowEmpty);
-
-  static PhoneNumberInputValidator valid({
-    /// custom error message
-    String? errorText,
-
-    /// determine whether a missing value should be reported as invalid
-    bool allowEmpty = true,
   }) {
-    return (PhoneNumber? valueCandidate, BuildContext context) {
-      if (valueCandidate == null && !allowEmpty) {
-        return errorText ??
-            PhoneFieldLocalization.of(context)?.invalidPhoneNumber ??
-            PhoneFieldLocalizationEn().invalidPhoneNumber;
-      }
+    return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
-          (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
+          valueCandidate.nsn.isNotEmpty &&
           !valueCandidate.isValid()) {
         return errorText ??
             PhoneFieldLocalization.of(context)?.invalidPhoneNumber ??
@@ -71,12 +54,14 @@ class PhoneValidator {
   }
 
   static PhoneNumberInputValidator validType(
+    BuildContext context,
+
     /// expected phonetype
     PhoneNumberType expectedType, {
     /// custom error message
     String? errorText,
   }) {
-    return (PhoneNumber? valueCandidate, BuildContext context) {
+    return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
           valueCandidate.nsn.isNotEmpty &&
           !valueCandidate.isValid(type: expectedType)) {
@@ -99,33 +84,39 @@ class PhoneValidator {
 
   /// convenience shortcut method for
   /// invalidType(context, PhoneNumberType.fixedLine, ...)
-  static PhoneNumberInputValidator validFixedLine({
+  static PhoneNumberInputValidator validFixedLine(
+    BuildContext context, {
     /// custom error message
     String? errorText,
   }) =>
       validType(
+        context,
         PhoneNumberType.fixedLine,
         errorText: errorText,
       );
 
   /// convenience shortcut method for
   /// invalidType(context, PhoneNumberType.mobile, ...)
-  static PhoneNumberInputValidator validMobile({
+  static PhoneNumberInputValidator validMobile(
+    BuildContext context, {
     /// custom error message
     String? errorText,
   }) =>
       validType(
+        context,
         PhoneNumberType.mobile,
         errorText: errorText,
       );
 
   static PhoneNumberInputValidator validCountry(
+    BuildContext context,
+
     /// list of valid country isocode
     List<IsoCode> expectedCountries, {
     /// custom error message
     String? errorText,
   }) {
-    return (PhoneNumber? valueCandidate, BuildContext context) {
+    return (PhoneNumber? valueCandidate) {
       if (valueCandidate != null &&
           (valueCandidate.nsn.isNotEmpty) &&
           !expectedCountries.contains(valueCandidate.isoCode)) {
@@ -137,8 +128,8 @@ class PhoneValidator {
     };
   }
 
-  static PhoneNumberInputValidator get none =>
-      (PhoneNumber? valueCandidate, BuildContext context) {
+  @Deprecated('Use null instead')
+  static PhoneNumberInputValidator get none => (PhoneNumber? valueCandidate) {
         return null;
       };
 }

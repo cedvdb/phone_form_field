@@ -8,7 +8,6 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'country/country_button.dart';
 import 'country_selection/country_selector_navigator.dart';
-import 'validation/phone_validator.dart';
 
 part 'phone_controller.dart';
 part 'phone_form_field_state.dart';
@@ -33,16 +32,9 @@ part 'phone_form_field_state.dart';
 /// If [controller] is specified the [initialValue] will be
 /// the first value of the [PhoneController]
 /// {@endtemplate}
-class PhoneFormField extends StatefulWidget {
+class PhoneFormField extends FormField<PhoneNumber> {
   /// {@macro controller}
   final PhoneController? controller;
-
-  /// {@macro initialValue}
-  final PhoneNumber? initialValue;
-
-  /// Validator for the phone number.
-  /// example: PhoneValidator.validType(expectedType: PhoneNumberType.mobile)
-  final PhoneNumberInputValidator validator;
 
   final bool shouldFormat;
 
@@ -54,9 +46,6 @@ class PhoneFormField extends StatefulWidget {
 
   /// the focusNode of the national number
   final FocusNode? focusNode;
-
-  /// whether the input is enabled
-  final bool enabled;
 
   /// how to display the country selection
   final CountrySelectorNavigator countrySelectorNavigator;
@@ -86,10 +75,6 @@ class PhoneFormField extends StatefulWidget {
 
   /// whether the flag is shown inside the country button
   final bool showFlagInInput;
-
-  // form field inputs
-  final AutovalidateMode autovalidateMode;
-  final Function(PhoneNumber?)? onSaved;
 
   // textfield inputs
   final InputDecoration decoration;
@@ -128,7 +113,6 @@ class PhoneFormField extends StatefulWidget {
   final ScrollPhysics? scrollPhysics;
   final ScrollController? scrollController;
   final Iterable<String>? autofillHints;
-  final String? restorationId;
   final bool enableIMEPersonalizedLearning;
   final List<TextInputFormatter>? inputFormatters;
 
@@ -144,9 +128,7 @@ class PhoneFormField extends StatefulWidget {
     @Deprecated(
         'Use [initialValue] or [controller] to set the initial phone number')
     this.defaultCountry = IsoCode.US,
-    this.initialValue,
     this.flagSize = 16,
-    PhoneNumberInputValidator? validator,
     this.isCountrySelectionEnabled = true,
     bool? isCountryButtonPersistent,
     @Deprecated('Use [isCountryButtonPersistent]')
@@ -155,8 +137,12 @@ class PhoneFormField extends StatefulWidget {
     this.showIsoCodeInInput = false,
     this.countryButtonPadding,
     // form field inputs
-    this.onSaved,
-    this.autovalidateMode = AutovalidateMode.onUserInteraction,
+    super.validator,
+    super.initialValue,
+    super.onSaved,
+    super.autovalidateMode = AutovalidateMode.onUserInteraction,
+    super.restorationId,
+    super.enabled = true,
     // textfield inputs
     this.decoration = const InputDecoration(),
     this.keyboardType = TextInputType.phone,
@@ -180,7 +166,6 @@ class PhoneFormField extends StatefulWidget {
     this.onAppPrivateCommand,
     this.onTapOutside,
     this.inputFormatters,
-    this.enabled = true,
     this.cursorWidth = 2.0,
     this.cursorHeight,
     this.cursorRadius,
@@ -195,15 +180,16 @@ class PhoneFormField extends StatefulWidget {
     this.scrollPhysics,
     this.scrollController,
     this.autofillHints,
-    this.restorationId,
     this.enableIMEPersonalizedLearning = true,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
         ),
-        validator = validator ?? PhoneValidator.valid(),
         isCountryButtonPersistent =
-            isCountryButtonPersistent ?? isCountryChipPersistent ?? true;
+            isCountryButtonPersistent ?? isCountryChipPersistent ?? true,
+        super(
+          builder: (state) => (state as PhoneFormFieldState).builder(),
+        );
 
   @override
   PhoneFormFieldState createState() => PhoneFormFieldState();

@@ -11,7 +11,6 @@ void main() {
 // For a simpler example see the README
 
 class PhoneFieldView extends StatelessWidget {
-  final Key inputKey;
   final PhoneController controller;
   final FocusNode focusNode;
   final CountrySelectorNavigator selectorNavigator;
@@ -23,7 +22,6 @@ class PhoneFieldView extends StatelessWidget {
 
   const PhoneFieldView({
     Key? key,
-    required this.inputKey,
     required this.controller,
     required this.focusNode,
     required this.selectorNavigator,
@@ -34,12 +32,12 @@ class PhoneFieldView extends StatelessWidget {
     required this.useRtl,
   }) : super(key: key);
 
-  PhoneNumberInputValidator? _getValidator() {
+  PhoneNumberInputValidator? _getValidator(BuildContext context) {
     List<PhoneNumberInputValidator> validators = [];
     if (mobileOnly) {
-      validators.add(PhoneValidator.validMobile());
+      validators.add(PhoneValidator.validMobile(context));
     } else {
-      validators.add(PhoneValidator.valid());
+      validators.add(PhoneValidator.valid(context));
     }
     return validators.isNotEmpty ? PhoneValidator.compose(validators) : null;
   }
@@ -50,7 +48,6 @@ class PhoneFieldView extends StatelessWidget {
       child: Directionality(
         textDirection: useRtl ? TextDirection.rtl : TextDirection.ltr,
         child: PhoneFormField(
-          key: inputKey,
           focusNode: focusNode,
           controller: controller,
           isCountryButtonPersistent: isCountryButtonPersistant,
@@ -67,7 +64,7 @@ class PhoneFieldView extends StatelessWidget {
           enabled: true,
           showIsoCodeInInput: false,
           showFlagInInput: true,
-          validator: _getValidator(),
+          validator: _getValidator(context),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           cursorColor: Theme.of(context).colorScheme.primary,
           // ignore: avoid_print
@@ -132,7 +129,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   CountrySelectorNavigator selectorNavigator =
       const CountrySelectorNavigator.page();
   final formKey = GlobalKey<FormState>();
-  final phoneKey = GlobalKey<FormFieldState<PhoneNumber>>();
 
   @override
   initState() {
@@ -240,7 +236,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       child: Column(
                         children: [
                           PhoneFieldView(
-                            inputKey: phoneKey,
                             controller: controller,
                             focusNode: focusNode,
                             selectorNavigator: selectorNavigator,
@@ -262,7 +257,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         'is valid fixed line number ${controller.value.isValid(type: PhoneNumberType.fixedLine)}'),
                     const SizedBox(height: 12),
                     ElevatedButton(
-                      onPressed: () => controller.reset(),
+                      onPressed: () => formKey.currentState?.reset(),
                       child: const Text('reset'),
                     ),
                     const SizedBox(height: 12),

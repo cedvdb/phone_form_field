@@ -1,10 +1,18 @@
 ## [9.0.0]
+
+- Big Internal refactor in the hope of making contribution easier
 - Various fixes for country selection UX
-- Improve accessibility 
-- [Breaking] : `SearchDelegateNavigator` changed into 
-`PageNavigator`.
+- Various fixes for input cursor issues
+- Improve accessibility touches surfaces
+- Improve accessibility labels
+- Some visual tweaks
+- Added some missing countries
+- [Breaking] : no validation done by default, provided validators now require a context parameter
 - [Breaking] : `LocalizedCountryRegistry` removed. If you were using it to localize a country name, you should use `PhoneFieldLocalization.of(context).countryName(isoCode)`.
-- Internal refactor in the hope of making contributions easier
+- [Deprecated] : `isCountryChipPersistent` in favor of `isCountryButtonPersistent`.
+- [Deprecated] : `shouldFormat`, it is now always ON by default
+- [Deprecated] : `defaultCountry`, you should now use either `initialValue` or provide a controller with an initial value.
+- [Deprecated] : `CountrySelectorNavigator.searchDelegate()` changed into `CountrySelectorNavigator.PageNavigator()`.
 
 
 ## [8.1.1]
