@@ -249,26 +249,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       key: formKey,
                       child: Column(
                         children: [
-                          TextFormField(
-                            decoration: InputDecoration(
-                              label: withLabel ? const Text('Phone') : null,
-                              prefix: Icon(Icons.house),
-                              border: outlineBorder
-                                  ? const OutlineInputBorder()
-                                  : const UnderlineInputBorder(),
-                              hintText: withLabel ? '' : 'Phone',
-                            ),
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              label: withLabel ? const Text('Phone') : null,
-                              prefix: Icon(Icons.house),
-                              border: outlineBorder
-                                  ? const OutlineInputBorder()
-                                  : const UnderlineInputBorder(),
-                              hintText: withLabel ? '' : 'Phone',
-                            ),
-                          ),
                           PhoneFieldView(
                             inputKey: phoneKey,
                             controller: controller,
@@ -280,25 +260,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                             mobileOnly: mobileOnly,
                             shouldFormat: shouldFormat,
                             useRtl: useRtl,
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              label: withLabel ? const Text('Phone') : null,
-                              border: outlineBorder
-                                  ? const OutlineInputBorder()
-                                  : const UnderlineInputBorder(),
-                              hintText: withLabel ? '' : 'Phone',
-                            ),
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              label: withLabel ? const Text('Phone') : null,
-                              prefix: Icon(Icons.house),
-                              border: outlineBorder
-                                  ? const OutlineInputBorder()
-                                  : const UnderlineInputBorder(),
-                              hintText: withLabel ? '' : 'Phone',
-                            ),
                           ),
                         ],
                       ),

@@ -34,10 +34,12 @@ class PhoneFieldState extends State<PhoneField> {
         return TextField(
           decoration: widget.decoration.copyWith(
             errorText: widget.errorText,
-            prefixIcon:
-                widget.isCountryChipPersistent ? _getCountryCodeChip() : null,
-            prefix:
-                widget.isCountryChipPersistent ? null : _getCountryCodeChip(),
+            prefixIcon: widget.isCountryChipPersistent
+                ? _getCountryCodeChip(context)
+                : null,
+            prefix: widget.isCountryChipPersistent
+                ? null
+                : _getCountryCodeChip(context),
           ),
           focusNode: focusNode,
           controller: controller.nationalNumberController,
@@ -86,12 +88,12 @@ class PhoneFieldState extends State<PhoneField> {
     );
   }
 
-  Widget _getCountryCodeChip() {
+  Widget _getCountryCodeChip(BuildContext context) {
     return CountryButton(
       key: const ValueKey('country-code-chip'),
       isoCode: controller.value.isoCode,
       onTap: widget.enabled ? selectCountry : null,
-      padding: _computeCountryButtonPadding(),
+      padding: _computeCountryButtonPadding(context),
       showFlag: widget.showFlagInInput,
       showIsoCode: widget.showIsoCodeInInput,
       showDialCode: widget.showDialCode,
@@ -106,20 +108,38 @@ class PhoneFieldState extends State<PhoneField> {
     );
   }
 
-  EdgeInsets _computeCountryButtonPadding() {
+  /// computes the padding inside the country button
+  /// this is used to align the flag and dial code with the rest
+  /// of the phone number.
+  /// The padding must work for this matrix:
+  /// - has label or not
+  /// - is border underline or outline
+  /// - is country button shown as a prefix or prefixIcon (isCountryChipPersistent)
+  /// - text direction
+  EdgeInsets _computeCountryButtonPadding(BuildContext context) {
     final countryButtonPadding = widget.countryButtonPadding;
-    EdgeInsets padding = const EdgeInsets.fromLTRB(12, 16, 4, 16);
     final isUnderline = widget.decoration.border is UnderlineInputBorder;
     final hasLabel =
         widget.decoration.label != null || widget.decoration.labelText != null;
+    final isLtr = Directionality.of(context) == TextDirection.ltr;
+
+    EdgeInsets padding = isLtr
+        ? const EdgeInsets.fromLTRB(12, 16, 4, 16)
+        : const EdgeInsets.fromLTRB(4, 16, 12, 16);
     if (countryButtonPadding != null) {
       padding = countryButtonPadding;
     } else if (!widget.isCountryChipPersistent) {
-      padding = const EdgeInsets.only(right: 4, left: 12);
+      padding = isLtr
+          ? const EdgeInsets.only(right: 4, left: 12)
+          : const EdgeInsets.only(left: 4, right: 12);
     } else if (isUnderline && hasLabel) {
-      padding = const EdgeInsets.fromLTRB(12, 25, 4, 7);
+      padding = isLtr
+          ? const EdgeInsets.fromLTRB(12, 25, 4, 7)
+          : const EdgeInsets.fromLTRB(4, 25, 12, 7);
     } else if (isUnderline && !hasLabel) {
-      padding = const EdgeInsets.fromLTRB(12, 2, 4, 0);
+      padding = isLtr
+          ? const EdgeInsets.fromLTRB(12, 2, 4, 0)
+          : const EdgeInsets.fromLTRB(4, 2, 12, 0);
     }
     return padding;
   }
