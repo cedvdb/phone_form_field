@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:phone_form_field/l10n/generated/phone_field_localization_en.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
-typedef PhoneNumberInputValidator = String? Function(PhoneNumber? phoneNumber);
+typedef PhoneNumberInputValidator = String? Function(
+    PhoneNumber? phoneNumber, BuildContext context);
 
 class PhoneValidator {
   /// allow to compose several validators
@@ -9,9 +12,9 @@ class PhoneValidator {
   static PhoneNumberInputValidator compose(
     List<PhoneNumberInputValidator> validators,
   ) {
-    return (valueCandidate) {
+    return (valueCandidate, context) {
       for (var validator in validators) {
-        final validatorResult = validator.call(valueCandidate);
+        final validatorResult = validator.call(valueCandidate, context);
         if (validatorResult != null) {
           return validatorResult;
         }
@@ -24,9 +27,11 @@ class PhoneValidator {
     /// custom error message
     String? errorText,
   }) {
-    return (PhoneNumber? valueCandidate) {
+    return (PhoneNumber? valueCandidate, BuildContext context) {
       if (valueCandidate == null || (valueCandidate.nsn.trim().isEmpty)) {
-        return errorText ?? 'requiredPhoneNumber';
+        return errorText ??
+            PhoneFieldLocalization.of(context)?.requiredPhoneNumber ??
+            PhoneFieldLocalizationEn().requiredPhoneNumber;
       }
       return null;
     };
@@ -48,14 +53,18 @@ class PhoneValidator {
     /// determine whether a missing value should be reported as invalid
     bool allowEmpty = true,
   }) {
-    return (PhoneNumber? valueCandidate) {
+    return (PhoneNumber? valueCandidate, BuildContext context) {
       if (valueCandidate == null && !allowEmpty) {
-        return errorText ?? 'invalidPhoneNumber';
+        return errorText ??
+            PhoneFieldLocalization.of(context)?.invalidPhoneNumber ??
+            PhoneFieldLocalizationEn().invalidPhoneNumber;
       }
       if (valueCandidate != null &&
           (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
           !valueCandidate.isValid()) {
-        return errorText ?? 'invalidPhoneNumber';
+        return errorText ??
+            PhoneFieldLocalization.of(context)?.invalidPhoneNumber ??
+            PhoneFieldLocalizationEn().invalidPhoneNumber;
       }
       return null;
     };
@@ -66,18 +75,23 @@ class PhoneValidator {
     PhoneNumberType expectedType, {
     /// custom error message
     String? errorText,
-
-    /// determine whether a missing value should be reported as invalid
-    bool allowEmpty = true,
   }) {
-    final defaultMessage = expectedType == PhoneNumberType.mobile
-        ? 'invalidMobilePhoneNumber'
-        : 'invalidFixedLinePhoneNumber';
-    return (PhoneNumber? valueCandidate) {
+    return (PhoneNumber? valueCandidate, BuildContext context) {
       if (valueCandidate != null &&
-          (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
+          valueCandidate.nsn.isNotEmpty &&
           !valueCandidate.isValid(type: expectedType)) {
-        return errorText ?? defaultMessage;
+        if (expectedType == PhoneNumberType.mobile) {
+          return errorText ??
+              PhoneFieldLocalization.of(context)?.invalidMobilePhoneNumber ??
+              PhoneFieldLocalizationEn().invalidMobilePhoneNumber;
+        } else if (expectedType == PhoneNumberType.fixedLine) {
+          return errorText ??
+              PhoneFieldLocalization.of(context)?.invalidFixedLinePhoneNumber ??
+              PhoneFieldLocalizationEn().invalidFixedLinePhoneNumber;
+        }
+        return errorText ??
+            PhoneFieldLocalization.of(context)?.invalidPhoneNumber ??
+            PhoneFieldLocalizationEn().invalidPhoneNumber;
       }
       return null;
     };
@@ -88,14 +102,10 @@ class PhoneValidator {
   static PhoneNumberInputValidator validFixedLine({
     /// custom error message
     String? errorText,
-
-    /// determine whether a missing value should be reported as invalid
-    bool allowEmpty = true,
   }) =>
       validType(
         PhoneNumberType.fixedLine,
         errorText: errorText,
-        allowEmpty: allowEmpty,
       );
 
   /// convenience shortcut method for
@@ -110,7 +120,6 @@ class PhoneValidator {
       validType(
         PhoneNumberType.mobile,
         errorText: errorText,
-        allowEmpty: allowEmpty,
       );
 
   static PhoneNumberInputValidator validCountry(
@@ -118,21 +127,21 @@ class PhoneValidator {
     List<IsoCode> expectedCountries, {
     /// custom error message
     String? errorText,
-
-    /// determine whether a missing value should be reported as invalid
-    bool allowEmpty = true,
   }) {
-    return (PhoneNumber? valueCandidate) {
+    return (PhoneNumber? valueCandidate, BuildContext context) {
       if (valueCandidate != null &&
-          (!allowEmpty || valueCandidate.nsn.isNotEmpty) &&
+          (valueCandidate.nsn.isNotEmpty) &&
           !expectedCountries.contains(valueCandidate.isoCode)) {
-        return errorText ?? 'invalidCountry';
+        return errorText ??
+            PhoneFieldLocalization.of(context)?.invalidCountry ??
+            PhoneFieldLocalizationEn().invalidCountry;
       }
       return null;
     };
   }
 
-  static PhoneNumberInputValidator get none => (PhoneNumber? valueCandidate) {
+  static PhoneNumberInputValidator get none =>
+      (PhoneNumber? valueCandidate, BuildContext context) {
         return null;
       };
 }

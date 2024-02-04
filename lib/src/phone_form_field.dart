@@ -1,14 +1,15 @@
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
+import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:phone_form_field/src/validation/allowed_characters.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
+import 'country/country_button.dart';
 import 'country_selection/country_selector_navigator.dart';
-import 'phone_field.dart';
 import 'phone_controller.dart';
 import 'validation/phone_validator.dart';
-import 'validation/validator_translator.dart';
 
 part 'phone_form_field_state.dart';
 
@@ -43,48 +44,25 @@ part 'phone_form_field_state.dart';
 ///
 ///
 /// This does not affect the output value, only the display.
-/// Therefor [onSizeFound] will still return a [PhoneNumber]
+/// Therefor [onChanged] will still return a [PhoneNumber]
 /// with nsn of 677784455.
 /// {@endtemplate}
-///
-/// ### phoneNumberType:
-/// {@template phoneNumberType}
-/// specify the type of phone number with [phoneNumberType].
-///
-/// accepted values are:
-///   - null (can be mobile or fixedLine)
-///   - mobile
-///   - fixedLine
-/// {@endtemplate}
-///
-///
-/// ### Country picker:
-///
-/// {@template selectorNavigator}
-/// specify which type of country selector will be shown with [selectorNavigator].
-///
-/// Uses one of:
-///  - const BottomSheetNavigator()
-///  - const DraggableModalBottomSheetNavigator()
-///  - const ModalBottomSheetNavigator()
-///  - const DialogNavigator()
-/// {@endtemplate}
-///
-/// ### Country Code visibility:
-///
-/// The country dial code will be visible when:
-/// - the field is focussed.
-/// - the field has a value for national number.
-/// - the field has no label obstructing the view.
-class PhoneFormField extends FormField<PhoneNumber> {
+class PhoneFormField extends StatefulWidget {
   /// {@macro controller}
   final PhoneController? controller;
+
+  /// {@macro initialValue}
+  final PhoneNumber? initialValue;
+
+  /// Validator for the phone number.
+  /// example: PhoneValidator.validType(expectedType: PhoneNumberType.mobile)
+  final PhoneNumberInputValidator validator;
 
   /// {@macro shouldFormat}
   final bool shouldFormat;
 
   /// callback called when the input value changes
-  final ValueChanged<PhoneNumber?>? onChanged;
+  final Function(PhoneNumber)? onChanged;
 
   /// country that is displayed when there is no value
   final IsoCode defaultCountry;
@@ -92,16 +70,82 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// the focusNode of the national number
   final FocusNode? focusNode;
 
-  /// show Dial Code or not
-  final bool showDialCode;
+  /// whether the input is enabled
+  final bool enabled;
 
-  /// show selected iso code or not
-  final bool showIsoCodeInInput;
+  /// how to display the country selection
+  final CountrySelectorNavigator countrySelectorNavigator;
 
   /// padding inside country button,
   /// this can be used to align the country button with the phone number
-  /// and is mostly useful when using [isCountryChipPersistent] as true.
+  /// and is mostly useful when using [isCountryButtonPersistent] as true.
   final EdgeInsets? countryButtonPadding;
+
+  /// whether the user can select a new country when pressing the country button
+  final bool isCountrySelectionEnabled;
+
+  /// This controls wether the country button is alway shown or is hidden by
+  /// the label when the national number is empty. In flutter terms this controls
+  /// whether the country button is shown as a prefix or prefixIcon inside
+  /// the text field.
+  final bool isCountryButtonPersistent;
+
+  /// show Dial Code or not in the country button
+  final bool showDialCode;
+
+  /// show selected iso code or not in the country button
+  final bool showIsoCodeInInput;
+
+  /// The size of the flag inside the country button
+  final double flagSize;
+
+  /// whether the flag is shown inside the country button
+  final bool showFlagInInput;
+
+  // form field inputs
+  final AutovalidateMode autovalidateMode;
+  final Function(PhoneNumber?)? onSaved;
+
+  // textfield inputs
+  final InputDecoration decoration;
+  final TextInputType keyboardType;
+  final TextInputAction? textInputAction;
+  final TextStyle? style;
+  final TextStyle? countryCodeStyle;
+  final StrutStyle? strutStyle;
+  final TextAlign textAlign;
+  final TextAlignVertical? textAlignVertical;
+  final bool autofocus;
+  final String obscuringCharacter;
+  final bool obscureText;
+  final bool autocorrect;
+  final SmartDashesType? smartDashesType;
+  final SmartQuotesType? smartQuotesType;
+  final bool enableSuggestions;
+  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
+  final bool? showCursor;
+  final VoidCallback? onEditingComplete;
+  final ValueChanged<String>? onSubmitted;
+  final AppPrivateCommandCallback? onAppPrivateCommand;
+  final Function(PointerDownEvent)? onTapOutside;
+  final double cursorWidth;
+  final double? cursorHeight;
+  final Radius? cursorRadius;
+  final Color? cursorColor;
+  final ui.BoxHeightStyle selectionHeightStyle;
+  final ui.BoxWidthStyle selectionWidthStyle;
+  final Brightness? keyboardAppearance;
+  final EdgeInsets scrollPadding;
+  final bool enableInteractiveSelection;
+  final TextSelectionControls? selectionControls;
+  bool get selectionEnabled => enableInteractiveSelection;
+  final MouseCursor? mouseCursor;
+  final ScrollPhysics? scrollPhysics;
+  final ScrollController? scrollController;
+  final Iterable<String>? autofillHints;
+  final String? restorationId;
+  final bool enableIMEPersonalizedLearning;
+  final List<TextInputFormatter>? inputFormatters;
 
   PhoneFormField({
     super.key,
@@ -109,126 +153,69 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.shouldFormat = true,
     this.onChanged,
     this.focusNode,
-    bool showFlagInInput = true,
-    CountrySelectorNavigator countrySelectorNavigator =
-        const CountrySelectorNavigator.page(),
-    Function(PhoneNumber?)? super.onSaved,
+    this.showFlagInInput = true,
+    this.countrySelectorNavigator = const CountrySelectorNavigator.page(),
     this.defaultCountry = IsoCode.US,
-    InputDecoration decoration =
-        const InputDecoration(border: UnderlineInputBorder()),
-    PhoneNumber? initialValue,
-    double flagSize = 16,
+    this.initialValue,
+    this.flagSize = 16,
     PhoneNumberInputValidator? validator,
-    bool isCountrySelectionEnabled = true,
-    bool isCountryChipPersistent = true,
+    this.isCountrySelectionEnabled = true,
+    bool? isCountryButtonPersistent,
+    @Deprecated('Use [isCountryButtonPersistent]')
+    bool? isCountryChipPersistent,
     this.showDialCode = true,
     this.showIsoCodeInInput = false,
     this.countryButtonPadding,
+    // form field inputs
+    this.onSaved,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
     // textfield inputs
-    AutovalidateMode super.autovalidateMode =
-        AutovalidateMode.onUserInteraction,
-    TextInputType keyboardType = TextInputType.phone,
-    TextInputAction? textInputAction,
-    TextStyle? style,
-    TextStyle? countryCodeStyle,
-    StrutStyle? strutStyle,
-    TextAlign textAlign = TextAlign.start,
-    TextAlignVertical? textAlignVertical,
-    bool autofocus = false,
-    String obscuringCharacter = '*',
-    bool obscureText = false,
-    bool autocorrect = true,
-    SmartDashesType? smartDashesType,
-    SmartQuotesType? smartQuotesType,
-    bool enableSuggestions = true,
-    Widget Function(BuildContext, EditableTextState)? contextMenuBuilder,
-    bool? showCursor,
-    VoidCallback? onEditingComplete,
-    ValueChanged<String>? onSubmitted,
-    AppPrivateCommandCallback? onAppPrivateCommand,
-    Function(PointerDownEvent)? onTapOutside,
-    List<TextInputFormatter>? inputFormatters,
-    super.enabled,
-    double cursorWidth = 2.0,
-    double? cursorHeight,
-    Radius? cursorRadius,
-    Color? cursorColor,
-    ui.BoxHeightStyle selectionHeightStyle = ui.BoxHeightStyle.tight,
-    ui.BoxWidthStyle selectionWidthStyle = ui.BoxWidthStyle.tight,
-    Brightness? keyboardAppearance,
-    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
-    bool enableInteractiveSelection = true,
-    TextSelectionControls? selectionControls,
-    MouseCursor? mouseCursor,
-    ScrollPhysics? scrollPhysics,
-    ScrollController? scrollController,
-    Iterable<String>? autofillHints,
-    super.restorationId,
-    bool enableIMEPersonalizedLearning = true,
+    this.decoration = const InputDecoration(),
+    this.keyboardType = TextInputType.phone,
+    this.textInputAction,
+    this.style,
+    this.countryCodeStyle,
+    this.strutStyle,
+    this.textAlign = TextAlign.start,
+    this.textAlignVertical,
+    this.autofocus = false,
+    this.obscuringCharacter = '*',
+    this.obscureText = false,
+    this.autocorrect = true,
+    this.smartDashesType,
+    this.smartQuotesType,
+    this.enableSuggestions = true,
+    this.contextMenuBuilder,
+    this.showCursor,
+    this.onEditingComplete,
+    this.onSubmitted,
+    this.onAppPrivateCommand,
+    this.onTapOutside,
+    this.inputFormatters,
+    this.enabled = true,
+    this.cursorWidth = 2.0,
+    this.cursorHeight,
+    this.cursorRadius,
+    this.cursorColor,
+    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
+    this.keyboardAppearance,
+    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.enableInteractiveSelection = true,
+    this.selectionControls,
+    this.mouseCursor,
+    this.scrollPhysics,
+    this.scrollController,
+    this.autofillHints,
+    this.restorationId,
+    this.enableIMEPersonalizedLearning = true,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
         ),
-        super(
-          initialValue: controller != null ? controller.value : initialValue,
-          validator: validator ?? PhoneValidator.valid(),
-          builder: (state) {
-            final field = state as PhoneFormFieldState;
-            return PhoneField(
-              controller: field.controller,
-              focusNode: field.focusNode,
-              showFlagInInput: showFlagInInput,
-              showIsoCodeInInput: showIsoCodeInInput,
-              selectorNavigator: countrySelectorNavigator,
-              errorText: field.getErrorText(),
-              showDialCode: showDialCode,
-              flagSize: flagSize,
-              decoration: decoration,
-              enabled: enabled,
-              isCountrySelectionEnabled: isCountrySelectionEnabled,
-              isCountryChipPersistent: isCountryChipPersistent,
-              countryButtonPadding: countryButtonPadding,
-              // textfield params
-              autofillHints: autofillHints,
-              keyboardType: keyboardType,
-              textInputAction: textInputAction,
-              style: style,
-              countryCodeStyle: countryCodeStyle,
-              strutStyle: strutStyle,
-              textAlign: textAlign,
-              textAlignVertical: textAlignVertical,
-              autofocus: autofocus,
-              obscuringCharacter: obscuringCharacter,
-              obscureText: obscureText,
-              autocorrect: autocorrect,
-              smartDashesType: smartDashesType,
-              smartQuotesType: smartQuotesType,
-              enableSuggestions: enableSuggestions,
-              contextMenuBuilder: contextMenuBuilder,
-              showCursor: showCursor,
-              onEditingComplete: onEditingComplete,
-              onSubmitted: onSubmitted,
-              onAppPrivateCommand: onAppPrivateCommand,
-              onTapOutside: onTapOutside,
-              cursorWidth: cursorWidth,
-              cursorHeight: cursorHeight,
-              cursorRadius: cursorRadius,
-              cursorColor: cursorColor,
-              selectionHeightStyle: selectionHeightStyle,
-              selectionWidthStyle: selectionWidthStyle,
-              keyboardAppearance: keyboardAppearance,
-              scrollPadding: scrollPadding,
-              enableInteractiveSelection: enableInteractiveSelection,
-              selectionControls: selectionControls,
-              mouseCursor: mouseCursor,
-              scrollController: scrollController,
-              scrollPhysics: scrollPhysics,
-              restorationId: restorationId,
-              enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
-              inputFormatters: inputFormatters,
-            );
-          },
-        );
+        validator = validator ?? PhoneValidator.valid(),
+        isCountryButtonPersistent =
+            isCountryButtonPersistent ?? isCountryChipPersistent ?? true;
 
   @override
   PhoneFormFieldState createState() => PhoneFormFieldState();

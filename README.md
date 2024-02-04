@@ -103,8 +103,8 @@ Here are the list of the parameters available for all built-in country selector 
 
 ### Built-in country selector
 
-* **CountrySelectorNavigator.searchDelegate**
-  Open a dialog to select the country.
+* **CountrySelectorNavigator.page**
+  Open a page to select the country.
   No extra parameters
 
 * **CountrySelectorNavigator.dialog**

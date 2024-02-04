@@ -81,6 +81,10 @@ abstract class CountrySelectorNavigator {
     ScrollPhysics? scrollPhysics,
   }) = DialogNavigator._;
 
+  @Deprecated('Use [CountrySelectorNavigator.page] instead')
+  const factory CountrySelectorNavigator.searchDelegate() =
+      CountrySelectorNavigator.page;
+
   const factory CountrySelectorNavigator.page({
     List<IsoCode>? countries,
     List<IsoCode>? favorites,

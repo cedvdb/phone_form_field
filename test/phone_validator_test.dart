@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
@@ -10,15 +11,15 @@ void main() async {
       bool last = false;
 
       final validator = PhoneValidator.compose([
-        (PhoneNumber? p) {
+        (PhoneNumber? p, BuildContext context) {
           first = true;
           return null;
         },
-        (PhoneNumber? p) {
+        (PhoneNumber? p, BuildContext context) {
           second = true;
           return null;
         },
-        (PhoneNumber? p) {
+        (PhoneNumber? p, BuildContext context) {
           last = true;
           return null;
         },
@@ -36,14 +37,14 @@ void main() async {
       bool firstValidationDone = false;
       bool lastValidationDone = false;
       final validator = PhoneValidator.compose([
-        (PhoneNumber? p) {
+        (PhoneNumber? p, BuildContext context) {
           firstValidationDone = true;
           return null;
         },
-        (PhoneNumber? p) {
+        (PhoneNumber? p, BuildContext context) {
           return 'validation failed';
         },
-        (PhoneNumber? p) {
+        (PhoneNumber? p, BuildContext context) {
           lastValidationDone = true;
           return null;
         },
