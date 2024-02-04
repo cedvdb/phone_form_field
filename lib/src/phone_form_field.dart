@@ -6,7 +6,7 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'country_selection/country_selector_navigator.dart';
 import 'phone_field.dart';
-import 'phone_field_controller.dart';
+import 'phone_controller.dart';
 import 'validation/phone_validator.dart';
 import 'validation/validator_translator.dart';
 

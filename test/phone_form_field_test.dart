@@ -57,7 +57,7 @@ void main() {
 
       testWidgets('Should display country code', (tester) async {
         await tester.pumpWidget(getWidget());
-        expect(find.byType(CountryChip), findsWidgets);
+        expect(find.byType(CountryButton), findsWidgets);
       });
 
       testWidgets('Should display flag', (tester) async {
@@ -70,10 +70,10 @@ void main() {
           (tester) async {
         await tester.pumpWidget(getWidget(enabled: false));
         final countryChip =
-            tester.widget<CountryChip>(find.byType(CountryChip));
+            tester.widget<CountryButton>(find.byType(CountryButton));
         expect(countryChip.enabled, false);
 
-        await tester.tap(find.byType(CountryChip));
+        await tester.tap(find.byType(CountryButton));
         await tester.pumpAndSettle();
 
         expect(find.byType(CountryListView), findsNothing);
@@ -87,7 +87,7 @@ void main() {
         expect(find.byType(CountryListView), findsNothing);
         await tester.tap(find.byType(PhoneFormField));
         await tester.pump(const Duration(seconds: 1));
-        await tester.tap(find.byType(CountryChip));
+        await tester.tap(find.byType(CountryButton));
         await tester.pumpAndSettle();
         expect(find.byType(CountryListView), findsOneWidget);
       });
