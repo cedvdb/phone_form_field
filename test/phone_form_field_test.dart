@@ -248,13 +248,13 @@ void main() {
           'Should display invalid mobile phone when PhoneValidator.validMobile'
           ' is used and the phone number is not a mobile phone number',
           (tester) async {
-        PhoneNumber? phoneNumber = PhoneNumber.parse('+32');
+        PhoneNumber? phoneNumber = PhoneNumber.parse('+33');
         await tester.pumpWidget(getWidget(
           initialValue: phoneNumber,
           validator: PhoneValidator.validMobile(),
         ));
         final phoneField = find.byType(PhoneFormField);
-        await tester.enterText(phoneField, '77777777');
+        await tester.enterText(phoneField, '6 99 99 99 99');
         await tester.pumpAndSettle();
         expect(
           find.text(PhoneFieldLocalizationEn().invalidMobilePhoneNumber),
@@ -278,7 +278,7 @@ void main() {
           validator: PhoneValidator.validFixedLine(),
         ));
         final phoneField = find.byType(PhoneFormField);
-        await tester.enterText(phoneField, '77777777');
+        await tester.enterText(phoneField, '67777777');
         await tester.pumpAndSettle();
         expect(
           find.text(PhoneFieldLocalizationEn().invalidFixedLinePhoneNumber),
@@ -516,11 +516,8 @@ void main() {
         );
       });
 
-      testWidgets('Should reset', (tester) async {
-        PhoneNumber? phoneNumber = PhoneNumber.parse(
-          '',
-          destinationCountry: IsoCode.FR,
-        );
+      testWidgets('Should reset with form state', (tester) async {
+        PhoneNumber? phoneNumber = PhoneNumber.parse('+33');
 
         await tester.pumpWidget(getWidget(initialValue: phoneNumber));
         await tester.pump(const Duration(seconds: 1));

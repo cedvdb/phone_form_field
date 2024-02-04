@@ -3,6 +3,7 @@ part of 'phone_form_field.dart';
 class PhoneFormFieldState extends State<PhoneFormField> {
   late final PhoneController controller;
   late final FocusNode focusNode;
+  final GlobalKey<FormFieldState> _formFieldKey = GlobalKey();
 
   @override
   void initState() {
@@ -27,6 +28,7 @@ class PhoneFormFieldState extends State<PhoneFormField> {
   }
 
   void _onValueChanged() {
+    _formFieldKey.currentState?.didChange(controller.value);
     widget.onChanged?.call(controller.value);
   }
 
@@ -48,64 +50,65 @@ class PhoneFormFieldState extends State<PhoneFormField> {
   @override
   Widget build(BuildContext context) {
     return FormField(
+      key: _formFieldKey,
       autovalidateMode: widget.autovalidateMode,
       enabled: widget.enabled,
       initialValue: widget.initialValue,
       onSaved: widget.onSaved,
       restorationId: widget.restorationId,
       validator: (phoneNumber) => widget.validator(phoneNumber, context),
-      builder: (formFieldState) => AnimatedBuilder(
-        animation: focusNode,
-        builder: (context, countryButton) => TextField(
-          decoration: widget.decoration.copyWith(
-            errorText: formFieldState.errorText,
-            prefixIcon: widget.isCountryButtonPersistent ? countryButton : null,
-            prefix: widget.isCountryButtonPersistent ? null : countryButton,
-          ),
-          focusNode: focusNode,
-          controller: controller._formattedNationalNumberController,
-          enabled: widget.enabled,
-          inputFormatters: widget.inputFormatters ??
-              [
-                FilteringTextInputFormatter.allow(RegExp(
-                    '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
-              ],
-          onChanged: (txt) => controller.changeNationalNumber(txt),
-          autofillHints: widget.autofillHints,
-          keyboardType: widget.keyboardType,
-          textInputAction: widget.textInputAction,
-          style: widget.style,
-          strutStyle: widget.strutStyle,
-          textAlign: widget.textAlign,
-          textAlignVertical: widget.textAlignVertical,
-          autofocus: widget.autofocus,
-          obscuringCharacter: widget.obscuringCharacter,
-          obscureText: widget.obscureText,
-          autocorrect: widget.autocorrect,
-          smartDashesType: widget.smartDashesType,
-          smartQuotesType: widget.smartQuotesType,
-          enableSuggestions: widget.enableSuggestions,
-          showCursor: widget.showCursor,
-          onEditingComplete: widget.onEditingComplete,
-          onAppPrivateCommand: widget.onAppPrivateCommand,
-          cursorWidth: widget.cursorWidth,
-          cursorHeight: widget.cursorHeight,
-          cursorRadius: widget.cursorRadius,
-          cursorColor: widget.cursorColor,
-          onTapOutside: widget.onTapOutside,
-          selectionHeightStyle: widget.selectionHeightStyle,
-          selectionWidthStyle: widget.selectionWidthStyle,
-          keyboardAppearance: widget.keyboardAppearance,
-          scrollPadding: widget.scrollPadding,
-          enableInteractiveSelection: widget.enableInteractiveSelection,
-          selectionControls: widget.selectionControls,
-          mouseCursor: widget.mouseCursor,
-          scrollController: widget.scrollController,
-          scrollPhysics: widget.scrollPhysics,
-          restorationId: widget.restorationId,
-          enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+      builder: (formFieldState) => TextField(
+        decoration: widget.decoration.copyWith(
+          errorText: formFieldState.errorText,
+          prefixIcon: widget.isCountryButtonPersistent
+              ? _getCountryCodeChip(context)
+              : null,
+          prefix: widget.isCountryButtonPersistent
+              ? null
+              : _getCountryCodeChip(context),
         ),
-        child: _getCountryCodeChip(context),
+        focusNode: focusNode,
+        controller: controller._formattedNationalNumberController,
+        enabled: widget.enabled,
+        inputFormatters: widget.inputFormatters ??
+            [
+              FilteringTextInputFormatter.allow(RegExp(
+                  '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
+            ],
+        onChanged: (txt) => controller.changeNationalNumber(txt),
+        autofillHints: widget.autofillHints,
+        keyboardType: widget.keyboardType,
+        textInputAction: widget.textInputAction,
+        style: widget.style,
+        strutStyle: widget.strutStyle,
+        textAlign: widget.textAlign,
+        textAlignVertical: widget.textAlignVertical,
+        autofocus: widget.autofocus,
+        obscuringCharacter: widget.obscuringCharacter,
+        obscureText: widget.obscureText,
+        autocorrect: widget.autocorrect,
+        smartDashesType: widget.smartDashesType,
+        smartQuotesType: widget.smartQuotesType,
+        enableSuggestions: widget.enableSuggestions,
+        showCursor: widget.showCursor,
+        onEditingComplete: widget.onEditingComplete,
+        onAppPrivateCommand: widget.onAppPrivateCommand,
+        cursorWidth: widget.cursorWidth,
+        cursorHeight: widget.cursorHeight,
+        cursorRadius: widget.cursorRadius,
+        cursorColor: widget.cursorColor,
+        onTapOutside: widget.onTapOutside,
+        selectionHeightStyle: widget.selectionHeightStyle,
+        selectionWidthStyle: widget.selectionWidthStyle,
+        keyboardAppearance: widget.keyboardAppearance,
+        scrollPadding: widget.scrollPadding,
+        enableInteractiveSelection: widget.enableInteractiveSelection,
+        selectionControls: widget.selectionControls,
+        mouseCursor: widget.mouseCursor,
+        scrollController: widget.scrollController,
+        scrollPhysics: widget.scrollPhysics,
+        restorationId: widget.restorationId,
+        enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
       ),
     );
   }
