@@ -18,7 +18,7 @@ class PhoneFieldView extends StatelessWidget {
   final bool withLabel;
   final bool outlineBorder;
   final bool shouldFormat;
-  final bool isCountryChipPersistent;
+  final bool isCountryButtonPersistant;
   final bool mobileOnly;
   final bool useRtl;
 
@@ -31,7 +31,7 @@ class PhoneFieldView extends StatelessWidget {
     required this.withLabel,
     required this.outlineBorder,
     required this.shouldFormat,
-    required this.isCountryChipPersistent,
+    required this.isCountryButtonPersistant,
     required this.mobileOnly,
     required this.useRtl,
   }) : super(key: key);
@@ -53,14 +53,13 @@ class PhoneFieldView extends StatelessWidget {
         textDirection: useRtl ? TextDirection.rtl : TextDirection.ltr,
         child: PhoneFormField(
           key: inputKey,
-          controller: controller,
+          initialValue: PhoneNumber.parse('+33478787827'),
           focusNode: focusNode,
           shouldFormat: shouldFormat && !useRtl,
-          isCountryChipPersistent: isCountryChipPersistent,
+          isCountryButtonPersistent: isCountryButtonPersistant,
           autofocus: false,
           autofillHints: const [AutofillHints.telephoneNumber],
           countrySelectorNavigator: selectorNavigator,
-          defaultCountry: IsoCode.US,
           decoration: InputDecoration(
             label: withLabel ? const Text('Phone') : null,
             border: outlineBorder
@@ -131,7 +130,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool outlineBorder = true;
   bool mobileOnly = true;
   bool shouldFormat = true;
-  bool isCountryChipPersistent = false;
+  bool isCountryButtonPersistent = true;
   bool withLabel = true;
   bool useRtl = false;
   CountrySelectorNavigator selectorNavigator =
@@ -178,9 +177,9 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       title: const Text('Label'),
                     ),
                     SwitchListTile(
-                      value: isCountryChipPersistent,
+                      value: isCountryButtonPersistent,
                       onChanged: (v) =>
-                          setState(() => isCountryChipPersistent = v),
+                          setState(() => isCountryButtonPersistent = v),
                       title: const Text('Persistent country chip'),
                     ),
                     SwitchListTile(
@@ -256,7 +255,8 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                             selectorNavigator: selectorNavigator,
                             withLabel: withLabel,
                             outlineBorder: outlineBorder,
-                            isCountryChipPersistent: isCountryChipPersistent,
+                            isCountryButtonPersistant:
+                                isCountryButtonPersistent,
                             mobileOnly: mobileOnly,
                             shouldFormat: shouldFormat,
                             useRtl: useRtl,

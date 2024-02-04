@@ -10,7 +10,7 @@ class PhoneFormFieldState extends State<PhoneFormField> {
     controller = widget.controller ??
         PhoneController(
           initialValue: widget.initialValue ??
-              const PhoneNumber(isoCode: IsoCode.US, nsn: ''),
+              PhoneNumber(isoCode: widget.defaultCountry, nsn: ''),
         );
     focusNode = widget.focusNode ?? FocusNode();
     _preloadFlagsInMemory();
@@ -53,7 +53,7 @@ class PhoneFormFieldState extends State<PhoneFormField> {
                 : _getCountryCodeChip(context),
           ),
           focusNode: focusNode,
-          controller: controller.nationalNumberController,
+          controller: controller.formattedNationalNumberController,
           enabled: widget.enabled,
           inputFormatters: widget.inputFormatters ??
               [

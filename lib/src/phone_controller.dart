@@ -18,13 +18,14 @@ class PhoneController extends ChangeNotifier {
   }
 
   /// text editing controller of the nsn ( where user types the phone number )
-  late final TextEditingController nationalNumberController;
+  /// when shouldFormat is true
+  late final TextEditingController formattedNationalNumberController;
 
   PhoneController({
     this.initialValue = const PhoneNumber(isoCode: IsoCode.US, nsn: ''),
     this.shouldFormat = true,
   })  : _value = initialValue,
-        nationalNumberController =
+        formattedNationalNumberController =
             TextEditingController(text: initialValue.getFormattedNsn());
 
   reset() {
@@ -66,11 +67,10 @@ class PhoneController extends ChangeNotifier {
       _value = phoneNumber;
       newText = phoneNumber.getFormattedNsn();
     }
-    nationalNumberController.value = TextEditingValue(
+    formattedNationalNumberController.value = TextEditingValue(
       text: newText,
       selection: computeSelection(text, newText),
     );
-
     notifyListeners();
   }
 
@@ -80,7 +80,7 @@ class PhoneController extends ChangeNotifier {
   /// used arrow keys to move inside the text.
   TextSelection computeSelection(String originalText, String newText) {
     final currentSelectionOffset =
-        nationalNumberController.selection.extentOffset;
+        formattedNationalNumberController.selection.extentOffset;
     final isCursorAtEnd = currentSelectionOffset == originalText.length;
     var offset = currentSelectionOffset;
 
@@ -102,16 +102,16 @@ class PhoneController extends ChangeNotifier {
   }
 
   selectNationalNumber() {
-    nationalNumberController.selection = TextSelection(
+    formattedNationalNumberController.selection = TextSelection(
       baseOffset: 0,
-      extentOffset: nationalNumberController.value.text.length,
+      extentOffset: formattedNationalNumberController.value.text.length,
     );
     notifyListeners();
   }
 
   @override
   void dispose() {
-    nationalNumberController.dispose();
+    formattedNationalNumberController.dispose();
     super.dispose();
   }
 }

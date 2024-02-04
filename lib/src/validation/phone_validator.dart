@@ -113,9 +113,6 @@ class PhoneValidator {
   static PhoneNumberInputValidator validMobile({
     /// custom error message
     String? errorText,
-
-    /// determine whether a missing value should be reported as invalid
-    bool allowEmpty = true,
   }) =>
       validType(
         PhoneNumberType.mobile,
