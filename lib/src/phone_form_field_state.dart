@@ -14,7 +14,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     controller = widget.controller ??
         PhoneController(
           initialValue: widget.initialValue ??
-              // remove this line when defaultCountry is removed
+              // remove this line when defaultCountry is removed (now deprecated)
               // and just use the US default country if no initialValue is set
               PhoneNumber(isoCode: widget.defaultCountry, nsn: ''),
         );
@@ -90,6 +90,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
             ? null
             : _getCountryCodeChip(context),
       ),
+      controller: controller._formattedNationalNumberController,
       focusNode: focusNode,
       enabled: widget.enabled,
       inputFormatters: widget.inputFormatters ??

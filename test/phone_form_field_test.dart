@@ -232,10 +232,15 @@ void main() {
 
     group('validator', () {
       testWidgets(
-          'Should display invalid message when no validator is specified and '
-          'the phone number is invalid', (tester) async {
+          'Should display invalid message when PhoneValidator.valid is used '
+          'and the phone number is invalid', (tester) async {
         PhoneNumber? phoneNumber = PhoneNumber.parse('+33');
-        await tester.pumpWidget(getWidget(initialValue: phoneNumber));
+        await tester.pumpWidget(
+          getWidget(
+            initialValue: phoneNumber,
+            validatorBuilder: (context) => PhoneValidator.valid(context),
+          ),
+        );
         final phoneField = find.byType(PhoneFormField);
         await tester.enterText(phoneField, '9984');
         await tester.pumpAndSettle(const Duration(seconds: 1));
@@ -434,7 +439,7 @@ void main() {
           onSaved: onSaved,
         ));
         final phoneField = find.byType(PhoneFormField);
-        await tester.enterText(phoneField, '479281938');
+        await tester.enterText(phoneField, '477889922');
         await tester.pump(const Duration(seconds: 1));
         formKey.currentState?.save();
         await tester.pump(const Duration(seconds: 1));
@@ -443,7 +448,7 @@ void main() {
           phoneNumber,
           equals(
             PhoneNumber.parse(
-              '479281938',
+              '477 88 99 22',
               destinationCountry: IsoCode.FR,
             ),
           ),
@@ -473,7 +478,7 @@ void main() {
 
         // Tap on the PhoneFormField to focus it
         final phoneField = find.byType(PhoneFormField);
-        await tester.enterText(phoneField, '479281938');
+        await tester.enterText(phoneField, '488 22 33 44');
         await tester.pump(const Duration(seconds: 1));
 
         // Verify that the PhoneFormField has focus
@@ -520,11 +525,11 @@ void main() {
       });
 
       testWidgets('Should reset with form state', (tester) async {
-        PhoneNumber? phoneNumber = PhoneNumber.parse('+33');
+        PhoneNumber? phoneNumber = PhoneNumber.parse('+32');
 
         await tester.pumpWidget(getWidget(initialValue: phoneNumber));
         await tester.pump(const Duration(seconds: 1));
-        const national = '123456';
+        const national = '477 88 99 22';
         final phoneField = find.byType(PhoneFormField);
         await tester.enterText(phoneField, national);
         await tester.pumpAndSettle();

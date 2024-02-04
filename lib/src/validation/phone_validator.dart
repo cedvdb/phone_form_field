@@ -3,7 +3,7 @@ import 'package:phone_form_field/phone_form_field.dart';
 
 typedef PhoneNumberInputValidator = String? Function(PhoneNumber? phoneNumber);
 
-class PhoneValidator {
+abstract class PhoneValidator {
   /// allow to compose several validators
   /// Note that validator list order is important as first
   /// validator failing will return according message.
