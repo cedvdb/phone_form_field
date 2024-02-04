@@ -100,6 +100,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
 
   /// padding inside country button,
   /// this can be used to align the country button with the phone number
+  /// and is mostly useful when using [isCountryChipPersistent] as true.
   final EdgeInsets? countryButtonPadding;
 
   PhoneFormField({
