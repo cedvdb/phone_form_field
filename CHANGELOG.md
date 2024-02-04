@@ -7,7 +7,8 @@
 - Improve accessibility labels
 - Some visual tweaks
 - Added some missing countries
-- [Breaking] : no validation done by default, provided validators now require a context parameter
+- [Breaking] : no validation done by default
+- [Breaking] : provided validators now require a context parameter
 - [Breaking] : `LocalizedCountryRegistry` removed. If you were using it to localize a country name, you should use `PhoneFieldLocalization.of(context).countryName(isoCode)`.
 - [Deprecated] : `isCountryChipPersistent` in favor of `isCountryButtonPersistent`.
 - [Deprecated] : `shouldFormat`, it is now always ON by default

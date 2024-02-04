@@ -46,14 +46,6 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     }
   }
 
-  // overriding method of form field, so when the user resets a form,
-  // and subsequently every form field descendant, the controller is updated
-  @override
-  void reset() {
-    controller.value = controller.initialValue;
-    super.reset();
-  }
-
   void _onControllerValueChanged() {
     /// when the controller changes because the user called
     /// controller.value = x we need to change the value of the form field
@@ -62,10 +54,18 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     }
   }
 
-  void onTextfieldChangedHandler(String value) {
+  void _onTextfieldChanged(String value) {
     controller.changeNationalNumber(value);
     didChange(controller.value);
     widget.onChanged?.call(controller.value);
+  }
+
+  // overriding method of form field, so when the user resets a form,
+  // and subsequently every form field descendant, the controller is updated
+  @override
+  void reset() {
+    controller.value = controller.initialValue;
+    super.reset();
   }
 
   void _selectCountry() async {
@@ -97,7 +97,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
             FilteringTextInputFormatter.allow(RegExp(
                 '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
           ],
-      onChanged: (txt) => controller.changeNationalNumber(txt),
+      onChanged: _onTextfieldChanged,
       autofillHints: widget.autofillHints,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,

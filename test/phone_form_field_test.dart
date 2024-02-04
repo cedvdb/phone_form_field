@@ -18,7 +18,7 @@ void main() {
       PhoneController? controller,
       bool showFlagInInput = true,
       bool showDialCode = true,
-      PhoneNumberInputValidator? validator,
+      PhoneNumberInputValidator Function(BuildContext)? validatorBuilder,
       bool enabled = true,
     }) =>
         MaterialApp(
@@ -28,22 +28,24 @@ void main() {
           ],
           supportedLocales: const [Locale('en')],
           home: Scaffold(
-            body: Form(
-              key: formKey,
-              child: PhoneFormField(
-                key: phoneKey,
-                initialValue: initialValue,
-                onChanged: onChanged,
-                onSaved: onSaved,
-                onTapOutside: onTapOutside,
-                showFlagInInput: showFlagInInput,
-                showDialCode: showDialCode,
-                controller: controller,
-                validator: validator,
-                enabled: enabled,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-              ),
-            ),
+            body: Builder(builder: (context) {
+              return Form(
+                key: formKey,
+                child: PhoneFormField(
+                  key: phoneKey,
+                  initialValue: initialValue,
+                  onChanged: onChanged,
+                  onSaved: onSaved,
+                  onTapOutside: onTapOutside,
+                  showFlagInInput: showFlagInInput,
+                  showDialCode: showDialCode,
+                  controller: controller,
+                  validator: validatorBuilder?.call(context),
+                  enabled: enabled,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                ),
+              );
+            }),
           ),
         );
 
@@ -251,7 +253,7 @@ void main() {
         PhoneNumber? phoneNumber = PhoneNumber.parse('+33');
         await tester.pumpWidget(getWidget(
           initialValue: phoneNumber,
-          validator: PhoneValidator.validMobile(),
+          validatorBuilder: (context) => PhoneValidator.validMobile(context),
         ));
         final phoneField = find.byType(PhoneFormField);
         await tester.enterText(phoneField, '6 99 99 99 99');
@@ -275,7 +277,7 @@ void main() {
         PhoneNumber? phoneNumber = PhoneNumber.parse('+32');
         await tester.pumpWidget(getWidget(
           initialValue: phoneNumber,
-          validator: PhoneValidator.validFixedLine(),
+          validatorBuilder: (context) => PhoneValidator.validFixedLine(context),
         ));
         final phoneField = find.byType(PhoneFormField);
         await tester.enterText(phoneField, '67777777');
@@ -299,7 +301,7 @@ void main() {
             PhoneController(initialValue: PhoneNumber.parse('+32 444'));
         await tester.pumpWidget(getWidget(
           controller: controller,
-          validator: PhoneValidator.required(),
+          validatorBuilder: (context) => PhoneValidator.required(context),
         ));
         controller.changeNationalNumber('');
         await tester.pumpAndSettle();
@@ -318,7 +320,8 @@ void main() {
               PhoneController(initialValue: PhoneNumber.parse('+32 444'));
           await tester.pumpWidget(getWidget(
             controller: controller,
-            validator: PhoneValidator.validCountry([IsoCode.FR, IsoCode.BE]),
+            validatorBuilder: (context) =>
+                PhoneValidator.validCountry(context, [IsoCode.FR, IsoCode.BE]),
           ));
           controller.changeCountry(IsoCode.US);
           await tester.pumpAndSettle();
@@ -353,7 +356,7 @@ void main() {
         await tester.pumpWidget(
           getWidget(
             initialValue: PhoneNumber.parse('+33'),
-            validator: validator,
+            validatorBuilder: (context) => validator,
           ),
         );
         final phoneField = find.byType(PhoneFormField);
@@ -385,7 +388,7 @@ void main() {
         await tester.pumpWidget(
           getWidget(
             initialValue: PhoneNumber.parse('+33'),
-            validator: validator,
+            validatorBuilder: (context) => validator,
           ),
         );
         final phoneField = find.byType(PhoneFormField);
