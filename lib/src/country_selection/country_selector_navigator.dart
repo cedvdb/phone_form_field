@@ -38,7 +38,10 @@ abstract class CountrySelectorNavigator {
     this.useRootNavigator = true,
   });
 
-  Future<LocalizedCountry?> navigate(BuildContext context);
+  @Deprecated('Use [show] instead')
+  Future<LocalizedCountry?> navigate(BuildContext context) => show(context);
+
+  Future<LocalizedCountry?> show(BuildContext context);
 
   CountrySelector _getCountrySelector({
     required ValueChanged<LocalizedCountry> onCountrySelected,
@@ -180,7 +183,7 @@ class DialogNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<LocalizedCountry?> navigate(BuildContext context) {
+  Future<LocalizedCountry?> show(BuildContext context) {
     return showDialog(
       context: context,
       builder: (_) => Dialog(
@@ -236,7 +239,7 @@ class PageNavigator extends CountrySelectorNavigator {
   }
 
   @override
-  Future<LocalizedCountry?> navigate(
+  Future<LocalizedCountry?> show(
     BuildContext context,
   ) {
     return Navigator.of(context).push(
@@ -267,7 +270,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<LocalizedCountry?> navigate(
+  Future<LocalizedCountry?> show(
     BuildContext context,
   ) {
     LocalizedCountry? selected;
@@ -310,7 +313,7 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<LocalizedCountry?> navigate(
+  Future<LocalizedCountry?> show(
     BuildContext context,
   ) {
     return showModalBottomSheet<LocalizedCountry>(
@@ -355,7 +358,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<LocalizedCountry?> navigate(BuildContext context) {
+  Future<LocalizedCountry?> show(BuildContext context) {
     final effectiveBorderRadius = borderRadius ??
         const BorderRadius.only(
           topLeft: Radius.circular(16),

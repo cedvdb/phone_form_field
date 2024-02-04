@@ -524,9 +524,10 @@ void main() {
         const national = '123456';
         final phoneField = find.byType(PhoneFormField);
         await tester.enterText(phoneField, national);
+        await tester.pumpAndSettle();
         expect(find.text(national), findsOneWidget);
         formKey.currentState?.reset();
-        await tester.pump(const Duration(seconds: 1));
+        await tester.pumpAndSettle();
         expect(find.text(national), findsNothing);
       });
     });
