@@ -53,7 +53,9 @@ class PhoneFormFieldState extends State<PhoneFormField> {
                 : _getCountryCodeChip(context),
           ),
           focusNode: focusNode,
-          controller: controller.formattedNationalNumberController,
+          controller: widget.shouldFormat
+              ? controller.formattedNationalNumberController
+              : controller.nationalNumberController,
           enabled: widget.enabled,
           inputFormatters: widget.inputFormatters ??
               [

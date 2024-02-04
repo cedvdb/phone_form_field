@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization_en.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/country/localize_country.dart';
 import 'package:phone_form_field/src/country_selection/country_finder.dart';
+
 
 class CountrySelectorController with ChangeNotifier {
   final _finder = CountryFinder();

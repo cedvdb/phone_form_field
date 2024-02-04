@@ -3,8 +3,6 @@ import 'package:phone_form_field/src/validation/allowed_characters.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 class PhoneController extends ChangeNotifier {
-  final bool shouldFormat;
-
   /// focus node of the national number
   // final FocusNode focusNode;
   final PhoneNumber initialValue;
@@ -21,12 +19,17 @@ class PhoneController extends ChangeNotifier {
   /// when shouldFormat is true
   late final TextEditingController formattedNationalNumberController;
 
+  /// text editing controller of the nsn ( where user types the phone number )
+  /// when shouldFormat is false
+  late final TextEditingController nationalNumberController;
+
   PhoneController({
     this.initialValue = const PhoneNumber(isoCode: IsoCode.US, nsn: ''),
-    this.shouldFormat = true,
   })  : _value = initialValue,
         formattedNationalNumberController =
-            TextEditingController(text: initialValue.getFormattedNsn());
+            TextEditingController(text: initialValue.getFormattedNsn()),
+        nationalNumberController =
+            TextEditingController(text: initialValue.nsn);
 
   reset() {
     _value = initialValue;
@@ -43,9 +46,11 @@ class PhoneController extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeText(String? text) {
+  changeText(
+    String? text,
+  ) {
     text = text ?? '';
-    var newText = text;
+    var newFormattedText = text;
 
     // if starts with + then we parse the whole number
     final startsWithPlus =
@@ -57,7 +62,7 @@ class PhoneController extends ChangeNotifier {
       // the national number field to remove the "+ country dial code"
       if (phoneNumber != null) {
         _value = phoneNumber;
-        newText = _value.getFormattedNsn();
+        newFormattedText = _value.getFormattedNsn();
       }
     } else {
       final phoneNumber = PhoneNumber.parse(
@@ -65,11 +70,15 @@ class PhoneController extends ChangeNotifier {
         destinationCountry: _value.isoCode,
       );
       _value = phoneNumber;
-      newText = phoneNumber.getFormattedNsn();
+      newFormattedText = phoneNumber.getFormattedNsn();
     }
     formattedNationalNumberController.value = TextEditingValue(
-      text: newText,
-      selection: computeSelection(text, newText),
+      text: newFormattedText,
+      selection: computeSelection(text, newFormattedText),
+    );
+    nationalNumberController.value = TextEditingValue(
+      text: text,
+      selection: computeSelection(text, text),
     );
     notifyListeners();
   }

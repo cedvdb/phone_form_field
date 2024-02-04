@@ -2,7 +2,7 @@ import 'phone_field_localization.dart';
 
 /// The translations for Modern Greek (`el`).
 class PhoneFieldLocalizationEl extends PhoneFieldLocalization {
-  PhoneFieldLocalizationEl([String locale = 'el']) : super(locale);
+  PhoneFieldLocalizationEl([super.locale = 'el']);
 
   @override
   String get invalidPhoneNumber => 'Μη έγκυρος αριθμός τηλεφώνου';
@@ -14,7 +14,8 @@ class PhoneFieldLocalizationEl extends PhoneFieldLocalization {
   String get invalidMobilePhoneNumber => 'Μη έγκυρος αριθμός κινητού τηλεφώνου';
 
   @override
-  String get invalidFixedLinePhoneNumber => 'Μη έγκυρος αριθμός σταθερού τηλεφώνου';
+  String get invalidFixedLinePhoneNumber =>
+      'Μη έγκυρος αριθμός σταθερού τηλεφώνου';
 
   @override
   String get requiredPhoneNumber => 'Απαιτούμενος αριθμός τηλεφώνου';

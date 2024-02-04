@@ -2,7 +2,6 @@ import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization_en.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/country_selection/country_list_view.dart';
 

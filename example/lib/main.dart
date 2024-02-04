@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: const [
+      localizationsDelegates: [
         ...GlobalMaterialLocalizations.delegates,
         PhoneFieldLocalization.delegate
       ],

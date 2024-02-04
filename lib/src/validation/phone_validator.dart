@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization_en.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+
 
 typedef PhoneNumberInputValidator = String? Function(
     PhoneNumber? phoneNumber, BuildContext context);

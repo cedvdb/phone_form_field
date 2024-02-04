@@ -6,8 +6,7 @@ export 'src/country_selection/country_selector.dart';
 export 'src/country/country_button.dart';
 
 export 'src/validation/phone_validator.dart';
-
-export 'l10n/generated/phone_field_localization.dart';
+export 'src/localization/localization.dart';
 
 export 'src/phone_controller.dart';
 export 'src/country/localized_country.dart';

@@ -1,5 +1,7 @@
-import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
-import 'package:phone_numbers_parser/phone_numbers_parser.dart';
+import 'package:phone_form_field/phone_form_field.dart';
+
+export 'generated/phone_field_localization.dart';
+export 'generated/phone_field_localization_en.dart';
 
 extension DynamicLocalization on PhoneFieldLocalization {
   countryName(IsoCode isoCode) {
