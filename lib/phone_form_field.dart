@@ -8,7 +8,6 @@ export 'src/country/country_button.dart';
 export 'src/validation/phone_validator.dart';
 export 'src/localization/localization.dart';
 
-export 'src/phone_controller.dart';
 export 'src/country/localized_country.dart';
 
 export 'package:phone_numbers_parser/phone_numbers_parser.dart'

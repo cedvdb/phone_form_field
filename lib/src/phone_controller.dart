@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:phone_form_field/src/validation/allowed_characters.dart';
-import 'package:phone_numbers_parser/phone_numbers_parser.dart';
+part of 'phone_form_field.dart';
 
 class PhoneController extends ChangeNotifier {
   /// focus node of the national number
@@ -11,31 +9,25 @@ class PhoneController extends ChangeNotifier {
 
   set value(PhoneNumber phoneNumber) {
     _value = phoneNumber;
-    changeCountry(_value.isoCode);
-    changeText(_value.nsn);
+    final formattedNsn = _value.formatNsn();
+    if (_formattedNationalNumberController.text != formattedNsn) {
+      changeNationalNumber(formattedNsn);
+    } else {
+      notifyListeners();
+    }
   }
 
   /// text editing controller of the nsn ( where user types the phone number )
-  /// when shouldFormat is true
-  late final TextEditingController formattedNationalNumberController;
-
-  /// text editing controller of the nsn ( where user types the phone number )
-  /// when shouldFormat is false
-  late final TextEditingController nationalNumberController;
-
+  late final TextEditingController _formattedNationalNumberController;
   PhoneController({
     this.initialValue = const PhoneNumber(isoCode: IsoCode.US, nsn: ''),
   })  : _value = initialValue,
-        formattedNationalNumberController =
-            TextEditingController(text: initialValue.getFormattedNsn()),
-        nationalNumberController =
-            TextEditingController(text: initialValue.nsn);
+        _formattedNationalNumberController = TextEditingController(
+          text: initialValue.formatNsn(),
+        );
 
   reset() {
-    _value = initialValue;
-    changeCountry(_value.isoCode);
-    changeText(_value.nsn);
-    notifyListeners();
+    value = initialValue;
   }
 
   changeCountry(IsoCode isoCode) {
@@ -46,9 +38,7 @@ class PhoneController extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeText(
-    String? text,
-  ) {
+  changeNationalNumber(String? text) {
     text = text ?? '';
     var newFormattedText = text;
 
@@ -62,7 +52,7 @@ class PhoneController extends ChangeNotifier {
       // the national number field to remove the "+ country dial code"
       if (phoneNumber != null) {
         _value = phoneNumber;
-        newFormattedText = _value.getFormattedNsn();
+        newFormattedText = _value.formatNsn();
       }
     } else {
       final phoneNumber = PhoneNumber.parse(
@@ -70,15 +60,11 @@ class PhoneController extends ChangeNotifier {
         destinationCountry: _value.isoCode,
       );
       _value = phoneNumber;
-      newFormattedText = phoneNumber.getFormattedNsn();
+      newFormattedText = phoneNumber.formatNsn();
     }
-    formattedNationalNumberController.value = TextEditingValue(
+    _formattedNationalNumberController.value = TextEditingValue(
       text: newFormattedText,
-      selection: computeSelection(text, newFormattedText),
-    );
-    nationalNumberController.value = TextEditingValue(
-      text: text,
-      selection: computeSelection(text, text),
+      selection: _computeSelection(text, newFormattedText),
     );
     notifyListeners();
   }
@@ -87,9 +73,9 @@ class PhoneController extends ChangeNotifier {
   /// Since there is formatting going on we need to explicitely do it.
   /// We don't want to do it in the middle because the user might have
   /// used arrow keys to move inside the text.
-  TextSelection computeSelection(String originalText, String newText) {
+  TextSelection _computeSelection(String originalText, String newText) {
     final currentSelectionOffset =
-        formattedNationalNumberController.selection.extentOffset;
+        _formattedNationalNumberController.selection.extentOffset;
     final isCursorAtEnd = currentSelectionOffset == originalText.length;
     var offset = currentSelectionOffset;
 
@@ -111,16 +97,16 @@ class PhoneController extends ChangeNotifier {
   }
 
   selectNationalNumber() {
-    formattedNationalNumberController.selection = TextSelection(
+    _formattedNationalNumberController.selection = TextSelection(
       baseOffset: 0,
-      extentOffset: formattedNationalNumberController.value.text.length,
+      extentOffset: _formattedNationalNumberController.value.text.length,
     );
     notifyListeners();
   }
 
   @override
   void dispose() {
-    formattedNationalNumberController.dispose();
+    _formattedNationalNumberController.dispose();
     super.dispose();
   }
 }

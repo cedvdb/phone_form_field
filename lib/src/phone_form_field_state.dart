@@ -7,20 +7,34 @@ class PhoneFormFieldState extends State<PhoneFormField> {
   @override
   void initState() {
     super.initState();
+
     controller = widget.controller ??
         PhoneController(
           initialValue: widget.initialValue ??
+              // remove this line when defaultCountry is removed
+              // and just use the US default country if no initialValue is set
               PhoneNumber(isoCode: widget.defaultCountry, nsn: ''),
         );
+    controller.addListener(_onValueChanged);
     focusNode = widget.focusNode ?? FocusNode();
     _preloadFlagsInMemory();
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(_onValueChanged);
+    super.dispose();
+  }
+
+  void _onValueChanged() {
+    widget.onChanged?.call(controller.value);
   }
 
   void _preloadFlagsInMemory() {
     CircleFlag.preload(IsoCode.values.map((isoCode) => isoCode.name).toList());
   }
 
-  void selectCountry() async {
+  void _selectCountry() async {
     if (!widget.isCountrySelectionEnabled) {
       return;
     }
@@ -42,27 +56,21 @@ class PhoneFormFieldState extends State<PhoneFormField> {
       validator: (phoneNumber) => widget.validator(phoneNumber, context),
       builder: (formFieldState) => AnimatedBuilder(
         animation: focusNode,
-        builder: (context, _) => TextField(
+        builder: (context, countryButton) => TextField(
           decoration: widget.decoration.copyWith(
             errorText: formFieldState.errorText,
-            prefixIcon: widget.isCountryButtonPersistent
-                ? _getCountryCodeChip(context)
-                : null,
-            prefix: widget.isCountryButtonPersistent
-                ? null
-                : _getCountryCodeChip(context),
+            prefixIcon: widget.isCountryButtonPersistent ? countryButton : null,
+            prefix: widget.isCountryButtonPersistent ? null : countryButton,
           ),
           focusNode: focusNode,
-          controller: widget.shouldFormat
-              ? controller.formattedNationalNumberController
-              : controller.nationalNumberController,
+          controller: controller._formattedNationalNumberController,
           enabled: widget.enabled,
           inputFormatters: widget.inputFormatters ??
               [
                 FilteringTextInputFormatter.allow(RegExp(
                     '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
               ],
-          onChanged: (txt) => controller.changeText(txt),
+          onChanged: (txt) => controller.changeNationalNumber(txt),
           autofillHints: widget.autofillHints,
           keyboardType: widget.keyboardType,
           textInputAction: widget.textInputAction,
@@ -97,27 +105,31 @@ class PhoneFormFieldState extends State<PhoneFormField> {
           restorationId: widget.restorationId,
           enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
         ),
+        child: _getCountryCodeChip(context),
       ),
     );
   }
 
   Widget _getCountryCodeChip(BuildContext context) {
-    return CountryButton(
-      key: const ValueKey('country-code-chip'),
-      isoCode: controller.value.isoCode,
-      onTap: widget.enabled ? selectCountry : null,
-      padding: _computeCountryButtonPadding(context),
-      showFlag: widget.showFlagInInput,
-      showIsoCode: widget.showIsoCodeInInput,
-      showDialCode: widget.showDialCode,
-      textStyle: widget.countryCodeStyle ??
-          widget.decoration.labelStyle ??
-          TextStyle(
-            fontSize: 16,
-            color: Theme.of(context).textTheme.bodySmall?.color,
-          ),
-      flagSize: widget.flagSize,
-      enabled: widget.enabled,
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, _) => CountryButton(
+        key: const ValueKey('country-code-chip'),
+        isoCode: controller.value.isoCode,
+        onTap: widget.enabled ? _selectCountry : null,
+        padding: _computeCountryButtonPadding(context),
+        showFlag: widget.showFlagInInput,
+        showIsoCode: widget.showIsoCodeInInput,
+        showDialCode: widget.showDialCode,
+        textStyle: widget.countryCodeStyle ??
+            widget.decoration.labelStyle ??
+            TextStyle(
+              fontSize: 16,
+              color: Theme.of(context).textTheme.bodySmall?.color,
+            ),
+        flagSize: widget.flagSize,
+        enabled: widget.enabled,
+      ),
     );
   }
 

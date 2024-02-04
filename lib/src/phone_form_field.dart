@@ -8,9 +8,9 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'country/country_button.dart';
 import 'country_selection/country_selector_navigator.dart';
-import 'phone_controller.dart';
 import 'validation/phone_validator.dart';
 
+part 'phone_controller.dart';
 part 'phone_form_field_state.dart';
 
 /// Phone input extending form field.
@@ -33,20 +33,6 @@ part 'phone_form_field_state.dart';
 /// If [controller] is specified the [initialValue] will be
 /// the first value of the [PhoneController]
 /// {@endtemplate}
-///
-/// ### formatting:
-/// {@template shouldFormat}
-/// Specify whether the field will format the national number with [shouldFormat] = true (default)
-/// eg: +33677784455 will be displayed as +33 6 77 78 44 55.
-///
-/// The formats are localized for the country code.
-/// eg: +1 677-784-455 & +33 6 77 78 44 55
-///
-///
-/// This does not affect the output value, only the display.
-/// Therefor [onChanged] will still return a [PhoneNumber]
-/// with nsn of 677784455.
-/// {@endtemplate}
 class PhoneFormField extends StatefulWidget {
   /// {@macro controller}
   final PhoneController? controller;
@@ -58,7 +44,6 @@ class PhoneFormField extends StatefulWidget {
   /// example: PhoneValidator.validType(expectedType: PhoneNumberType.mobile)
   final PhoneNumberInputValidator validator;
 
-  /// {@macro shouldFormat}
   final bool shouldFormat;
 
   /// callback called when the input value changes
@@ -150,6 +135,7 @@ class PhoneFormField extends StatefulWidget {
   PhoneFormField({
     super.key,
     this.controller,
+    @Deprecated('This is now always true and has no effect anymore')
     this.shouldFormat = true,
     this.onChanged,
     this.focusNode,

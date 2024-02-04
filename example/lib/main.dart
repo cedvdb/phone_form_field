@@ -17,7 +17,6 @@ class PhoneFieldView extends StatelessWidget {
   final CountrySelectorNavigator selectorNavigator;
   final bool withLabel;
   final bool outlineBorder;
-  final bool shouldFormat;
   final bool isCountryButtonPersistant;
   final bool mobileOnly;
   final bool useRtl;
@@ -30,7 +29,6 @@ class PhoneFieldView extends StatelessWidget {
     required this.selectorNavigator,
     required this.withLabel,
     required this.outlineBorder,
-    required this.shouldFormat,
     required this.isCountryButtonPersistant,
     required this.mobileOnly,
     required this.useRtl,
@@ -53,9 +51,8 @@ class PhoneFieldView extends StatelessWidget {
         textDirection: useRtl ? TextDirection.rtl : TextDirection.ltr,
         child: PhoneFormField(
           key: inputKey,
-          initialValue: PhoneNumber.parse('+33478787827'),
           focusNode: focusNode,
-          shouldFormat: shouldFormat && !useRtl,
+          controller: controller,
           isCountryButtonPersistent: isCountryButtonPersistant,
           autofocus: false,
           autofillHints: const [AutofillHints.telephoneNumber],
@@ -89,7 +86,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [
+      localizationsDelegates: const [
         ...GlobalMaterialLocalizations.delegates,
         PhoneFieldLocalization.delegate
       ],
@@ -129,7 +126,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
 
   bool outlineBorder = true;
   bool mobileOnly = true;
-  bool shouldFormat = true;
   bool isCountryButtonPersistent = true;
   bool withLabel = true;
   bool useRtl = false;
@@ -186,11 +182,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       value: mobileOnly,
                       onChanged: (v) => setState(() => mobileOnly = v),
                       title: const Text('Mobile phone number only'),
-                    ),
-                    SwitchListTile(
-                      value: shouldFormat,
-                      onChanged: (v) => setState(() => shouldFormat = v),
-                      title: const Text('Should format'),
                     ),
                     SwitchListTile(
                       value: useRtl,
@@ -258,7 +249,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                             isCountryButtonPersistant:
                                 isCountryButtonPersistent,
                             mobileOnly: mobileOnly,
-                            shouldFormat: shouldFormat,
                             useRtl: useRtl,
                           ),
                         ],
@@ -285,10 +275,8 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     ),
                     const SizedBox(height: 12),
                     ElevatedButton(
-                      onPressed: () => controller.value = PhoneNumber.parse(
-                        '699999999',
-                        destinationCountry: IsoCode.FR,
-                      ),
+                      onPressed: () => controller.value =
+                          PhoneNumber.parse('+33 699 999 999'),
                       child: const Text('Set +33 699 999 999'),
                     ),
                   ],

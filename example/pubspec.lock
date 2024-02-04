@@ -179,10 +179,10 @@ packages:
     dependency: transitive
     description:
       name: phone_numbers_parser
-      sha256: c36e71f611b5232eb917c9bcc11ffa5a3144e072241f97bda5b352cb5b9f3f80
+      sha256: d0dad4f5b61c3d959b069df088ef7242ffed42a3cf74c7549fd7c324e1eb964e
       url: "https://pub.dev"
     source: hosted
-    version: "8.1.2"
+    version: "8.1.3"
   sky_engine:
     dependency: transitive
     description: flutter
