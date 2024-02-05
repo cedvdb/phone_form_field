@@ -1,13 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/country_selection/country_selector_page.dart';
+import 'package:flutter_country_selector/flutter_country_selector.dart';
 
 abstract class CountrySelectorNavigator {
   final List<IsoCode>? countries;
   final List<IsoCode>? favorites;
-  final bool addSeparator;
-  final bool showCountryCode;
+  final bool showDialCode;
   final bool sortCountries;
   final String? noResultMessage;
   final bool searchAutofocus;
@@ -23,8 +21,10 @@ abstract class CountrySelectorNavigator {
   const CountrySelectorNavigator({
     this.countries,
     this.favorites,
-    this.addSeparator = true,
-    this.showCountryCode = true,
+    @Deprecated('This is always on by default, this can be safely removed')
+    bool addSeparator = true,
+    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
+    bool? showDialCode,
     this.sortCountries = false,
     this.noResultMessage,
     required this.searchAutofocus,
@@ -36,23 +36,22 @@ abstract class CountrySelectorNavigator {
     this.scrollPhysics,
     this.flagSize = 40,
     this.useRootNavigator = true,
-  });
+  }) : showDialCode = showDialCode ?? showCountryCode ?? true;
 
   @Deprecated('Use [show] instead')
-  Future<LocalizedCountry?> navigate(BuildContext context) => show(context);
+  Future<IsoCode?> navigate(BuildContext context) => show(context);
 
-  Future<LocalizedCountry?> show(BuildContext context);
+  Future<IsoCode?> show(BuildContext context);
 
-  CountrySelector _getCountrySelector({
-    required ValueChanged<LocalizedCountry> onCountrySelected,
+  CountrySelectorSheet _getCountrySelector({
+    required ValueChanged<IsoCode> onCountrySelected,
     ScrollController? scrollController,
   }) {
-    return CountrySelector(
+    return CountrySelector.sheet(
       countries: countries ?? IsoCode.values,
       favoriteCountries: favorites ?? [],
       onCountrySelected: onCountrySelected,
-      addFavoritesSeparator: addSeparator,
-      showCountryCode: showCountryCode,
+      showDialCode: showDialCode,
       noResultMessage: noResultMessage,
       scrollController: scrollController,
       searchAutofocus: searchAutofocus,
@@ -183,7 +182,7 @@ class DialogNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<LocalizedCountry?> show(BuildContext context) {
+  Future<IsoCode?> show(BuildContext context) {
     return showDialog(
       context: context,
       builder: (_) => Dialog(
@@ -221,25 +220,24 @@ class PageNavigator extends CountrySelectorNavigator {
   final ThemeData? appBarTheme;
 
   CountrySelectorPage _getCountrySelectorPage({
-    required ValueChanged<LocalizedCountry> onCountrySelected,
+    required ValueChanged<IsoCode> onCountrySelected,
     ScrollController? scrollController,
   }) {
-    return CountrySelectorPage(
+    return CountrySelector.page(
       onCountrySelected: onCountrySelected,
       scrollController: scrollController,
-      addFavoritesSeparator: addSeparator,
       countries: countries ?? IsoCode.values,
       favoriteCountries: favorites ?? [],
       noResultMessage: noResultMessage,
       searchAutofocus: searchAutofocus,
-      showCountryCode: showCountryCode,
+      showDialCode: showDialCode,
       titleStyle: titleStyle,
       subtitleStyle: subtitleStyle,
     );
   }
 
   @override
-  Future<LocalizedCountry?> show(
+  Future<IsoCode?> show(
     BuildContext context,
   ) {
     return Navigator.of(context).push(
@@ -270,10 +268,10 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<LocalizedCountry?> show(
+  Future<IsoCode?> show(
     BuildContext context,
   ) {
-    LocalizedCountry? selected;
+    IsoCode? selected;
     final ctrl = showBottomSheet(
       context: context,
       builder: (_) => MediaQuery(
@@ -313,10 +311,10 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<LocalizedCountry?> show(
+  Future<IsoCode?> show(
     BuildContext context,
   ) {
-    return showModalBottomSheet<LocalizedCountry>(
+    return showModalBottomSheet<IsoCode>(
       context: context,
       builder: (_) => SizedBox(
         height: height ?? MediaQuery.of(context).size.height - 90,
@@ -358,14 +356,14 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
   });
 
   @override
-  Future<LocalizedCountry?> show(BuildContext context) {
+  Future<IsoCode?> show(BuildContext context) {
     final effectiveBorderRadius = borderRadius ??
         const BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         );
 
-    return showModalBottomSheet<LocalizedCountry>(
+    return showModalBottomSheet<IsoCode>(
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: effectiveBorderRadius,

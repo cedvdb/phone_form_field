@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_country_selector/flutter_country_selector.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
@@ -15,12 +16,20 @@ void main() {
           ),
         );
 
+    testWidgets('should navigate to page', (tester) async {
+      const nav = CountrySelectorNavigator.page();
+      await tester.pumpWidget(getApp((ctx) => nav.show(ctx)));
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle();
+      expect(find.byType(CountrySelectorPage), findsOneWidget);
+    });
+
     testWidgets('should navigate to dialog', (tester) async {
       const nav = CountrySelectorNavigator.dialog();
       await tester.pumpWidget(getApp((ctx) => nav.show(ctx)));
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle();
-      expect(find.byType(CountrySelector), findsOneWidget);
+      expect(find.byType(CountrySelectorSheet), findsOneWidget);
     });
 
     testWidgets('should navigate to modal bottom sheet', (tester) async {
@@ -28,7 +37,7 @@ void main() {
       await tester.pumpWidget(getApp((ctx) => nav.show(ctx)));
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump(const Duration(seconds: 1));
-      expect(find.byType(CountrySelector), findsOneWidget);
+      expect(find.byType(CountrySelectorSheet), findsOneWidget);
     });
 
     testWidgets('should navigate to bottom sheet', (tester) async {
@@ -36,7 +45,7 @@ void main() {
       await tester.pumpWidget(getApp((ctx) => nav.show(ctx)));
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump(const Duration(seconds: 1));
-      expect(find.byType(CountrySelector), findsOneWidget);
+      expect(find.byType(CountrySelectorSheet), findsOneWidget);
     });
 
     testWidgets('should navigate to draggable sheet', (tester) async {
@@ -44,7 +53,7 @@ void main() {
       await tester.pumpWidget(getApp((ctx) => nav.show(ctx)));
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump(const Duration(seconds: 1));
-      expect(find.byType(CountrySelector), findsOneWidget);
+      expect(find.byType(CountrySelectorSheet), findsOneWidget);
     });
   });
 }

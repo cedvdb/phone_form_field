@@ -1,8 +1,6 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_numbers_parser/phone_numbers_parser.dart';
-
-import 'localized_country.dart';
+import 'package:flutter_country_selector/flutter_country_selector.dart';
 
 @Deprecated('Use [CountryButton] instead')
 typedef CountryChip = CountryButton;
@@ -38,7 +36,8 @@ class CountryButton extends StatelessWidget {
     final textStyle = this.textStyle ??
         Theme.of(context).textTheme.labelMedium ??
         const TextStyle();
-    final country = LocalizedCountry.fromContext(context, isoCode);
+    final countryLocalization = CountrySelectorLocalization.of(context) ??
+        CountrySelectorLocalizationEn();
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -48,7 +47,7 @@ class CountryButton extends StatelessWidget {
           children: <Widget>[
             if (showIsoCode) ...[
               Text(
-                country.isoCode.name,
+                isoCode.name,
                 style: textStyle.copyWith(
                   color: enabled ? null : Theme.of(context).disabledColor,
                 ),
@@ -57,14 +56,14 @@ class CountryButton extends StatelessWidget {
             ],
             if (showFlag) ...[
               CircleFlag(
-                country.isoCode.name,
+                isoCode.name,
                 size: flagSize,
               ),
               const SizedBox(width: 8),
             ],
             if (showDialCode) ...[
               Text(
-                country.formattedCountryDialingCode,
+                '+ ${countryLocalization.countryDialCode(isoCode)}',
                 style: textStyle.copyWith(
                   color: enabled ? null : Theme.of(context).disabledColor,
                 ),

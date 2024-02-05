@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:phone_form_field/src/validation/allowed_characters.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import 'country/country_button.dart';
-import 'country_selection/country_selector_navigator.dart';
+import 'country_button.dart';
+import 'country_selector_navigator.dart';
 
 part 'phone_controller.dart';
 part 'phone_form_field_state.dart';

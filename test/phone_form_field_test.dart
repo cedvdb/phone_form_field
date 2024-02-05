@@ -1,9 +1,9 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_country_selector/flutter_country_selector.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/country_selection/country_list_view.dart';
 
 void main() {
   group('PhoneFormField', () {
@@ -77,19 +77,20 @@ void main() {
       await tester.tap(find.byType(CountryButton), warnIfMissed: false);
       await tester.pumpAndSettle();
 
-      expect(find.byType(CountryListView), findsNothing);
+      expect(find.byType(CountrySelectorSheet), findsNothing);
+      expect(find.byType(CountrySelectorPage), findsNothing);
     });
 
     group('Country code', () {
       testWidgets('Should open dialog when country code is clicked',
           (tester) async {
         await tester.pumpWidget(getWidget());
-        expect(find.byType(CountryListView), findsNothing);
+        expect(find.byType(CountrySelectorPage), findsNothing);
         await tester.tap(find.byType(PhoneFormField));
         await tester.pump(const Duration(seconds: 1));
         await tester.tap(find.byType(CountryButton));
         await tester.pumpAndSettle();
-        expect(find.byType(CountryListView), findsOneWidget);
+        expect(find.byType(CountrySelectorPage), findsOneWidget);
       });
       testWidgets('Should hide flag', (tester) async {
         await tester.pumpWidget(getWidget(showFlagInInput: false));
