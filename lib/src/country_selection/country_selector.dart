@@ -1,4 +1,3 @@
-import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/src/country_selection/country_selector_controller.dart';
@@ -59,12 +58,10 @@ class CountrySelector extends StatefulWidget {
   /// The [Color] of the Search Icon in the Search Box
   final Color? searchBoxIconColor;
   final double flagSize;
-  final FlagCache flagCache;
 
   const CountrySelector({
     super.key,
     required this.onCountrySelected,
-    required this.flagCache,
     this.scrollController,
     this.scrollPhysics,
     this.addFavoritesSeparator = true,
@@ -158,7 +155,6 @@ class CountrySelectorState extends State<CountrySelector> {
                 noResultMessage: widget.noResultMessage,
                 titleStyle: widget.titleStyle,
                 subtitleStyle: widget.subtitleStyle,
-                flagCache: widget.flagCache,
               );
             },
           ),

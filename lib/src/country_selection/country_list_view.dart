@@ -31,7 +31,6 @@ class CountryListView extends StatelessWidget {
 
   final TextStyle? subtitleStyle;
   final TextStyle? titleStyle;
-  final FlagCache? flagCache;
 
   CountryListView({
     super.key,
@@ -39,7 +38,6 @@ class CountryListView extends StatelessWidget {
     required this.favorites,
     required this.onTap,
     required this.noResultMessage,
-    required this.flagCache,
     this.scrollController,
     this.scrollPhysics,
     this.showDialCode = true,
@@ -79,7 +77,6 @@ class CountryListView extends StatelessWidget {
             country.isoCode.name,
             key: ValueKey('circle-flag-${country.isoCode.name}'),
             size: flagSize,
-            cache: flagCache,
           ),
           title: Align(
             alignment: AlignmentDirectional.centerStart,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization.dart';
-import 'package:phone_form_field/l10n/generated/phone_field_localization_en.dart';
+
+import '../localization/localization.dart';
 
 class NoResultView extends StatelessWidget {
   final String? title;

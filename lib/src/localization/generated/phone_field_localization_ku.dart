@@ -1,8 +1,8 @@
 import 'phone_field_localization.dart';
 
-/// The translations for Central Kurdish (`ckb`).
-class PhoneFieldLocalizationCkb extends PhoneFieldLocalization {
-  PhoneFieldLocalizationCkb([String locale = 'ckb']) : super(locale);
+/// The translations for Kurdish (`ku`).
+class PhoneFieldLocalizationKu extends PhoneFieldLocalization {
+  PhoneFieldLocalizationKu([super.locale = 'ku']);
 
   @override
   String get invalidPhoneNumber => 'ژمارەی تەلەفۆنی نادروست';
@@ -14,7 +14,8 @@ class PhoneFieldLocalizationCkb extends PhoneFieldLocalization {
   String get invalidMobilePhoneNumber => 'ژمارەی مۆبایل نادروستە';
 
   @override
-  String get invalidFixedLinePhoneNumber => 'ژمارەی تەلەفۆنی هێڵی جێگیر نادروستە';
+  String get invalidFixedLinePhoneNumber =>
+      'ژمارەی تەلەفۆنی هێڵی جێگیر نادروستە';
 
   @override
   String get requiredPhoneNumber => 'ژمارەی تەلەفۆنی پێویست';
@@ -260,7 +261,8 @@ class PhoneFieldLocalizationCkb extends PhoneFieldLocalization {
   String get ge_ => 'جۆرجیا';
 
   @override
-  String get gf_ => 'دورگەیەکی فەڕەنسایە کە دەکەوێتە باکوری خۆرهەڵاتی ئەمەریکای باشور';
+  String get gf_ =>
+      'دورگەیەکی فەڕەنسایە کە دەکەوێتە باکوری خۆرهەڵاتی ئەمەریکای باشور';
 
   @override
   String get gg_ => 'گێرنسی';

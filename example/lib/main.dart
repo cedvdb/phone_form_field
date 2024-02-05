@@ -11,37 +11,33 @@ void main() {
 // For a simpler example see the README
 
 class PhoneFieldView extends StatelessWidget {
-  final Key inputKey;
   final PhoneController controller;
   final FocusNode focusNode;
   final CountrySelectorNavigator selectorNavigator;
   final bool withLabel;
   final bool outlineBorder;
-  final bool shouldFormat;
-  final bool isCountryChipPersistent;
+  final bool isCountryButtonPersistant;
   final bool mobileOnly;
   final bool useRtl;
 
   const PhoneFieldView({
     Key? key,
-    required this.inputKey,
     required this.controller,
     required this.focusNode,
     required this.selectorNavigator,
     required this.withLabel,
     required this.outlineBorder,
-    required this.shouldFormat,
-    required this.isCountryChipPersistent,
+    required this.isCountryButtonPersistant,
     required this.mobileOnly,
     required this.useRtl,
   }) : super(key: key);
 
-  PhoneNumberInputValidator? _getValidator() {
+  PhoneNumberInputValidator? _getValidator(BuildContext context) {
     List<PhoneNumberInputValidator> validators = [];
     if (mobileOnly) {
-      validators.add(PhoneValidator.validMobile());
+      validators.add(PhoneValidator.validMobile(context));
     } else {
-      validators.add(PhoneValidator.valid());
+      validators.add(PhoneValidator.valid(context));
     }
     return validators.isNotEmpty ? PhoneValidator.compose(validators) : null;
   }
@@ -52,13 +48,12 @@ class PhoneFieldView extends StatelessWidget {
       child: Directionality(
         textDirection: useRtl ? TextDirection.rtl : TextDirection.ltr,
         child: PhoneFormField(
-          key: inputKey,
+          focusNode: focusNode,
           controller: controller,
-          shouldFormat: shouldFormat && !useRtl,
+          isCountryButtonPersistent: isCountryButtonPersistant,
           autofocus: false,
           autofillHints: const [AutofillHints.telephoneNumber],
           countrySelectorNavigator: selectorNavigator,
-          defaultCountry: IsoCode.US,
           decoration: InputDecoration(
             label: withLabel ? const Text('Phone') : null,
             border: outlineBorder
@@ -69,14 +64,13 @@ class PhoneFieldView extends StatelessWidget {
           enabled: true,
           showIsoCodeInInput: false,
           showFlagInInput: true,
-          validator: _getValidator(),
+          validator: _getValidator(context),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           cursorColor: Theme.of(context).colorScheme.primary,
           // ignore: avoid_print
           onSaved: (p) => print('saved $p'),
           // ignore: avoid_print
           onChanged: (p) => print('changed $p'),
-          isCountryChipPersistent: isCountryChipPersistent,
         ),
       ),
     );
@@ -128,14 +122,12 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   final FocusNode focusNode = FocusNode();
   bool outlineBorder = true;
   bool mobileOnly = true;
-  bool shouldFormat = true;
-  bool isCountryChipPersistent = false;
+  bool isCountryButtonPersistent = true;
   bool withLabel = true;
   bool useRtl = false;
   CountrySelectorNavigator selectorNavigator =
       const CountrySelectorNavigator.page();
   final formKey = GlobalKey<FormState>();
-  final phoneKey = GlobalKey<FormFieldState<PhoneNumber>>();
 
   @override
   initState() {
@@ -176,20 +168,15 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       title: const Text('Label'),
                     ),
                     SwitchListTile(
-                      value: isCountryChipPersistent,
+                      value: isCountryButtonPersistent,
                       onChanged: (v) =>
-                          setState(() => isCountryChipPersistent = v),
+                          setState(() => isCountryButtonPersistent = v),
                       title: const Text('Persistent country chip'),
                     ),
                     SwitchListTile(
                       value: mobileOnly,
                       onChanged: (v) => setState(() => mobileOnly = v),
                       title: const Text('Mobile phone number only'),
-                    ),
-                    SwitchListTile(
-                      value: shouldFormat,
-                      onChanged: (v) => setState(() => shouldFormat = v),
-                      title: const Text('Should format'),
                     ),
                     SwitchListTile(
                       value: useRtl,
@@ -245,17 +232,20 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                     const SizedBox(height: 40),
                     Form(
                       key: formKey,
-                      child: PhoneFieldView(
-                        inputKey: phoneKey,
-                        controller: controller,
-                        focusNode: focusNode,
-                        selectorNavigator: selectorNavigator,
-                        withLabel: withLabel,
-                        outlineBorder: outlineBorder,
-                        isCountryChipPersistent: isCountryChipPersistent,
-                        mobileOnly: mobileOnly,
-                        shouldFormat: shouldFormat,
-                        useRtl: useRtl,
+                      child: Column(
+                        children: [
+                          PhoneFieldView(
+                            controller: controller,
+                            focusNode: focusNode,
+                            selectorNavigator: selectorNavigator,
+                            withLabel: withLabel,
+                            outlineBorder: outlineBorder,
+                            isCountryButtonPersistant:
+                                isCountryButtonPersistent,
+                            mobileOnly: mobileOnly,
+                            useRtl: useRtl,
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -266,20 +256,21 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                         'is valid fixed line number ${controller.value.isValid(type: PhoneNumberType.fixedLine)}'),
                     const SizedBox(height: 12),
                     ElevatedButton(
-                      onPressed: () => controller.reset(),
+                      onPressed: () => formKey.currentState?.reset(),
                       child: const Text('reset'),
                     ),
                     const SizedBox(height: 12),
                     ElevatedButton(
-                      onPressed: () => controller.selectNationalNumber(),
+                      onPressed: () {
+                        controller.selectNationalNumber();
+                        focusNode.requestFocus();
+                      },
                       child: const Text('Select national number'),
                     ),
                     const SizedBox(height: 12),
                     ElevatedButton(
-                      onPressed: () => controller.value = PhoneNumber.parse(
-                        '699999999',
-                        destinationCountry: IsoCode.FR,
-                      ),
+                      onPressed: () => controller.value =
+                          PhoneNumber.parse('+33 699 999 999'),
                       child: const Text('Set +33 699 999 999'),
                     ),
                   ],
