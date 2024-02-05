@@ -18,4 +18,12 @@ class PhoneFieldLocalizationFa extends PhoneFieldLocalization {
 
   @override
   String get requiredPhoneNumber => 'شماره تلفن الزامی است';
+
+  @override
+  String tapToSelectACountry(String countryName, String countryDialCode) {
+    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  }
+
+  @override
+  String get enterPhoneNumber => 'Enter your phone number';
 }

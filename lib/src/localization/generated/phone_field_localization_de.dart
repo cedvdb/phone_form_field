@@ -18,4 +18,12 @@ class PhoneFieldLocalizationDe extends PhoneFieldLocalization {
 
   @override
   String get requiredPhoneNumber => 'Telefonnummer erforderlich';
+
+  @override
+  String tapToSelectACountry(String countryName, String countryDialCode) {
+    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  }
+
+  @override
+  String get enterPhoneNumber => 'Enter your phone number';
 }

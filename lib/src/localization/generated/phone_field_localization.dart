@@ -162,6 +162,18 @@ abstract class PhoneFieldLocalization {
   /// In en, this message translates to:
   /// **'Required phone number'**
   String get requiredPhoneNumber;
+
+  /// semantic description of the country button
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to select a country. Current selection: {countryName} {countryDialCode}'**
+  String tapToSelectACountry(String countryName, String countryDialCode);
+
+  /// No description provided for @enterPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get enterPhoneNumber;
 }
 
 class _PhoneFieldLocalizationDelegate
