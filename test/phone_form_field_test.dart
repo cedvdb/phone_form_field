@@ -1,9 +1,9 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_country_selector/flutter_country_selector.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+import 'package:phone_form_field/src/localization/generated/phone_field_localization_impl_en.dart';
 
 void main() {
   group('PhoneFormField', () {
@@ -22,10 +22,7 @@ void main() {
       bool enabled = true,
     }) =>
         MaterialApp(
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            PhoneFieldLocalization.delegate,
-          ],
+          localizationsDelegates: PhoneFieldLocalization.delegates,
           supportedLocales: const [Locale('en')],
           home: Scaffold(
             body: Builder(builder: (context) {
@@ -247,7 +244,7 @@ void main() {
         await tester.pumpAndSettle(const Duration(seconds: 1));
 
         expect(
-          find.text(PhoneFieldLocalizationEn().invalidPhoneNumber),
+          find.text(PhoneFieldLocalizationImplEn().invalidPhoneNumber),
           findsOneWidget,
         );
       });
@@ -265,13 +262,13 @@ void main() {
         await tester.enterText(phoneField, '6 99 99 99 99');
         await tester.pumpAndSettle();
         expect(
-          find.text(PhoneFieldLocalizationEn().invalidMobilePhoneNumber),
+          find.text(PhoneFieldLocalizationImplEn().invalidMobilePhoneNumber),
           findsNothing,
         );
         await tester.enterText(phoneField, '777');
         await tester.pumpAndSettle();
         expect(
-          find.text(PhoneFieldLocalizationEn().invalidMobilePhoneNumber),
+          find.text(PhoneFieldLocalizationImplEn().invalidMobilePhoneNumber),
           findsOneWidget,
         );
       });
@@ -289,13 +286,13 @@ void main() {
         await tester.enterText(phoneField, '67777777');
         await tester.pumpAndSettle();
         expect(
-          find.text(PhoneFieldLocalizationEn().invalidFixedLinePhoneNumber),
+          find.text(PhoneFieldLocalizationImplEn().invalidFixedLinePhoneNumber),
           findsNothing,
         );
         await tester.enterText(phoneField, '777');
         await tester.pumpAndSettle();
         expect(
-          find.text(PhoneFieldLocalizationEn().invalidFixedLinePhoneNumber),
+          find.text(PhoneFieldLocalizationImplEn().invalidFixedLinePhoneNumber),
           findsOneWidget,
         );
       });
@@ -313,7 +310,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(
-          find.text(PhoneFieldLocalizationEn().requiredPhoneNumber),
+          find.text(PhoneFieldLocalizationImplEn().requiredPhoneNumber),
           findsOneWidget,
         );
       });
@@ -332,7 +329,7 @@ void main() {
           controller.changeCountry(IsoCode.US);
           await tester.pumpAndSettle();
           expect(
-            find.text(PhoneFieldLocalizationEn().invalidCountry),
+            find.text(PhoneFieldLocalizationImplEn().invalidCountry),
             findsOneWidget,
           );
         },

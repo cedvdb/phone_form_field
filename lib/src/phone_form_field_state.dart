@@ -80,8 +80,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget builder() {
-    final localization =
-        PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
+    final localization = PhoneFieldLocalization.of(context);
     return Semantics(
       label: localization.enterPhoneNumber,
       child: TextField(

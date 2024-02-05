@@ -5,40 +5,40 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'phone_field_localization_ar.dart';
-import 'phone_field_localization_ckb.dart';
-import 'phone_field_localization_de.dart';
-import 'phone_field_localization_el.dart';
-import 'phone_field_localization_en.dart';
-import 'phone_field_localization_es.dart';
-import 'phone_field_localization_fa.dart';
-import 'phone_field_localization_fr.dart';
-import 'phone_field_localization_hi.dart';
-import 'phone_field_localization_it.dart';
-import 'phone_field_localization_ku.dart';
-import 'phone_field_localization_nb.dart';
-import 'phone_field_localization_nl.dart';
-import 'phone_field_localization_pt.dart';
-import 'phone_field_localization_ru.dart';
-import 'phone_field_localization_sv.dart';
-import 'phone_field_localization_tr.dart';
-import 'phone_field_localization_uk.dart';
-import 'phone_field_localization_uz.dart';
-import 'phone_field_localization_zh.dart';
+import 'phone_field_localization_impl_ar.dart';
+import 'phone_field_localization_impl_ckb.dart';
+import 'phone_field_localization_impl_de.dart';
+import 'phone_field_localization_impl_el.dart';
+import 'phone_field_localization_impl_en.dart';
+import 'phone_field_localization_impl_es.dart';
+import 'phone_field_localization_impl_fa.dart';
+import 'phone_field_localization_impl_fr.dart';
+import 'phone_field_localization_impl_hi.dart';
+import 'phone_field_localization_impl_it.dart';
+import 'phone_field_localization_impl_ku.dart';
+import 'phone_field_localization_impl_nb.dart';
+import 'phone_field_localization_impl_nl.dart';
+import 'phone_field_localization_impl_pt.dart';
+import 'phone_field_localization_impl_ru.dart';
+import 'phone_field_localization_impl_sv.dart';
+import 'phone_field_localization_impl_tr.dart';
+import 'phone_field_localization_impl_uk.dart';
+import 'phone_field_localization_impl_uz.dart';
+import 'phone_field_localization_impl_zh.dart';
 
-/// Callers can lookup localized strings with an instance of PhoneFieldLocalization
-/// returned by `PhoneFieldLocalization.of(context)`.
+/// Callers can lookup localized strings with an instance of PhoneFieldLocalizationImpl
+/// returned by `PhoneFieldLocalizationImpl.of(context)`.
 ///
-/// Applications need to include `PhoneFieldLocalization.delegate()` in their app's
+/// Applications need to include `PhoneFieldLocalizationImpl.delegate()` in their app's
 /// `localizationDelegates` list, and the locales they support in the app's
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'generated/phone_field_localization.dart';
+/// import 'generated/phone_field_localization_impl.dart';
 ///
 /// return MaterialApp(
-///   localizationsDelegates: PhoneFieldLocalization.localizationsDelegates,
-///   supportedLocales: PhoneFieldLocalization.supportedLocales,
+///   localizationsDelegates: PhoneFieldLocalizationImpl.localizationsDelegates,
+///   supportedLocales: PhoneFieldLocalizationImpl.supportedLocales,
 ///   home: MyApplicationHome(),
 /// );
 /// ```
@@ -75,21 +75,21 @@ import 'phone_field_localization_zh.dart';
 /// Select and expand the newly-created Localizations item then, for each
 /// locale your application supports, add a new item and select the locale
 /// you wish to add from the pop-up menu in the Value field. This list should
-/// be consistent with the languages listed in the PhoneFieldLocalization.supportedLocales
+/// be consistent with the languages listed in the PhoneFieldLocalizationImpl.supportedLocales
 /// property.
-abstract class PhoneFieldLocalization {
-  PhoneFieldLocalization(String locale)
+abstract class PhoneFieldLocalizationImpl {
+  PhoneFieldLocalizationImpl(String locale)
       : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
-  static PhoneFieldLocalization? of(BuildContext context) {
-    return Localizations.of<PhoneFieldLocalization>(
-        context, PhoneFieldLocalization);
+  static PhoneFieldLocalizationImpl? of(BuildContext context) {
+    return Localizations.of<PhoneFieldLocalizationImpl>(
+        context, PhoneFieldLocalizationImpl);
   }
 
-  static const LocalizationsDelegate<PhoneFieldLocalization> delegate =
-      _PhoneFieldLocalizationDelegate();
+  static const LocalizationsDelegate<PhoneFieldLocalizationImpl> delegate =
+      _PhoneFieldLocalizationImplDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -176,14 +176,14 @@ abstract class PhoneFieldLocalization {
   String get enterPhoneNumber;
 }
 
-class _PhoneFieldLocalizationDelegate
-    extends LocalizationsDelegate<PhoneFieldLocalization> {
-  const _PhoneFieldLocalizationDelegate();
+class _PhoneFieldLocalizationImplDelegate
+    extends LocalizationsDelegate<PhoneFieldLocalizationImpl> {
+  const _PhoneFieldLocalizationImplDelegate();
 
   @override
-  Future<PhoneFieldLocalization> load(Locale locale) {
-    return SynchronousFuture<PhoneFieldLocalization>(
-        lookupPhoneFieldLocalization(locale));
+  Future<PhoneFieldLocalizationImpl> load(Locale locale) {
+    return SynchronousFuture<PhoneFieldLocalizationImpl>(
+        lookupPhoneFieldLocalizationImpl(locale));
   }
 
   @override
@@ -211,56 +211,56 @@ class _PhoneFieldLocalizationDelegate
       ].contains(locale.languageCode);
 
   @override
-  bool shouldReload(_PhoneFieldLocalizationDelegate old) => false;
+  bool shouldReload(_PhoneFieldLocalizationImplDelegate old) => false;
 }
 
-PhoneFieldLocalization lookupPhoneFieldLocalization(Locale locale) {
+PhoneFieldLocalizationImpl lookupPhoneFieldLocalizationImpl(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'ar':
-      return PhoneFieldLocalizationAr();
+      return PhoneFieldLocalizationImplAr();
     case 'ckb':
-      return PhoneFieldLocalizationCkb();
+      return PhoneFieldLocalizationImplCkb();
     case 'de':
-      return PhoneFieldLocalizationDe();
+      return PhoneFieldLocalizationImplDe();
     case 'el':
-      return PhoneFieldLocalizationEl();
+      return PhoneFieldLocalizationImplEl();
     case 'en':
-      return PhoneFieldLocalizationEn();
+      return PhoneFieldLocalizationImplEn();
     case 'es':
-      return PhoneFieldLocalizationEs();
+      return PhoneFieldLocalizationImplEs();
     case 'fa':
-      return PhoneFieldLocalizationFa();
+      return PhoneFieldLocalizationImplFa();
     case 'fr':
-      return PhoneFieldLocalizationFr();
+      return PhoneFieldLocalizationImplFr();
     case 'hi':
-      return PhoneFieldLocalizationHi();
+      return PhoneFieldLocalizationImplHi();
     case 'it':
-      return PhoneFieldLocalizationIt();
+      return PhoneFieldLocalizationImplIt();
     case 'ku':
-      return PhoneFieldLocalizationKu();
+      return PhoneFieldLocalizationImplKu();
     case 'nb':
-      return PhoneFieldLocalizationNb();
+      return PhoneFieldLocalizationImplNb();
     case 'nl':
-      return PhoneFieldLocalizationNl();
+      return PhoneFieldLocalizationImplNl();
     case 'pt':
-      return PhoneFieldLocalizationPt();
+      return PhoneFieldLocalizationImplPt();
     case 'ru':
-      return PhoneFieldLocalizationRu();
+      return PhoneFieldLocalizationImplRu();
     case 'sv':
-      return PhoneFieldLocalizationSv();
+      return PhoneFieldLocalizationImplSv();
     case 'tr':
-      return PhoneFieldLocalizationTr();
+      return PhoneFieldLocalizationImplTr();
     case 'uk':
-      return PhoneFieldLocalizationUk();
+      return PhoneFieldLocalizationImplUk();
     case 'uz':
-      return PhoneFieldLocalizationUz();
+      return PhoneFieldLocalizationImplUz();
     case 'zh':
-      return PhoneFieldLocalizationZh();
+      return PhoneFieldLocalizationImplZh();
   }
 
   throw FlutterError(
-      'PhoneFieldLocalization.delegate failed to load unsupported locale "$locale". This is likely '
+      'PhoneFieldLocalizationImpl.delegate failed to load unsupported locale "$locale". This is likely '
       'an issue with the localizations generation tool. Please file an issue '
       'on GitHub with a reproducible sample app and the gen-l10n configuration '
       'that was used.');

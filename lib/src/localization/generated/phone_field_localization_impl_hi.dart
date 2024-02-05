@@ -1,8 +1,8 @@
-import 'phone_field_localization.dart';
+import 'phone_field_localization_impl.dart';
 
 /// The translations for Hindi (`hi`).
-class PhoneFieldLocalizationHi extends PhoneFieldLocalization {
-  PhoneFieldLocalizationHi([super.locale = 'hi']);
+class PhoneFieldLocalizationImplHi extends PhoneFieldLocalizationImpl {
+  PhoneFieldLocalizationImplHi([String locale = 'hi']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'अवैध फोन नंबर';

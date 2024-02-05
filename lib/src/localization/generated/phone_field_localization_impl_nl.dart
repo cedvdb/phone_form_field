@@ -1,8 +1,8 @@
-import 'phone_field_localization.dart';
+import 'phone_field_localization_impl.dart';
 
 /// The translations for Dutch Flemish (`nl`).
-class PhoneFieldLocalizationNl extends PhoneFieldLocalization {
-  PhoneFieldLocalizationNl([super.locale = 'nl']);
+class PhoneFieldLocalizationImplNl extends PhoneFieldLocalizationImpl {
+  PhoneFieldLocalizationImplNl([String locale = 'nl']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Ongeldig telefoonnummer';

@@ -1,8 +1,8 @@
-import 'phone_field_localization.dart';
+import 'phone_field_localization_impl.dart';
 
 /// The translations for Uzbek (`uz`).
-class PhoneFieldLocalizationUz extends PhoneFieldLocalization {
-  PhoneFieldLocalizationUz([super.locale = 'uz']);
+class PhoneFieldLocalizationImplUz extends PhoneFieldLocalizationImpl {
+  PhoneFieldLocalizationImplUz([String locale = 'uz']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Telefon raqami noto‘g‘ri';

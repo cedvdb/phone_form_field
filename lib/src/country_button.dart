@@ -39,8 +39,7 @@ class CountryButton extends StatelessWidget {
         const TextStyle();
     final countryLocalization = CountrySelectorLocalization.of(context) ??
         CountrySelectorLocalizationEn();
-    final localization =
-        PhoneFieldLocalization.of(context) ?? PhoneFieldLocalizationEn();
+    final localization = PhoneFieldLocalization.of(context);
     final countryName = countryLocalization.countryName(isoCode);
     final countryDialCode = '+ ${countryLocalization.countryDialCode(isoCode)}';
     return Semantics(
