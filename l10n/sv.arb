@@ -1,0 +1,8 @@
+{
+  "@@locale": "sv",
+  "invalidPhoneNumber": "Ogiltigt telefonnummer",
+  "invalidCountry": "Ogiltigt land",
+  "invalidMobilePhoneNumber": "Ogiltigt mobilnummer",
+  "invalidFixedLinePhoneNumber": "Ogiltigt fast telefonnummer",
+  "requiredPhoneNumber": "Obligatoriskt telefonnummer"
+}

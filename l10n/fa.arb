@@ -1,0 +1,8 @@
+{
+  "@@locale": "fa",
+  "invalidPhoneNumber": "شماره تلفن نامعتبر است",
+  "invalidCountry": "کشور نامعتبر است",
+  "invalidMobilePhoneNumber": "شماره تلفن همراه نامعتبر است",
+  "invalidFixedLinePhoneNumber": "شماره تلفن ثابت نامعتبر است",
+  "requiredPhoneNumber": "شماره تلفن الزامی است"
+}

@@ -28,3 +28,7 @@
 .packages
 build/
 example/build
+**/generated_plugin_registrant.dart
+**/generated_plugin_registrant.cc
+**/generated_plugin_registrant.h
+**/generated_plugin_registrant.cmake

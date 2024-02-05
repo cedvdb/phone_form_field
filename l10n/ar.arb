@@ -1,0 +1,8 @@
+{
+  "@@locale": "ar",
+  "invalidPhoneNumber": "رقم الهاتف غير صحيح",
+  "invalidCountry": "دولة غير صحيح",
+  "invalidMobilePhoneNumber": "رقم الهاتف الخلوي غير صحيح",
+  "invalidFixedLinePhoneNumber": "رقم الهاتف الثابت غير صحيح",
+  "requiredPhoneNumber": "رقم الهاتف مطلوب"
+}

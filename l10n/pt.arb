@@ -1,0 +1,8 @@
+{
+  "@@locale": "pt",
+  "invalidPhoneNumber": "Número de telefone inválido",
+  "invalidCountry": "País inválido",
+  "invalidMobilePhoneNumber": "Número de telefone celular inválido",
+  "invalidFixedLinePhoneNumber": "Número de telefone fixo inválido",
+  "requiredPhoneNumber": "Número de telefone obrigatório"
+}

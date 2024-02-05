@@ -1,0 +1,8 @@
+{
+  "@@locale": "hi",
+  "invalidPhoneNumber": "अवैध फोन नंबर",
+  "invalidCountry": "अवैध देश",
+  "invalidMobilePhoneNumber": "अमान्य सेल फ़ोन नंबर",
+  "invalidFixedLinePhoneNumber": "अवैध लैंडलाइन नंबर",
+  "requiredPhoneNumber": "फ़ोन नंबर आवश्यक"
+}

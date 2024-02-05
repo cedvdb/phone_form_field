@@ -1,0 +1,8 @@
+{
+  "@@locale": "ku",
+  "invalidPhoneNumber": "ژمارەی تەلەفۆنی نادروست",
+  "invalidCountry": "وڵاتێکی نادروست",
+  "invalidMobilePhoneNumber": "ژمارەی مۆبایل نادروستە",
+  "invalidFixedLinePhoneNumber": "ژمارەی تەلەفۆنی هێڵی جێگیر نادروستە",
+  "requiredPhoneNumber": "ژمارەی تەلەفۆنی پێویست"
+}

@@ -1,0 +1,8 @@
+{
+  "@@locale": "ru",
+  "invalidPhoneNumber": "Неправильный номер телефона",
+  "invalidCountry": "Неверная страна",
+  "invalidMobilePhoneNumber": "Неверный номер мобильного телефона",
+  "invalidFixedLinePhoneNumber": "Недействительный номер стационарного телефона",
+  "requiredPhoneNumber": "Требуется номер телефона"
+}

@@ -1,0 +1,8 @@
+{
+  "@@locale": "uz",
+  "invalidPhoneNumber": "Telefon raqami noto‘g‘ri",
+  "invalidCountry": "Yaroqsiz mamlakat",
+  "invalidMobilePhoneNumber": "Telfon raqami noto‘g‘ri",
+  "invalidFixedLinePhoneNumber": "Ruxsat etilgan telefon raqami yaroqsiz",
+  "requiredPhoneNumber": "Telfon raqami majburiy"
+}

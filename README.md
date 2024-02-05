@@ -5,52 +5,42 @@ Flutter phone input integrated with flutter internationalization
 ## Features
 
 - Totally cross platform, this is a dart only package / dependencies
-- Internationalization
+- Internationalization: many languages supported
+- Semantics
 - Phone formatting localized by region
 - Phone number validation (built-in validators included for main use cases) 
-- Support autofill and copy paste
-- Extends Flutter's FormField
+- Support auto fill and copy paste
+- Form field
 - Uses dart phone_numbers_parser for parsing
-
 
 ## Demo
 
 Demo available at https://cedvdb.github.io/phone_form_field/
 
-
 ## Usage
 
 ```dart
-
-// works without any param
 PhoneFormField();
 
-// all params
+/// params
 PhoneFormField(
-  key: Key('phone-field')
-  controller: null,     // controller & initialValue value
-  initialValue: null,   // can't be supplied simultaneously
-  shouldFormat: true    // default 
-  defaultCountry: IsoCode.US, // default 
-  decoration: InputDecoration(
-    labelText: 'Phone',          // default to null
-    border: OutlineInputBorder() // default to UnderlineInputBorder(),
-    // ...
-  ),
-  validator: PhoneValidator.validMobile(),   // default PhoneValidator.valid()
-  isCountryChipPersistent: false, // default
-  isCountrySelectionEnabled: true, // default
-  countrySelectorNavigator: CountrySelectorNavigator.bottomSheet(),
-  showFlagInInput: true,  // default
-  flagSize: 16,           // default
-  autofillHints: [AutofillHints.telephoneNumber], // default to null
-  enabled: true,          // default
-  autofocus: false,       // default
-  onSaved: (PhoneNumber p) => print('saved $p'),   // default null
-  onChanged: (PhoneNumber p) => print('saved $p'), // default null
-  // ... + other textfield params
-)
-
+  initialValue: PhoneNumber.parse('+33'), // or use the controller
+  validator: PhoneValidator.compose(
+      [PhoneValidator.required(), PhoneValidator.validMobile()]),
+  countrySelectorNavigator: const CountrySelectorNavigator.page(),
+  onChanged: (phoneNumber) => print('changed into $phoneNumber'),
+  enabled: true,
+  countryButtonPadding: null,
+  isCountrySelectionEnabled: true,
+  isCountryButtonPersistent: true,
+  showDialCode: true,
+  showIsoCodeInInput: true,
+  showFlagInInput: true,
+  flagSize: 16
+  // + all parameters of TextField
+  // + all parameters of FormField
+  // ...
+);
 ```
 
 ## Validation
@@ -68,7 +58,6 @@ PhoneFormField(
 ### Validators details
 
 * Each validator has an optional `errorText` property to override built-in translated text
-* Most of them have an optional `allowEmpty` (default is true) preventing to flag an empty field as valid. Consider using a composed validator with a first `PhoneValidator.required` when a different text is needed for empty field.
 
 ### Composing validators
 
@@ -103,8 +92,8 @@ Here are the list of the parameters available for all built-in country selector 
 
 ### Built-in country selector
 
-* **CountrySelectorNavigator.searchDelegate**
-  Open a dialog to select the country.
+* **CountrySelectorNavigator.page**
+  Open a page to select the country.
   No extra parameters
 
 * **CountrySelectorNavigator.dialog**
@@ -134,11 +123,11 @@ Here are the list of the parameters available for all built-in country selector 
 ### Custom Country Selector Navigator
 
 You can use your own country selector by creating a class that implements `CountrySelectorNavigator`
-It has one required method `navigate` expected to return the selected country:
+It has one required method `show` expected to return the selected country:
 
 ```dart
 class CustomCountrySelectorNavigator implements CountrySelectorNavigator {
-  Future<Country?> navigate(BuildContext context) {
+  Future<Country?> show(BuildContext context) {
     // ask user for a country and return related `Country` class
   }
 }
@@ -152,6 +141,12 @@ PhoneFormField(
 ```
 
 ## Internationalization
+
+### Dynamic localization
+
+This package uses the `flutter_country_selector` package under the hood, which exports a method for dynamic localization `CountrySelectorLocalization.of(context).countryName(isoCode)`.
+
+### Setup
 
   Include the delegate
 
@@ -175,26 +170,26 @@ PhoneFormField(
   That's it.
 
   
-  A bunch of languages are built-in:
+### Supported languages
 
-    - 'ar',
-    - 'de',
-    - 'en',
-    - 'el'
-    - 'es',
-    - 'fr',
-    - 'hin',
-    - 'it',
-    - 'nb',
-    - 'nl',
-    - 'pt',
-    - 'ru',
-    - 'uz',
-    - 'uk',
-    - 'tr',
-    - 'zh',
-    - 'sv',
+  - ar
+  - de
+  - el
+  - en
+  - es
+  - fa
+  - fr
+  - hi
+  - it
+  - ku
+  - nb
+  - nl
+  - pt
+  - ru
+  - sv
+  - tr
+  - uk
+  - uz
+  - zh
   
-  
-   If one of the language you target is not supported you can submit a
-  pull request with the translated file in src/l10n
+If one of the language you target is not supported you can submit a pull request in flutter_country_selector and phone_form_field repositories.

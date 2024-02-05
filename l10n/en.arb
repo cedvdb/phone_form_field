@@ -1,0 +1,21 @@
+{
+  "@@locale": "en",
+  "invalidPhoneNumber": "Invalid phone number",
+  "invalidCountry": "Invalid country",
+  "invalidMobilePhoneNumber": "Invalid mobile phone number",
+  "invalidFixedLinePhoneNumber": "Invalid fixed line phone number",
+  "requiredPhoneNumber": "Required phone number",
+  "tapToSelectACountry": "Tap to select a country. Current selection: {countryName} {countryDialCode}",
+  "@tapToSelectACountry": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "countryDialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "enterPhoneNumber": "Enter your phone number"
+}

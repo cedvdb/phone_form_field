@@ -1,1 +1,0 @@
-rm docs -rf && cd example && flutter build web --release && cd .. && mkdir docs && mv example/build/web/* docs

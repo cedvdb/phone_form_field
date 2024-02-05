@@ -1,0 +1,8 @@
+{
+  "@@locale": "tr",
+  "invalidPhoneNumber": "Geçersiz telefon numarası",
+  "invalidCountry": "Geçersiz ülke",
+  "invalidMobilePhoneNumber": "Geçersiz cep telefonu numarası",
+  "invalidFixedLinePhoneNumber": "Geçersiz sabit hat telefon numarası",
+  "requiredPhoneNumber": "Telefon numarası gerekli"
+}

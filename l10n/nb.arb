@@ -1,0 +1,8 @@
+{
+  "@@locale": "nb",
+  "invalidPhoneNumber": "Ugyldig telefonnummer",
+  "invalidCountry": "Ugyldig land",
+  "invalidMobilePhoneNumber": "Ugyldig mobilnummer",
+  "invalidFixedLinePhoneNumber": "Ugyldig fasttelefonnummer",
+  "requiredPhoneNumber": "Telefonnummer er påkrevd"
+}

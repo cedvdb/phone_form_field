@@ -1,0 +1,8 @@
+{
+  "@@locale": "el",
+  "invalidPhoneNumber": "Μη έγκυρος αριθμός τηλεφώνου",
+  "invalidCountry": "Μη έγκυρη χώρα",
+  "invalidMobilePhoneNumber": "Μη έγκυρος αριθμός κινητού τηλεφώνου",
+  "invalidFixedLinePhoneNumber": "Μη έγκυρος αριθμός σταθερού τηλεφώνου",
+  "requiredPhoneNumber": "Απαιτούμενος αριθμός τηλεφώνου"
+}
