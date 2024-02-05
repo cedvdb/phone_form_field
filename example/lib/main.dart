@@ -116,6 +116,7 @@ class PhoneFormFieldScreen extends StatefulWidget {
 class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   late PhoneController controller;
   final FocusNode focusNode = FocusNode();
+
   bool outlineBorder = true;
   bool mobileOnly = true;
   bool isCountryButtonPersistent = true;
