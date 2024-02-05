@@ -29,8 +29,7 @@ abstract class PhoneValidator {
     return (PhoneNumber? valueCandidate) {
       if (valueCandidate == null || (valueCandidate.nsn.trim().isEmpty)) {
         return errorText ??
-            PhoneFieldLocalization.of(context)?.requiredPhoneNumber ??
-            PhoneFieldLocalizationEn().requiredPhoneNumber;
+            PhoneFieldLocalization.of(context).requiredPhoneNumber;
       }
       return null;
     };
@@ -46,8 +45,7 @@ abstract class PhoneValidator {
           valueCandidate.nsn.isNotEmpty &&
           !valueCandidate.isValid()) {
         return errorText ??
-            PhoneFieldLocalization.of(context)?.invalidPhoneNumber ??
-            PhoneFieldLocalizationEn().invalidPhoneNumber;
+            PhoneFieldLocalization.of(context).invalidPhoneNumber;
       }
       return null;
     };
@@ -67,16 +65,13 @@ abstract class PhoneValidator {
           !valueCandidate.isValid(type: expectedType)) {
         if (expectedType == PhoneNumberType.mobile) {
           return errorText ??
-              PhoneFieldLocalization.of(context)?.invalidMobilePhoneNumber ??
-              PhoneFieldLocalizationEn().invalidMobilePhoneNumber;
+              PhoneFieldLocalization.of(context).invalidMobilePhoneNumber;
         } else if (expectedType == PhoneNumberType.fixedLine) {
           return errorText ??
-              PhoneFieldLocalization.of(context)?.invalidFixedLinePhoneNumber ??
-              PhoneFieldLocalizationEn().invalidFixedLinePhoneNumber;
+              PhoneFieldLocalization.of(context).invalidFixedLinePhoneNumber;
         }
         return errorText ??
-            PhoneFieldLocalization.of(context)?.invalidPhoneNumber ??
-            PhoneFieldLocalizationEn().invalidPhoneNumber;
+            PhoneFieldLocalization.of(context).invalidPhoneNumber;
       }
       return null;
     };
@@ -120,9 +115,7 @@ abstract class PhoneValidator {
       if (valueCandidate != null &&
           (valueCandidate.nsn.isNotEmpty) &&
           !expectedCountries.contains(valueCandidate.isoCode)) {
-        return errorText ??
-            PhoneFieldLocalization.of(context)?.invalidCountry ??
-            PhoneFieldLocalizationEn().invalidCountry;
+        return errorText ?? PhoneFieldLocalization.of(context).invalidCountry;
       }
       return null;
     };
