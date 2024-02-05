@@ -1,3 +1,6 @@
+## [9.0.2]
+- reformat national number on country changed
+
 ## [9.0.1]
 - unexport circle flags
 

@@ -31,6 +31,7 @@ class PhoneController extends ChangeNotifier {
       _value.nsn,
       destinationCountry: isoCode,
     );
+    _changeFormattedNationalNumber(_value.formatNsn());
     notifyListeners();
   }
 
@@ -58,11 +59,18 @@ class PhoneController extends ChangeNotifier {
       _value = phoneNumber;
       newFormattedText = phoneNumber.formatNsn();
     }
-    _formattedNationalNumberController.value = TextEditingValue(
-      text: newFormattedText,
-      selection: _computeSelection(text, newFormattedText),
-    );
+    _changeFormattedNationalNumber(newFormattedText);
     notifyListeners();
+  }
+
+  void _changeFormattedNationalNumber(String newFormattedText) {
+    if (newFormattedText != _formattedNationalNumberController.text) {
+      _formattedNationalNumberController.value = TextEditingValue(
+        text: newFormattedText,
+        selection: _computeSelection(
+            _formattedNationalNumberController.text, newFormattedText),
+      );
+    }
   }
 
   /// When the cursor is at the end of the text we need to preserve that.
