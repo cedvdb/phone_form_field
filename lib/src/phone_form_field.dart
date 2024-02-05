@@ -7,8 +7,6 @@ import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/validation/allowed_characters.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import 'country_button.dart';
-import 'country_selector_navigator.dart';
 
 part 'phone_controller.dart';
 part 'phone_form_field_state.dart';
