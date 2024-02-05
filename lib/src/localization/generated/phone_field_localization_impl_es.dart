@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Spanish Castilian (`es`).
 class PhoneFieldLocalizationImplEs extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplEs([String locale = 'es']) : super(locale);
+  PhoneFieldLocalizationImplEs([super.locale = 'es']);
 
   @override
   String get invalidPhoneNumber => 'Numero de telefono invalido';
