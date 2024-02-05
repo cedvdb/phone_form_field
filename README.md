@@ -142,6 +142,12 @@ PhoneFormField(
 
 ## Internationalization
 
+### Dynamic localization
+
+This package uses the `flutter_country_selector` package under the hood, which exports a method for dynamic localization `CountrySelectorLocalization.of(context).countryName(isoCode)`.
+
+### Setup
+
   Include the delegate
 
   ```dart
@@ -164,27 +170,26 @@ PhoneFormField(
   That's it.
 
   
-  A bunch of languages are built-in:
+### Supported languages
 
-    - 'ar',
-    - 'de',
-    - 'el',
-    - 'en',
-    - 'es',
-    - 'fa',
-    - 'fr',
-    - 'hi',
-    - 'it',
-    - 'ku',
-    - 'nb',
-    - 'nl',
-    - 'pt',
-    - 'ru',
-    - 'sv',
-    - 'tr',
-    - 'uk',
-    - 'uz',
-    - 'zh',  
+  - ar
+  - de
+  - el
+  - en
+  - es
+  - fa
+  - fr
+  - hi
+  - it
+  - ku
+  - nb
+  - nl
+  - pt
+  - ru
+  - sv
+  - tr
+  - uk
+  - uz
+  - zh
   
-If one of the language you target is not supported you can submit a
-  pull request
+If one of the language you target is not supported you can submit a pull request in flutter_country_selector and phone_form_field repositories.

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
 void main() {
@@ -83,10 +82,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: const [
-        ...GlobalMaterialLocalizations.delegates,
-        PhoneFieldLocalization.delegate
-      ],
+      localizationsDelegates: PhoneFieldLocalization.delegates,
       supportedLocales: const [
         Locale('en', ''),
         Locale('fr', ''),

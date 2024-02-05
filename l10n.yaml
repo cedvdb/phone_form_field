@@ -1,7 +1,7 @@
 arb-dir: l10n
 template-arb-file: en.arb
-output-localization-file: phone_field_localization.dart
-output-class: PhoneFieldLocalization
+output-localization-file: phone_field_localization_impl.dart
+output-class: PhoneFieldLocalizationImpl
 output-dir: lib/src/localization/generated
 synthetic-package: false
 format: true
