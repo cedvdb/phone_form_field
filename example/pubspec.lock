@@ -37,10 +37,10 @@ packages:
     dependency: transitive
     description:
       name: circle_flags
-      sha256: bf798dd8a651ee4301e35b85d8227b1171ee5d59cf1c1d003d5a9b5cfb256611
+      sha256: "61bccd6a5f9bf3790ea0d42419c6942f0f60b2df510f948e154606e0bb55bbae"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0"
+    version: "4.0.1"
   clock:
     dependency: transitive
     description:
@@ -78,6 +78,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_country_selector:
+    dependency: transitive
+    description:
+      name: flutter_country_selector
+      sha256: cb9d9ba5b979432f8015a17aeb803be123c0af0c0bbfac006529013bbf03e2af
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -285,5 +293,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.2.0 <4.0.0"
+  dart: ">=3.2.4 <4.0.0"
   flutter: ">=3.7.0-0"
