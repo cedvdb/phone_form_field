@@ -17,6 +17,9 @@ Flutter phone input integrated with flutter internationalization
 
 Demo available at https://cedvdb.github.io/phone_form_field/
 
+![](https://github.com/cedvdb/phone_form_field/blob/main/demo.gif?raw=true)
+
+
 ## Usage
 
 ```dart
