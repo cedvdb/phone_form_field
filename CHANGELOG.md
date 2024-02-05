@@ -1,3 +1,6 @@
+## [9.0.1]
+- unexport circle flags
+
 ## [9.0.0]
 
 - Big Internal refactor in the hope of making contribution easier
