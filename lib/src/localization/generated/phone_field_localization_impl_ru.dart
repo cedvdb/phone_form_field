@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Russian (`ru`).
 class PhoneFieldLocalizationImplRu extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplRu([String locale = 'ru']) : super(locale);
+  PhoneFieldLocalizationImplRu([super.locale = 'ru']);
 
   @override
   String get invalidPhoneNumber => 'Неправильный номер телефона';
