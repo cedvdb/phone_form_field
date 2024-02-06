@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Uzbek (`uz`).
 class PhoneFieldLocalizationImplUz extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplUz([super.locale = 'uz']);
+  PhoneFieldLocalizationImplUz([String locale = 'uz']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Telefon raqami noto‘g‘ri';
@@ -21,10 +21,10 @@ class PhoneFieldLocalizationImplUz extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'Telfon raqami majburiy';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

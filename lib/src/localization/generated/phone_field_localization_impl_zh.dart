@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Chinese (`zh`).
 class PhoneFieldLocalizationImplZh extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplZh([super.locale = 'zh']);
+  PhoneFieldLocalizationImplZh([String locale = 'zh']) : super(locale);
 
   @override
   String get invalidPhoneNumber => '无效的电话号码';
@@ -20,10 +20,10 @@ class PhoneFieldLocalizationImplZh extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => '需要电话号码';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

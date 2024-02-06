@@ -43,7 +43,10 @@ class CountryButton extends StatelessWidget {
     final countryName = countryLocalization.countryName(isoCode);
     final countryDialCode = '+ ${countryLocalization.countryDialCode(isoCode)}';
     return Semantics(
-      label: localization.tapToSelectACountry(countryName, countryDialCode),
+      // no need to put the dial code inside the semantics
+      // as it is a text inside the button, it will be added
+      // automatically
+      label: localization.selectACountry(countryName),
       child: InkWell(
         onTap: onTap,
         child: Padding(

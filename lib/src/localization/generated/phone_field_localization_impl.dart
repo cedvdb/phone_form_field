@@ -166,14 +166,14 @@ abstract class PhoneFieldLocalizationImpl {
   /// semantic description of the country button
   ///
   /// In en, this message translates to:
-  /// **'Tap to select a country. Current selection: {countryName} {countryDialCode}'**
-  String tapToSelectACountry(String countryName, String countryDialCode);
+  /// **'Select a country. Current selection: {countryName}'**
+  String selectACountry(String countryName);
 
-  /// No description provided for @enterPhoneNumber.
+  /// No description provided for @phoneNumber.
   ///
   /// In en, this message translates to:
-  /// **'Enter your phone number'**
-  String get enterPhoneNumber;
+  /// **'Phone number'**
+  String get phoneNumber;
 }
 
 class _PhoneFieldLocalizationImplDelegate

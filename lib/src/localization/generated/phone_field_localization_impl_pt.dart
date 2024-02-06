@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Portuguese (`pt`).
 class PhoneFieldLocalizationImplPt extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplPt([super.locale = 'pt']);
+  PhoneFieldLocalizationImplPt([String locale = 'pt']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Número de telefone inválido';
@@ -20,10 +20,10 @@ class PhoneFieldLocalizationImplPt extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'Número de telefone obrigatório';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

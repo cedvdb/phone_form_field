@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Persian (`fa`).
 class PhoneFieldLocalizationImplFa extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplFa([super.locale = 'fa']);
+  PhoneFieldLocalizationImplFa([String locale = 'fa']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'شماره تلفن نامعتبر است';
@@ -20,10 +20,10 @@ class PhoneFieldLocalizationImplFa extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'شماره تلفن الزامی است';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

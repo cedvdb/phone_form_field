@@ -1,3 +1,6 @@
+## [9.0.3]
+- improve semantics
+
 ## [9.0.2]
 - reformat national number on country changed
 
@@ -6,7 +9,6 @@
 
 ## [9.0.0]
 
-- Big Internal refactor in the hope of making contribution easier
 - Various fixes for country selection UX
 - Various fixes for input cursor issues
 - Improve accessibility touches surfaces
@@ -20,6 +22,7 @@
 - [Deprecated] : `shouldFormat`, it is now always ON by default
 - [Deprecated] : `defaultCountry`, you should now use either `initialValue` or provide a controller with an initial value.
 - [Deprecated] : `CountrySelectorNavigator.searchDelegate()` changed into `CountrySelectorNavigator.PageNavigator()`.
+- Internal refactor in the hope of making contribution easier
 
 
 ## [8.1.1]

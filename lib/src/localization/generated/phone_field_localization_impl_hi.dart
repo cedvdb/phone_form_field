@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Hindi (`hi`).
 class PhoneFieldLocalizationImplHi extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplHi([super.locale = 'hi']);
+  PhoneFieldLocalizationImplHi([String locale = 'hi']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'अवैध फोन नंबर';
@@ -20,10 +20,10 @@ class PhoneFieldLocalizationImplHi extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'फ़ोन नंबर आवश्यक';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

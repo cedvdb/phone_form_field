@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Spanish Castilian (`es`).
 class PhoneFieldLocalizationImplEs extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplEs([super.locale = 'es']);
+  PhoneFieldLocalizationImplEs([String locale = 'es']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Numero de telefono invalido';
@@ -20,10 +20,10 @@ class PhoneFieldLocalizationImplEs extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'Número de teléfono obligatorio';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

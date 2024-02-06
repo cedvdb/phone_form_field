@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Arabic (`ar`).
 class PhoneFieldLocalizationImplAr extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplAr([super.locale = 'ar']);
+  PhoneFieldLocalizationImplAr([String locale = 'ar']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'رقم الهاتف غير صحيح';
@@ -20,10 +20,10 @@ class PhoneFieldLocalizationImplAr extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'رقم الهاتف مطلوب';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

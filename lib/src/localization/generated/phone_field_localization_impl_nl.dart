@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Dutch Flemish (`nl`).
 class PhoneFieldLocalizationImplNl extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplNl([super.locale = 'nl']);
+  PhoneFieldLocalizationImplNl([String locale = 'nl']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Ongeldig telefoonnummer';
@@ -20,10 +20,10 @@ class PhoneFieldLocalizationImplNl extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'Telefoonnummer vereist';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

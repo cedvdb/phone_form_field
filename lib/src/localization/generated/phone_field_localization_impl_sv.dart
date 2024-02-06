@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Swedish (`sv`).
 class PhoneFieldLocalizationImplSv extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplSv([super.locale = 'sv']);
+  PhoneFieldLocalizationImplSv([String locale = 'sv']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Ogiltigt telefonnummer';
@@ -20,10 +20,10 @@ class PhoneFieldLocalizationImplSv extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'Obligatoriskt telefonnummer';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

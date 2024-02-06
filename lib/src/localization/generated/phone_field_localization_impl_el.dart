@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Modern Greek (`el`).
 class PhoneFieldLocalizationImplEl extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplEl([super.locale = 'el']);
+  PhoneFieldLocalizationImplEl([String locale = 'el']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Μη έγκυρος αριθμός τηλεφώνου';
@@ -21,10 +21,10 @@ class PhoneFieldLocalizationImplEl extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'Απαιτούμενος αριθμός τηλεφώνου';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

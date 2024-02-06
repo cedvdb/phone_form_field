@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Russian (`ru`).
 class PhoneFieldLocalizationImplRu extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplRu([super.locale = 'ru']);
+  PhoneFieldLocalizationImplRu([String locale = 'ru']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Неправильный номер телефона';
@@ -21,10 +21,10 @@ class PhoneFieldLocalizationImplRu extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'Требуется номер телефона';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

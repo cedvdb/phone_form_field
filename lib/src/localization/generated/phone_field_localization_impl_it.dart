@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Italian (`it`).
 class PhoneFieldLocalizationImplIt extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplIt([super.locale = 'it']);
+  PhoneFieldLocalizationImplIt([String locale = 'it']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Numero di telefono invalido';
@@ -20,10 +20,10 @@ class PhoneFieldLocalizationImplIt extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'Numero di telefono richiesto';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }

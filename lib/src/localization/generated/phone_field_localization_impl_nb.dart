@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Norwegian Bokmål (`nb`).
 class PhoneFieldLocalizationImplNb extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplNb([super.locale = 'nb']);
+  PhoneFieldLocalizationImplNb([String locale = 'nb']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Ugyldig telefonnummer';
@@ -20,10 +20,10 @@ class PhoneFieldLocalizationImplNb extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'Telefonnummer er påkrevd';
 
   @override
-  String tapToSelectACountry(String countryName, String countryDialCode) {
-    return 'Tap to select a country. Current selection: $countryName $countryDialCode';
+  String selectACountry(String countryName) {
+    return 'Select a country. Current selection: $countryName';
   }
 
   @override
-  String get enterPhoneNumber => 'Enter your phone number';
+  String get phoneNumber => 'Phone number';
 }
