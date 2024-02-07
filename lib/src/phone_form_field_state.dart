@@ -76,18 +76,19 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget builder() {
-    final localization = PhoneFieldLocalization.of(context);
-    return Semantics(
-      label: localization.phoneNumber,
+    return PhoneFieldSemantics(
+      hasFocus: focusNode.hasFocus,
+      enabled: widget.enabled,
+      inputDecoration: widget.decoration,
       child: TextField(
         decoration: widget.decoration.copyWith(
           errorText: errorText,
           prefixIcon: widget.isCountryButtonPersistent
-              ? _getCountryCodeChip(context)
+              ? _buildCountryCodeChip(context)
               : null,
           prefix: widget.isCountryButtonPersistent
               ? null
-              : _getCountryCodeChip(context),
+              : _buildCountryCodeChip(context),
         ),
         controller: controller._formattedNationalNumberController,
         focusNode: focusNode,
@@ -135,7 +136,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     );
   }
 
-  Widget _getCountryCodeChip(BuildContext context) {
+  Widget _buildCountryCodeChip(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, _) => CountryButton(

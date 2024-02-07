@@ -20,10 +20,15 @@ class PhoneFieldLocalizationImplHi extends PhoneFieldLocalizationImpl {
   String get requiredPhoneNumber => 'फ़ोन नंबर आवश्यक';
 
   @override
-  String selectACountry(String countryName) {
-    return 'Select a country. Current selection: $countryName';
+  String selectACountrySemanticLabel(String countryName, String dialCode) {
+    return 'Select a country. Current selection: $countryName $dialCode';
   }
 
   @override
   String get phoneNumber => 'Phone number';
+
+  @override
+  String currentValueSemanticLabel(String currentValue) {
+    return 'Current value: $currentValue';
+  }
 }

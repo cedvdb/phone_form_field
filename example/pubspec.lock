@@ -37,10 +37,10 @@ packages:
     dependency: transitive
     description:
       name: circle_flags
-      sha256: "61bccd6a5f9bf3790ea0d42419c6942f0f60b2df510f948e154606e0bb55bbae"
+      sha256: "028d5ca1bb12b9a4b29dc1a25f32a428ffd69e91343274375d9e574855af2daa"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.2"
   clock:
     dependency: transitive
     description:
@@ -82,10 +82,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_country_selector
-      sha256: cb9d9ba5b979432f8015a17aeb803be123c0af0c0bbfac006529013bbf03e2af
+      sha256: "34f85126165ea14dc3906f5ff3d7c26df17e7dc6a8aec51ad17439d0b671eb71"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.4"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -182,7 +182,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "9.0.0"
+    version: "9.0.4"
   phone_numbers_parser:
     dependency: transitive
     description:
@@ -248,26 +248,26 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics
-      sha256: "18f6690295af52d081f6808f2f7c69f0eed6d7e23a71539d75f4aeb8f0062172"
+      sha256: "4ac59808bbfca6da38c99f415ff2d3a5d7ca0a6b4809c71d9cf30fba5daf9752"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9+2"
+    version: "1.1.10+1"
   vector_graphics_codec:
     dependency: transitive
     description:
       name: vector_graphics_codec
-      sha256: "531d20465c10dfac7f5cd90b60bbe4dd9921f1ec4ca54c83ebb176dbacb7bb2d"
+      sha256: f3247e7ab0ec77dc759263e68394990edc608fb2b480b80db8aa86ed09279e33
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9+2"
+    version: "1.1.10+1"
   vector_graphics_compiler:
     dependency: transitive
     description:
       name: vector_graphics_compiler
-      sha256: "03012b0a33775c5530576b70240308080e1d5050f0faf000118c20e6463bc0ad"
+      sha256: "18489bdd8850de3dd7ca8a34e0c446f719ec63e2bab2e7a8cc66a9028dd76c5a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9+2"
+    version: "1.1.10+1"
   vector_math:
     dependency: transitive
     description:

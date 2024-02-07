@@ -166,14 +166,20 @@ abstract class PhoneFieldLocalizationImpl {
   /// semantic description of the country button
   ///
   /// In en, this message translates to:
-  /// **'Select a country. Current selection: {countryName}'**
-  String selectACountry(String countryName);
+  /// **'Select a country. Current selection: {countryName} {dialCode}'**
+  String selectACountrySemanticLabel(String countryName, String dialCode);
 
   /// No description provided for @phoneNumber.
   ///
   /// In en, this message translates to:
   /// **'Phone number'**
   String get phoneNumber;
+
+  /// semantic description of the phone input. The label or hint will be dynamically added
+  ///
+  /// In en, this message translates to:
+  /// **'Current value: {currentValue}'**
+  String currentValueSemanticLabel(String currentValue);
 }
 
 class _PhoneFieldLocalizationImplDelegate

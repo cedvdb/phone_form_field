@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_country_selector/flutter_country_selector.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+import 'package:phone_form_field/src/phone_field_semantics.dart';
 import 'package:phone_form_field/src/validation/allowed_characters.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
