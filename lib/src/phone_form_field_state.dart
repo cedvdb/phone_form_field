@@ -1,7 +1,9 @@
 part of 'phone_form_field.dart';
 
 class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
-  late final PhoneController controller;
+  late PhoneController _controller;
+  PhoneController get controller => _controller;
+
   late final FocusNode focusNode;
 
   @override
@@ -11,22 +13,43 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   void initState() {
     super.initState();
 
-    controller = widget.controller ??
-        PhoneController(
-          initialValue: widget.initialValue ??
-              // remove this line when defaultCountry is removed (now deprecated)
-              // and just use the US default country if no initialValue is set
-              PhoneNumber(isoCode: widget.defaultCountry, nsn: ''),
-        );
-    controller.addListener(_onControllerValueChanged);
+    _controller = widget.controller ?? _newLocalController();
+    _controller.addListener(_onControllerValueChanged);
     focusNode = widget.focusNode ?? FocusNode();
     CountrySelector.preloadFlags();
   }
 
   @override
   void dispose() {
-    controller.removeListener(_onControllerValueChanged);
+    _controller.removeListener(_onControllerValueChanged);
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(PhoneFormField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller?.removeListener(_onControllerValueChanged);
+      widget.controller?.addListener(_onControllerValueChanged);
+
+      if (oldWidget.controller != null && widget.controller == null) {
+        // Old: has controller
+        // New: has no controller
+        // Result: create local controller without disposing the old one (owned by old widget)
+        _controller = _newLocalController();
+      }
+
+      if (widget.controller != null) {
+        setValue(widget.controller!.value);
+        if (oldWidget.controller == null) {
+          // Old: hasn't controller
+          // New: has controller
+          // Result: dispose old controller and set controller to new one
+          _controller.dispose();
+          _controller = widget.controller!;
+        }
+      }
+    }
   }
 
   // overriding method from FormFieldState
@@ -37,30 +60,33 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     }
     super.didChange(value);
 
-    if (controller.value != value) {
-      controller.value = value;
+    if (_controller.value != value) {
+      _controller.value = value;
     }
   }
 
   void _onControllerValueChanged() {
     /// when the controller changes because the user called
     /// controller.value = x we need to change the value of the form field
-    if (controller.value != value) {
-      didChange(controller.value);
+    if (_controller.value != value) {
+      didChange(_controller.value);
     }
   }
 
   void _onTextfieldChanged(String value) {
-    controller.changeNationalNumber(value);
-    didChange(controller.value);
-    widget.onChanged?.call(controller.value);
+    _controller.changeNationalNumber(value);
+    didChange(_controller.value);
+    widget.onChanged?.call(_controller.value);
   }
 
   // overriding method of form field, so when the user resets a form,
   // and subsequently every form field descendant, the controller is updated
   @override
   void reset() {
-    controller.value = controller.initialValue;
+    if (_controller.initialValue case final initialValue) {
+      _controller.value = initialValue;
+    }
+
     super.reset();
   }
 
@@ -70,10 +96,17 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     }
     final selected = await widget.countrySelectorNavigator.show(context);
     if (selected != null) {
-      controller.changeCountry(selected);
+      _controller.changeCountry(selected);
     }
     focusNode.requestFocus();
   }
+
+  PhoneController _newLocalController() => PhoneController(
+        initialValue: widget.initialValue ??
+            // remove this line when defaultCountry is removed (now deprecated)
+            // and just use the US default country if no initialValue is set
+            PhoneNumber(isoCode: widget.defaultCountry, nsn: ''),
+      );
 
   Widget builder() {
     return PhoneFieldSemantics(
@@ -83,20 +116,16 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       child: TextField(
         decoration: widget.decoration.copyWith(
           errorText: errorText,
-          prefixIcon: widget.isCountryButtonPersistent
-              ? _buildCountryCodeChip(context)
-              : null,
-          prefix: widget.isCountryButtonPersistent
-              ? null
-              : _buildCountryCodeChip(context),
+          prefixIcon: widget.isCountryButtonPersistent ? _buildCountryCodeChip(context) : null,
+          prefix: widget.isCountryButtonPersistent ? null : _buildCountryCodeChip(context),
         ),
-        controller: controller._formattedNationalNumberController,
+        controller: _controller._formattedNationalNumberController,
         focusNode: focusNode,
         enabled: widget.enabled,
         inputFormatters: widget.inputFormatters ??
             [
-              FilteringTextInputFormatter.allow(RegExp(
-                  '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
+              FilteringTextInputFormatter.allow(
+                  RegExp('[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
             ],
         onChanged: _onTextfieldChanged,
         autofillHints: widget.autofillHints,
@@ -138,10 +167,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
   Widget _buildCountryCodeChip(BuildContext context) {
     return AnimatedBuilder(
-      animation: controller,
+      animation: _controller,
       builder: (context, _) => CountryButton(
         key: const ValueKey('country-code-chip'),
-        isoCode: controller.value.isoCode,
+        isoCode: _controller.value.isoCode,
         onTap: widget.enabled ? _selectCountry : null,
         padding: _computeCountryButtonPadding(context),
         showFlag: widget.showFlagInInput,
@@ -170,27 +199,18 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   EdgeInsets _computeCountryButtonPadding(BuildContext context) {
     final countryButtonPadding = widget.countryButtonPadding;
     final isUnderline = widget.decoration.border is UnderlineInputBorder;
-    final hasLabel =
-        widget.decoration.label != null || widget.decoration.labelText != null;
+    final hasLabel = widget.decoration.label != null || widget.decoration.labelText != null;
     final isLtr = Directionality.of(context) == TextDirection.ltr;
 
-    EdgeInsets padding = isLtr
-        ? const EdgeInsets.fromLTRB(12, 16, 4, 16)
-        : const EdgeInsets.fromLTRB(4, 16, 12, 16);
+    EdgeInsets padding = isLtr ? const EdgeInsets.fromLTRB(12, 16, 4, 16) : const EdgeInsets.fromLTRB(4, 16, 12, 16);
     if (countryButtonPadding != null) {
       padding = countryButtonPadding;
     } else if (!widget.isCountryButtonPersistent) {
-      padding = isLtr
-          ? const EdgeInsets.only(right: 4, left: 12)
-          : const EdgeInsets.only(left: 4, right: 12);
+      padding = isLtr ? const EdgeInsets.only(right: 4, left: 12) : const EdgeInsets.only(left: 4, right: 12);
     } else if (isUnderline && hasLabel) {
-      padding = isLtr
-          ? const EdgeInsets.fromLTRB(12, 25, 4, 7)
-          : const EdgeInsets.fromLTRB(4, 25, 12, 7);
+      padding = isLtr ? const EdgeInsets.fromLTRB(12, 25, 4, 7) : const EdgeInsets.fromLTRB(4, 25, 12, 7);
     } else if (isUnderline && !hasLabel) {
-      padding = isLtr
-          ? const EdgeInsets.fromLTRB(12, 2, 4, 0)
-          : const EdgeInsets.fromLTRB(4, 2, 12, 0);
+      padding = isLtr ? const EdgeInsets.fromLTRB(12, 2, 4, 0) : const EdgeInsets.fromLTRB(4, 2, 12, 0);
     }
     return padding;
   }
