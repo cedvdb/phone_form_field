@@ -118,26 +118,22 @@ class PhoneFormField extends FormField<PhoneNumber> {
   PhoneFormField({
     super.key,
     this.controller,
-    @Deprecated('This is now always true and has no effect anymore')
-    this.shouldFormat = true,
+    @Deprecated('This is now always true and has no effect anymore') this.shouldFormat = true,
     this.onChanged,
     this.focusNode,
     this.showFlagInInput = true,
     this.countrySelectorNavigator = const CountrySelectorNavigator.page(),
-    @Deprecated(
-        'Use [initialValue] or [controller] to set the initial phone number')
-    this.defaultCountry = IsoCode.US,
+    @Deprecated('Use [initialValue] or [controller] to set the initial phone number') this.defaultCountry = IsoCode.US,
     this.flagSize = 16,
     this.isCountrySelectionEnabled = true,
     bool? isCountryButtonPersistent,
-    @Deprecated('Use [isCountryButtonPersistent]')
-    bool? isCountryChipPersistent,
+    @Deprecated('Use [isCountryButtonPersistent]') bool? isCountryChipPersistent,
     this.showDialCode = true,
     this.showIsoCodeInInput = false,
     this.countryButtonPadding,
     // form field inputs
     super.validator,
-    super.initialValue,
+    PhoneNumber? initialValue,
     super.onSaved,
     super.autovalidateMode = AutovalidateMode.onUserInteraction,
     super.restorationId,
@@ -184,10 +180,10 @@ class PhoneFormField extends FormField<PhoneNumber> {
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
         ),
-        isCountryButtonPersistent =
-            isCountryButtonPersistent ?? isCountryChipPersistent ?? true,
+        isCountryButtonPersistent = isCountryButtonPersistent ?? isCountryChipPersistent ?? true,
         super(
           builder: (state) => (state as PhoneFormFieldState).builder(),
+          initialValue: controller?.initialValue ?? initialValue,
         );
 
   @override
