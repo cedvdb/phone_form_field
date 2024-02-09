@@ -183,7 +183,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
         isCountryButtonPersistent = isCountryButtonPersistent ?? isCountryChipPersistent ?? true,
         super(
           builder: (state) => (state as PhoneFormFieldState).builder(),
-          initialValue: controller?.initialValue ?? initialValue,
+          initialValue: controller?.value ?? initialValue,
         );
 
   @override
