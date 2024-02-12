@@ -1,3 +1,6 @@
+## [9.0.5]
+- Fixing using controller's value as initial value #218
+
 ## [9.0.4]
 - improve semantics after trying talk back
 
