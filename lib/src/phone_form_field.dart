@@ -137,7 +137,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.countryButtonPadding,
     // form field inputs
     super.validator,
-    super.initialValue,
+    PhoneNumber? initialValue,
     super.onSaved,
     super.autovalidateMode = AutovalidateMode.onUserInteraction,
     super.restorationId,
@@ -188,6 +188,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
             isCountryButtonPersistent ?? isCountryChipPersistent ?? true,
         super(
           builder: (state) => (state as PhoneFormFieldState).builder(),
+          initialValue: controller?.value ?? initialValue,
         );
 
   @override

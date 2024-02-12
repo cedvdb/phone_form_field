@@ -167,6 +167,16 @@ void main() {
       );
     });
 
+    testWidgets('Should get value of controller as initial value', (tester) async {
+      final controller = PhoneController();
+      final phoneNumber = PhoneNumber.parse('+33488997722');
+      controller.value = phoneNumber;
+      await tester.pumpWidget(getWidget(controller: controller));
+
+      final PhoneFormFieldState phoneFieldState = tester.state(find.byType(PhoneFormField));
+      expect(phoneFieldState.value, equals(phoneNumber));
+    });
+
     testWidgets('Should change value of input when controller changes',
         (tester) async {
       final controller = PhoneController();
