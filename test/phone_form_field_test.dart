@@ -63,9 +63,12 @@ void main() {
       expect(find.byType(CircleFlag), findsWidgets);
     });
 
-    testWidgets('Should not show country selection when disabled and country chip is tapped', (tester) async {
+    testWidgets(
+        'Should not show country selection when disabled and country chip is tapped',
+        (tester) async {
       await tester.pumpWidget(getWidget(enabled: false));
-      final countryChip = tester.widget<CountryButton>(find.byType(CountryButton));
+      final countryChip =
+          tester.widget<CountryButton>(find.byType(CountryButton));
       expect(countryChip.enabled, false);
 
       await tester.tap(find.byType(CountryButton), warnIfMissed: false);
@@ -76,7 +79,8 @@ void main() {
     });
 
     group('Country code', () {
-      testWidgets('Should open dialog when country code is clicked', (tester) async {
+      testWidgets('Should open dialog when country code is clicked',
+          (tester) async {
         await tester.pumpWidget(getWidget());
         expect(find.byType(CountrySelectorPage), findsNothing);
         await tester.tap(find.byType(PhoneFormField));
@@ -104,7 +108,8 @@ void main() {
         expect(find.text('6 77 77 77 77'), findsOneWidget);
       });
 
-      testWidgets('Should show dial code when showDialCode is true', (tester) async {
+      testWidgets('Should show dial code when showDialCode is true',
+          (tester) async {
         PhoneNumber phoneNumber = PhoneNumber.parse('+33');
 
         await tester.pumpWidget(
@@ -117,7 +122,8 @@ void main() {
         expect(find.text('+ 33'), findsOneWidget);
       });
 
-      testWidgets('Should hide dial code when showDialCode is false', (tester) async {
+      testWidgets('Should hide dial code when showDialCode is false',
+          (tester) async {
         PhoneNumber phoneNumber = PhoneNumber.parse('+33');
 
         await tester.pumpWidget(
@@ -171,7 +177,8 @@ void main() {
       expect(phoneFieldState.value, equals(phoneNumber));
     });
 
-    testWidgets('Should change value of input when controller changes', (tester) async {
+    testWidgets('Should change value of input when controller changes',
+        (tester) async {
       final controller = PhoneController();
       await tester.pumpWidget(getWidget(controller: controller));
       controller.value = PhoneNumber.parse('+33488997722');
@@ -182,7 +189,9 @@ void main() {
       expect(find.text(controller.value.formatNsn()), findsOneWidget);
     });
 
-    testWidgets('Should change value of country code chip when full number copy pasted', (tester) async {
+    testWidgets(
+        'Should change value of country code chip when full number copy pasted',
+        (tester) async {
       final controller = PhoneController();
       // ignore: unused_local_variable
       PhoneNumber? newValue;
@@ -201,7 +210,8 @@ void main() {
 
     testWidgets('Should call onChange', (tester) async {
       bool changed = false;
-      PhoneNumber? phoneNumber = PhoneNumber.parse('', destinationCountry: IsoCode.FR);
+      PhoneNumber? phoneNumber =
+          PhoneNumber.parse('', destinationCountry: IsoCode.FR);
       void onChanged(PhoneNumber? p) {
         changed = true;
         phoneNumber = p;
@@ -251,7 +261,8 @@ void main() {
 
       testWidgets(
           'Should display invalid mobile phone when PhoneValidator.validMobile'
-          ' is used and the phone number is not a mobile phone number', (tester) async {
+          ' is used and the phone number is not a mobile phone number',
+          (tester) async {
         PhoneNumber? phoneNumber = PhoneNumber.parse('+33');
         await tester.pumpWidget(getWidget(
           initialValue: phoneNumber,
@@ -274,7 +285,8 @@ void main() {
 
       testWidgets(
           'Should display invalid fixed line phone when PhoneValidator.validFixedLine'
-          ' is used and the phone number is not a fixed line phone number', (tester) async {
+          ' is used and the phone number is not a fixed line phone number',
+          (tester) async {
         PhoneNumber? phoneNumber = PhoneNumber.parse('+32');
         await tester.pumpWidget(getWidget(
           initialValue: phoneNumber,
@@ -295,9 +307,11 @@ void main() {
         );
       });
 
-      testWidgets('should display error when PhoneValidator.required is used and the nsn is empty',
+      testWidgets(
+          'should display error when PhoneValidator.required is used and the nsn is empty',
           (WidgetTester tester) async {
-        final controller = PhoneController(initialValue: PhoneNumber.parse('+32 444'));
+        final controller =
+            PhoneController(initialValue: PhoneNumber.parse('+32 444'));
         await tester.pumpWidget(getWidget(
           controller: controller,
           validatorBuilder: (context) => PhoneValidator.required(context),
@@ -315,10 +329,12 @@ void main() {
         'should show error message when PhoneValidator.validCountry '
         'is used and the current country is invalid',
         (WidgetTester tester) async {
-          final controller = PhoneController(initialValue: PhoneNumber.parse('+32 444'));
+          final controller =
+              PhoneController(initialValue: PhoneNumber.parse('+32 444'));
           await tester.pumpWidget(getWidget(
             controller: controller,
-            validatorBuilder: (context) => PhoneValidator.validCountry(context, [IsoCode.FR, IsoCode.BE]),
+            validatorBuilder: (context) =>
+                PhoneValidator.validCountry(context, [IsoCode.FR, IsoCode.BE]),
           ));
           controller.changeCountry(IsoCode.US);
           await tester.pumpAndSettle();
@@ -329,7 +345,8 @@ void main() {
         },
       );
 
-      testWidgets('should validate against all validators when compose is used', (WidgetTester tester) async {
+      testWidgets('should validate against all validators when compose is used',
+          (WidgetTester tester) async {
         bool first = false;
         bool second = false;
         bool last = false;
@@ -363,7 +380,9 @@ void main() {
         expect(last, isTrue);
       });
 
-      testWidgets('should stop and return first validator failure when compose is used', (WidgetTester tester) async {
+      testWidgets(
+          'should stop and return first validator failure when compose is used',
+          (WidgetTester tester) async {
         bool firstValidationDone = false;
         bool lastValidationDone = false;
         final validator = PhoneValidator.compose([
@@ -459,7 +478,8 @@ void main() {
           onTapOutside: onTapOutside,
         ));
 
-        final FocusScopeNode primaryFocus = FocusManager.instance.primaryFocus as FocusScopeNode;
+        final FocusScopeNode primaryFocus =
+            FocusManager.instance.primaryFocus as FocusScopeNode;
 
         // Verify that the PhoneFormField is unfocused
         expect(primaryFocus.focusedChild, isNull);
@@ -479,7 +499,9 @@ void main() {
         // Verify that the PhoneFormField is unfocused
         expect(primaryFocus.focusedChild, isNull);
       });
-      testWidgets('Should call onTapOutside not unfocus keyboard if already unfocused', (tester) async {
+      testWidgets(
+          'Should call onTapOutside not unfocus keyboard if already unfocused',
+          (tester) async {
         PhoneNumber? phoneNumber = PhoneNumber.parse(
           '',
           destinationCountry: IsoCode.FR,
