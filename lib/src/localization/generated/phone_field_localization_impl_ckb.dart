@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Central Kurdish (`ckb`).
 class PhoneFieldLocalizationImplCkb extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplCkb([super.locale = 'ckb']);
+  PhoneFieldLocalizationImplCkb([String locale = 'ckb']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'ژمارەی تەلەفۆنی نادروست';

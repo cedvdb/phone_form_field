@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Persian (`fa`).
 class PhoneFieldLocalizationImplFa extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplFa([super.locale = 'fa']);
+  PhoneFieldLocalizationImplFa([String locale = 'fa']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'شماره تلفن نامعتبر است';

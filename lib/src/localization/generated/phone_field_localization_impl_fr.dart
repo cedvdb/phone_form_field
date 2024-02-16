@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for French (`fr`).
 class PhoneFieldLocalizationImplFr extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplFr([super.locale = 'fr']);
+  PhoneFieldLocalizationImplFr([String locale = 'fr']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Numéro de téléphone invalide';

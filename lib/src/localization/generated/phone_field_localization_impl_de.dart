@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for German (`de`).
 class PhoneFieldLocalizationImplDe extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplDe([super.locale = 'de']);
+  PhoneFieldLocalizationImplDe([String locale = 'de']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Ungültige Telefonnummer';
