@@ -14,7 +14,10 @@ dependencies:
     sdk: flutter
   intl: ">=0.18.0 <=1.0.0"
 
-  flutter_country_selector: ^1.0.4
+  flutter_country_selector:
+    git:
+      url: https://github.com/michep/flutter_country_selector.git
+
   circle_flags: ^4.0.2
   phone_numbers_parser: ^8.1.3
 
