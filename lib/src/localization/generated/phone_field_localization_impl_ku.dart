@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Kurdish (`ku`).
 class PhoneFieldLocalizationImplKu extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplKu([String locale = 'ku']) : super(locale);
+  PhoneFieldLocalizationImplKu([super.locale = 'ku']);
 
   @override
   String get invalidPhoneNumber => 'ژمارەی تەلەفۆنی نادروست';
@@ -14,8 +14,7 @@ class PhoneFieldLocalizationImplKu extends PhoneFieldLocalizationImpl {
   String get invalidMobilePhoneNumber => 'ژمارەی مۆبایل نادروستە';
 
   @override
-  String get invalidFixedLinePhoneNumber =>
-      'ژمارەی تەلەفۆنی هێڵی جێگیر نادروستە';
+  String get invalidFixedLinePhoneNumber => 'ژمارەی تەلەفۆنی هێڵی جێگیر نادروستە';
 
   @override
   String get requiredPhoneNumber => 'ژمارەی تەلەفۆنی پێویست';

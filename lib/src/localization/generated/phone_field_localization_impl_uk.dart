@@ -2,7 +2,7 @@ import 'phone_field_localization_impl.dart';
 
 /// The translations for Ukrainian (`uk`).
 class PhoneFieldLocalizationImplUk extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplUk([String locale = 'uk']) : super(locale);
+  PhoneFieldLocalizationImplUk([super.locale = 'uk']);
 
   @override
   String get invalidPhoneNumber => 'Невірний номер телефону';
@@ -14,8 +14,7 @@ class PhoneFieldLocalizationImplUk extends PhoneFieldLocalizationImpl {
   String get invalidMobilePhoneNumber => 'Невірний номер мобільного телефону';
 
   @override
-  String get invalidFixedLinePhoneNumber =>
-      'Невірний номер стаціонарного телефону';
+  String get invalidFixedLinePhoneNumber => 'Невірний номер стаціонарного телефону';
 
   @override
   String get requiredPhoneNumber => 'Необхідний номер телефону';
