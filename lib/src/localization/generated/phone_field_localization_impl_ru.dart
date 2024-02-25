@@ -14,22 +14,21 @@ class PhoneFieldLocalizationImplRu extends PhoneFieldLocalizationImpl {
   String get invalidMobilePhoneNumber => 'Неверный номер мобильного телефона';
 
   @override
-  String get invalidFixedLinePhoneNumber =>
-      'Недействительный номер стационарного телефона';
+  String get invalidFixedLinePhoneNumber => 'Недействительный номер стационарного телефона';
 
   @override
   String get requiredPhoneNumber => 'Требуется номер телефона';
 
   @override
   String selectACountrySemanticLabel(String countryName, String dialCode) {
-    return 'Select a country. Current selection: $countryName $dialCode';
+    return 'Выберите страну. Текущий выбор: $countryName $dialCode';
   }
 
   @override
-  String get phoneNumber => 'Phone number';
+  String get phoneNumber => 'Номер телефона';
 
   @override
   String currentValueSemanticLabel(String currentValue) {
-    return 'Current value: $currentValue';
+    return 'Текущее значение: $currentValue';
   }
 }

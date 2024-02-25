@@ -14,8 +14,7 @@ class PhoneFieldLocalizationImplKu extends PhoneFieldLocalizationImpl {
   String get invalidMobilePhoneNumber => 'ژمارەی مۆبایل نادروستە';
 
   @override
-  String get invalidFixedLinePhoneNumber =>
-      'ژمارەی تەلەفۆنی هێڵی جێگیر نادروستە';
+  String get invalidFixedLinePhoneNumber => 'ژمارەی تەلەفۆنی هێڵی جێگیر نادروستە';
 
   @override
   String get requiredPhoneNumber => 'ژمارەی تەلەفۆنی پێویست';
