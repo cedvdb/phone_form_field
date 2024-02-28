@@ -1,3 +1,9 @@
+## [9.1.0]
+
+- allow voip numbers
+- add some missing localization messages
+- upgrade metadata in underlying package
+
 ## [9.0.5]
 - Fixing using controller's value as initial value #218
 
