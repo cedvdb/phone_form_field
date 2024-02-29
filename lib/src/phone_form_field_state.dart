@@ -76,19 +76,29 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget builder() {
+    final isLtr =
+        Directionality.of(context) == TextDirection.ltr || !widget.mirror;
+
     return PhoneFieldSemantics(
       hasFocus: focusNode.hasFocus,
       enabled: widget.enabled,
       inputDecoration: widget.decoration,
       child: TextField(
+        textDirection: widget.textDirection,
         decoration: widget.decoration.copyWith(
           errorText: errorText,
-          prefixIcon: widget.isCountryButtonPersistent
+          prefixIcon: isLtr && widget.isCountryButtonPersistent
               ? _buildCountryCodeChip(context)
               : null,
-          prefix: widget.isCountryButtonPersistent
-              ? null
-              : _buildCountryCodeChip(context),
+          prefix: isLtr && !widget.isCountryButtonPersistent
+              ? _buildCountryCodeChip(context)
+              : null,
+          suffixIcon: !isLtr && widget.isCountryButtonPersistent
+              ? _buildCountryCodeChip(context)
+              : null,
+          suffix: !isLtr && !widget.isCountryButtonPersistent
+              ? _buildCountryCodeChip(context)
+              : null,
         ),
         controller: controller._formattedNationalNumberController,
         focusNode: focusNode,
@@ -137,9 +147,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget _buildCountryCodeChip(BuildContext context) {
-    return AnimatedBuilder(
+    final child = AnimatedBuilder(
       animation: controller,
       builder: (context, _) => CountryButton(
+        textDirection: TextDirection.ltr,
         key: const ValueKey('country-code-chip'),
         isoCode: controller.value.isoCode,
         onTap: widget.enabled ? _selectCountry : null,
@@ -157,6 +168,14 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         enabled: widget.enabled,
       ),
     );
+
+    final isRtl =
+        Directionality.of(context) == TextDirection.rtl && widget.mirror;
+    if (isRtl) {
+      return Directionality(textDirection: TextDirection.ltr, child: child);
+    }
+
+    return child;
   }
 
   /// computes the padding inside the country button
