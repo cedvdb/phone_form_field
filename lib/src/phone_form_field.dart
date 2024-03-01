@@ -75,11 +75,11 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// whether the flag is shown inside the country button
   final bool showFlagInInput;
 
-  /// allow flipping suffix and prefix in rtl
-  final bool mirror;
+  /// allow  to choose between suffix and prefix
+  final CountryButtonSide side;
 
   // textfield inputs
-  final TextDirection? textDirection;
+  final TextDirection textDirection;
   final InputDecoration decoration;
   final TextInputType keyboardType;
   final TextInputAction? textInputAction;
@@ -146,9 +146,9 @@ class PhoneFormField extends FormField<PhoneNumber> {
     super.autovalidateMode = AutovalidateMode.onUserInteraction,
     super.restorationId,
     super.enabled = true,
-    this.mirror = false,
+    this.side = CountryButtonSide.prefix,
     // textfield inputs
-    this.textDirection,
+    this.textDirection = TextDirection.ltr,
     this.decoration = const InputDecoration(),
     this.keyboardType = TextInputType.phone,
     this.textInputAction,

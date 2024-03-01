@@ -5,6 +5,11 @@ import 'package:flutter_country_selector/flutter_country_selector.dart';
 @Deprecated('Use [CountryButton] instead')
 typedef CountryChip = CountryButton;
 
+enum CountryButtonSide {
+  prefix,
+  suffix,
+}
+
 class CountryButton extends StatelessWidget {
   final Function()? onTap;
   final IsoCode isoCode;

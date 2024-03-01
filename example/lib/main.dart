@@ -18,7 +18,7 @@ class PhoneFieldView extends StatelessWidget {
   final bool isCountryButtonPersistant;
   final bool mobileOnly;
   final bool useRtl;
-  final bool mirror;
+  final CountryButtonSide side;
 
   const PhoneFieldView({
     Key? key,
@@ -30,7 +30,7 @@ class PhoneFieldView extends StatelessWidget {
     required this.isCountryButtonPersistant,
     required this.mobileOnly,
     required this.useRtl,
-    required this.mirror,
+    required this.side,
   }) : super(key: key);
 
   PhoneNumberInputValidator? _getValidator(BuildContext context) {
@@ -49,9 +49,10 @@ class PhoneFieldView extends StatelessWidget {
       child: Directionality(
         textDirection: useRtl ? TextDirection.rtl : TextDirection.ltr,
         child: PhoneFormField(
-          mirror: mirror,
-          textDirection: TextDirection.ltr,
-          textAlign: useRtl && !mirror ? TextAlign.end : TextAlign.start,
+          side: side,
+          textAlign: useRtl && side == CountryButtonSide.prefix
+              ? TextAlign.end
+              : TextAlign.start,
           focusNode: focusNode,
           controller: controller,
           isCountryButtonPersistent: isCountryButtonPersistant,
@@ -127,7 +128,8 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool isCountryButtonPersistent = true;
   bool withLabel = true;
   bool useRtl = false;
-  bool mirror = false;
+  CountryButtonSide side = CountryButtonSide.prefix;
+
   CountrySelectorNavigator selectorNavigator =
       const CountrySelectorNavigator.page();
   final formKey = GlobalKey<FormState>();
@@ -188,14 +190,33 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       },
                       title: const Text('RTL'),
                     ),
-                    if (useRtl)
-                      SwitchListTile(
-                        value: mirror,
-                        onChanged: (v) {
-                          setState(() => mirror = v);
-                        },
-                        title: const Text('Mirror'),
+                    ListTile(
+                      title: Wrap(
+                        alignment: WrapAlignment.spaceBetween,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          const Text('Country Button Side: '),
+                          DropdownButton<CountryButtonSide>(
+                            value: side,
+                            onChanged: (CountryButtonSide? value) {
+                              if (value != null) {
+                                setState(() => side = value);
+                              }
+                            },
+                            items: const [
+                              DropdownMenuItem(
+                                value: CountryButtonSide.prefix,
+                                child: Text('prefix (default)'),
+                              ),
+                              DropdownMenuItem(
+                                value: CountryButtonSide.suffix,
+                                child: Text('suffix'),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
+                    ),
                     ListTile(
                       title: Wrap(
                         alignment: WrapAlignment.spaceBetween,
@@ -246,7 +267,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       child: Column(
                         children: [
                           PhoneFieldView(
-                            mirror: mirror,
+                            side: side,
                             controller: controller,
                             focusNode: focusNode,
                             selectorNavigator: selectorNavigator,

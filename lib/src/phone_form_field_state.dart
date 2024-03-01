@@ -76,9 +76,6 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget builder() {
-    final isLtr =
-        Directionality.of(context) == TextDirection.ltr || !widget.mirror;
-
     return PhoneFieldSemantics(
       hasFocus: focusNode.hasFocus,
       enabled: widget.enabled,
@@ -87,16 +84,20 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         textDirection: widget.textDirection,
         decoration: widget.decoration.copyWith(
           errorText: errorText,
-          prefixIcon: isLtr && widget.isCountryButtonPersistent
+          prefixIcon: widget.side == CountryButtonSide.prefix &&
+                  widget.isCountryButtonPersistent
               ? _buildCountryCodeChip(context)
               : null,
-          prefix: isLtr && !widget.isCountryButtonPersistent
+          prefix: widget.side == CountryButtonSide.prefix &&
+                  !widget.isCountryButtonPersistent
               ? _buildCountryCodeChip(context)
               : null,
-          suffixIcon: !isLtr && widget.isCountryButtonPersistent
+          suffixIcon: widget.side == CountryButtonSide.suffix &&
+                  widget.isCountryButtonPersistent
               ? _buildCountryCodeChip(context)
               : null,
-          suffix: !isLtr && !widget.isCountryButtonPersistent
+          suffix: widget.side == CountryButtonSide.suffix &&
+                  !widget.isCountryButtonPersistent
               ? _buildCountryCodeChip(context)
               : null,
         ),
@@ -169,8 +170,9 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       ),
     );
 
-    final isRtl =
-        Directionality.of(context) == TextDirection.rtl && widget.mirror;
+    final isRtl = Directionality.of(context) == TextDirection.rtl &&
+        widget.side == CountryButtonSide.suffix;
+
     if (isRtl) {
       return Directionality(textDirection: TextDirection.ltr, child: child);
     }
