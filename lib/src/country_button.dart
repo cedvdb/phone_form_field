@@ -11,7 +11,7 @@ class CountryButton extends StatelessWidget {
   final bool showFlag;
   final bool showDialCode;
   final TextStyle? textStyle;
-  final EdgeInsets padding;
+  final EdgeInsetsGeometry padding;
   final double flagSize;
   final TextDirection? textDirection;
   final bool showIsoCode;
