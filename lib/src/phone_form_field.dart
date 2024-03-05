@@ -75,6 +75,9 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// whether the flag is shown inside the country button
   final bool showFlagInInput;
 
+  /// whether [countrySelectorNavigator] should be excluded from focus traversal
+  final bool skipFocusOnCountryNavigator;
+
   // textfield inputs
   final InputDecoration decoration;
   final TextInputType keyboardType;
@@ -122,6 +125,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.shouldFormat = true,
     this.onChanged,
     this.focusNode,
+    this.skipFocusOnCountryNavigator = false,
     this.showFlagInInput = true,
     this.countrySelectorNavigator = const CountrySelectorNavigator.page(),
     @Deprecated(
