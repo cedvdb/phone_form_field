@@ -138,7 +138,6 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
   Widget _buildCountryCodeChip(BuildContext context) {
     return ExcludeFocus(
-      excluding: widget.skipFocusOnCountryNavigator,
       child: AnimatedBuilder(
         animation: controller,
         builder: (context, _) => CountryButton(
