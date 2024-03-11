@@ -137,24 +137,26 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget _buildCountryCodeChip(BuildContext context) {
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, _) => CountryButton(
-        key: const ValueKey('country-code-chip'),
-        isoCode: controller.value.isoCode,
-        onTap: widget.enabled ? _selectCountry : null,
-        padding: _computeCountryButtonPadding(context),
-        showFlag: widget.showFlagInInput,
-        showIsoCode: widget.showIsoCodeInInput,
-        showDialCode: widget.showDialCode,
-        textStyle: widget.countryCodeStyle ??
-            widget.decoration.labelStyle ??
-            TextStyle(
-              fontSize: 16,
-              color: Theme.of(context).textTheme.bodySmall?.color,
-            ),
-        flagSize: widget.flagSize,
-        enabled: widget.enabled,
+    return ExcludeFocus(
+      child: AnimatedBuilder(
+        animation: controller,
+        builder: (context, _) => CountryButton(
+          key: const ValueKey('country-code-chip'),
+          isoCode: controller.value.isoCode,
+          onTap: widget.enabled ? _selectCountry : null,
+          padding: _computeCountryButtonPadding(context),
+          showFlag: widget.showFlagInInput,
+          showIsoCode: widget.showIsoCodeInInput,
+          showDialCode: widget.showDialCode,
+          textStyle: widget.countryCodeStyle ??
+              widget.decoration.labelStyle ??
+              TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).textTheme.bodySmall?.color,
+              ),
+          flagSize: widget.flagSize,
+          enabled: widget.enabled,
+        ),
       ),
     );
   }
