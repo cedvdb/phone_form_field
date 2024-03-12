@@ -1,0 +1,8 @@
+{
+  "@@locale": "hu",
+  "invalidPhoneNumber": "Érvénytelen telefonszám",
+  "invalidCountry": "Érvénytelen ország",
+  "invalidMobilePhoneNumber": "Érvénytelen mobiltelefonszám",
+  "invalidFixedLinePhoneNumber": "Érvénytelen vezetékes telefonszám",
+  "requiredPhoneNumber": "Szükséges telefonszám"
+}

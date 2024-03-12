@@ -1,3 +1,7 @@
+## Pending
+
+- add Hungarian localization messages
+
 ## [9.1.0]
 
 - allow voip numbers
