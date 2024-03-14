@@ -183,6 +183,7 @@ This package uses the `flutter_country_selector` package under the hood, which e
   - fa
   - fr
   - hi
+  - hu
   - it
   - ku
   - nb
