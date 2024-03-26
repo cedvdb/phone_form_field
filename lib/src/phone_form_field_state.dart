@@ -76,6 +76,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget builder() {
+    final countryButtonForEachSlot = _buildCountryButtonForEachSlot();
     return PhoneFieldSemantics(
       hasFocus: focusNode.hasFocus,
       enabled: widget.enabled,
@@ -83,12 +84,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       child: TextField(
         decoration: widget.decoration.copyWith(
           errorText: errorText,
-          prefixIcon: widget.isCountryButtonPersistent
-              ? _buildCountryButton(context)
-              : null,
-          prefix: widget.isCountryButtonPersistent
-              ? null
-              : _buildCountryButton(context),
+          prefix: countryButtonForEachSlot[_CountryButtonSlot.prefix],
+          prefixIcon: countryButtonForEachSlot[_CountryButtonSlot.prefixIcon],
+          suffix: countryButtonForEachSlot[_CountryButtonSlot.suffix],
+          suffixIcon: countryButtonForEachSlot[_CountryButtonSlot.suffixIcon],
         ),
         controller: controller._formattedNationalNumberController,
         focusNode: focusNode,
@@ -173,23 +172,22 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   /// returns where the country button is placed in the input
-  Widget? _maybeBuildCountryButton(_CountryButtonSlot slot) {
+  Map<_CountryButtonSlot, Widget?> _buildCountryButtonForEachSlot() {
     final directionality = Directionality.of(context);
-    _CountryButtonSlot countryButtonSlot;
+    final countryButton = _buildCountryButton(context);
     if (directionality == TextDirection.ltr) {
       if (widget.isCountryButtonPersistent) {
-        countryButtonSlot = _CountryButtonSlot.prefixIcon;
+        return {_CountryButtonSlot.prefixIcon: countryButton};
       } else {
-        countryButtonSlot = _CountryButtonSlot.prefix;
+        return {_CountryButtonSlot.prefix: countryButton};
       }
     } else {
       if (widget.isCountryButtonPersistent) {
-        countryButtonSlot = _CountryButtonSlot.suffixIcon;
+        return {_CountryButtonSlot.suffixIcon: countryButton};
       } else {
-        countryButtonSlot = _CountryButtonSlot.suffix;
+        return {_CountryButtonSlot.suffix: countryButton};
       }
     }
-    return slot == 
   }
 
   /// computes the padding inside the country button
