@@ -84,11 +84,11 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         decoration: widget.decoration.copyWith(
           errorText: errorText,
           prefixIcon: widget.isCountryButtonPersistent
-              ? _buildCountryCodeChip(context)
+              ? _buildCountryButton(context)
               : null,
           prefix: widget.isCountryButtonPersistent
               ? null
-              : _buildCountryCodeChip(context),
+              : _buildCountryButton(context),
         ),
         controller: controller._formattedNationalNumberController,
         focusNode: focusNode,
@@ -104,7 +104,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         textInputAction: widget.textInputAction,
         style: widget.style,
         strutStyle: widget.strutStyle,
-        textAlign: widget.textAlign,
+        textAlign: _computeTextAlign(),
         textAlignVertical: widget.textAlignVertical,
         autofocus: widget.autofocus,
         obscuringCharacter: widget.obscuringCharacter,
@@ -136,7 +136,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     );
   }
 
-  Widget _buildCountryCodeChip(BuildContext context) {
+  Widget _buildCountryButton(BuildContext context) {
     return ExcludeFocus(
       child: AnimatedBuilder(
         animation: controller,
@@ -159,6 +159,60 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         ),
       ),
     );
+  }
+
+  TextAlign _computeTextAlign() {
+    final directionality = Directionality.of(context);
+    var textAlign = widget.textAlign;
+    if (textAlign == null) {
+      return directionality == TextDirection.ltr
+          ? TextAlign.start
+          : TextAlign.end;
+    }
+    return textAlign;
+  }
+
+  /// returns where the country button is placed in the input
+  ({
+    Widget? prefixIcon,
+    Widget? prefix,
+    Widget? suffixIcon,
+    Widget? suffix,
+  }) _computeCountryButtonForEachSlot() {
+    final directionality = Directionality.of(context);
+    if (directionality == TextDirection.ltr) {
+      if (widget.isCountryButtonPersistent) {
+        return (
+          prefixIcon: _buildCountryButton(context),
+          prefix: null,
+          suffixIcon: null,
+          suffix: null
+        );
+      } else {
+        return (
+          prefixIcon: null,
+          prefix: _buildCountryButton(context),
+          suffixIcon: null,
+          suffix: null
+        );
+      }
+    } else {
+      if (widget.isCountryButtonPersistent) {
+        return (
+          prefixIcon: _buildCountryButton(context),
+          prefix: null,
+          suffixIcon: null,
+          suffix: null
+        );
+      } else {
+        return (
+          prefixIcon: null,
+          prefix: _buildCountryButton(context),
+          suffixIcon: null,
+          suffix: null
+        );
+      }
+    }
   }
 
   /// computes the padding inside the country button
