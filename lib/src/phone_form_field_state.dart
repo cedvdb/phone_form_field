@@ -76,7 +76,9 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget builder() {
-    final countryButtonForEachSlot = _buildCountryButtonForEachSlot();
+    final textAlignment = _computeTextAlign();
+    final countryButtonForEachSlot =
+        _buildCountryButtonForEachSlot(textAlignment);
     return PhoneFieldSemantics(
       hasFocus: focusNode.hasFocus,
       enabled: widget.enabled,
@@ -98,12 +100,12 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
                   '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
             ],
         onChanged: _onTextfieldChanged,
+        textAlign: _computeTextAlign(),
         autofillHints: widget.autofillHints,
         keyboardType: widget.keyboardType,
         textInputAction: widget.textInputAction,
         style: widget.style,
         strutStyle: widget.strutStyle,
-        textAlign: _computeTextAlign(),
         textAlignVertical: widget.textAlignVertical,
         autofocus: widget.autofocus,
         obscuringCharacter: widget.obscuringCharacter,
@@ -135,47 +137,19 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     );
   }
 
-  Widget _buildCountryButton(BuildContext context) {
-    return ExcludeFocus(
-      child: AnimatedBuilder(
-        animation: controller,
-        builder: (context, _) => CountryButton(
-          key: const ValueKey('country-code-chip'),
-          isoCode: controller.value.isoCode,
-          onTap: widget.enabled ? _selectCountry : null,
-          padding: _computeCountryButtonPadding(context),
-          showFlag: widget.showFlagInInput,
-          showIsoCode: widget.showIsoCodeInInput,
-          showDialCode: widget.showDialCode,
-          textStyle: widget.countryCodeStyle ??
-              widget.decoration.labelStyle ??
-              TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).textTheme.bodySmall?.color,
-              ),
-          flagSize: widget.flagSize,
-          enabled: widget.enabled,
-        ),
-      ),
-    );
-  }
-
   TextAlign _computeTextAlign() {
     final directionality = Directionality.of(context);
-    var textAlign = widget.textAlign;
-    if (textAlign == null) {
-      return directionality == TextDirection.ltr
-          ? TextAlign.start
-          : TextAlign.end;
-    }
-    return textAlign;
+    return directionality == TextDirection.ltr
+        ? TextAlign.start
+        : TextAlign.end;
   }
 
   /// returns where the country button is placed in the input
-  Map<_CountryButtonSlot, Widget?> _buildCountryButtonForEachSlot() {
-    final directionality = Directionality.of(context);
+  Map<_CountryButtonSlot, Widget?> _buildCountryButtonForEachSlot(
+    TextAlign textAlign,
+  ) {
     final countryButton = _buildCountryButton(context);
-    if (directionality == TextDirection.ltr) {
+    if (textAlign == TextAlign.start) {
       if (widget.isCountryButtonPersistent) {
         return {_CountryButtonSlot.prefixIcon: countryButton};
       } else {
@@ -188,6 +162,34 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         return {_CountryButtonSlot.suffix: countryButton};
       }
     }
+  }
+
+  Widget _buildCountryButton(BuildContext context) {
+    return ExcludeFocus(
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: AnimatedBuilder(
+          animation: controller,
+          builder: (context, _) => CountryButton(
+            key: const ValueKey('country-code-chip'),
+            isoCode: controller.value.isoCode,
+            onTap: widget.enabled ? _selectCountry : null,
+            padding: _computeCountryButtonPadding(context),
+            showFlag: widget.showFlagInInput,
+            showIsoCode: widget.showIsoCodeInInput,
+            showDialCode: widget.showDialCode,
+            textStyle: widget.countryCodeStyle ??
+                widget.decoration.labelStyle ??
+                TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).textTheme.bodySmall?.color,
+                ),
+            flagSize: widget.flagSize,
+            enabled: widget.enabled,
+          ),
+        ),
+      ),
+    );
   }
 
   /// computes the padding inside the country button
