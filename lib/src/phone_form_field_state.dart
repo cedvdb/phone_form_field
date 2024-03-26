@@ -173,46 +173,23 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   /// returns where the country button is placed in the input
-  ({
-    Widget? prefixIcon,
-    Widget? prefix,
-    Widget? suffixIcon,
-    Widget? suffix,
-  }) _computeCountryButtonForEachSlot() {
+  Widget? _maybeBuildCountryButton(_CountryButtonSlot slot) {
     final directionality = Directionality.of(context);
+    _CountryButtonSlot countryButtonSlot;
     if (directionality == TextDirection.ltr) {
       if (widget.isCountryButtonPersistent) {
-        return (
-          prefixIcon: _buildCountryButton(context),
-          prefix: null,
-          suffixIcon: null,
-          suffix: null
-        );
+        countryButtonSlot = _CountryButtonSlot.prefixIcon;
       } else {
-        return (
-          prefixIcon: null,
-          prefix: _buildCountryButton(context),
-          suffixIcon: null,
-          suffix: null
-        );
+        countryButtonSlot = _CountryButtonSlot.prefix;
       }
     } else {
       if (widget.isCountryButtonPersistent) {
-        return (
-          prefixIcon: _buildCountryButton(context),
-          prefix: null,
-          suffixIcon: null,
-          suffix: null
-        );
+        countryButtonSlot = _CountryButtonSlot.suffixIcon;
       } else {
-        return (
-          prefixIcon: null,
-          prefix: _buildCountryButton(context),
-          suffixIcon: null,
-          suffix: null
-        );
+        countryButtonSlot = _CountryButtonSlot.suffix;
       }
     }
+    return slot == 
   }
 
   /// computes the padding inside the country button
@@ -250,4 +227,11 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     }
     return padding;
   }
+}
+
+enum _CountryButtonSlot {
+  prefix,
+  prefixIcon,
+  suffix,
+  suffixIcon,
 }
