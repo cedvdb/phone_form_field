@@ -76,6 +76,9 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget builder() {
+    final textAlignment = _computeTextAlign();
+    final countryButtonForEachSlot =
+        _buildCountryButtonForEachSlot(textAlignment);
     return PhoneFieldSemantics(
       hasFocus: focusNode.hasFocus,
       enabled: widget.enabled,
@@ -83,12 +86,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       child: TextField(
         decoration: widget.decoration.copyWith(
           errorText: errorText,
-          prefixIcon: widget.isCountryButtonPersistent
-              ? _buildCountryCodeChip(context)
-              : null,
-          prefix: widget.isCountryButtonPersistent
-              ? null
-              : _buildCountryCodeChip(context),
+          prefix: countryButtonForEachSlot[_CountryButtonSlot.prefix],
+          prefixIcon: countryButtonForEachSlot[_CountryButtonSlot.prefixIcon],
+          suffix: countryButtonForEachSlot[_CountryButtonSlot.suffix],
+          suffixIcon: countryButtonForEachSlot[_CountryButtonSlot.suffixIcon],
         ),
         controller: controller._formattedNationalNumberController,
         focusNode: focusNode,
@@ -99,12 +100,12 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
                   '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
             ],
         onChanged: _onTextfieldChanged,
+        textAlign: _computeTextAlign(),
         autofillHints: widget.autofillHints,
         keyboardType: widget.keyboardType,
         textInputAction: widget.textInputAction,
         style: widget.style,
         strutStyle: widget.strutStyle,
-        textAlign: widget.textAlign,
         textAlignVertical: widget.textAlignVertical,
         autofocus: widget.autofocus,
         obscuringCharacter: widget.obscuringCharacter,
@@ -136,26 +137,56 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     );
   }
 
-  Widget _buildCountryCodeChip(BuildContext context) {
+  TextAlign _computeTextAlign() {
+    final directionality = Directionality.of(context);
+    return directionality == TextDirection.ltr
+        ? TextAlign.start
+        : TextAlign.end;
+  }
+
+  /// returns where the country button is placed in the input
+  Map<_CountryButtonSlot, Widget?> _buildCountryButtonForEachSlot(
+    TextAlign textAlign,
+  ) {
+    final countryButton = _buildCountryButton(context);
+    if (textAlign == TextAlign.start) {
+      if (widget.isCountryButtonPersistent) {
+        return {_CountryButtonSlot.prefixIcon: countryButton};
+      } else {
+        return {_CountryButtonSlot.prefix: countryButton};
+      }
+    } else {
+      if (widget.isCountryButtonPersistent) {
+        return {_CountryButtonSlot.suffixIcon: countryButton};
+      } else {
+        return {_CountryButtonSlot.suffix: countryButton};
+      }
+    }
+  }
+
+  Widget _buildCountryButton(BuildContext context) {
     return ExcludeFocus(
-      child: AnimatedBuilder(
-        animation: controller,
-        builder: (context, _) => CountryButton(
-          key: const ValueKey('country-code-chip'),
-          isoCode: controller.value.isoCode,
-          onTap: widget.enabled ? _selectCountry : null,
-          padding: _computeCountryButtonPadding(context),
-          showFlag: widget.showFlagInInput,
-          showIsoCode: widget.showIsoCodeInInput,
-          showDialCode: widget.showDialCode,
-          textStyle: widget.countryCodeStyle ??
-              widget.decoration.labelStyle ??
-              TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).textTheme.bodySmall?.color,
-              ),
-          flagSize: widget.flagSize,
-          enabled: widget.enabled,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: AnimatedBuilder(
+          animation: controller,
+          builder: (context, _) => CountryButton(
+            key: const ValueKey('country-code-chip'),
+            isoCode: controller.value.isoCode,
+            onTap: widget.enabled ? _selectCountry : null,
+            padding: _computeCountryButtonPadding(context),
+            showFlag: widget.showFlagInInput,
+            showIsoCode: widget.showIsoCodeInInput,
+            showDialCode: widget.showDialCode,
+            textStyle: widget.countryCodeStyle ??
+                widget.decoration.labelStyle ??
+                TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).textTheme.bodySmall?.color,
+                ),
+            flagSize: widget.flagSize,
+            enabled: widget.enabled,
+          ),
         ),
       ),
     );
@@ -196,4 +227,11 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     }
     return padding;
   }
+}
+
+enum _CountryButtonSlot {
+  prefix,
+  prefixIcon,
+  suffix,
+  suffixIcon,
 }
