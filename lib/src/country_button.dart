@@ -8,13 +8,13 @@ typedef CountryChip = CountryButton;
 class CountryButton extends StatelessWidget {
   final Function()? onTap;
   final IsoCode isoCode;
-  final bool showFlag;
-  final bool showDialCode;
   final TextStyle? textStyle;
   final EdgeInsets padding;
   final double flagSize;
-  final TextDirection? textDirection;
+  final bool showFlag;
+  final bool showDialCode;
   final bool showIsoCode;
+  final bool showDropdownIcon;
   final bool enabled;
 
   const CountryButton({
@@ -22,19 +22,19 @@ class CountryButton extends StatelessWidget {
     required this.isoCode,
     required this.onTap,
     this.textStyle,
-    this.showFlag = true,
-    this.showDialCode = true,
     this.padding = const EdgeInsets.fromLTRB(12, 16, 4, 16),
     this.flagSize = 20,
-    this.textDirection,
+    this.showFlag = true,
+    this.showDialCode = true,
     this.showIsoCode = false,
+    this.showDropdownIcon = true,
     this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
     final textStyle = this.textStyle ??
-        Theme.of(context).textTheme.labelMedium ??
+        Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 16) ??
         const TextStyle();
     final countryLocalization = CountrySelectorLocalization.of(context) ??
         CountrySelectorLocalizationEn();
@@ -71,10 +71,10 @@ class CountryButton extends StatelessWidget {
                 style: textStyle.copyWith(
                   color: enabled ? null : Theme.of(context).disabledColor,
                 ),
-                textDirection: textDirection,
               ),
             ],
-            const ExcludeSemantics(child: Icon(Icons.arrow_drop_down)),
+            if (showDropdownIcon)
+              const ExcludeSemantics(child: Icon(Icons.arrow_drop_down)),
           ],
         ),
       ),
