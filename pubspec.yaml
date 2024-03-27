@@ -14,9 +14,9 @@ dependencies:
     sdk: flutter
   intl: ">=0.18.0 <=1.0.0"
 
-  flutter_country_selector: ^1.0.4
-  circle_flags: ^4.0.2
-  phone_numbers_parser: ^8.2.0
+  flutter_country_selector: ^1.0.7
+  circle_flags: ^5.0.0
+  phone_numbers_parser: ^8.2.1
 
 dev_dependencies:
   flutter_test:

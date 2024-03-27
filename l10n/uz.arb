@@ -4,5 +4,27 @@
   "invalidCountry": "Yaroqsiz mamlakat",
   "invalidMobilePhoneNumber": "Telfon raqami noto‘g‘ri",
   "invalidFixedLinePhoneNumber": "Ruxsat etilgan telefon raqami yaroqsiz",
-  "requiredPhoneNumber": "Telfon raqami majburiy"
+  "requiredPhoneNumber": "Telfon raqami majburiy",
+  "selectACountrySemanticLabel": "Mamlakatni tanlang, joriy tanlov: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Telefon raqami",
+  "currentValueSemanticLabel": "Joriy qiymat: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

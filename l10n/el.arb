@@ -4,5 +4,27 @@
   "invalidCountry": "Μη έγκυρη χώρα",
   "invalidMobilePhoneNumber": "Μη έγκυρος αριθμός κινητού τηλεφώνου",
   "invalidFixedLinePhoneNumber": "Μη έγκυρος αριθμός σταθερού τηλεφώνου",
-  "requiredPhoneNumber": "Απαιτούμενος αριθμός τηλεφώνου"
+  "requiredPhoneNumber": "Απαιτούμενος αριθμός τηλεφώνου",
+  "selectACountrySemanticLabel": "Επιλέξτε χώρα, τρέχουσα επιλογή: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Τηλεφωνικό νούμερο",
+  "currentValueSemanticLabel": "Τρέχουσα τιμή: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

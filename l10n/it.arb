@@ -4,5 +4,27 @@
   "invalidCountry": "Paese invalido",
   "invalidMobilePhoneNumber": "Numero di cellulare invalido",
   "invalidFixedLinePhoneNumber": "Numero di rete fissa invalido",
-  "requiredPhoneNumber": "Numero di telefono richiesto"
+  "requiredPhoneNumber": "Numero di telefono richiesto",
+  "selectACountrySemanticLabel": "Seleziona un paese, selezione attuale: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Numero di telefono",
+  "currentValueSemanticLabel": "Valore corrente: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

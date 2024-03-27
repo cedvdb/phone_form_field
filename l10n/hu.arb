@@ -4,5 +4,27 @@
   "invalidCountry": "Érvénytelen ország",
   "invalidMobilePhoneNumber": "Érvénytelen mobiltelefonszám",
   "invalidFixedLinePhoneNumber": "Érvénytelen vezetékes telefonszám",
-  "requiredPhoneNumber": "Szükséges telefonszám"
+  "requiredPhoneNumber": "Szükséges telefonszám",
+  "selectACountrySemanticLabel": "Válasszon országot, jelenlegi választás: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Telefonszám",
+  "currentValueSemanticLabel": "Jelenlegi érték: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

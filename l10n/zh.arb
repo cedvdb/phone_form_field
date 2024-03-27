@@ -4,5 +4,27 @@
   "invalidCountry": "无效国家",
   "invalidMobilePhoneNumber": "无效的手机号码",
   "invalidFixedLinePhoneNumber": "无效的固定电话号码",
-  "requiredPhoneNumber": "需要电话号码"
+  "requiredPhoneNumber": "需要电话号码",
+  "selectACountrySemanticLabel": "选择国家/地区，当前选择：{countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "电话号码",
+  "currentValueSemanticLabel": "当前值：{currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

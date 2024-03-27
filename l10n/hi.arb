@@ -4,5 +4,27 @@
   "invalidCountry": "अवैध देश",
   "invalidMobilePhoneNumber": "अमान्य सेल फ़ोन नंबर",
   "invalidFixedLinePhoneNumber": "अवैध लैंडलाइन नंबर",
-  "requiredPhoneNumber": "फ़ोन नंबर आवश्यक"
+  "requiredPhoneNumber": "फ़ोन नंबर आवश्यक",
+  "selectACountrySemanticLabel": "एक देश चुनें, वर्तमान चयन: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "फ़ोन नंबर",
+  "currentValueSemanticLabel": "वर्तमान मान: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }
