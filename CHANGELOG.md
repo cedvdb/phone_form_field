@@ -1,6 +1,7 @@
 ## [9.1.1]
 - add missing translation messages
 - fix RTL 
+- added `showDropdownIndicator`
 
 ## [9.1.0]
 
@@ -33,7 +34,7 @@
 - Added some missing countries
 - [Breaking] : no validation done by default
 - [Breaking] : provided validators now require a context parameter
-- [Breaking] : `LocalizedCountryRegistry` removed. If you were using it to localize a country name, you should use `PhoneFieldLocalization.of(context).countryName(isoCode)`.
+- [Breaking] : `LocalizedCountryRegistry` removed. If you were using it to localize a country name, you should use `CountrySelectorLocalization.of(context).countryName(isoCode)`.
 - [Deprecated] : `isCountryChipPersistent` in favor of `isCountryButtonPersistent`.
 - [Deprecated] : `shouldFormat`, it is now always ON by default
 - [Deprecated] : `defaultCountry`, you should now use either `initialValue` or provide a controller with an initial value.
