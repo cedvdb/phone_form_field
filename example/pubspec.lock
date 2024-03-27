@@ -37,10 +37,10 @@ packages:
     dependency: transitive
     description:
       name: circle_flags
-      sha256: "028d5ca1bb12b9a4b29dc1a25f32a428ffd69e91343274375d9e574855af2daa"
+      sha256: "875cd64e607b46838ce429e2f7cc88c615f8514181d2d0f9e73de37ba3fb2f52"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.2"
+    version: "5.0.0"
   clock:
     dependency: transitive
     description:
@@ -82,10 +82,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_country_selector
-      sha256: "34f85126165ea14dc3906f5ff3d7c26df17e7dc6a8aec51ad17439d0b671eb71"
+      sha256: f32355c53b9dd31842a9d3a59283956cfbba3606644353534a1eb96ab98a4128
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.7"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -222,7 +222,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "9.1.1"
+    version: "9.2.0"
   phone_numbers_parser:
     dependency: transitive
     description:
