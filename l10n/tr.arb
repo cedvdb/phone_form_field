@@ -4,5 +4,27 @@
   "invalidCountry": "Geçersiz ülke",
   "invalidMobilePhoneNumber": "Geçersiz cep telefonu numarası",
   "invalidFixedLinePhoneNumber": "Geçersiz sabit hat telefon numarası",
-  "requiredPhoneNumber": "Telefon numarası gerekli"
+  "requiredPhoneNumber": "Telefon numarası gerekli",
+  "selectACountrySemanticLabel": "Bir ülke seçin, mevcut seçim: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Telefon numarası",
+  "currentValueSemanticLabel": "Mevcut değer: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

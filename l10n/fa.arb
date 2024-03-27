@@ -4,5 +4,27 @@
   "invalidCountry": "کشور نامعتبر است",
   "invalidMobilePhoneNumber": "شماره تلفن همراه نامعتبر است",
   "invalidFixedLinePhoneNumber": "شماره تلفن ثابت نامعتبر است",
-  "requiredPhoneNumber": "شماره تلفن الزامی است"
+  "requiredPhoneNumber": "شماره تلفن الزامی است",
+  "selectACountrySemanticLabel": "یک کشور را انتخاب کن. ",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "شماره تلفن",
+  "currentValueSemanticLabel": "مقدار فعلی: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

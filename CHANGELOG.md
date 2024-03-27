@@ -1,5 +1,5 @@
 ## [9.1.1]
-- add Hungarian localization messages
+- add missing translation messages
 - fix RTL 
 
 ## [9.1.0]

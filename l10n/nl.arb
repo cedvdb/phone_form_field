@@ -4,5 +4,27 @@
   "invalidCountry": "Ongeldig land",
   "invalidMobilePhoneNumber": "Ongeldig mobiel nummer",
   "invalidFixedLinePhoneNumber": "Ongeldig vast nummer",
-  "requiredPhoneNumber": "Telefoonnummer vereist"
+  "requiredPhoneNumber": "Telefoonnummer vereist",
+  "selectACountrySemanticLabel": "Selecteer een land, huidige selectie: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Telefoonnummer",
+  "currentValueSemanticLabel": "Huidige waarde: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

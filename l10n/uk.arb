@@ -4,5 +4,27 @@
   "invalidCountry": "Недійсна країна",
   "invalidMobilePhoneNumber": "Невірний номер мобільного телефону",
   "invalidFixedLinePhoneNumber": "Невірний номер стаціонарного телефону",
-  "requiredPhoneNumber": "Необхідний номер телефону"
+  "requiredPhoneNumber": "Необхідний номер телефону",
+  "selectACountrySemanticLabel": "Виберіть країну, поточний вибір: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Номер телефону",
+  "currentValueSemanticLabel": "Поточне значення: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

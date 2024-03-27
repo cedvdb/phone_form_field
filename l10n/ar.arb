@@ -4,5 +4,28 @@
   "invalidCountry": "دولة غير صحيح",
   "invalidMobilePhoneNumber": "رقم الهاتف الخلوي غير صحيح",
   "invalidFixedLinePhoneNumber": "رقم الهاتف الثابت غير صحيح",
-  "requiredPhoneNumber": "رقم الهاتف مطلوب"
+  "requiredPhoneNumber": "رقم الهاتف مطلوب",
+  "currentValueSemanticLabel": "القيمة الحالية: {currentValue}",
+  "selectACountrySemanticLabel": "حدد بلدًا، الاختيار الحالي: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "رقم التليفون",
+  "currentValueSemanticLabel": "القيمة الحالية: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -21,14 +21,14 @@ class PhoneFieldLocalizationImplFa extends PhoneFieldLocalizationImpl {
 
   @override
   String selectACountrySemanticLabel(String countryName, String dialCode) {
-    return 'Select a country. Current selection: $countryName $dialCode';
+    return 'یک کشور را انتخاب کن. ';
   }
 
   @override
-  String get phoneNumber => 'Phone number';
+  String get phoneNumber => 'شماره تلفن';
 
   @override
   String currentValueSemanticLabel(String currentValue) {
-    return 'Current value: $currentValue';
+    return 'مقدار فعلی: $currentValue';
   }
 }
