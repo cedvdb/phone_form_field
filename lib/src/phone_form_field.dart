@@ -49,11 +49,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// how to display the country selection
   final CountrySelectorNavigator countrySelectorNavigator;
 
-  /// padding inside country button,
-  /// this can be used to align the country button with the phone number
-  /// and is mostly useful when using [isCountryButtonPersistent] as true.
-  final EdgeInsets? countryButtonPadding;
-
   /// whether the user can select a new country when pressing the country button
   final bool isCountrySelectionEnabled;
 
@@ -63,24 +58,14 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// the text field.
   final bool isCountryButtonPersistent;
 
-  /// show Dial Code or not in the country button
-  final bool showDialCode;
-
-  /// show selected iso code or not in the country button
-  final bool showIsoCodeInInput;
-
-  /// The size of the flag inside the country button
-  final double flagSize;
-
-  /// whether the flag is shown inside the country button
-  final bool showFlagInInput;
+  /// The style of the country selector button
+  final CountryButtonStyle countryButtonStyle;
 
   // textfield inputs
   final InputDecoration decoration;
   final TextInputType keyboardType;
   final TextInputAction? textInputAction;
   final TextStyle? style;
-  final TextStyle? countryCodeStyle;
   final StrutStyle? strutStyle;
   final TextAlign? textAlign;
   final TextAlignVertical? textAlignVertical;
@@ -122,19 +107,22 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.shouldFormat = true,
     this.onChanged,
     this.focusNode,
-    this.showFlagInInput = true,
     this.countrySelectorNavigator = const CountrySelectorNavigator.page(),
     @Deprecated(
         'Use [initialValue] or [controller] to set the initial phone number')
     this.defaultCountry = IsoCode.US,
-    this.flagSize = 16,
     this.isCountrySelectionEnabled = true,
     bool? isCountryButtonPersistent,
     @Deprecated('Use [isCountryButtonPersistent]')
     bool? isCountryChipPersistent,
-    this.showDialCode = true,
-    this.showIsoCodeInInput = false,
-    this.countryButtonPadding,
+    @Deprecated('Use [CountryButtonStyle] instead') bool? showFlagInInput,
+    @Deprecated('Use [CountryButtonStyle] instead') bool? showDialCode,
+    @Deprecated('Use [CountryButtonStyle] instead') bool? showIsoCodeInInput,
+    @Deprecated('Use [CountryButtonStyle] instead')
+    EdgeInsets? countryButtonPadding,
+    @Deprecated('Use [CountryButtonStyle] instead') double? flagSize,
+    @Deprecated('Use [CountryButtonStyle] instead') TextStyle? countryCodeStyle,
+    CountryButtonStyle countryButtonStyle = const CountryButtonStyle(),
     // form field inputs
     super.validator,
     PhoneNumber? initialValue,
@@ -147,7 +135,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.keyboardType = TextInputType.phone,
     this.textInputAction,
     this.style,
-    this.countryCodeStyle,
     this.strutStyle,
     @Deprecated('Has no effect, Change text directionality instead')
     this.textAlign,
@@ -187,6 +174,14 @@ class PhoneFormField extends FormField<PhoneNumber> {
         ),
         isCountryButtonPersistent =
             isCountryButtonPersistent ?? isCountryChipPersistent ?? true,
+        countryButtonStyle = countryButtonStyle.copyWith(
+          showFlag: showFlagInInput,
+          showDialCode: showDialCode,
+          showIsoCode: showIsoCodeInInput,
+          padding: countryButtonPadding,
+          flagSize: flagSize,
+          textStyle: countryCodeStyle,
+        ),
         super(
           builder: (state) => (state as PhoneFormFieldState).builder(),
           initialValue: controller?.value ?? initialValue,
