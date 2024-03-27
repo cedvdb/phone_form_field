@@ -1,3 +1,7 @@
+## [9.2.2]
+- added language selection to demo
+- fixed a bug where country selection language
+
 ## [9.2.1]
 - fix readme
 

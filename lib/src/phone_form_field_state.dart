@@ -64,7 +64,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     super.reset();
   }
 
-  void _selectCountry() async {
+  void _selectCountry(BuildContext context) async {
     if (!widget.isCountrySelectionEnabled) {
       return;
     }
@@ -173,7 +173,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
           builder: (context, _) => CountryButton(
             key: const ValueKey('country-code-chip'),
             isoCode: controller.value.isoCode,
-            onTap: widget.enabled ? _selectCountry : null,
+            onTap: widget.enabled ? () => _selectCountry(context) : null,
             padding: _computeCountryButtonPadding(context),
             showFlag: widget.countryButtonStyle.showFlag,
             showIsoCode: widget.countryButtonStyle.showIsoCode,

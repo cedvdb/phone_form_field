@@ -5,20 +5,20 @@ class PhoneFieldLocalizationImplKu extends PhoneFieldLocalizationImpl {
   PhoneFieldLocalizationImplKu([super.locale = 'ku']);
 
   @override
-  String get invalidPhoneNumber => 'ژمارەی تەلەفۆنی نادروست';
+  String get invalidPhoneNumber => 'Hejmara têlefonê nederbasdar e';
 
   @override
-  String get invalidCountry => 'وڵاتێکی نادروست';
+  String get invalidCountry => 'Welatê nederbasdar';
 
   @override
-  String get invalidMobilePhoneNumber => 'ژمارەی مۆبایل نادروستە';
+  String get invalidMobilePhoneNumber => 'Hejmara têlefona desta nederbasdar e';
 
   @override
   String get invalidFixedLinePhoneNumber =>
-      'ژمارەی تەلەفۆنی هێڵی جێگیر نادروستە';
+      'Hejmara têlefonê ya xeta sabît nederbasdar e';
 
   @override
-  String get requiredPhoneNumber => 'ژمارەی تەلەفۆنی پێویست';
+  String get requiredPhoneNumber => 'Hejmara têlefonê ya pêwîst';
 
   @override
   String selectACountrySemanticLabel(String countryName, String dialCode) {
