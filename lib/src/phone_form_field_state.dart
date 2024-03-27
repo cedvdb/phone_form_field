@@ -165,11 +165,6 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   Widget _buildCountryButton(BuildContext context) {
-    var countryButtonStyle = widget.countryButtonStyle;
-    if (countryButtonStyle.padding == null) {
-      countryButtonStyle = countryButtonStyle.copyWith(
-          padding: _computeCountryButtonPadding(context));
-    }
     return ExcludeFocus(
       child: Directionality(
         textDirection: TextDirection.ltr,
@@ -179,7 +174,6 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
             key: const ValueKey('country-code-chip'),
             isoCode: controller.value.isoCode,
             onTap: widget.enabled ? _selectCountry : null,
-            style: widget.countryButtonStyle,
             padding: _computeCountryButtonPadding(context),
             showFlag: widget.countryButtonStyle.showFlag,
             showIsoCode: widget.countryButtonStyle.showIsoCode,
@@ -202,6 +196,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   /// - is country button shown as a prefix or prefixIcon (isCountryChipPersistent)
   /// - text direction
   EdgeInsets _computeCountryButtonPadding(BuildContext context) {
+    final userDefinedPadding = widget.countryButtonStyle.padding;
     final isUnderline = widget.decoration.border is UnderlineInputBorder;
     final hasLabel =
         widget.decoration.label != null || widget.decoration.labelText != null;
@@ -210,6 +205,9 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     EdgeInsets padding = isLtr
         ? const EdgeInsets.fromLTRB(12, 16, 4, 16)
         : const EdgeInsets.fromLTRB(4, 16, 12, 16);
+    if (userDefinedPadding != null) {
+      return userDefinedPadding;
+    }
     if (!widget.isCountryButtonPersistent) {
       padding = isLtr
           ? const EdgeInsets.only(right: 4, left: 12)

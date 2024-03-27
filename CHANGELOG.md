@@ -1,7 +1,10 @@
-## [9.1.1]
+## [9.2.0]
 - add missing translation messages
+- add Hungarian localization messages
 - fix RTL 
 - added `showDropdownIndicator`
+- deprecate country button stylings properties in favor of one `countryButtonStyle` property
+- add showDropdownIcon bool
 
 ## [9.1.0]
 
