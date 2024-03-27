@@ -1,3 +1,6 @@
+## [9.2.3]
+- upgrade flutter country selector dependency 
+
 ## [9.2.2]
 - added language selection to demo
 - fixed a bug where country selection language
