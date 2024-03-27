@@ -43,25 +43,35 @@ abstract class CountrySelectorNavigator {
 
   Future<IsoCode?> show(BuildContext context);
 
-  CountrySelectorSheet _getCountrySelector({
+  Localizations _getCountrySelectorSheet({
+    /// the context of the input
+    /// used to have the country selection sheet
+    /// in the same language as the input if the language
+    /// was overriden locally with Localizations.override
+    /// see: https://github.com/flutter/flutter/issues/145824
+    required BuildContext inputContext,
     required ValueChanged<IsoCode> onCountrySelected,
     ScrollController? scrollController,
   }) {
-    return CountrySelector.sheet(
-      countries: countries ?? IsoCode.values,
-      favoriteCountries: favorites ?? [],
-      onCountrySelected: onCountrySelected,
-      showDialCode: showDialCode,
-      noResultMessage: noResultMessage,
-      scrollController: scrollController,
-      searchAutofocus: searchAutofocus,
-      subtitleStyle: subtitleStyle,
-      titleStyle: titleStyle,
-      searchBoxDecoration: searchBoxDecoration,
-      searchBoxTextStyle: searchBoxTextStyle,
-      searchBoxIconColor: searchBoxIconColor,
-      scrollPhysics: scrollPhysics,
-      flagSize: flagSize,
+    return Localizations.override(
+      context: inputContext,
+      locale: Localizations.localeOf(inputContext),
+      child: CountrySelector.sheet(
+        countries: countries ?? IsoCode.values,
+        favoriteCountries: favorites ?? [],
+        onCountrySelected: onCountrySelected,
+        showDialCode: showDialCode,
+        noResultMessage: noResultMessage,
+        scrollController: scrollController,
+        searchAutofocus: searchAutofocus,
+        subtitleStyle: subtitleStyle,
+        titleStyle: titleStyle,
+        searchBoxDecoration: searchBoxDecoration,
+        searchBoxTextStyle: searchBoxTextStyle,
+        searchBoxIconColor: searchBoxIconColor,
+        scrollPhysics: scrollPhysics,
+        flagSize: flagSize,
+      ),
     );
   }
 
@@ -186,7 +196,8 @@ class DialogNavigator extends CountrySelectorNavigator {
         child: SizedBox(
           width: width,
           height: height,
-          child: _getCountrySelector(
+          child: _getCountrySelectorSheet(
+            inputContext: context,
             onCountrySelected: (country) =>
                 Navigator.of(context, rootNavigator: true).pop(country),
           ),
@@ -216,20 +227,25 @@ class PageNavigator extends CountrySelectorNavigator {
 
   final ThemeData? appBarTheme;
 
-  CountrySelectorPage _getCountrySelectorPage({
+  Localizations _getCountrySelectorPage({
     required ValueChanged<IsoCode> onCountrySelected,
+    required BuildContext inputContext,
     ScrollController? scrollController,
   }) {
-    return CountrySelector.page(
-      onCountrySelected: onCountrySelected,
-      scrollController: scrollController,
-      countries: countries ?? IsoCode.values,
-      favoriteCountries: favorites ?? [],
-      noResultMessage: noResultMessage,
-      searchAutofocus: searchAutofocus,
-      showDialCode: showDialCode,
-      titleStyle: titleStyle,
-      subtitleStyle: subtitleStyle,
+    return Localizations.override(
+      context: inputContext,
+      locale: Localizations.localeOf(inputContext),
+      child: CountrySelector.page(
+        onCountrySelected: onCountrySelected,
+        scrollController: scrollController,
+        countries: countries ?? IsoCode.values,
+        favoriteCountries: favorites ?? [],
+        noResultMessage: noResultMessage,
+        searchAutofocus: searchAutofocus,
+        showDialCode: showDialCode,
+        titleStyle: titleStyle,
+        subtitleStyle: subtitleStyle,
+      ),
     );
   }
 
@@ -241,6 +257,7 @@ class PageNavigator extends CountrySelectorNavigator {
       MaterialPageRoute(
         builder: (ctx) => _getCountrySelectorPage(
           onCountrySelected: (country) => Navigator.pop(context, country),
+          inputContext: context,
         ),
       ),
     );
@@ -274,7 +291,8 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
       builder: (_) => MediaQuery(
         data: MediaQueryData.fromView(View.of(context)),
         child: SafeArea(
-          child: _getCountrySelector(
+          child: _getCountrySelectorSheet(
+            inputContext: context,
             onCountrySelected: (country) {
               selected = country;
               Navigator.pop(context, country);
@@ -315,7 +333,8 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
       context: context,
       builder: (_) => SizedBox(
         height: height ?? MediaQuery.of(context).size.height - 90,
-        child: _getCountrySelector(
+        child: _getCountrySelectorSheet(
+          inputContext: context,
           onCountrySelected: (country) => Navigator.pop(context, country),
         ),
       ),
@@ -370,65 +389,14 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
         minChildSize: minChildSize,
         maxChildSize: maxChildSize,
         expand: false,
-        builder: (context, scrollController) {
-          return _CountrySelectorWidget(
-            scrollController: scrollController,
-            borderRadius: effectiveBorderRadius,
-            child: _getCountrySelector(
-              onCountrySelected: (country) => Navigator.pop(context, country),
-              scrollController: scrollController,
-            ),
-          );
-        },
+        builder: (context, scrollController) => _getCountrySelectorSheet(
+          inputContext: context,
+          onCountrySelected: (country) => Navigator.pop(context, country),
+          scrollController: scrollController,
+        ),
       ),
       useRootNavigator: useRootNavigator,
       isScrollControlled: true,
-    );
-  }
-}
-
-class _CountrySelectorWidget extends StatefulWidget {
-  final ScrollController scrollController;
-  final BorderRadiusGeometry borderRadius;
-  final Widget child;
-
-  const _CountrySelectorWidget({
-    required this.scrollController,
-    required this.child,
-    required this.borderRadius,
-  });
-
-  @override
-  State<_CountrySelectorWidget> createState() => _CountrySelectorWidgetState();
-}
-
-class _CountrySelectorWidgetState extends State<_CountrySelectorWidget> {
-  @override
-  initState() {
-    super.initState();
-    widget.scrollController.addListener(_onScrollListener);
-  }
-
-  @override
-  dispose() {
-    widget.scrollController.removeListener(_onScrollListener);
-    super.dispose();
-  }
-
-  _onScrollListener() {
-    FocusManager.instance.primaryFocus?.unfocus();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: ShapeDecoration(
-        color: Theme.of(context).canvasColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: widget.borderRadius,
-        ),
-      ),
-      child: widget.child,
     );
   }
 }
