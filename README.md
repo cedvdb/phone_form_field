@@ -197,3 +197,8 @@ This package uses the `flutter_country_selector` package under the hood, which e
   - zh
   
 If one of the language you target is not supported you can submit a pull request in flutter_country_selector and phone_form_field repositories.
+
+
+# Overwriting or adding custom flags
+
+Some users have expressed their need to change some flags due to political reasons, or stylistic reasons. You might also wish to add your own flags. To do so refer to this issue: https://github.com/cedvdb/phone_form_field/issues/222
