@@ -8,8 +8,6 @@ import 'package:phone_form_field/src/phone_field_semantics.dart';
 import 'package:phone_form_field/src/validation/allowed_characters.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import 'country_button_style.dart';
-
 part 'phone_controller.dart';
 part 'phone_form_field_state.dart';
 

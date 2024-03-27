@@ -34,8 +34,10 @@ void main() {
                   onChanged: onChanged,
                   onSaved: onSaved,
                   onTapOutside: onTapOutside,
-                  showFlagInInput: showFlagInInput,
-                  showDialCode: showDialCode,
+                  countryButtonStyle: CountryButtonStyle(
+                    showFlag: showFlagInInput,
+                    showDialCode: showDialCode,
+                  ),
                   controller: controller,
                   validator: validatorBuilder?.call(context),
                   enabled: enabled,
@@ -167,13 +169,15 @@ void main() {
       );
     });
 
-    testWidgets('Should get value of controller as initial value', (tester) async {
+    testWidgets('Should get value of controller as initial value',
+        (tester) async {
       final controller = PhoneController();
       final phoneNumber = PhoneNumber.parse('+33488997722');
       controller.value = phoneNumber;
       await tester.pumpWidget(getWidget(controller: controller));
 
-      final PhoneFormFieldState phoneFieldState = tester.state(find.byType(PhoneFormField));
+      final PhoneFormFieldState phoneFieldState =
+          tester.state(find.byType(PhoneFormField));
       expect(phoneFieldState.value, equals(phoneNumber));
     });
 

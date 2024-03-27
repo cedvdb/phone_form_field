@@ -1,7 +1,6 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_country_selector/flutter_country_selector.dart';
-import 'package:phone_form_field/src/country_button_style.dart';
 
 @Deprecated('Use [CountryButton] instead')
 typedef CountryChip = CountryButton;
@@ -9,34 +8,33 @@ typedef CountryChip = CountryButton;
 class CountryButton extends StatelessWidget {
   final Function()? onTap;
   final IsoCode isoCode;
+  final TextStyle? textStyle;
+  final EdgeInsets padding;
+  final double flagSize;
+  final bool showFlag;
+  final bool showDialCode;
+  final bool showIsoCode;
+  final bool showDropdownIcon;
   final bool enabled;
-  final CountryButtonStyle style;
 
-  CountryButton({
+  const CountryButton({
     super.key,
     required this.isoCode,
     required this.onTap,
+    this.textStyle,
+    this.padding = const EdgeInsets.fromLTRB(12, 16, 4, 16),
+    this.flagSize = 20,
+    this.showFlag = true,
+    this.showDialCode = true,
+    this.showIsoCode = false,
+    this.showDropdownIcon = true,
     this.enabled = true,
-    @Deprecated('Use [CountryButtonStyle] instead') TextStyle? textStyle,
-    @Deprecated('Use [CountryButtonStyle] instead') EdgeInsets? padding,
-    @Deprecated('Use [CountryButtonStyle] instead') double? flagSize,
-    @Deprecated('Use [CountryButtonStyle] instead') bool? showFlag,
-    @Deprecated('Use [CountryButtonStyle] instead') bool? showDialCode = true,
-    @Deprecated('Use [CountryButtonStyle] instead') bool? showIsoCode = false,
-    CountryButtonStyle style = const CountryButtonStyle(),
-  }) : style = style.copyWith(
-          showFlag: showFlag,
-          showDialCode: showDialCode,
-          showIsoCode: showIsoCode,
-          padding: padding,
-          flagSize: flagSize,
-          textStyle: textStyle,
-        );
+  });
 
   @override
   Widget build(BuildContext context) {
     final textStyle = this.textStyle ??
-        Theme.of(context).textTheme.labelMedium ??
+        Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 16) ??
         const TextStyle();
     final countryLocalization = CountrySelectorLocalization.of(context) ??
         CountrySelectorLocalizationEn();
@@ -75,7 +73,7 @@ class CountryButton extends StatelessWidget {
                 ),
               ),
             ],
-            if (showDropdownIndicator)
+            if (showDropdownIcon)
               const ExcludeSemantics(child: Icon(Icons.arrow_drop_down)),
           ],
         ),
