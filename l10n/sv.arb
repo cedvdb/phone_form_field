@@ -4,5 +4,27 @@
   "invalidCountry": "Ogiltigt land",
   "invalidMobilePhoneNumber": "Ogiltigt mobilnummer",
   "invalidFixedLinePhoneNumber": "Ogiltigt fast telefonnummer",
-  "requiredPhoneNumber": "Obligatoriskt telefonnummer"
+  "requiredPhoneNumber": "Obligatoriskt telefonnummer",
+  "selectACountrySemanticLabel": "Välj ett land, aktuellt val: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Telefonnummer",
+  "currentValueSemanticLabel": "Aktuellt värde: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }

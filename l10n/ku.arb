@@ -4,5 +4,27 @@
   "invalidCountry": "وڵاتێکی نادروست",
   "invalidMobilePhoneNumber": "ژمارەی مۆبایل نادروستە",
   "invalidFixedLinePhoneNumber": "ژمارەی تەلەفۆنی هێڵی جێگیر نادروستە",
-  "requiredPhoneNumber": "ژمارەی تەلەفۆنی پێویست"
+  "requiredPhoneNumber": "ژمارەی تەلەفۆنی پێویست",
+  "selectACountrySemanticLabel": "Welatek hilbijêre, bijartina niha: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Jimare telefon",
+  "currentValueSemanticLabel": "Nirxa niha: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
 }
