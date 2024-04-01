@@ -18,6 +18,7 @@ void main() {
       PhoneController? controller,
       bool showFlagInInput = true,
       bool showDialCode = true,
+      bool showDropdownIcon = true,
       PhoneNumberInputValidator Function(BuildContext)? validatorBuilder,
       bool enabled = true,
     }) =>
@@ -37,6 +38,7 @@ void main() {
                   countryButtonStyle: CountryButtonStyle(
                     showFlag: showFlagInInput,
                     showDialCode: showDialCode,
+                    showDropdownIcon: showDropdownIcon,
                   ),
                   controller: controller,
                   validator: validatorBuilder?.call(context),
@@ -137,6 +139,12 @@ void main() {
         await tester.pump(const Duration(seconds: 1));
         expect(find.text('+ 33'), findsNothing);
       });
+    });
+
+    testWidgets('Should hide dropdown icon when showDropDownIcon is false',
+        (tester) async {
+      await tester.pumpWidget(getWidget(showDropdownIcon: false));
+      expect(find.byIcon(Icons.arrow_drop_down), findsNothing);
     });
 
     testWidgets('Should display initial value', (tester) async {
