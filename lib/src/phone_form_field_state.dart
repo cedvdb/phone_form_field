@@ -20,7 +20,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         );
     controller.addListener(_onControllerValueChanged);
     focusNode = widget.focusNode ?? FocusNode();
-    CountrySelector.preloadFlags();
+    if (widget.isFlagPreloadEnabled) CountrySelector.preloadFlags();
   }
 
   @override

@@ -61,6 +61,11 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// The style of the country selector button
   final CountryButtonStyle countryButtonStyle;
 
+  /// Whether the flag assets should be preloaded. It improves performance
+  /// by downloading them upfront (default). If set to false the assets will be
+  /// lazy loaded.
+  final bool isFlagPreloadEnabled;
+
   // textfield inputs
   final InputDecoration decoration;
   final TextInputType keyboardType;
@@ -168,6 +173,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.scrollController,
     this.autofillHints,
     this.enableIMEPersonalizedLearning = true,
+    this.isFlagPreloadEnabled = true,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
