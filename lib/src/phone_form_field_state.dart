@@ -169,30 +169,36 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   /// - is border underline or outline
   /// - is country button shown as a prefix or prefixIcon (isCountryChipPersistent)
   /// - text direction
-  EdgeInsets _computeCountryButtonPadding(BuildContext context) {
+  EdgeInsetsDirectional _computeCountryButtonPadding(BuildContext context) {
     final countryButtonPadding = widget.countryButtonPadding;
     final isUnderline = widget.decoration.border is UnderlineInputBorder;
     final hasLabel =
         widget.decoration.label != null || widget.decoration.labelText != null;
     final isLtr = Directionality.of(context) == TextDirection.ltr;
 
-    EdgeInsets padding = isLtr
-        ? const EdgeInsets.fromLTRB(12, 16, 4, 16)
-        : const EdgeInsets.fromLTRB(4, 16, 12, 16);
+    EdgeInsetsDirectional padding = isLtr
+      ? EdgeInsetsDirectional.fromSTEB(12, 16, 4, 16)
+      : EdgeInsetsDirectional.fromSTEB(4, 16, 12, 16);
+    
     if (countryButtonPadding != null) {
-      padding = countryButtonPadding;
+      padding = EdgeInsetsDirectional.fromSTEB(
+        countryButtonPadding.start ?? padding.start,
+        countryButtonPadding.top ?? padding.top,
+        countryButtonPadding.end ?? padding.end,
+        countryButtonPadding.bottom ?? padding.bottom,
+      );
     } else if (!widget.isCountryButtonPersistent) {
       padding = isLtr
-          ? const EdgeInsets.only(right: 4, left: 12)
-          : const EdgeInsets.only(left: 4, right: 12);
+        ? EdgeInsetsDirectional.only(start: 12, end: 4, top: 16, bottom: 16)
+        : EdgeInsetsDirectional.only(start: 4, end: 12, top: 16, bottom: 16);
     } else if (isUnderline && hasLabel) {
       padding = isLtr
-          ? const EdgeInsets.fromLTRB(12, 25, 4, 7)
-          : const EdgeInsets.fromLTRB(4, 25, 12, 7);
+        ? EdgeInsetsDirectional.fromSTEB(12, 25, 4, 7)
+        : EdgeInsetsDirectional.fromSTEB(4, 25, 12, 7);
     } else if (isUnderline && !hasLabel) {
       padding = isLtr
-          ? const EdgeInsets.fromLTRB(12, 2, 4, 0)
-          : const EdgeInsets.fromLTRB(4, 2, 12, 0);
+        ? EdgeInsetsDirectional.fromSTEB(12, 2, 4, 0)
+        : EdgeInsetsDirectional.fromSTEB(4, 2, 12, 0);
     }
     return padding;
   }

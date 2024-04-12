@@ -11,7 +11,7 @@ class CountryButton extends StatelessWidget {
   final bool showFlag;
   final bool showDialCode;
   final TextStyle? textStyle;
-  final EdgeInsets padding;
+  final EdgeInsetsDirectional padding;
   final double flagSize;
   final TextDirection? textDirection;
   final bool showIsoCode;
@@ -24,7 +24,7 @@ class CountryButton extends StatelessWidget {
     this.textStyle,
     this.showFlag = true,
     this.showDialCode = true,
-    this.padding = const EdgeInsets.fromLTRB(12, 16, 4, 16),
+    this.padding = const EdgeInsetsDirectional.fromSTEB(12, 16, 4, 16),
     this.flagSize = 20,
     this.textDirection,
     this.showIsoCode = false,

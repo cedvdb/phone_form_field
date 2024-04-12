@@ -52,7 +52,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// padding inside country button,
   /// this can be used to align the country button with the phone number
   /// and is mostly useful when using [isCountryButtonPersistent] as true.
-  final EdgeInsets? countryButtonPadding;
+  final EdgeInsetsDirectional? countryButtonPadding;
 
   /// whether the user can select a new country when pressing the country button
   final bool isCountrySelectionEnabled;
