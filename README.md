@@ -30,17 +30,11 @@ PhoneFormField(
   initialValue: PhoneNumber.parse('+33'), // or use the controller
   validator: PhoneValidator.compose(
       [PhoneValidator.required(), PhoneValidator.validMobile()]),
-  countrySelectorNavigator: const CountrySelectorNavigator.page(),
+  countrySelectorNavigator: const CountrySelectorNavigator.searchDelegate(),
   onChanged: (phoneNumber) => print('changed into $phoneNumber'),
   enabled: true,
   isCountrySelectionEnabled: true,
-  isCountryButtonPersistent: true,
-  countryButtonStyle: const CountryButtonStyle(
-    showDialCode: true,
-    showIsoCode: true,
-    showFlag: true,
-    flagSize: 16
-  ),
+  isCountryChipPersistent: true,
 
   // + all parameters of TextField
   // + all parameters of FormField
