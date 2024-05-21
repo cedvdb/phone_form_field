@@ -63,7 +63,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     super.reset();
   }
 
-  void _selectCountry() async {
+  void _selectCountry(BuildContext context) async {
     if (!widget.isCountrySelectionEnabled) {
       return;
     }
@@ -172,18 +172,14 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
           builder: (context, _) => CountryButton(
             key: const ValueKey('country-code-chip'),
             isoCode: controller.value.isoCode,
-            onTap: widget.enabled ? _selectCountry : null,
+            onTap: widget.enabled ? () => _selectCountry(context) : null,
             padding: _computeCountryButtonPadding(context),
-            showFlag: widget.showFlagInInput,
-            showIsoCode: widget.showIsoCodeInInput,
-            showDialCode: widget.showDialCode,
-            textStyle: widget.countryCodeStyle ??
-                widget.decoration.labelStyle ??
-                TextStyle(
-                  fontSize: 16,
-                  color: Theme.of(context).textTheme.bodySmall?.color,
-                ),
-            flagSize: widget.flagSize,
+            showFlag: widget.countryButtonStyle.showFlag,
+            showIsoCode: widget.countryButtonStyle.showIsoCode,
+            showDialCode: widget.countryButtonStyle.showDialCode,
+            showDropdownIcon: widget.countryButtonStyle.showDropdownIcon,
+            textStyle: widget.countryButtonStyle.textStyle,
+            flagSize: widget.countryButtonStyle.flagSize,
             enabled: widget.enabled,
           ),
         ),
@@ -200,7 +196,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   /// - is country button shown as a prefix or prefixIcon (isCountryChipPersistent)
   /// - text direction
   EdgeInsets _computeCountryButtonPadding(BuildContext context) {
-    final countryButtonPadding = widget.countryButtonPadding;
+    final userDefinedPadding = widget.countryButtonStyle.padding;
     final isUnderline = widget.decoration.border is UnderlineInputBorder;
     final hasLabel =
         widget.decoration.label != null || widget.decoration.labelText != null;
@@ -209,9 +205,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     EdgeInsets padding = isLtr
         ? const EdgeInsets.fromLTRB(12, 16, 4, 16)
         : const EdgeInsets.fromLTRB(4, 16, 12, 16);
-    if (countryButtonPadding != null) {
-      padding = countryButtonPadding;
-    } else if (!widget.isCountryButtonPersistent) {
+    if (userDefinedPadding != null) {
+      return userDefinedPadding;
+    }
+    if (!widget.isCountryButtonPersistent) {
       padding = isLtr
           ? const EdgeInsets.only(right: 4, left: 12)
           : const EdgeInsets.only(left: 4, right: 12);

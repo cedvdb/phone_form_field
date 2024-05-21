@@ -10,8 +10,8 @@ Flutter phone input integrated with flutter internationalization
 - Phone formatting localized by region
 - Phone number validation (built-in validators included for main use cases) 
 - Support auto fill and copy paste
-- Form field
 - Uses dart phone_numbers_parser for parsing
+- Form field
 
 ## Demo
 
@@ -33,13 +33,15 @@ PhoneFormField(
   countrySelectorNavigator: const CountrySelectorNavigator.page(),
   onChanged: (phoneNumber) => print('changed into $phoneNumber'),
   enabled: true,
-  countryButtonPadding: null,
   isCountrySelectionEnabled: true,
   isCountryButtonPersistent: true,
-  showDialCode: true,
-  showIsoCodeInInput: true,
-  showFlagInInput: true,
-  flagSize: 16
+  countryButtonStyle: const CountryButtonStyle(
+    showDialCode: true,
+    showIsoCode: true,
+    showFlag: true,
+    flagSize: 16
+  ),
+
   // + all parameters of TextField
   // + all parameters of FormField
   // ...
@@ -185,7 +187,6 @@ This package uses the `flutter_country_selector` package under the hood, which e
   - hi
   - hu
   - it
-  - ku
   - nb
   - nl
   - pt

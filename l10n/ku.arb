@@ -1,10 +1,10 @@
 {
   "@@locale": "ku",
-  "invalidPhoneNumber": "ژمارەی تەلەفۆنی نادروست",
-  "invalidCountry": "وڵاتێکی نادروست",
-  "invalidMobilePhoneNumber": "ژمارەی مۆبایل نادروستە",
-  "invalidFixedLinePhoneNumber": "ژمارەی تەلەفۆنی هێڵی جێگیر نادروستە",
-  "requiredPhoneNumber": "ژمارەی تەلەفۆنی پێویست",
+  "invalidPhoneNumber": "Hejmara têlefonê nederbasdar e",
+  "invalidCountry": "Welatê nederbasdar",
+  "invalidMobilePhoneNumber": "Hejmara têlefona desta nederbasdar e",
+  "invalidFixedLinePhoneNumber": "Hejmara têlefonê ya xeta sabît nederbasdar e",
+  "requiredPhoneNumber": "Hejmara têlefonê ya pêwîst",
   "selectACountrySemanticLabel": "Welatek hilbijêre, bijartina niha: {countryName} {dialCode}",
   "@selectACountrySemanticLabel": {
     "description": "semantic description of the country button",

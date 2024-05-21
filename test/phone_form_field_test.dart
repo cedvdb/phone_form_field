@@ -18,6 +18,7 @@ void main() {
       PhoneController? controller,
       bool showFlagInInput = true,
       bool showDialCode = true,
+      bool showDropdownIcon = true,
       PhoneNumberInputValidator Function(BuildContext)? validatorBuilder,
       bool enabled = true,
     }) =>
@@ -34,8 +35,11 @@ void main() {
                   onChanged: onChanged,
                   onSaved: onSaved,
                   onTapOutside: onTapOutside,
-                  showFlagInInput: showFlagInInput,
-                  showDialCode: showDialCode,
+                  countryButtonStyle: CountryButtonStyle(
+                    showFlag: showFlagInInput,
+                    showDialCode: showDialCode,
+                    showDropdownIcon: showDropdownIcon,
+                  ),
                   controller: controller,
                   validator: validatorBuilder?.call(context),
                   enabled: enabled,
@@ -137,6 +141,12 @@ void main() {
       });
     });
 
+    testWidgets('Should hide dropdown icon when showDropDownIcon is false',
+        (tester) async {
+      await tester.pumpWidget(getWidget(showDropdownIcon: false));
+      expect(find.byIcon(Icons.arrow_drop_down), findsNothing);
+    });
+
     testWidgets('Should display initial value', (tester) async {
       await tester.pumpWidget(
         getWidget(
@@ -167,13 +177,15 @@ void main() {
       );
     });
 
-    testWidgets('Should get value of controller as initial value', (tester) async {
+    testWidgets('Should get value of controller as initial value',
+        (tester) async {
       final controller = PhoneController();
       final phoneNumber = PhoneNumber.parse('+33488997722');
       controller.value = phoneNumber;
       await tester.pumpWidget(getWidget(controller: controller));
 
-      final PhoneFormFieldState phoneFieldState = tester.state(find.byType(PhoneFormField));
+      final PhoneFormFieldState phoneFieldState =
+          tester.state(find.byType(PhoneFormField));
       expect(phoneFieldState.value, equals(phoneNumber));
     });
 

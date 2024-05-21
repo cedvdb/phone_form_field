@@ -10,6 +10,32 @@ void main() {
 // For a simpler example see the README
 
 class PhoneFieldView extends StatelessWidget {
+  static const supportedLocales = [
+    Locale('ar'),
+    // not supported by material yet
+    // Locale('ckb'),
+    Locale('de'),
+    Locale('el'),
+    Locale('en'),
+    Locale('es'),
+    Locale('fa'),
+    Locale('fr'),
+    Locale('hi'),
+    Locale('hu'),
+    Locale('it'),
+    // not supported by material yet
+    // Locale('ku'),
+    Locale('nb'),
+    Locale('nl'),
+    Locale('pt'),
+    Locale('ru'),
+    Locale('sv'),
+    Locale('tr'),
+    Locale('uz'),
+    Locale('zh'),
+    // ...
+  ];
+
   final PhoneController controller;
   final FocusNode focusNode;
   final CountrySelectorNavigator selectorNavigator;
@@ -17,7 +43,7 @@ class PhoneFieldView extends StatelessWidget {
   final bool outlineBorder;
   final bool isCountryButtonPersistant;
   final bool mobileOnly;
-  final bool useRtl;
+  final Locale locale;
 
   const PhoneFieldView({
     Key? key,
@@ -28,7 +54,7 @@ class PhoneFieldView extends StatelessWidget {
     required this.outlineBorder,
     required this.isCountryButtonPersistant,
     required this.mobileOnly,
-    required this.useRtl,
+    required this.locale,
   }) : super(key: key);
 
   PhoneNumberInputValidator? _getValidator(BuildContext context) {
@@ -44,32 +70,42 @@ class PhoneFieldView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutofillGroup(
-      child: Directionality(
-        textDirection: useRtl ? TextDirection.rtl : TextDirection.ltr,
-        child: PhoneFormField(
-          focusNode: focusNode,
-          controller: controller,
-          isCountryButtonPersistent: isCountryButtonPersistant,
-          autofocus: false,
-          autofillHints: const [AutofillHints.telephoneNumber],
-          countrySelectorNavigator: selectorNavigator,
-          decoration: InputDecoration(
-            label: withLabel ? const Text('Phone') : null,
-            border: outlineBorder
-                ? const OutlineInputBorder()
-                : const UnderlineInputBorder(),
-            hintText: withLabel ? '' : 'Phone',
-          ),
-          enabled: true,
-          showIsoCodeInInput: false,
-          showFlagInInput: true,
-          validator: _getValidator(context),
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          cursorColor: Theme.of(context).colorScheme.primary,
-          // ignore: avoid_print
-          onSaved: (p) => print('saved $p'),
-          // ignore: avoid_print
-          onChanged: (p) => print('changed $p'),
+      child: Localizations.override(
+        context: context,
+        locale: locale,
+        child: Builder(
+          builder: (context) {
+            final label = PhoneFieldLocalization.of(context).phoneNumber;
+            return PhoneFormField(
+              focusNode: focusNode,
+              controller: controller,
+              isCountryButtonPersistent: isCountryButtonPersistant,
+              autofocus: false,
+              autofillHints: const [AutofillHints.telephoneNumber],
+              countrySelectorNavigator: selectorNavigator,
+              decoration: InputDecoration(
+                label: withLabel ? Text(label) : null,
+                border: outlineBorder
+                    ? const OutlineInputBorder()
+                    : const UnderlineInputBorder(),
+                hintText: withLabel ? '' : label,
+              ),
+              enabled: true,
+              countryButtonStyle: const CountryButtonStyle(
+                showFlag: true,
+                showIsoCode: false,
+                showDialCode: true,
+                showDropdownIcon: true,
+              ),
+              validator: _getValidator(context),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              cursorColor: Theme.of(context).colorScheme.primary,
+              // ignore: avoid_print
+              onSaved: (p) => print('saved $p'),
+              // ignore: avoid_print
+              onChanged: (p) => print('changed $p'),
+            );
+          },
         ),
       ),
     );
@@ -83,19 +119,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: PhoneFieldLocalization.delegates,
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('fr', ''),
-        Locale('es', ''),
-        Locale('el', ''),
-        Locale('de', ''),
-        Locale('it', ''),
-        Locale('ru', ''),
-        Locale('sv', ''),
-        Locale('tr', ''),
-        Locale('zh', ''),
-        // ...
-      ],
+      supportedLocales: PhoneFieldView.supportedLocales,
+      locale: const Locale('en'),
       title: 'Phone field demo',
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -121,9 +146,9 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool mobileOnly = true;
   bool isCountryButtonPersistent = true;
   bool withLabel = true;
-  bool useRtl = false;
   CountrySelectorNavigator selectorNavigator =
       const CountrySelectorNavigator.page();
+  Locale locale = const Locale('en');
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -175,12 +200,30 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       onChanged: (v) => setState(() => mobileOnly = v),
                       title: const Text('Mobile phone number only'),
                     ),
-                    SwitchListTile(
-                      value: useRtl,
-                      onChanged: (v) {
-                        setState(() => useRtl = v);
-                      },
-                      title: const Text('RTL'),
+                    ListTile(
+                      title: Wrap(
+                        alignment: WrapAlignment.spaceBetween,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          const Text('Language: '),
+                          DropdownButton<Locale>(
+                            value: locale,
+                            onChanged: (Locale? value) {
+                              if (value != null) {
+                                setState(() => locale = value);
+                              }
+                            },
+                            items: [
+                              for (final locale
+                                  in PhoneFieldView.supportedLocales)
+                                DropdownMenuItem(
+                                  value: locale,
+                                  child: Text(locale.toLanguageTag()),
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     ListTile(
                       title: Wrap(
@@ -240,7 +283,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                             isCountryButtonPersistant:
                                 isCountryButtonPersistent,
                             mobileOnly: mobileOnly,
-                            useRtl: useRtl,
+                            locale: locale,
                           ),
                         ],
                       ),
