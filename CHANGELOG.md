@@ -1,3 +1,7 @@
+## [9.1.2]
+- upgrade metadata
+- Do not preload flags by default anymore. Use [PhoneFormField.preloadFlags()] to preload flags
+
 ## [9.1.1]
 - add missing translation messages
 - fix RTL 

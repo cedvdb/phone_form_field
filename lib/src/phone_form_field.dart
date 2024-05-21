@@ -115,6 +115,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool enableIMEPersonalizedLearning;
   final List<TextInputFormatter>? inputFormatters;
 
+  static preloadFlags() => CountrySelector.preloadFlags();
+
   PhoneFormField({
     super.key,
     this.controller,
