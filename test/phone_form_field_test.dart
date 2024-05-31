@@ -269,7 +269,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(CountrySelectorPage), findsOneWidget);
       await tester.tap(find.byType(ListTile).first);
-      expect(true, changed);
+      expect(changed, equals(true));
       expect(
         phoneNumber,
         equals(PhoneNumber.parse('', destinationCountry: IsoCode.AF)),
