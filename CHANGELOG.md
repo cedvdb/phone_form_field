@@ -1,3 +1,6 @@
+## [9.2.5]
+- added Korean localization messages
+
 ## [9.2.4]
 - upgrade metadata
 - Do not preload flags by default anymore. Use [PhoneFormField.preloadFlags()] to preload flags
