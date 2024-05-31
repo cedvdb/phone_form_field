@@ -187,6 +187,7 @@ This package uses the `flutter_country_selector` package under the hood, which e
   - hi
   - hu
   - it
+  - ko
   - nb
   - nl
   - pt
