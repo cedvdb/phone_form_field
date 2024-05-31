@@ -250,6 +250,32 @@ void main() {
       );
     });
 
+    testWidgets('Should call onChange when countryCode updated', (tester) async {
+      bool changed = false;
+      PhoneNumber? phoneNumber =
+      PhoneNumber.parse('', destinationCountry: IsoCode.FR);
+      void onChanged(PhoneNumber? p) {
+        changed = true;
+        phoneNumber = p;
+      }
+
+      await tester.pumpWidget(
+        getWidget(
+          initialValue: phoneNumber,
+          onChanged: onChanged,
+        ),
+      );
+      await tester.tap(find.byType(CountryButton));
+      await tester.pumpAndSettle();
+      expect(find.byType(CountrySelectorPage), findsOneWidget);
+      await tester.tap(find.byType(ListTile).first);
+      expect(true, changed);
+      expect(
+        phoneNumber,
+        equals(PhoneNumber.parse('', destinationCountry: IsoCode.AF)),
+      );
+    });
+
     group('validator', () {
       testWidgets(
           'Should display invalid message when PhoneValidator.valid is used '
