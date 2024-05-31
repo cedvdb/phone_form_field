@@ -70,6 +70,8 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     final selected = await widget.countrySelectorNavigator.show(context);
     if (selected != null) {
       controller.changeCountry(selected);
+      didChange(controller.value);
+      widget.onChanged?.call(controller.value);
     }
     focusNode.requestFocus();
   }
