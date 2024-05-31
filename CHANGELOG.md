@@ -1,3 +1,6 @@
+## [9.2.5]
+- fix: handle change on country selection. onChanged callback would trigger if country field is updated 
+
 ## [9.2.4]
 - upgrade metadata
 - Do not preload flags by default anymore. Use [PhoneFormField.preloadFlags()] to preload flags
