@@ -1,0 +1,30 @@
+{
+    "@@locale": "vi",
+    "invalidPhoneNumber": "Số điện thoại không đúng",
+    "invalidCountry": "Quốc gia không hợp lệ",
+    "invalidMobilePhoneNumber": "Số điện thoại di động không đúng",
+    "invalidFixedLinePhoneNumber": "Số điện thoại cố định không đúng",
+    "requiredPhoneNumber": "Số điện không để để trống",
+    "selectACountrySemanticLabel": "Chọn quốc gia. Hiện tại: {countryName} {dialCode}",
+    "@selectACountrySemanticLabel": {
+        "description": "Mô tả ngữ nghĩa của nút quốc gia",
+        "placeholders": {
+            "countryName": {
+                "type": "String"
+            },
+            "dialCode": {
+                "type": "String"
+            }
+        }
+    },
+    "phoneNumber": "Số điện thoại",
+    "currentValueSemanticLabel": "Giá trị hiện tại: {currentValue}",
+    "@currentValueSemanticLabel": {
+        "description": "Mô tả ngữ nghĩa của đầu vào điện thoại. Nhãn hoặc gợi ý sẽ được thêm động",
+        "placeholders": {
+            "currentValue": {
+                "type": "String"
+            }
+        }
+    }
+}
