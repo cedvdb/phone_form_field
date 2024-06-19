@@ -196,6 +196,7 @@ This package uses the `flutter_country_selector` package under the hood, which e
   - tr
   - uk
   - uz
+  - vi
   - zh
   
 If one of the language you target is not supported you can submit a pull request in flutter_country_selector and phone_form_field repositories.

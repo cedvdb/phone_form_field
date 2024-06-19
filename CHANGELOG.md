@@ -1,3 +1,6 @@
+## [9.2.6]
+- added Vietnamese localization messages
+
 ## [9.2.5]
 - fix: handle change on country selection. onChanged callback would trigger if country field is updated 
 - added Korean localization messages

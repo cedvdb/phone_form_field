@@ -26,6 +26,7 @@ import 'phone_field_localization_impl_sv.dart';
 import 'phone_field_localization_impl_tr.dart';
 import 'phone_field_localization_impl_uk.dart';
 import 'phone_field_localization_impl_uz.dart';
+import 'phone_field_localization_impl_vi.dart';
 import 'phone_field_localization_impl_zh.dart';
 
 /// Callers can lookup localized strings with an instance of PhoneFieldLocalizationImpl
@@ -134,6 +135,7 @@ abstract class PhoneFieldLocalizationImpl {
     Locale('tr'),
     Locale('uk'),
     Locale('uz'),
+    Locale('vi'),
     Locale('zh')
   ];
 
@@ -219,7 +221,8 @@ class _PhoneFieldLocalizationImplDelegate
         'tr',
         'uk',
         'uz',
-        'zh',
+        'vi',
+        'zh'
       ].contains(locale.languageCode);
 
   @override
@@ -271,6 +274,8 @@ PhoneFieldLocalizationImpl lookupPhoneFieldLocalizationImpl(Locale locale) {
       return PhoneFieldLocalizationImplUk();
     case 'uz':
       return PhoneFieldLocalizationImplUz();
+    case 'vi':
+      return PhoneFieldLocalizationImplVi();
     case 'zh':
       return PhoneFieldLocalizationImplZh();
   }
