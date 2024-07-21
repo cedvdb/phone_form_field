@@ -1,0 +1,30 @@
+{
+  "@@locale": "he",
+  "invalidPhoneNumber": "מספר טלפון לא חוקי",
+  "invalidCountry": "מדינה לא חוקית",
+  "invalidMobilePhoneNumber": "מספר טלפון נייד לא חוקי",
+  "invalidFixedLinePhoneNumber": "מספר טלפון קווי לא חוקי",
+  "requiredPhoneNumber": "מספר טלפון נדרש",
+  "selectACountrySemanticLabel": "בחר מדינה. הבחירה הנוכחית: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "תיאור סמנטי של כפתור הבחירה למדינה",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "מספר טלפון",
+  "currentValueSemanticLabel": "הערך הנוכחי: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "תיאור סמנטי של קלט הטלפון. התווית או הרמז יתווספו דינמית",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
+}
