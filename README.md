@@ -158,17 +158,17 @@ This package uses the `flutter_country_selector` package under the hood, which e
   ```dart
     return MaterialApp(
       localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        PhoneFieldLocalization.delegate
-      ],
-      supportedLocales: [
-        const Locale('en', ''),
-        const Locale('es', ''),
-        const Locale('fr', ''),
-        const Locale('ru', ''),
-        const Locale('uz', ''),
-        const Locale('uk', ''),
-        // ...
+        DefaultMaterialLocalizations.delegate,
+        ...PhoneFieldLocalization.delegates, 
+      ], 
+        supportedLocales: [ 
+        const Locale('en', ''), 
+        const Locale('es', ''), 
+        const Locale('fr', ''), 
+        const Locale('ru', ''), 
+        const Locale('uz', ''), 
+        const Locale('uk', ''), 
+        // ... 
       ],
   ```
 
