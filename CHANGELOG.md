@@ -1,6 +1,8 @@
 ## [9.2.6]
 - added Vietnamese localization messages
 - added localizations for Hebrew
+- added Slovak localization
+- added Czech localization
 
 ## [9.2.5]
 - fix: handle change on country selection. onChanged callback would trigger if country field is updated 
