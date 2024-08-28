@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'phone_field_localization_impl_ar.dart';
 import 'phone_field_localization_impl_ckb.dart';
+import 'phone_field_localization_impl_cs.dart';
 import 'phone_field_localization_impl_de.dart';
 import 'phone_field_localization_impl_el.dart';
 import 'phone_field_localization_impl_en.dart';
@@ -17,18 +18,20 @@ import 'phone_field_localization_impl_he.dart';
 import 'phone_field_localization_impl_hi.dart';
 import 'phone_field_localization_impl_hu.dart';
 import 'phone_field_localization_impl_it.dart';
-import 'phone_field_localization_impl_ko.dart';
 import 'phone_field_localization_impl_ku.dart';
 import 'phone_field_localization_impl_nb.dart';
 import 'phone_field_localization_impl_nl.dart';
 import 'phone_field_localization_impl_pt.dart';
 import 'phone_field_localization_impl_ru.dart';
+import 'phone_field_localization_impl_sk.dart';
 import 'phone_field_localization_impl_sv.dart';
 import 'phone_field_localization_impl_tr.dart';
 import 'phone_field_localization_impl_uk.dart';
 import 'phone_field_localization_impl_uz.dart';
 import 'phone_field_localization_impl_vi.dart';
 import 'phone_field_localization_impl_zh.dart';
+
+// ignore_for_file: type=lint
 
 /// Callers can lookup localized strings with an instance of PhoneFieldLocalizationImpl
 /// returned by `PhoneFieldLocalizationImpl.of(context)`.
@@ -117,6 +120,7 @@ abstract class PhoneFieldLocalizationImpl {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
     Locale('ckb'),
+    Locale('cs'),
     Locale('de'),
     Locale('el'),
     Locale('en'),
@@ -127,12 +131,12 @@ abstract class PhoneFieldLocalizationImpl {
     Locale('hi'),
     Locale('hu'),
     Locale('it'),
-    Locale('ko'),
     Locale('ku'),
     Locale('nb'),
     Locale('nl'),
     Locale('pt'),
     Locale('ru'),
+    Locale('sk'),
     Locale('sv'),
     Locale('tr'),
     Locale('uk'),
@@ -204,22 +208,23 @@ class _PhoneFieldLocalizationImplDelegate
   bool isSupported(Locale locale) => <String>[
         'ar',
         'ckb',
+        'cs',
         'de',
         'el',
         'en',
         'es',
         'fa',
         'fr',
-	'he',
+        'he',
         'hi',
         'hu',
         'it',
-        'ko',
         'ku',
         'nb',
         'nl',
         'pt',
         'ru',
+        'sk',
         'sv',
         'tr',
         'uk',
@@ -239,6 +244,8 @@ PhoneFieldLocalizationImpl lookupPhoneFieldLocalizationImpl(Locale locale) {
       return PhoneFieldLocalizationImplAr();
     case 'ckb':
       return PhoneFieldLocalizationImplCkb();
+    case 'cs':
+      return PhoneFieldLocalizationImplCs();
     case 'de':
       return PhoneFieldLocalizationImplDe();
     case 'el':
@@ -259,8 +266,6 @@ PhoneFieldLocalizationImpl lookupPhoneFieldLocalizationImpl(Locale locale) {
       return PhoneFieldLocalizationImplHu();
     case 'it':
       return PhoneFieldLocalizationImplIt();
-    case 'ko':
-      return PhoneFieldLocalizationImplKo();
     case 'ku':
       return PhoneFieldLocalizationImplKu();
     case 'nb':
@@ -271,6 +276,8 @@ PhoneFieldLocalizationImpl lookupPhoneFieldLocalizationImpl(Locale locale) {
       return PhoneFieldLocalizationImplPt();
     case 'ru':
       return PhoneFieldLocalizationImplRu();
+    case 'sk':
+      return PhoneFieldLocalizationImplSk();
     case 'sv':
       return PhoneFieldLocalizationImplSv();
     case 'tr':

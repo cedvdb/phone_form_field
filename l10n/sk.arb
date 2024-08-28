@@ -1,0 +1,30 @@
+{
+  "@@locale": "sk",
+  "invalidPhoneNumber": "Neplatné telefónne číslo",
+  "invalidCountry": "Neplatná krajina",
+  "invalidMobilePhoneNumber": "Neplatné číslo mobilného telefónu",
+  "invalidFixedLinePhoneNumber": "Neplatné číslo pevnej linky",
+  "requiredPhoneNumber": "Telefónne číslo je povinné",
+  "selectACountrySemanticLabel": "Vyberte krajinu. Aktuálny výber: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Telefónne číslo",
+  "currentValueSemanticLabel": "Aktuálna hodnota: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
+}
