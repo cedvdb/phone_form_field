@@ -1,8 +1,13 @@
+## [9.2.7]
+
+- added Slovak localization
+- added Czech localization
+
 ## [9.2.6]
 - added Vietnamese localization messages
 - added localizations for Hebrew
-- added Slovak localization
-- added Czech localization
+- upgrade phone_numbers_parser to v9.0.0
+- phone numbers now format in their national format.
 
 ## [9.2.5]
 - fix: handle change on country selection. onChanged callback would trigger if country field is updated 
