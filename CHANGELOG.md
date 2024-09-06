@@ -1,3 +1,8 @@
+## [9.2.7]
+
+- added Slovak localization
+- added Czech localization
+
 ## [9.2.6]
 - added Vietnamese localization messages
 - added localizations for Hebrew

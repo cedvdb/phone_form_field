@@ -1,0 +1,30 @@
+{
+  "@@locale": "cs",
+  "invalidPhoneNumber": "Neplatné telefonní číslo",
+  "invalidCountry": "Neplatná země",
+  "invalidMobilePhoneNumber": "Neplatné číslo mobilního telefonu",
+  "invalidFixedLinePhoneNumber": "Neplatné číslo pevné linky",
+  "requiredPhoneNumber": "Telefonní číslo je povinné",
+  "selectACountrySemanticLabel": "Vyberte zemi. Aktuální výběr: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Telefonní číslo",
+  "currentValueSemanticLabel": "Aktuální hodnota: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
+}
