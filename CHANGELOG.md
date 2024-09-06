@@ -1,6 +1,8 @@
 ## [9.2.6]
 - added Vietnamese localization messages
 - added localizations for Hebrew
+- upgrade phone_numbers_parser to v9.0.0
+- phone numbers now format in their national format.
 
 ## [9.2.5]
 - fix: handle change on country selection. onChanged callback would trigger if country field is updated 
