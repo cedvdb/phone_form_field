@@ -222,15 +222,15 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "9.2.6"
+    version: "9.2.7"
   phone_numbers_parser:
     dependency: transitive
     description:
       name: phone_numbers_parser
-      sha256: af2fe52aaa3d9f8f44be3a5d0b9b49a1811133fc9f746e7be2d8ddf0fe46044a
+      sha256: af9756bdf9bd7e8f7a5af0c2e769e2ac9aad35418c06598dc18d19cdf4de00dc
       url: "https://pub.dev"
     source: hosted
-    version: "9.0.0"
+    version: "9.0.1"
   sky_engine:
     dependency: transitive
     description: flutter

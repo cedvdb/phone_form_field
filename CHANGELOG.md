@@ -1,3 +1,7 @@
+## [9.2.8]
+
+- Fix phone number format for some countries
+
 ## [9.2.7]
 
 - added Slovak localization
