@@ -98,6 +98,8 @@ abstract class CountrySelectorNavigator {
       CountrySelectorNavigator.page;
 
   const factory CountrySelectorNavigator.page({
+    List<IsoCode>? countries,
+    List<IsoCode>? favorites,
     bool addSeparator,
     bool showCountryCode,
     bool sortCountries,
