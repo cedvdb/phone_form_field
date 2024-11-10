@@ -14,9 +14,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     controller = widget.controller ??
         PhoneController(
           initialValue: widget.initialValue ??
-              // remove this line when defaultCountry is removed (now deprecated)
-              // and just use the US default country if no initialValue is set
-              PhoneNumber(isoCode: widget.defaultCountry, nsn: ''),
+              const PhoneNumber(isoCode: IsoCode.US, nsn: ''),
         );
     controller.addListener(_onControllerValueChanged);
     focusNode = widget.focusNode ?? FocusNode();

@@ -35,13 +35,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
   /// {@macro controller}
   final PhoneController? controller;
 
-  final bool shouldFormat;
-
   /// callback called when the input value changes
   final Function(PhoneNumber)? onChanged;
-
-  /// country that is displayed when there is no value
-  final IsoCode defaultCountry;
 
   /// the focusNode of the national number
   final FocusNode? focusNode;
@@ -105,26 +100,12 @@ class PhoneFormField extends FormField<PhoneNumber> {
   PhoneFormField({
     super.key,
     this.controller,
-    @Deprecated('This is now always true and has no effect anymore')
-    this.shouldFormat = true,
     this.onChanged,
     this.focusNode,
     this.countrySelectorNavigator = const CountrySelectorNavigator.page(),
-    @Deprecated(
-        'Use [initialValue] or [controller] to set the initial phone number')
-    this.defaultCountry = IsoCode.US,
     this.isCountrySelectionEnabled = true,
-    bool? isCountryButtonPersistent,
-    @Deprecated('Use [isCountryButtonPersistent]')
-    bool? isCountryChipPersistent,
-    @Deprecated('Use [CountryButtonStyle] instead') bool? showFlagInInput,
-    @Deprecated('Use [CountryButtonStyle] instead') bool? showDialCode,
-    @Deprecated('Use [CountryButtonStyle] instead') bool? showIsoCodeInInput,
-    @Deprecated('Use [CountryButtonStyle] instead')
-    EdgeInsets? countryButtonPadding,
-    @Deprecated('Use [CountryButtonStyle] instead') double? flagSize,
-    @Deprecated('Use [CountryButtonStyle] instead') TextStyle? countryCodeStyle,
-    CountryButtonStyle countryButtonStyle = const CountryButtonStyle(),
+    this.isCountryButtonPersistent = true,
+    this.countryButtonStyle = const CountryButtonStyle(),
     // form field inputs
     super.validator,
     PhoneNumber? initialValue,
@@ -173,16 +154,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
-        ),
-        isCountryButtonPersistent =
-            isCountryButtonPersistent ?? isCountryChipPersistent ?? true,
-        countryButtonStyle = countryButtonStyle.copyWith(
-          showFlag: showFlagInInput,
-          showDialCode: showDialCode,
-          showIsoCode: showIsoCodeInInput,
-          padding: countryButtonPadding,
-          flagSize: flagSize,
-          textStyle: countryCodeStyle,
         ),
         super(
           builder: (state) => (state as PhoneFormFieldState).builder(),
