@@ -82,10 +82,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_country_selector
-      sha256: fd50903aba4e0a3b7b85c9a2b0fffbab4fac7a62e04ef3a304e852defcfa2e38
+      sha256: "71e06142b71fd9f645ec7aa1817e0468974d971258d829549f42f2d39250888a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.12"
+    version: "1.0.13"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -222,15 +222,15 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "9.2.8"
+    version: "10.0.0"
   phone_numbers_parser:
     dependency: transitive
     description:
       name: phone_numbers_parser
-      sha256: af9756bdf9bd7e8f7a5af0c2e769e2ac9aad35418c06598dc18d19cdf4de00dc
+      sha256: "75986ce6185a601afcb791f79a650bbcb438c5672482da7efa40f0002a57cc74"
       url: "https://pub.dev"
     source: hosted
-    version: "9.0.1"
+    version: "9.0.2"
   sky_engine:
     dependency: transitive
     description: flutter

@@ -21,7 +21,7 @@ abstract class CountrySelectorNavigator {
   const CountrySelectorNavigator({
     this.countries,
     this.favorites,
-    @Deprecated('This is always on by default, this can be safely removed')
+    @Deprecated('This is always on, this can be safely removed')
     bool addSeparator = true,
     @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
     bool? showDialCode,
@@ -80,8 +80,10 @@ abstract class CountrySelectorNavigator {
     double? width,
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
+    @Deprecated('This is always on, this can be safely removed')
     bool addSeparator,
-    bool showCountryCode,
+    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
+    bool? showDialCode,
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
@@ -93,15 +95,13 @@ abstract class CountrySelectorNavigator {
     ScrollPhysics? scrollPhysics,
   }) = DialogNavigator._;
 
-  @Deprecated('Use [CountrySelectorNavigator.page] instead')
-  const factory CountrySelectorNavigator.searchDelegate() =
-      CountrySelectorNavigator.page;
-
   const factory CountrySelectorNavigator.page({
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
+    @Deprecated('This is always on, this can be safely removed')
     bool addSeparator,
-    bool showCountryCode,
+    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
+    bool? showDialCode,
     bool sortCountries,
     String? noResultMessage,
     TextStyle? subtitleStyle,
@@ -116,8 +116,10 @@ abstract class CountrySelectorNavigator {
   const factory CountrySelectorNavigator.bottomSheet({
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
+    @Deprecated('This is always on, this can be safely removed')
     bool addSeparator,
-    bool showCountryCode,
+    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
+    bool? showDialCode,
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
@@ -133,8 +135,10 @@ abstract class CountrySelectorNavigator {
     double? height,
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
+    @Deprecated('This is always on, this can be safely removed')
     bool addSeparator,
-    bool showCountryCode,
+    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
+    bool? showDialCode,
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
@@ -153,8 +157,10 @@ abstract class CountrySelectorNavigator {
     BorderRadiusGeometry? borderRadius,
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
+    @Deprecated('This is always on, this can be safely removed')
     bool addSeparator,
-    bool showCountryCode,
+    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
+    bool? showDialCode,
     double flagSize,
     bool sortCountries,
     String? noResultMessage,
@@ -177,8 +183,10 @@ class DialogNavigator extends CountrySelectorNavigator {
     this.height,
     super.countries,
     super.favorites,
+    @Deprecated('This is always on, this can be safely removed')
     super.addSeparator,
-    super.showCountryCode,
+    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
+    bool? showDialCode,
     super.sortCountries,
     super.noResultMessage,
     super.searchAutofocus = kIsWeb,
@@ -214,6 +222,7 @@ class PageNavigator extends CountrySelectorNavigator {
     super.countries,
     super.favorites,
     super.addSeparator,
+    super.showDialCode,
     super.showCountryCode,
     super.sortCountries,
     super.noResultMessage,
@@ -274,6 +283,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
     super.countries,
     super.favorites,
     super.addSeparator,
+    super.showDialCode,
     super.showCountryCode,
     super.sortCountries,
     super.noResultMessage,
@@ -318,6 +328,7 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
     super.countries,
     super.favorites,
     super.addSeparator,
+    super.showDialCode,
     super.showCountryCode,
     super.sortCountries,
     super.noResultMessage,
@@ -362,6 +373,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
     super.countries,
     super.favorites,
     super.addSeparator,
+    super.showDialCode,
     super.showCountryCode,
     super.sortCountries,
     super.flagSize,
