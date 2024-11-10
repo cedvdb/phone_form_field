@@ -1,3 +1,7 @@
+## [10.0.1]
+
+- Add forgotten deprecation warning
+
 ## [10.0.0]
 
 - Add missing countries and favorites params to CountrySelectorNavigator.page factory

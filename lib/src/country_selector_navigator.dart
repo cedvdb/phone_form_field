@@ -110,6 +110,7 @@ abstract class CountrySelectorNavigator {
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
     ScrollPhysics? scrollPhysics,
+    @Deprecated('Use [Theme] instead to wrap the input, this has no effetct')
     ThemeData? appBarTheme,
   }) = PageNavigator._;
 
@@ -233,6 +234,7 @@ class PageNavigator extends CountrySelectorNavigator {
     super.searchBoxTextStyle,
     super.searchBoxIconColor,
     super.scrollPhysics,
+    @Deprecated('Use [Theme] instead to wrap the input, this has no effetct')
     this.appBarTheme,
   });
 
