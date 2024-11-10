@@ -1,3 +1,12 @@
+## [10.0.0]
+
+- Add missing countries and favorites params to CountrySelectorNavigator.page factory
+- Pass the current theme to navigator page
+
+## [9.2.8]
+
+- Fix phone number format for some countries
+
 ## [9.2.8]
 
 - Fix phone number format for some countries
