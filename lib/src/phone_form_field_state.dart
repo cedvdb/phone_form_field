@@ -117,6 +117,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         enableSuggestions: widget.enableSuggestions,
         showCursor: widget.showCursor,
         onEditingComplete: widget.onEditingComplete,
+        onSubmitted: (_) => widget.onSubmitted?.call(controller.value),
         onAppPrivateCommand: widget.onAppPrivateCommand,
         cursorWidth: widget.cursorWidth,
         cursorHeight: widget.cursorHeight,

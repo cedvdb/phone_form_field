@@ -78,8 +78,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool enableSuggestions;
   final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
   final bool? showCursor;
-  final VoidCallback? onEditingComplete;
-  final ValueChanged<String>? onSubmitted;
+  final Function()? onEditingComplete;
+  final Function(PhoneNumber)? onSubmitted;
   final AppPrivateCommandCallback? onAppPrivateCommand;
   final Function(PointerDownEvent)? onTapOutside;
   final double cursorWidth;
