@@ -237,16 +237,19 @@ class PageNavigator extends CountrySelectorNavigator {
     return Localizations.override(
       context: inputContext,
       locale: Localizations.localeOf(inputContext),
-      child: CountrySelector.page(
-        onCountrySelected: onCountrySelected,
-        scrollController: scrollController,
-        countries: countries ?? IsoCode.values,
-        favoriteCountries: favorites ?? [],
-        noResultMessage: noResultMessage,
-        searchAutofocus: searchAutofocus,
-        showDialCode: showDialCode,
-        titleStyle: titleStyle,
-        subtitleStyle: subtitleStyle,
+      child: Theme(
+        data: Theme.of(inputContext),
+        child: CountrySelector.page(
+          onCountrySelected: onCountrySelected,
+          scrollController: scrollController,
+          countries: countries ?? IsoCode.values,
+          favoriteCountries: favorites ?? [],
+          noResultMessage: noResultMessage,
+          searchAutofocus: searchAutofocus,
+          showDialCode: showDialCode,
+          titleStyle: titleStyle,
+          subtitleStyle: subtitleStyle,
+        ),
       ),
     );
   }
