@@ -1,3 +1,7 @@
+## [10.0.2]
+
+- Fix fixes issue where area codes wrapped in parentheses cannot be deleted
+
 ## [10.0.1]
 
 - Add forgotten deprecation warning
