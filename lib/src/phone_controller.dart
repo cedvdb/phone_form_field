@@ -37,7 +37,10 @@ class PhoneController extends ChangeNotifier {
 
   changeNationalNumber(String? text) {
     text = text ?? '';
+    final oldFormattedText = _value.formatNsn();
     var newFormattedText = text;
+
+    bool isDeleting = text.length < oldFormattedText.length;
 
     // if starts with + then we parse the whole number
     final startsWithPlus =
@@ -51,6 +54,11 @@ class PhoneController extends ChangeNotifier {
         _value = phoneNumber;
         newFormattedText = _value.formatNsn();
       }
+    } else if (isDeleting &&
+        text.startsWith(
+            RegExp('^\\([${AllowedCharacters.digits}]+(?!.*\\))'))) {
+      // Handle case where the phone number contains an area code such as (416), and user has begun to delete it, i.e. the text input is now (416.
+      // We need to skip parsing/formatting here, else the parentheses will be added back
     } else {
       final phoneNumber = PhoneNumber.parse(
         text,

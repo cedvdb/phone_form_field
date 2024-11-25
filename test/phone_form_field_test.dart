@@ -1,5 +1,6 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_country_selector/flutter_country_selector.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
@@ -110,6 +111,86 @@ void main() {
         await tester.enterText(phoneField, '677777777');
         await tester.pump(const Duration(seconds: 1));
         expect(find.text('6 77 77 77 77'), findsOneWidget);
+      });
+
+      testWidgets('Can delete phone number', (tester) async {
+        final controller = PhoneController(
+          initialValue: PhoneNumber.parse('+64'),
+        );
+
+        await tester.pumpWidget(getWidget(controller: controller));
+        await tester.pump(const Duration(seconds: 1));
+        final phoneField = find.byType(PhoneFormField);
+        await tester.enterText(phoneField, '+64210000000');
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text('+ 64'), findsOneWidget);
+        expect(find.text('210 000 000'), findsOneWidget);
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.pump();
+
+        expect(controller.value.nsn, equals(''));
+      });
+
+      testWidgets('Can delete phone number with area code in parentheses',
+          (tester) async {
+        final controller = PhoneController(
+          initialValue: PhoneNumber.parse('+1'),
+        );
+
+        await tester.pumpWidget(getWidget(controller: controller));
+        await tester.pump(const Duration(seconds: 1));
+        final phoneField = find.byType(PhoneFormField);
+        await tester.enterText(phoneField, '+14165555555');
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text('+ 1'), findsOneWidget);
+        expect(find.text('(416) 555-5555'), findsOneWidget);
+
+        // delete all digits up to the area code (416)
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+
+        // attempt to delete area code
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+
+        expect(find.text('(416'), findsOneWidget);
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+        await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
+
+        expect(find.text('(416)'), findsNothing);
+        expect(controller.value.nsn, equals(''));
+      });
+
+      testWidgets('Can enter phone number with area code', (tester) async {
+        final controller = PhoneController(
+          initialValue: PhoneNumber.parse('+1'),
+        );
+
+        await tester.pumpWidget(getWidget(controller: controller));
+        await tester.pump(const Duration(seconds: 1));
+        final phoneField = find.byType(PhoneFormField);
+
+        await tester.enterText(phoneField, '(416');
+
+        await tester.pump(const Duration(seconds: 1));
+
+        expect(find.text('+ 1'), findsOneWidget);
+        expect(find.text('(416)'), findsOneWidget);
       });
 
       testWidgets('Should show dial code when showDialCode is true',
@@ -250,10 +331,11 @@ void main() {
       );
     });
 
-    testWidgets('Should call onChange when countryCode updated', (tester) async {
+    testWidgets('Should call onChange when countryCode updated',
+        (tester) async {
       bool changed = false;
       PhoneNumber? phoneNumber =
-      PhoneNumber.parse('', destinationCountry: IsoCode.FR);
+          PhoneNumber.parse('', destinationCountry: IsoCode.FR);
       void onChanged(PhoneNumber? p) {
         changed = true;
         phoneNumber = p;
