@@ -1,3 +1,7 @@
+## [10.0.3]
+
+- added Catalan localization
+
 ## [10.0.2]
 
 - Fix fixes issue where area codes wrapped in parentheses cannot be deleted
