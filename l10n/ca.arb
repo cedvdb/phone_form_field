@@ -1,9 +1,9 @@
 {
   "@@locale": "ca",
-  "invalidPhoneNumber": "Número de telèfon no vàlid",
-  "invalidCountry": "País no vàlid",
-  "invalidMobilePhoneNumber": "Invalid mobile phone number",
-  "invalidFixedLinePhoneNumber": "Número de telèfon mòbil no vàlid",
+  "invalidPhoneNumber": "Número de telèfon invàlid",
+  "invalidCountry": "País invàlid",
+  "invalidMobilePhoneNumber": "Número de telèfon mòbil invàlid",
+  "invalidFixedLinePhoneNumber": "Número de telèfon fix invàlid",
   "requiredPhoneNumber": "Número de telèfon obligatori",
   "selectACountrySemanticLabel": "Seleccioneu un país. Selecció actual: {countryName} {dialCode}",
   "@selectACountrySemanticLabel": {
