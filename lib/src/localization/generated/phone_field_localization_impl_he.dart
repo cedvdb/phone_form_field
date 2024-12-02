@@ -1,8 +1,10 @@
 import 'phone_field_localization_impl.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Hebrew (`he`).
 class PhoneFieldLocalizationImplHe extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplHe([super.locale = 'he']);
+  PhoneFieldLocalizationImplHe([String locale = 'he']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'מספר טלפון לא חוקי';

@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'phone_field_localization_impl_ar.dart';
+import 'phone_field_localization_impl_ca.dart';
 import 'phone_field_localization_impl_ckb.dart';
 import 'phone_field_localization_impl_cs.dart';
 import 'phone_field_localization_impl_de.dart';
@@ -119,6 +120,7 @@ abstract class PhoneFieldLocalizationImpl {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
+    Locale('ca'),
     Locale('ckb'),
     Locale('cs'),
     Locale('de'),
@@ -207,6 +209,7 @@ class _PhoneFieldLocalizationImplDelegate
   @override
   bool isSupported(Locale locale) => <String>[
         'ar',
+        'ca',
         'ckb',
         'cs',
         'de',
@@ -242,6 +245,8 @@ PhoneFieldLocalizationImpl lookupPhoneFieldLocalizationImpl(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return PhoneFieldLocalizationImplAr();
+    case 'ca':
+      return PhoneFieldLocalizationImplCa();
     case 'ckb':
       return PhoneFieldLocalizationImplCkb();
     case 'cs':

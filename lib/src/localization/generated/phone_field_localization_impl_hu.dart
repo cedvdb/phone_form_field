@@ -1,8 +1,10 @@
 import 'phone_field_localization_impl.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Hungarian (`hu`).
 class PhoneFieldLocalizationImplHu extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplHu([super.locale = 'hu']);
+  PhoneFieldLocalizationImplHu([String locale = 'hu']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Érvénytelen telefonszám';
