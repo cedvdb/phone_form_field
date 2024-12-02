@@ -1,8 +1,10 @@
 import 'phone_field_localization_impl.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for Vietnamese (`vi`).
 class PhoneFieldLocalizationImplVi extends PhoneFieldLocalizationImpl {
-  PhoneFieldLocalizationImplVi([super.locale = 'vi']);
+  PhoneFieldLocalizationImplVi([String locale = 'vi']) : super(locale);
 
   @override
   String get invalidPhoneNumber => 'Số điện thoại không đúng';

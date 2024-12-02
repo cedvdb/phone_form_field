@@ -178,6 +178,7 @@ This package uses the `flutter_country_selector` package under the hood, which e
 ### Supported languages
 
   - ar
+  - ca
   - cs
   - de
   - el
