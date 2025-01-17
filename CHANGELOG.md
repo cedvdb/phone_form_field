@@ -1,6 +1,6 @@
 ## [10.0.4]
 
-- added backgroundColor property to BottomSheet, DraggableModalSheet, ModalSheet, Dialog.
+- added backgroundColor property to BottomSheet, DraggableModalSheet, ModalSheet, Dialog
 
 ## [10.0.3]
 
