@@ -241,27 +241,35 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                             items: const [
                               DropdownMenuItem(
                                 value: CountrySelectorNavigator.bottomSheet(
+                     
                                     favorites: [IsoCode.GU, IsoCode.GY]),
                                 child: Text('Bottom sheet'),
                               ),
                               DropdownMenuItem(
                                 value: CountrySelectorNavigator
-                                    .draggableBottomSheet(),
+                                    .draggableBottomSheet(
+                           
+                                ),
                                 child: Text('Draggable modal sheet'),
                               ),
                               DropdownMenuItem(
                                 value:
-                                    CountrySelectorNavigator.modalBottomSheet(),
+                                    CountrySelectorNavigator.modalBottomSheet(
+                         
+                                ),
                                 child: Text('Modal sheet'),
                               ),
                               DropdownMenuItem(
                                 value: CountrySelectorNavigator.dialog(
                                   width: 720,
+                           
                                 ),
                                 child: Text('Dialog'),
                               ),
                               DropdownMenuItem(
-                                value: CountrySelectorNavigator.page(),
+                                value: CountrySelectorNavigator.page(
+                         
+                                ),
                                 child: Text('Page'),
                               ),
                             ],
