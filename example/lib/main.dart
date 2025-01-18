@@ -247,29 +247,21 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                               ),
                               DropdownMenuItem(
                                 value: CountrySelectorNavigator
-                                    .draggableBottomSheet(
-                           
-                                ),
+                                    .draggableBottomSheet(),
                                 child: Text('Draggable modal sheet'),
                               ),
                               DropdownMenuItem(
                                 value:
-                                    CountrySelectorNavigator.modalBottomSheet(
-                         
-                                ),
+                                    CountrySelectorNavigator.modalBottomSheet(),
                                 child: Text('Modal sheet'),
                               ),
                               DropdownMenuItem(
                                 value: CountrySelectorNavigator.dialog(
-                                  width: 720,
-                           
-                                ),
+                                  width: 720),
                                 child: Text('Dialog'),
                               ),
                               DropdownMenuItem(
-                                value: CountrySelectorNavigator.page(
-                         
-                                ),
+                                value: CountrySelectorNavigator.page(),
                                 child: Text('Page'),
                               ),
                             ],
