@@ -256,7 +256,8 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                               ),
                               DropdownMenuItem(
                                 value: CountrySelectorNavigator.dialog(
-                                  width: 720),
+                                  width: 720,
+                                ),
                                 child: Text('Dialog'),
                               ),
                               DropdownMenuItem(
