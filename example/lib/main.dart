@@ -241,7 +241,6 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                             items: const [
                               DropdownMenuItem(
                                 value: CountrySelectorNavigator.bottomSheet(
-                     
                                     favorites: [IsoCode.GU, IsoCode.GY]),
                                 child: Text('Bottom sheet'),
                               ),
