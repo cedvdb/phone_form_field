@@ -16,6 +16,7 @@ abstract class CountrySelectorNavigator {
   final Color? searchBoxIconColor;
   final ScrollPhysics? scrollPhysics;
   final double flagSize;
+  final Color? backgroundColor;
   final bool useRootNavigator;
 
   const CountrySelectorNavigator({
@@ -33,6 +34,7 @@ abstract class CountrySelectorNavigator {
     this.searchBoxDecoration,
     this.searchBoxTextStyle,
     this.searchBoxIconColor,
+    this.backgroundColor,
     this.scrollPhysics,
     this.flagSize = 40,
     this.useRootNavigator = true,
@@ -86,6 +88,7 @@ abstract class CountrySelectorNavigator {
     bool? showDialCode,
     bool sortCountries,
     String? noResultMessage,
+    Color? backgroundColor,
     bool searchAutofocus,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
@@ -124,6 +127,7 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
+    Color? backgroundColor,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
     InputDecoration? searchBoxDecoration,
@@ -143,6 +147,7 @@ abstract class CountrySelectorNavigator {
     bool sortCountries,
     String? noResultMessage,
     bool searchAutofocus,
+    Color? backgroundColor,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
     InputDecoration? searchBoxDecoration,
@@ -165,6 +170,7 @@ abstract class CountrySelectorNavigator {
     double flagSize,
     bool sortCountries,
     String? noResultMessage,
+    Color? backgroundColor,
     bool searchAutofocus,
     TextStyle? subtitleStyle,
     TextStyle? titleStyle,
@@ -197,6 +203,7 @@ class DialogNavigator extends CountrySelectorNavigator {
     super.searchBoxTextStyle,
     super.searchBoxIconColor,
     super.scrollPhysics,
+    super.backgroundColor,
   });
 
   @override
@@ -204,6 +211,7 @@ class DialogNavigator extends CountrySelectorNavigator {
     return showDialog(
       context: context,
       builder: (_) => Dialog(
+        backgroundColor: backgroundColor,
         child: SizedBox(
           width: width,
           height: height,
@@ -296,6 +304,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
     super.searchBoxTextStyle,
     super.searchBoxIconColor,
     super.scrollPhysics,
+    super.backgroundColor,
   });
 
   @override
@@ -304,6 +313,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
   ) {
     IsoCode? selected;
     final ctrl = showBottomSheet(
+      backgroundColor: backgroundColor,
       context: context,
       builder: (_) => MediaQuery(
         data: MediaQueryData.fromView(View.of(context)),
@@ -341,6 +351,7 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
     super.searchBoxTextStyle,
     super.searchBoxIconColor,
     super.scrollPhysics,
+    super.backgroundColor,
   });
 
   @override
@@ -348,6 +359,7 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
     BuildContext context,
   ) {
     return showModalBottomSheet<IsoCode>(
+      backgroundColor: backgroundColor,
       context: context,
       builder: (_) => SizedBox(
         height: height ?? MediaQuery.of(context).size.height - 90,
@@ -387,6 +399,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
     super.searchBoxTextStyle,
     super.searchBoxIconColor,
     super.scrollPhysics,
+    super.backgroundColor,
     bool useRootNavigator = true,
   });
 
@@ -399,6 +412,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
         );
 
     return showModalBottomSheet<IsoCode>(
+      backgroundColor: backgroundColor,
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: effectiveBorderRadius,
