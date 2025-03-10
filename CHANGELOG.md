@@ -1,6 +1,6 @@
 ## [10.0.5]
 
-- adds `grayScaleFlagOnDisabled` for `CountryButtonStyle` to give more natural handling of disabled state
+- handle disabled state for `CircleFlag` in `CountryButtonStyle` using gray scale color filter to give more natural handling of disabled state
 
 ## [10.0.4]
 

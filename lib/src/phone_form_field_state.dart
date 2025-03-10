@@ -177,8 +177,6 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
             padding: _computeCountryButtonPadding(context),
             showFlag: widget.countryButtonStyle.showFlag,
             showIsoCode: widget.countryButtonStyle.showIsoCode,
-            grayScaleFlagOnDisabled:
-                widget.countryButtonStyle.grayScaleFlagOnDisabled,
             showDialCode: widget.countryButtonStyle.showDialCode,
             showDropdownIcon: widget.countryButtonStyle.showDropdownIcon,
             textStyle: widget.countryButtonStyle.textStyle,

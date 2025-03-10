@@ -11,7 +11,6 @@ class CountryButton extends StatelessWidget {
   final TextStyle? textStyle;
   final EdgeInsets padding;
   final double flagSize;
-  final bool grayScaleFlagOnDisabled;
   final bool showFlag;
   final bool showDialCode;
   final bool showIsoCode;
@@ -25,7 +24,6 @@ class CountryButton extends StatelessWidget {
     this.textStyle,
     this.padding = const EdgeInsets.fromLTRB(12, 16, 4, 16),
     this.flagSize = 20,
-    this.grayScaleFlagOnDisabled = false,
     this.showFlag = true,
     this.showDialCode = true,
     this.showIsoCode = false,
@@ -61,7 +59,7 @@ class CountryButton extends StatelessWidget {
             if (showFlag) ...[
               ExcludeSemantics(
                 child: GrayScale(
-                  visible: !enabled && grayScaleFlagOnDisabled,
+                  visible: !enabled,
                   child: CircleFlag(
                     isoCode.name,
                     size: flagSize,
