@@ -11,6 +11,7 @@ class CountryButton extends StatelessWidget {
   final TextStyle? textStyle;
   final EdgeInsets padding;
   final double flagSize;
+  final bool grayScaleFlagOnDisabled;
   final bool showFlag;
   final bool showDialCode;
   final bool showIsoCode;
@@ -24,6 +25,7 @@ class CountryButton extends StatelessWidget {
     this.textStyle,
     this.padding = const EdgeInsets.fromLTRB(12, 16, 4, 16),
     this.flagSize = 20,
+    this.grayScaleFlagOnDisabled = false,
     this.showFlag = true,
     this.showDialCode = true,
     this.showIsoCode = false,
@@ -58,9 +60,12 @@ class CountryButton extends StatelessWidget {
             ],
             if (showFlag) ...[
               ExcludeSemantics(
-                child: CircleFlag(
-                  isoCode.name,
-                  size: flagSize,
+                child: GrayScale(
+                  visible: !enabled && grayScaleFlagOnDisabled,
+                  child: CircleFlag(
+                    isoCode.name,
+                    size: flagSize,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -78,6 +83,34 @@ class CountryButton extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class GrayScale extends StatelessWidget {
+  final bool visible;
+  final Widget child;
+
+  const GrayScale({
+    super.key,
+    required this.child,
+    this.visible = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (!visible) {
+      return child;
+    }
+
+    return ColorFiltered(
+      colorFilter: const ColorFilter.matrix(<double>[
+        0.2126, 0.7152, 0.0722, 0, 0, //
+        0.2126, 0.7152, 0.0722, 0, 0,
+        0.2126, 0.7152, 0.0722, 0, 0,
+        0, 0, 0, 1, 0,
+      ]),
+      child: child,
     );
   }
 }

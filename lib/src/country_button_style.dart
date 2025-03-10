@@ -12,8 +12,11 @@ class CountryButtonStyle {
   /// The radius of the flag in the country button
   final double flagSize;
 
-  /// Wether to show the country flag in the country button
+  /// Whether to show the country flag in the country button
   final bool showFlag;
+
+  /// Whether to apply greyscale filter on flag icon if control is disabled
+  final bool grayScaleFlagOnDisabled;
 
   /// Whether to show Dial Code in the country button
   /// setting this to false will hide, for example, (+1)
@@ -30,6 +33,7 @@ class CountryButtonStyle {
     this.padding,
     this.flagSize = 20,
     this.showFlag = true,
+    this.grayScaleFlagOnDisabled = true,
     this.showDialCode = true,
     this.showIsoCode = false,
     this.showDropdownIcon = true,
@@ -39,6 +43,7 @@ class CountryButtonStyle {
     TextStyle? textStyle,
     EdgeInsets? padding,
     double? flagSize,
+    bool? grayScaleFlagOnDisabled,
     bool? showFlag,
     bool? showDialCode,
     bool? showIsoCode,
@@ -48,6 +53,8 @@ class CountryButtonStyle {
       textStyle: textStyle ?? this.textStyle,
       padding: padding ?? this.padding,
       flagSize: flagSize ?? this.flagSize,
+      grayScaleFlagOnDisabled:
+          grayScaleFlagOnDisabled ?? this.grayScaleFlagOnDisabled,
       showFlag: showFlag ?? this.showFlag,
       showDialCode: showDialCode ?? this.showDialCode,
       showIsoCode: showIsoCode ?? this.showIsoCode,

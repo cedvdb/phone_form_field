@@ -1,3 +1,7 @@
+## [10.0.5]
+
+- adds `grayScaleFlagOnDisabled` for `CountryButtonStyle` to give more natural handling of disabled state
+
 ## [10.0.4]
 
 - added backgroundColor property to BottomSheet, DraggableModalSheet, ModalSheet, Dialog
