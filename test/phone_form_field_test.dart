@@ -65,7 +65,23 @@ void main() {
 
     testWidgets('Should display flag', (tester) async {
       await tester.pumpWidget(getWidget());
-      expect(find.byType(CircleFlag), findsWidgets);
+      final countryButtonFinder = find.byType(CountryButton);
+
+      expect(
+        find.descendant(
+          of: countryButtonFinder,
+          matching: find.byType(CircleFlag),
+        ),
+        findsOneWidget,
+      );
+
+      expect(
+        find.descendant(
+          of: countryButtonFinder,
+          matching: find.byType(ColorFiltered),
+        ),
+        findsNothing,
+      );
     });
 
     testWidgets(
@@ -94,6 +110,21 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byType(CountrySelectorPage), findsOneWidget);
       });
+
+      testWidgets('Should grey scale flag when disabled', (tester) async {
+        await tester.pumpWidget(getWidget(enabled: false));
+        final colorFil = find.byType(ColorFiltered);
+        expect(colorFil, findsOne);
+
+        expect(
+          find.descendant(
+            of: colorFil,
+            matching: find.byType(CircleFlag),
+          ),
+          findsOneWidget,
+        );
+      });
+
       testWidgets('Should hide flag', (tester) async {
         await tester.pumpWidget(getWidget(showFlagInInput: false));
         expect(find.byType(CircleFlag), findsNothing);

@@ -12,7 +12,7 @@ class CountryButtonStyle {
   /// The radius of the flag in the country button
   final double flagSize;
 
-  /// Wether to show the country flag in the country button
+  /// Whether to show the country flag in the country button
   final bool showFlag;
 
   /// Whether to show Dial Code in the country button

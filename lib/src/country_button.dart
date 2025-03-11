@@ -58,9 +58,12 @@ class CountryButton extends StatelessWidget {
             ],
             if (showFlag) ...[
               ExcludeSemantics(
-                child: CircleFlag(
-                  isoCode.name,
-                  size: flagSize,
+                child: GrayScale(
+                  visible: !enabled,
+                  child: CircleFlag(
+                    isoCode.name,
+                    size: flagSize,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -78,6 +81,34 @@ class CountryButton extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class GrayScale extends StatelessWidget {
+  final bool visible;
+  final Widget child;
+
+  const GrayScale({
+    super.key,
+    required this.child,
+    this.visible = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (!visible) {
+      return child;
+    }
+
+    return ColorFiltered(
+      colorFilter: const ColorFilter.matrix(<double>[
+        0.2126, 0.7152, 0.0722, 0, 0, //
+        0.2126, 0.7152, 0.0722, 0, 0,
+        0.2126, 0.7152, 0.0722, 0, 0,
+        0, 0, 0, 1, 0,
+      ]),
+      child: child,
     );
   }
 }

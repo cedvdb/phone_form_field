@@ -1,3 +1,7 @@
+## [10.0.5]
+
+- handle disabled state for `CircleFlag` in `CountryButtonStyle` using gray scale color filter to give more natural handling of disabled state
+
 ## [10.0.4]
 
 - added backgroundColor property to BottomSheet, DraggableModalSheet, ModalSheet, Dialog
@@ -179,7 +183,7 @@
 
 ## [6.1.1] 22/07/2022
 
-- Readd RTL support
+- Read RTL support
 - Removed diacritics from search
 - Added height and width to dialog
 
@@ -221,7 +225,7 @@
 - Remove deprecated constructor, use factories instead
 - Fix a cursor bug where the cursor would be misplaced
 - Added `PageNavigator` for country selection.
-- Refactor of internal to accomodate for different UI for country selection
+- Refactor of internal to accommodate for different UI for country selection
 - Slight refactor of search process
 - Added possibility of styling hint text (thanks @xvrh)
 - [Breaking] use updated version of phone_number_parser which uses `IsoCode` for iso codes instead
@@ -296,7 +300,7 @@
 
 # Validation
 
-- Add PhoneValidator class to easily customize validation and defaults localization error messagees
+- Add PhoneValidator class to easily customize validation and defaults localization error messages
 - Add PhoneFormField `validator` property
 - **[BREAKING CHANGE]** Remove `PhoneFormField` properties `errorText` & `phoneNumberType`. Define `validator` property instead with `PhoneValidator.invalid*`
 
@@ -396,7 +400,7 @@ Thus it was decided that it was not worth it to keep backward compatibility and 
 
 ## [0.0.3] - 13 / 04 / 2021
 
-- Breaking: inputBorder parameter replaced by inputDecoration for more maneability
+- Breaking: inputBorder parameter replaced by inputDecoration for more manageability
 
 ## [0.0.2] - 12 / 04 / 2021
 
