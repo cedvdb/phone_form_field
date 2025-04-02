@@ -15,6 +15,7 @@ class CountryButton extends StatelessWidget {
   final bool showDialCode;
   final bool showIsoCode;
   final bool showDropdownIcon;
+  final Color? dropdownIconColor;
   final bool enabled;
 
   const CountryButton({
@@ -28,6 +29,7 @@ class CountryButton extends StatelessWidget {
     this.showDialCode = true,
     this.showIsoCode = false,
     this.showDropdownIcon = true,
+    this.dropdownIconColor,
     this.enabled = true,
   });
 
@@ -77,7 +79,12 @@ class CountryButton extends StatelessWidget {
               ),
             ],
             if (showDropdownIcon)
-              const ExcludeSemantics(child: Icon(Icons.arrow_drop_down)),
+              ExcludeSemantics(
+                child: Icon(
+                  Icons.arrow_drop_down,
+                  color: dropdownIconColor,
+                ),
+              ),
           ],
         ),
       ),

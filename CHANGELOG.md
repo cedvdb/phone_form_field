@@ -1,3 +1,7 @@
+## [10.0.6]
+
+- Added `dropdownIconColor` property to `CountryButtonStyle`
+
 ## [10.0.5]
 
 - handle disabled state for `CircleFlag` in `CountryButtonStyle` using gray scale color filter to give more natural handling of disabled state
@@ -37,33 +41,40 @@
 - added Czech localization
 
 ## [9.2.6]
+
 - added Vietnamese localization messages
 - added localizations for Hebrew
 - upgrade phone_numbers_parser to v9.0.0
 - phone numbers now format in their national format.
 
 ## [9.2.5]
-- fix: handle change on country selection. onChanged callback would trigger if country field is updated 
+
+- fix: handle change on country selection. onChanged callback would trigger if country field is updated
 - added Korean localization messages
 
 ## [9.2.4]
+
 - upgrade metadata
 - Do not preload flags by default anymore. Use [PhoneFormField.preloadFlags()] to preload flags
 
 ## [9.2.3]
-- upgrade flutter country selector dependency 
+
+- upgrade flutter country selector dependency
 
 ## [9.2.2]
+
 - added language selection to demo
 - fixed a bug where country selection language
 
 ## [9.2.1]
+
 - fix readme
 
 ## [9.2.0]
+
 - add missing translation messages
 - add Hungarian localization messages
-- fix RTL 
+- fix RTL
 - added `showDropdownIndicator`
 - [deprecate] country button stylings properties in favor of one `countryButtonStyle` property
 - add showDropdownIcon bool
@@ -75,18 +86,23 @@
 - upgrade metadata in underlying package
 
 ## [9.0.5]
+
 - Fixing using controller's value as initial value #218
 
 ## [9.0.4]
+
 - improve semantics after trying talk back
 
 ## [9.0.3]
+
 - improve semantics
 
 ## [9.0.2]
+
 - reformat national number on country changed
 
 ## [9.0.1]
+
 - unexport circle flags
 
 ## [9.0.0]
@@ -106,17 +122,17 @@
 - [Deprecated] : `CountrySelectorNavigator.searchDelegate()` changed into `CountrySelectorNavigator.PageNavigator()`.
 - Internal refactor in the hope of making contribution easier
 
-
 ## [8.1.1]
+
 - Upgraded phone_numbers_parser lib to 8.1.0
 - Added norwegian language (PR #203) thanks @sidlatau
 - Added onTapOutside (PR #195) thanks @andgar2010
 - Added Uzbek language (PR #192) thanks @akbarali1
 - various fix in languages (thanks @Hpanery, @mohn93, @themmfa, @farzadaqajani)
 
-
 ## [8.1.0]
-- flag loaded from assets (revert from previous version) 
+
+- flag loaded from assets (revert from previous version)
 - flags in country list should now render instantaneously
 
 ## [8.0.0]
@@ -128,11 +144,10 @@
   This might be deprecated in the future if no solution is found.
 - small file reorganization
 
-
 ## [7.1.0]
 
 - Relax intl version matching
-- Fix invalid initial value from controller 
+- Fix invalid initial value from controller
 
 ## [7.0.7]
 

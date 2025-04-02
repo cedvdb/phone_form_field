@@ -25,6 +25,9 @@ class CountryButtonStyle {
   /// Wether to show the dropdown icon in the country button
   final bool showDropdownIcon;
 
+  /// Color for the dropdown icon. Only used while [showDropdownIcon] is true.
+  final Color? dropdownIconColor;
+
   const CountryButtonStyle({
     this.textStyle,
     this.padding,
@@ -33,6 +36,7 @@ class CountryButtonStyle {
     this.showDialCode = true,
     this.showIsoCode = false,
     this.showDropdownIcon = true,
+    this.dropdownIconColor,
   });
 
   CountryButtonStyle copyWith({
@@ -43,6 +47,7 @@ class CountryButtonStyle {
     bool? showDialCode,
     bool? showIsoCode,
     bool? showDropdownIcon,
+    Color? dropdownIconColor,
   }) {
     return CountryButtonStyle(
       textStyle: textStyle ?? this.textStyle,
@@ -52,6 +57,7 @@ class CountryButtonStyle {
       showDialCode: showDialCode ?? this.showDialCode,
       showIsoCode: showIsoCode ?? this.showIsoCode,
       showDropdownIcon: showDropdownIcon ?? this.showDropdownIcon,
+      dropdownIconColor: dropdownIconColor ?? this.dropdownIconColor,
     );
   }
 }
