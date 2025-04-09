@@ -1,4 +1,4 @@
-## [1.0.15]
+## [10.0.15]
 - Added readOnly parameter
 
 ## [10.0.14]

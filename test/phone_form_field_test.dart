@@ -25,6 +25,7 @@ void main() {
       PhoneNumberInputValidator Function(BuildContext)? validatorBuilder,
       bool enabled = true,
       bool limitLength = false,
+      bool readOnly = false,
     }) =>
         MaterialApp(
           localizationsDelegates: PhoneFieldLocalization.delegates,
@@ -49,6 +50,7 @@ void main() {
                   focusNode: focusNode,
                   validator: validatorBuilder?.call(context),
                   enabled: enabled,
+                  readOnly: readOnly,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   shouldLimitLengthByCountry: limitLength,
                 ),
@@ -843,6 +845,63 @@ void main() {
         await tester.pumpWidget(getWidget(focusNode: focusNode));
         await tester.pumpWidget(Container());
         focusNode.dispose();
+      });
+    });
+
+    group('readOnly parameter', () {
+      testWidgets('Should respect readOnly parameter', (tester) async {
+        final controller = PhoneController(
+          initialValue: PhoneNumber.parse('+1'),
+        );
+
+        await tester.pumpWidget(
+          getWidget(
+            controller: controller,
+            enabled: true,
+            onChanged: (_) {},
+          ),
+        );
+
+        final textField = find.byType(TextField);
+        expect(
+          tester.widget<TextField>(textField).readOnly,
+          isFalse,
+        );
+
+        await tester.pumpWidget(
+          getWidget(
+            controller: controller,
+            enabled: true,
+            onChanged: (_) {},
+            readOnly: true,
+          ),
+        );
+
+        expect(
+          tester.widget<TextField>(textField).readOnly,
+          isTrue,
+        );
+      });
+
+      testWidgets('Should not allow text input when readOnly is true',
+          (tester) async {
+        final controller = PhoneController(
+          initialValue: PhoneNumber.parse('+1'),
+        );
+
+        await tester.pumpWidget(
+          getWidget(
+            controller: controller,
+            enabled: true,
+            onChanged: (_) {},
+            readOnly: true,
+          ),
+        );
+
+        final textField = find.byType(TextField);
+        await tester.enterText(textField, '12345');
+
+        expect(controller.value.nsn, isEmpty);
       });
     });
   });
