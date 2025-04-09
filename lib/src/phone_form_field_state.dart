@@ -153,6 +153,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         scrollPhysics: widget.scrollPhysics,
         restorationId: widget.restorationId,
         enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+        readOnly: widget.readOnly,
       ),
     );
   }
