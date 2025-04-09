@@ -1,3 +1,6 @@
+## [1.0.7]
+- Added readOnly parameter
+
 ## [10.0.6]
 
 - Added `dropdownIconColor` property to `CountryButtonStyle`
