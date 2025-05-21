@@ -4,6 +4,8 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   late final PhoneController controller;
   late final FocusNode focusNode;
 
+  int? _maxValidLength;
+
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
 
@@ -18,6 +20,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         );
     controller.addListener(_onControllerValueChanged);
     focusNode = widget.focusNode ?? FocusNode();
+
+    if (widget.limitLength) {
+      _changeMaxValidLength();
+    }
   }
 
   @override
@@ -70,6 +76,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       controller.changeCountry(selected);
       didChange(controller.value);
       widget.onChanged?.call(controller.value);
+
+      if (widget.limitLength) {
+        _changeMaxValidLength();
+      }
     }
     focusNode.requestFocus();
   }
@@ -83,6 +93,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       enabled: widget.enabled,
       inputDecoration: widget.decoration,
       child: TextField(
+        maxLength: _maxValidLength,
         decoration: widget.decoration.copyWith(
           errorText: errorText,
           prefix: countryButtonForEachSlot[_CountryButtonSlot.prefix],
@@ -224,6 +235,59 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
           : const EdgeInsets.fromLTRB(4, 2, 12, 0);
     }
     return padding;
+  }
+
+  void _changeMaxValidLength() {
+    // We select the last possible length for the selected isoCode, because a
+    // country can have multipe max length numbers and they are stored in
+    // ascending order in phone_numbers_parser package. As this package
+    // supports both, fixed and mobile numbers we need to get the max of them
+
+    final maxMobileLengthForSelectedIso =
+        metadataLenghtsByIsoCode[controller.value.isoCode]?.mobile.last;
+
+    final maxFixedLengthForSelectedIso =
+        metadataLenghtsByIsoCode[controller.value.isoCode]?.fixedLine.last;
+
+    if (maxMobileLengthForSelectedIso == null &&
+        maxFixedLengthForSelectedIso == null) {
+      return;
+    }
+
+    int? maxLength;
+    String? nsnExample;
+
+    if (maxMobileLengthForSelectedIso != null &&
+        maxMobileLengthForSelectedIso > (maxFixedLengthForSelectedIso ?? 0)) {
+      maxLength = maxMobileLengthForSelectedIso;
+      nsnExample = metadataExamplesByIsoCode[controller.value.isoCode]?.mobile;
+    } else {
+      maxLength = maxFixedLengthForSelectedIso;
+      nsnExample =
+          metadataExamplesByIsoCode[controller.value.isoCode]?.fixedLine;
+    }
+
+    if (maxLength == null || nsnExample == null) {
+      return;
+    }
+
+    final nsn = _padExampleNsn(nsnExample, maxLength);
+
+    // .formatNsn() returns the nsn number with the mask, which is the actual
+    // value inside the TextField
+    final finalMaxLength =
+        PhoneNumber(isoCode: controller.value.isoCode, nsn: nsn).formatNsn();
+
+    _maxValidLength = finalMaxLength.length;
+  }
+
+  /// Pads the given example number with 0s to match the total length.
+  /// If the example is longer than needed, it trims it.
+  String _padExampleNsn(String example, int totalLength) {
+    if (example.length >= totalLength) {
+      return example.substring(0, totalLength);
+    }
+    return example.padRight(totalLength, '0');
   }
 }
 
