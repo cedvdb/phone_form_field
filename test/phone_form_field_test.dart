@@ -22,6 +22,7 @@ void main() {
       bool showDropdownIcon = true,
       PhoneNumberInputValidator Function(BuildContext)? validatorBuilder,
       bool enabled = true,
+      bool limitLength = false,
     }) =>
         MaterialApp(
           localizationsDelegates: PhoneFieldLocalization.delegates,
@@ -45,6 +46,7 @@ void main() {
                   validator: validatorBuilder?.call(context),
                   enabled: enabled,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  limitLength: limitLength,
                 ),
               );
             }),
@@ -696,6 +698,22 @@ void main() {
         formKey.currentState?.reset();
         await tester.pumpAndSettle();
         expect(find.text(national), findsNothing);
+      });
+
+      testWidgets(
+          'Should cut off the TextField value when limitLength is true and a long nsn for the selected country is provided',
+          (tester) async {
+        PhoneNumber? phoneNumber = PhoneNumber.parse('+32');
+
+        await tester.pumpWidget(
+            getWidget(initialValue: phoneNumber, limitLength: true));
+        await tester.pump(const Duration(seconds: 1));
+        const national = '477 88 99 22';
+        const extraNonAllowedNumber = '2';
+        final phoneField = find.byType(PhoneFormField);
+        await tester.enterText(phoneField, national + extraNonAllowedNumber);
+        await tester.pumpAndSettle();
+        expect(find.text(national), findsOneWidget);
       });
     });
 
