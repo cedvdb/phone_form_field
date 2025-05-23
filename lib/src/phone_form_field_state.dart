@@ -237,6 +237,20 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     return padding;
   }
 
+  // Updates `_maxValidLength` based on the selected country's maximum valid phone number length.
+  //
+  // 1. We retrieve the longest possible valid NSN length (mobile or fixed line) for the selected isoCode.
+  //    This ensures we allow users to enter the full number, regardless of type.
+  //
+  // 2. We get an example number from the metadata for that isoCode and pad it to match the maximum length.
+  //    This gives us a realistic phone number to simulate formatting.
+  //
+  // 3. We format the number using `.formatNsn()` — this applies national formatting (spaces, dashes, etc).
+  //    Since this formatted version is what the user sees in the input field, we use its length as the
+  //    `maxLength` constraint on the TextField.
+  //
+  // Note: The formatted length may be longer than the raw digit length due to separators.
+  // Setting the max length based on formatting ensures the user can complete their input.
   void _changeMaxValidLength() {
     final isoCode = controller.value.isoCode;
 
@@ -274,15 +288,15 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
     final nsn = _padExampleNsn(nsnExample, maxLength);
 
-    // .formatNsn() returns the nsn number with the mask, which is the actual
+    // .formatNsn() returns the formatted nsn number, which is the actual
     // value inside the TextField
     final finalMaxLength = PhoneNumber(isoCode: isoCode, nsn: nsn).formatNsn();
 
     _maxValidLength = finalMaxLength.length;
   }
 
-  /// Pads the given example number with 0s to match the total length.
-  /// If the example is longer than needed, it trims it.
+  // Pads the given example number with 0s to match the total length.
+  // If the example is longer than needed, it trims it.
   String _padExampleNsn(String example, int totalLength) {
     if (example.length >= totalLength) {
       return example.substring(0, totalLength);
