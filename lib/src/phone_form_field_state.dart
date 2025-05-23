@@ -238,16 +238,18 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   void _changeMaxValidLength() {
+    final isoCode = controller.value.isoCode;
+
     // We select the last possible length for the selected isoCode, because a
     // country can have multipe max length numbers and they are stored in
     // ascending order in phone_numbers_parser package. As this package
     // supports both, fixed and mobile numbers we need to get the max of them
 
     final maxMobileLengthForSelectedIso =
-        metadataLenghtsByIsoCode[controller.value.isoCode]?.mobile.last;
+        metadataLenghtsByIsoCode[isoCode]?.mobile.last;
 
     final maxFixedLengthForSelectedIso =
-        metadataLenghtsByIsoCode[controller.value.isoCode]?.fixedLine.last;
+        metadataLenghtsByIsoCode[isoCode]?.fixedLine.last;
 
     if (maxMobileLengthForSelectedIso == null &&
         maxFixedLengthForSelectedIso == null) {
@@ -260,11 +262,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     if (maxMobileLengthForSelectedIso != null &&
         maxMobileLengthForSelectedIso > (maxFixedLengthForSelectedIso ?? 0)) {
       maxLength = maxMobileLengthForSelectedIso;
-      nsnExample = metadataExamplesByIsoCode[controller.value.isoCode]?.mobile;
+      nsnExample = metadataExamplesByIsoCode[isoCode]?.mobile;
     } else {
       maxLength = maxFixedLengthForSelectedIso;
-      nsnExample =
-          metadataExamplesByIsoCode[controller.value.isoCode]?.fixedLine;
+      nsnExample = metadataExamplesByIsoCode[isoCode]?.fixedLine;
     }
 
     if (maxLength == null || nsnExample == null) {
@@ -275,8 +276,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
     // .formatNsn() returns the nsn number with the mask, which is the actual
     // value inside the TextField
-    final finalMaxLength =
-        PhoneNumber(isoCode: controller.value.isoCode, nsn: nsn).formatNsn();
+    final finalMaxLength = PhoneNumber(isoCode: isoCode, nsn: nsn).formatNsn();
 
     _maxValidLength = finalMaxLength.length;
   }
