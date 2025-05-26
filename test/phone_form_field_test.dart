@@ -701,7 +701,7 @@ void main() {
       });
 
       testWidgets(
-          'Should cut off the TextField value when limitLength is true and a long nsn for the selected country is provided',
+          'Should cut off the TextField value when limitLength is true and an nsn longer than the limit for the selected country is provided',
           (tester) async {
         PhoneNumber? phoneNumber = PhoneNumber.parse('+32');
 
