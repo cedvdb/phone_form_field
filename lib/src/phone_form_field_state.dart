@@ -21,7 +21,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     controller.addListener(_onControllerValueChanged);
     focusNode = widget.focusNode ?? FocusNode();
 
-    if (widget.limitLength) {
+    if (widget.shouldLimitLengthByCountry) {
       _changeMaxValidLength();
     }
   }
@@ -77,7 +77,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       didChange(controller.value);
       widget.onChanged?.call(controller.value);
 
-      if (widget.limitLength) {
+      if (widget.shouldLimitLengthByCountry) {
         _changeMaxValidLength();
       }
     }
@@ -105,7 +105,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         enabled: widget.enabled,
         inputFormatters: widget.inputFormatters ??
             [
-              if (widget.limitLength && _maxValidLength != null)
+              if (widget.shouldLimitLengthByCountry && _maxValidLength != null)
                 LimitMaxLengthFormatter(_maxValidLength!),
               FilteringTextInputFormatter.allow(RegExp(
                   '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),

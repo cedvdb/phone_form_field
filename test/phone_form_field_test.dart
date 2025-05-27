@@ -46,7 +46,7 @@ void main() {
                   validator: validatorBuilder?.call(context),
                   enabled: enabled,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  limitLength: limitLength,
+                  shouldLimitLengthByCountry: limitLength,
                 ),
               );
             }),
