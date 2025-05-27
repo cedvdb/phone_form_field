@@ -1,6 +1,6 @@
 ## [10.0.7]
 
-- Added `limitLength` property to `PhoneFormField`
+- Added `shouldLimitLengthByCountry` property to `PhoneFormField`
 
 ## [10.0.6]
 
