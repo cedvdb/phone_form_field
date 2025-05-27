@@ -1,3 +1,7 @@
+## [10.0.7]
+
+- Added `shouldLimitLengthByCountry` property to `PhoneFormField`
+
 ## [10.0.6]
 
 - Added `dropdownIconColor` property to `CountryButtonStyle`

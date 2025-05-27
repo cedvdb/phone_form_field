@@ -22,6 +22,7 @@ void main() {
       bool showDropdownIcon = true,
       PhoneNumberInputValidator Function(BuildContext)? validatorBuilder,
       bool enabled = true,
+      bool limitLength = false,
     }) =>
         MaterialApp(
           localizationsDelegates: PhoneFieldLocalization.delegates,
@@ -45,6 +46,7 @@ void main() {
                   validator: validatorBuilder?.call(context),
                   enabled: enabled,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  shouldLimitLengthByCountry: limitLength,
                 ),
               );
             }),
@@ -697,6 +699,39 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.text(national), findsNothing);
       });
+
+      testWidgets(
+          'Should cut off the TextField value when limitLength is true and an nsn longer than the limit for the selected country is provided',
+          (tester) async {
+        PhoneNumber? phoneNumber = PhoneNumber.parse('+32');
+
+        await tester.pumpWidget(
+            getWidget(initialValue: phoneNumber, limitLength: true));
+        await tester.pump(const Duration(seconds: 1));
+        const national = '477 88 99 22';
+        const extraNonAllowedNumber = '2';
+        final phoneField = find.byType(PhoneFormField);
+        await tester.enterText(phoneField, national + extraNonAllowedNumber);
+        await tester.pumpAndSettle();
+        expect(find.text(national), findsOneWidget);
+      });
+    });
+
+    testWidgets(
+        'Should cut off the TextField value when limitLength is true and an nsn with format characters longer than the limit for the selected country is provided',
+        (tester) async {
+      PhoneNumber? phoneNumber = PhoneNumber.parse('+1');
+
+      await tester
+          .pumpWidget(getWidget(initialValue: phoneNumber, limitLength: true));
+      await tester.pump(const Duration(seconds: 1));
+      const national = '212 555 45672';
+      const nationalFormatted = '(212) 555-4567';
+      const extraNonAllowedNumber = '2';
+      final phoneField = find.byType(PhoneFormField);
+      await tester.enterText(phoneField, national + extraNonAllowedNumber);
+      await tester.pumpAndSettle();
+      expect(find.text(nationalFormatted), findsOneWidget);
     });
 
     group('Directionality', () {

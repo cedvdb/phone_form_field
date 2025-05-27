@@ -4,6 +4,8 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   late final PhoneController controller;
   late final FocusNode focusNode;
 
+  int? _maxValidLength;
+
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
 
@@ -18,6 +20,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         );
     controller.addListener(_onControllerValueChanged);
     focusNode = widget.focusNode ?? FocusNode();
+
+    if (widget.shouldLimitLengthByCountry) {
+      _changeMaxValidLength();
+    }
   }
 
   @override
@@ -70,6 +76,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       controller.changeCountry(selected);
       didChange(controller.value);
       widget.onChanged?.call(controller.value);
+
+      if (widget.shouldLimitLengthByCountry) {
+        _changeMaxValidLength();
+      }
     }
     focusNode.requestFocus();
   }
@@ -95,6 +105,8 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         enabled: widget.enabled,
         inputFormatters: widget.inputFormatters ??
             [
+              if (widget.shouldLimitLengthByCountry && _maxValidLength != null)
+                LimitMaxLengthFormatter(_maxValidLength!),
               FilteringTextInputFormatter.allow(RegExp(
                   '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
             ],
@@ -224,6 +236,43 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
           : const EdgeInsets.fromLTRB(4, 2, 12, 0);
     }
     return padding;
+  }
+
+  // Retrieve the longest possible valid NSN length (mobile or fixed line) for the selected isoCode.
+  // This ensures we allow users to enter the full number, regardless of type.
+  void _changeMaxValidLength() {
+    final isoCode = controller.value.isoCode;
+
+    // We select the last possible length for the selected isoCode, because a
+    // country can have multipe max length numbers and they are stored in
+    // ascending order in phone_numbers_parser package. As this package
+    // supports both, fixed and mobile numbers we need to get the max of them
+
+    final maxMobileLengthForSelectedIso =
+        metadataLenghtsByIsoCode[isoCode]?.mobile.last;
+
+    final maxFixedLengthForSelectedIso =
+        metadataLenghtsByIsoCode[isoCode]?.fixedLine.last;
+
+    if (maxMobileLengthForSelectedIso == null &&
+        maxFixedLengthForSelectedIso == null) {
+      return;
+    }
+
+    int? maxLength;
+
+    if (maxMobileLengthForSelectedIso != null &&
+        maxMobileLengthForSelectedIso > (maxFixedLengthForSelectedIso ?? 0)) {
+      maxLength = maxMobileLengthForSelectedIso;
+    } else {
+      maxLength = maxFixedLengthForSelectedIso;
+    }
+
+    if (maxLength == null) {
+      return;
+    }
+
+    _maxValidLength = maxLength;
   }
 }
 

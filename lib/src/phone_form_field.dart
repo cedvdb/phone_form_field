@@ -6,6 +6,8 @@ import 'package:flutter_country_selector/flutter_country_selector.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/phone_field_semantics.dart';
 import 'package:phone_form_field/src/validation/allowed_characters.dart';
+import 'package:phone_form_field/src/validation/limit_max_length_formatter.dart';
+import 'package:phone_numbers_parser/metadata.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 part 'phone_controller.dart';
@@ -94,6 +96,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final Iterable<String>? autofillHints;
   final bool enableIMEPersonalizedLearning;
   final List<TextInputFormatter>? inputFormatters;
+  final bool shouldLimitLengthByCountry;
 
   static preloadFlags() => CountrySelector.preloadFlags();
 
@@ -151,6 +154,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.scrollController,
     this.autofillHints,
     this.enableIMEPersonalizedLearning = true,
+    this.shouldLimitLengthByCountry = false,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
