@@ -86,8 +86,9 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
   Widget builder() {
     final textAlignment = _computeTextAlign();
-    final countryButtonForEachSlot =
-        _buildCountryButtonForEachSlot(textAlignment);
+    final countryButtonForEachSlot = _buildCountryButtonForEachSlot(
+      textAlignment,
+    );
     return PhoneFieldSemantics(
       hasFocus: focusNode.hasFocus,
       enabled: widget.enabled,
@@ -195,6 +196,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
             textStyle: widget.countryButtonStyle.textStyle,
             flagSize: widget.countryButtonStyle.flagSize,
             enabled: widget.enabled,
+            borderRadius: widget.countryButtonStyle.borderRadius,
           ),
         ),
       ),
@@ -217,8 +219,8 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     final isLtr = Directionality.of(context) == TextDirection.ltr;
 
     EdgeInsets padding = isLtr
-        ? const EdgeInsets.fromLTRB(12, 16, 4, 16)
-        : const EdgeInsets.fromLTRB(4, 16, 12, 16);
+        ? const EdgeInsets.fromLTRB(12, 0, 4, 0)
+        : const EdgeInsets.fromLTRB(4, 0, 12, 0);
     if (userDefinedPadding != null) {
       return userDefinedPadding;
     }
@@ -228,8 +230,8 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
           : const EdgeInsets.only(left: 4, right: 12);
     } else if (isUnderline && hasLabel) {
       padding = isLtr
-          ? const EdgeInsets.fromLTRB(12, 25, 4, 7)
-          : const EdgeInsets.fromLTRB(4, 25, 12, 7);
+          ? const EdgeInsets.fromLTRB(12, 14, 4, 18)
+          : const EdgeInsets.fromLTRB(4, 14, 12, 18);
     } else if (isUnderline && !hasLabel) {
       padding = isLtr
           ? const EdgeInsets.fromLTRB(12, 2, 4, 0)

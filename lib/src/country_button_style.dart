@@ -28,6 +28,8 @@ class CountryButtonStyle {
   /// Color for the dropdown icon. Only used while [showDropdownIcon] is true.
   final Color? dropdownIconColor;
 
+  final BorderRadius? borderRadius;
+
   const CountryButtonStyle({
     this.textStyle,
     this.padding,
@@ -37,6 +39,7 @@ class CountryButtonStyle {
     this.showIsoCode = false,
     this.showDropdownIcon = true,
     this.dropdownIconColor,
+    this.borderRadius,
   });
 
   CountryButtonStyle copyWith({
@@ -48,6 +51,7 @@ class CountryButtonStyle {
     bool? showIsoCode,
     bool? showDropdownIcon,
     Color? dropdownIconColor,
+    BorderRadius? borderRadius,
   }) {
     return CountryButtonStyle(
       textStyle: textStyle ?? this.textStyle,
@@ -58,6 +62,7 @@ class CountryButtonStyle {
       showIsoCode: showIsoCode ?? this.showIsoCode,
       showDropdownIcon: showDropdownIcon ?? this.showDropdownIcon,
       dropdownIconColor: dropdownIconColor ?? this.dropdownIconColor,
+      borderRadius: borderRadius ?? this.borderRadius,
     );
   }
 }
