@@ -84,19 +84,21 @@ class PhoneFieldView extends StatelessWidget {
               autofillHints: const [AutofillHints.telephoneNumber],
               countrySelectorNavigator: selectorNavigator,
               decoration: InputDecoration(
-                label: withLabel ? Text(label) : null,
-                border: outlineBorder
-                    ? const OutlineInputBorder()
-                    : const UnderlineInputBorder(),
-                hintText: withLabel ? '' : label,
-              ),
+                  label: withLabel ? Text(label) : null,
+                  border: outlineBorder
+                      ? OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50))
+                      : const UnderlineInputBorder(),
+                  hintText: withLabel ? '' : label,
+                  contentPadding: const EdgeInsets.all(0)),
               enabled: true,
-              countryButtonStyle: const CountryButtonStyle(
-                showFlag: true,
-                showIsoCode: false,
-                showDialCode: true,
-                showDropdownIcon: true,
-              ),
+              countryButtonStyle: CountryButtonStyle(
+                  showFlag: true,
+                  showIsoCode: false,
+                  showDialCode: true,
+                  showDropdownIcon: true,
+                  borderRadius: BorderRadius.circular(50)),
+
               validator: _getValidator(context),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               cursorColor: Theme.of(context).colorScheme.primary,

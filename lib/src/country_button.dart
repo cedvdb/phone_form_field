@@ -15,6 +15,7 @@ class CountryButton extends StatelessWidget {
   final bool showDialCode;
   final bool showIsoCode;
   final bool showDropdownIcon;
+  final BorderRadius? borderRadius;
   final Color? dropdownIconColor;
   final bool enabled;
 
@@ -23,7 +24,7 @@ class CountryButton extends StatelessWidget {
     required this.isoCode,
     required this.onTap,
     this.textStyle,
-    this.padding = const EdgeInsets.fromLTRB(12, 16, 4, 16),
+    this.padding = const EdgeInsets.all(0),
     this.flagSize = 20,
     this.showFlag = true,
     this.showDialCode = true,
@@ -31,6 +32,7 @@ class CountryButton extends StatelessWidget {
     this.showDropdownIcon = true,
     this.dropdownIconColor,
     this.enabled = true,
+    this.borderRadius,
   });
 
   @override
@@ -44,6 +46,7 @@ class CountryButton extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
+      borderRadius: borderRadius,
       child: Padding(
         padding: padding,
         child: Row(
