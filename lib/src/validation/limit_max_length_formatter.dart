@@ -12,7 +12,10 @@ class LimitMaxLengthFormatter extends TextInputFormatter {
 
     if (rawInput.length > maxLength) {
       rawInput = rawInput.substring(0, maxLength);
-      return newValue.copyWith(text: rawInput);
+      return newValue.copyWith(
+        text: rawInput,
+        selection: TextSelection.collapsed(offset: rawInput.length),
+      );
     }
 
     return newValue;
