@@ -1,8 +1,11 @@
+## [10.0.9]
+
+- Fix text selection on `LimitMaxLengthFormatter`
+
 ## [10.0.8]
 
 - Added `borderRadius` to `CountryButtonStyle` to allow configuring the borderRadius of the country button InkWell.
 - Adjusted padding to be more in line with latest changes for text fields
-- Fix text selection on `LimitMaxLengthFormatter`
 
 ## [10.0.7]
 
