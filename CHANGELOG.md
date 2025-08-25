@@ -1,3 +1,8 @@
+## [10.0.10]
+
+- Fix a memory leak in the PhoneFormFieldState widget
+- Update dependencies to the lastest version
+
 ## [10.0.9]
 
 - Fix text selection on `LimitMaxLengthFormatter`
