@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'phone_field_localization_impl.dart';
 
 // ignore_for_file: type=lint
@@ -7,16 +9,16 @@ class PhoneFieldLocalizationImplCa extends PhoneFieldLocalizationImpl {
   PhoneFieldLocalizationImplCa([String locale = 'ca']) : super(locale);
 
   @override
-  String get invalidPhoneNumber => 'Número de telèfon no vàlid';
+  String get invalidPhoneNumber => 'Número de telèfon invàlid';
 
   @override
-  String get invalidCountry => 'País no vàlid';
+  String get invalidCountry => 'País invàlid';
 
   @override
-  String get invalidMobilePhoneNumber => 'Invalid mobile phone number';
+  String get invalidMobilePhoneNumber => 'Número de telèfon mòbil invàlid';
 
   @override
-  String get invalidFixedLinePhoneNumber => 'Número de telèfon mòbil no vàlid';
+  String get invalidFixedLinePhoneNumber => 'Número de telèfon fix invàlid';
 
   @override
   String get requiredPhoneNumber => 'Número de telèfon obligatori';
