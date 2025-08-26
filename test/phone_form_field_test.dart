@@ -171,6 +171,7 @@ void main() {
         await tester.pump();
 
         expect(controller.value.nsn, equals(''));
+        controller.dispose();
       });
 
       testWidgets('Can delete phone number with area code in parentheses',
@@ -207,6 +208,7 @@ void main() {
 
         expect(find.text('(416)'), findsNothing);
         expect(controller.value.nsn, equals(''));
+        controller.dispose();
       });
 
       testWidgets('Can enter phone number with area code', (tester) async {
@@ -224,6 +226,7 @@ void main() {
 
         expect(find.text('+ 1'), findsOneWidget);
         expect(find.text('(416)'), findsOneWidget);
+        controller.dispose();
       });
 
       testWidgets('Should show dial code when showDialCode is true',
@@ -289,6 +292,7 @@ void main() {
         newValue,
         equals(PhoneNumber.parse('+1 123456789')),
       );
+      controller.dispose();
     });
 
     testWidgets('Should get value of controller as initial value',
@@ -301,6 +305,7 @@ void main() {
       final PhoneFormFieldState phoneFieldState =
           tester.state(find.byType(PhoneFormField));
       expect(phoneFieldState.value, equals(phoneNumber));
+      controller.dispose();
     });
 
     testWidgets('Should change value of input when controller changes',
@@ -313,6 +318,7 @@ void main() {
 
       expect(find.text('+ 33'), findsWidgets);
       expect(find.text(controller.value.formatNsn()), findsOneWidget);
+      controller.dispose();
     });
 
     testWidgets(
@@ -332,6 +338,7 @@ void main() {
       await tester.pump();
       expect(controller.value.isoCode, equals(IsoCode.FR));
       expect(controller.value.nsn, equals('488997722'));
+      controller.dispose();
     });
 
     testWidgets('Should call onChange', (tester) async {
@@ -476,6 +483,7 @@ void main() {
           find.text(PhoneFieldLocalizationImplEn().requiredPhoneNumber),
           findsOneWidget,
         );
+        controller.dispose();
       });
 
       testWidgets(
@@ -495,6 +503,7 @@ void main() {
             find.text(PhoneFieldLocalizationImplEn().invalidCountry),
             findsOneWidget,
           );
+          controller.dispose();
         },
       );
 
