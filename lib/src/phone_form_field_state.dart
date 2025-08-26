@@ -29,7 +29,9 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   @override
   void dispose() {
     controller.removeListener(_onControllerValueChanged);
-    controller.dispose();
+    if (widget.controller == null) {
+      controller.dispose();
+    }
     focusNode.dispose();
     super.dispose();
   }

@@ -745,5 +745,28 @@ void main() {
         expect(widget.textDirection, TextDirection.ltr);
       });
     });
+
+    group('Dispose controller', () {
+      testWidgets('Should dispose internal controller', (tester) async {
+        await tester.pumpWidget(getWidget());
+
+        var state =
+            tester.state<PhoneFormFieldState>(find.byType(PhoneFormField));
+
+        await tester.pumpWidget(Container());
+
+        expect(
+            () => state.controller.dispose(),
+            throwsA((e) => '$e'.contains(
+                'A TextEditingController was used after being disposed')));
+      });
+
+      testWidgets('Should not dispose provided controller', (tester) async {
+        var controller = PhoneController();
+        await tester.pumpWidget(getWidget(controller: controller));
+        await tester.pumpWidget(Container());
+        controller.dispose();
+      });
+    });
   });
 }
