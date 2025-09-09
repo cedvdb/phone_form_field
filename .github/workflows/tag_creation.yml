@@ -3,13 +3,13 @@ name: Create Tag from pubspec.yaml
 on:
   push:
     branches:
-      - publish-test
+      - main
 
 jobs:
   create-tag:
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # needed to push tags
+      contents: write # needed to push tags
 
     steps:
       - uses: actions/checkout@v4
@@ -29,12 +29,12 @@ jobs:
 
           # Delete local tag if exists
           git tag -d "$VERSION" || true
-          
+
           # Delete remote tag if exists
           git push origin ":refs/tags/$VERSION" || true
-          
+
           # Create new tag at current commit
           git tag "$VERSION"
-          
+
           # Push the tag
           git push origin "$VERSION"
