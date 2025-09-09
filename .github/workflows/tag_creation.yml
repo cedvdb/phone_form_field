@@ -1,0 +1,40 @@
+name: Create Tag from pubspec.yaml
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to push tags
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version from pubspec.yaml
+        id: version
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create / overwrite tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          VERSION=v${{ steps.version.outputs.version }}
+
+          # Delete local tag if exists
+          git tag -d "$VERSION" || true
+
+          # Delete remote tag if exists
+          git push origin ":refs/tags/$VERSION" || true
+
+          # Create new tag at current commit
+          git tag "$VERSION"
+
+          # Push the tag
+          git push origin "$VERSION"

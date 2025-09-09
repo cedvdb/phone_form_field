@@ -1,3 +1,20 @@
+## [10.0.11+3]
+
+- Auto publish test #4
+
+## [10.0.11+2]
+
+- Auto publish test #3
+
+
+## [10.0.11+1]
+
+- Auto publish test #2
+
+## [10.0.11]
+
+- Auto publish test
+
 ## [10.0.10]
 
 - Fixes controller disposal logic
