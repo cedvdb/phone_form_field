@@ -9,7 +9,8 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # needed to push tags
+      contents: write    # needed to push tags
+      actions: write     # needed to trigger other workflows
 
     steps:
       - uses: actions/checkout@v4
@@ -33,17 +34,25 @@ jobs:
           if git rev-parse "$VERSION" >/dev/null 2>&1; then
             if [ "$(git rev-parse "$VERSION")" = "$(git rev-parse HEAD)" ]; then
               echo "✅ Tag $VERSION already exists on this commit — nothing to do."
-              exit 0
             else
               echo "♻️ Tag $VERSION exists but points to a different commit — overwriting..."
               git tag -d "$VERSION"
               git push origin ":refs/tags/$VERSION" || true
+              git tag "$VERSION"
+              git push origin "$VERSION"
+              echo "✅ Tag $VERSION re-created and pushed."
             fi
           else
             echo "🆕 Creating new tag: $VERSION"
+            git tag "$VERSION"
+            git push origin "$VERSION"
+            echo "✅ Tag $VERSION pushed successfully!"
           fi
 
-          # Create new tag and push
-          git tag "$VERSION"
-          git push origin "$VERSION"
-          echo "✅ Tag $VERSION pushed successfully!"
+      - name: Trigger publish workflow
+        run: |
+          VERSION=v${{ steps.version.outputs.version }}
+          echo "🚀 Triggering 'Publish to pub.dev' workflow for $VERSION"
+          gh workflow run "Publish to pub.dev" --field version="$VERSION"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
