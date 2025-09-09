@@ -1,3 +1,7 @@
+## [10.0.11]
+
+- Fixes controller disposal logic
+
 ## [10.0.10]
 
 - Fixes controller disposal logic
