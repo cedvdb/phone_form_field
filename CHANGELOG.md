@@ -1,6 +1,6 @@
 ## [10.0.11]
 
-- Fixes controller disposal logic
+- Auto publish test
 
 ## [10.0.10]
 
