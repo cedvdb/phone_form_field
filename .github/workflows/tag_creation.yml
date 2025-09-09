@@ -19,6 +19,7 @@ jobs:
         run: |
           VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Detected version: $VERSION"
 
       - name: Create / overwrite tag
         run: |
@@ -26,15 +27,23 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           VERSION=v${{ steps.version.outputs.version }}
+          echo "🏷️ Preparing tag: $VERSION"
 
-          # Delete local tag if exists
-          git tag -d "$VERSION" || true
+          # Check if tag already exists and points to HEAD
+          if git rev-parse "$VERSION" >/dev/null 2>&1; then
+            if [ "$(git rev-parse "$VERSION")" = "$(git rev-parse HEAD)" ]; then
+              echo "✅ Tag $VERSION already exists on this commit — nothing to do."
+              exit 0
+            else
+              echo "♻️ Tag $VERSION exists but points to a different commit — overwriting..."
+              git tag -d "$VERSION"
+              git push origin ":refs/tags/$VERSION" || true
+            fi
+          else
+            echo "🆕 Creating new tag: $VERSION"
+          fi
 
-          # Delete remote tag if exists
-          git push origin ":refs/tags/$VERSION" || true
-
-          # Create new tag at current commit
+          # Create new tag and push
           git tag "$VERSION"
-
-          # Push the tag
           git push origin "$VERSION"
+          echo "✅ Tag $VERSION pushed successfully!"
