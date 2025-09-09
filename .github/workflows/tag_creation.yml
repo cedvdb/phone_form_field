@@ -3,7 +3,7 @@ name: Create Tag from pubspec.yaml
 on:
   push:
     branches:
-      - main
+      - publish-test
 
 jobs:
   create-tag:
