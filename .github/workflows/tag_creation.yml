@@ -9,8 +9,8 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     permissions:
-      contents: write    # needed to push tags
-      actions: write     # needed to trigger other workflows
+      contents: write # needed to push tags
+      actions: write # needed to trigger other workflows
 
     steps:
       - uses: actions/checkout@v4
@@ -55,4 +55,4 @@ jobs:
           echo "🚀 Triggering 'Publish to pub.dev' workflow for $VERSION"
           gh workflow run "Publish to pub.dev" --field version="$VERSION"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
