@@ -19,30 +19,24 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "📦 Detected version: $VERSION"
 
-      - name: Create / overwrite tag
+      - name: Fail if tag already exists
         run: |
+          VERSION=v${{ steps.version.outputs.version }}
+          echo "🔎 Checking if tag $VERSION already exists..."
+          git fetch --tags
+          if git rev-parse "$VERSION" >/dev/null 2>&1; then
+            echo "❌ Tag $VERSION already exists. Bump the version in pubspec.yaml."
+            exit 1
+          fi
+
+      - name: Create and push tag
+        run: |
+          VERSION=v${{ steps.version.outputs.version }}
+          echo "🏷️ Creating new tag: $VERSION"
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          VERSION=v${{ steps.version.outputs.version }}
-          echo "🏷️ Preparing tag: $VERSION"
-
-          git fetch --tags
-
-          if git rev-parse "$VERSION" >/dev/null 2>&1; then
-            if [ "$(git rev-parse "$VERSION")" = "$(git rev-parse HEAD)" ]; then
-              echo "✅ Tag $VERSION already exists on this commit — nothing to do."
-            else
-              echo "♻️ Tag $VERSION exists but points to a different commit — overwriting..."
-              git tag -d "$VERSION"
-              git push origin ":refs/tags/$VERSION" || true
-              git tag "$VERSION"
-              git push origin "$VERSION"
-            fi
-          else
-            echo "🆕 Creating new tag: $VERSION"
-            git tag "$VERSION"
-            git push origin "$VERSION"
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          git tag "$VERSION"
+          git push https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }} "$VERSION"
+          echo "✅ Tag $VERSION pushed successfully!"
