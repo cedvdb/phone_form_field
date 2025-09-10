@@ -29,16 +29,25 @@ jobs:
             exit 1
           fi
 
-      - name: Create and push tag with PAT
+      - name: Create and push tag with gh + PAT
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          VERSION: v${{ steps.version.outputs.version }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          VERSION=v${{ steps.version.outputs.version }}
-          echo "🏷️ Creating new tag: $VERSION"
-
+          echo "🏷️ Creating tag: $VERSION"
           git tag "$VERSION"
-          git push https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }} "$VERSION"
+
+          echo "⬆️ Pushing tag with gh CLI"
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${GITHUB_REPOSITORY}/git/refs \
+            -f ref="refs/tags/$VERSION" \
+            -f sha="$(git rev-parse HEAD)"
+
           echo "✅ Tag $VERSION pushed successfully!"
 
       # 🔍 Debugging step
