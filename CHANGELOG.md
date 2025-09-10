@@ -1,3 +1,7 @@
+## [10.0.11+12]
+
+- Auto publish test #13
+
 ## [10.0.11+11]
 
 - Auto publish test #12
