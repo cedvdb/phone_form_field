@@ -8,6 +8,8 @@ on:
 jobs:
   create-tag:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to push tags
 
     steps:
       - uses: actions/checkout@v4
@@ -22,21 +24,29 @@ jobs:
       - name: Fail if tag already exists
         run: |
           VERSION=v${{ steps.version.outputs.version }}
-          echo "🔎 Checking if tag $VERSION already exists..."
-          git fetch --tags
-          if git rev-parse "$VERSION" >/dev/null 2>&1; then
-            echo "❌ Tag $VERSION already exists. Bump the version in pubspec.yaml."
+          if git ls-remote --tags origin | grep -q "refs/tags/$VERSION$"; then
+            echo "❌ Tag $VERSION already exists on remote. Failing workflow."
             exit 1
           fi
 
-      - name: Create and push tag
+      - name: Create and push tag with PAT
         run: |
-          VERSION=v${{ steps.version.outputs.version }}
-          echo "🏷️ Creating new tag: $VERSION"
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          VERSION=v${{ steps.version.outputs.version }}
+          echo "🏷️ Creating new tag: $VERSION"
 
           git tag "$VERSION"
           git push https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }} "$VERSION"
           echo "✅ Tag $VERSION pushed successfully!"
+
+      # 🔍 Debugging step
+      - name: Debug GitHub event payload
+        run: |
+          echo "🚀 Event name: $GITHUB_EVENT_NAME"
+          echo "🔖 Ref: $GITHUB_REF"
+          echo "📦 Repo: $GITHUB_REPOSITORY"
+          echo "📂 Event path: $GITHUB_EVENT_PATH"
+          cat $GITHUB_EVENT_PATH
+          echo "👤 Actor: $GITHUB_ACTOR"
