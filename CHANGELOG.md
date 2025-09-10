@@ -1,5 +1,9 @@
 ## [10.0.10]
 
+- Auto publish workflow changes
+
+## [10.0.10]
+
 - Fixes controller disposal logic
 
 ## [10.0.9]
