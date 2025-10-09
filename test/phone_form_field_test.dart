@@ -17,6 +17,7 @@ void main() {
       Function(PointerDownEvent)? onTapOutside,
       PhoneNumber? initialValue,
       PhoneController? controller,
+      FocusNode? focusNode,
       bool showFlagInInput = true,
       bool showDialCode = true,
       bool showDropdownIcon = true,
@@ -43,6 +44,7 @@ void main() {
                     showDropdownIcon: showDropdownIcon,
                   ),
                   controller: controller,
+                  focusNode: focusNode,
                   validator: validatorBuilder?.call(context),
                   enabled: enabled,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -775,6 +777,29 @@ void main() {
         await tester.pumpWidget(getWidget(controller: controller));
         await tester.pumpWidget(Container());
         controller.dispose();
+      });
+    });
+
+    group('Dispose focus node', () {
+      testWidgets('Should dispose internal focus node', (tester) async {
+        await tester.pumpWidget(getWidget());
+
+        var state =
+            tester.state<PhoneFormFieldState>(find.byType(PhoneFormField));
+
+        await tester.pumpWidget(Container());
+
+        expect(
+            () => state.focusNode.dispose(),
+            throwsA((e) =>
+                '$e'.contains('A FocusNode was used after being disposed')));
+      });
+
+      testWidgets('Should not dispose provided focus node', (tester) async {
+        var focusNode = FocusNode();
+        await tester.pumpWidget(getWidget(focusNode: focusNode));
+        await tester.pumpWidget(Container());
+        focusNode.dispose();
       });
     });
   });

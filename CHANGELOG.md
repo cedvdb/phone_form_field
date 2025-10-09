@@ -1,3 +1,7 @@
+## [10.0.12]
+
+- Fixes focus node disposal logic
+
 ## [10.0.11+13]
 
 - Auto publish workflow changes

@@ -32,7 +32,9 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     if (widget.controller == null) {
       controller.dispose();
     }
-    focusNode.dispose();
+    if (widget.focusNode == null) {
+      focusNode.dispose();
+    }
     super.dispose();
   }
 
