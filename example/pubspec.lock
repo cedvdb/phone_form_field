@@ -222,7 +222,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "10.0.10"
+    version: "10.0.12"
   phone_numbers_parser:
     dependency: transitive
     description:
