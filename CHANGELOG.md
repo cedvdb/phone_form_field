@@ -1,3 +1,7 @@
+## [10.0.13]
+
+- Adds Polish localization
+
 ## [10.0.12]
 
 - Fixes focus node disposal logic
