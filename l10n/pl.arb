@@ -1,0 +1,30 @@
+{
+  "@@locale": "pl",
+  "invalidPhoneNumber": "Nieprawidłowy numer telefonu",
+  "invalidCountry": "Nieprawidłowy kraj",
+  "invalidMobilePhoneNumber": "Nieprawidłowy numer telefonu komórkowego",
+  "invalidFixedLinePhoneNumber": "Nieprawidłowy numer stacjonarnego telefonu",
+  "requiredPhoneNumber": "Wymagany numer telefonu",
+  "selectACountrySemanticLabel": "Wybierz kraj. Aktualny wybór: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Numer telefonu",
+  "currentValueSemanticLabel": "Aktualna wartość: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
+}
