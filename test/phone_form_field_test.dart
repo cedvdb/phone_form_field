@@ -15,6 +15,7 @@ void main() {
       Function(PhoneNumber?)? onChanged,
       Function(PhoneNumber?)? onSaved,
       Function(PointerDownEvent)? onTapOutside,
+      Function(PointerUpEvent)? onTapUpOutside,
       PhoneNumber? initialValue,
       PhoneController? controller,
       FocusNode? focusNode,
@@ -38,6 +39,7 @@ void main() {
                   onChanged: onChanged,
                   onSaved: onSaved,
                   onTapOutside: onTapOutside,
+                  onTapUpOutside: onTapUpOutside,
                   countryButtonStyle: CountryButtonStyle(
                     showFlag: showFlagInInput,
                     showDialCode: showDialCode,
@@ -694,6 +696,47 @@ void main() {
           (FocusManager.instance.primaryFocus as FocusScopeNode).focusedChild,
           isNull,
         );
+      });
+
+      // New tests for onTapUpOutside
+      testWidgets('Should call onTapUpOutside', (tester) async {
+        PhoneNumber? phoneNumber = PhoneNumber.parse(
+          '',
+          destinationCountry: IsoCode.FR,
+        );
+
+        bool called = false;
+        void onTapUpOutside(PointerUpEvent event) {
+          FocusManager.instance.primaryFocus?.unfocus();
+          called = true;
+        }
+
+        await tester.pumpWidget(getWidget(
+          initialValue: phoneNumber,
+          onTapUpOutside: onTapUpOutside,
+        ));
+
+        final FocusScopeNode primaryFocus =
+            FocusManager.instance.primaryFocus as FocusScopeNode;
+
+        // Verify that the PhoneFormField is unfocused
+        expect(primaryFocus.focusedChild, isNull);
+
+        // Tap on the PhoneFormField to focus it
+        final phoneField = find.byType(PhoneFormField);
+        await tester.enterText(phoneField, '488 22 33 44');
+        await tester.pump(const Duration(seconds: 1));
+
+        // Verify that the PhoneFormField has focus
+        expect(primaryFocus.focusedChild, isNotNull);
+
+        // Tap outside the PhoneFormField to trigger pointer up outside
+        await tester.tap(find.byType(Scaffold));
+        await tester.pumpAndSettle();
+
+        // Verify that the PhoneFormField is unfocused and callback was called
+        expect(primaryFocus.focusedChild, isNull);
+        expect(called, isTrue);
       });
 
       testWidgets('Should reset with form state', (tester) async {
