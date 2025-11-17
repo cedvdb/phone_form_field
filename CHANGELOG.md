@@ -1,3 +1,7 @@
+## [10.0.14]
+
+- Added onTapUpOutside
+
 ## [10.0.13]
 
 - Adds Polish localization
