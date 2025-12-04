@@ -154,6 +154,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
         restorationId: widget.restorationId,
         enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
         readOnly: widget.readOnly,
+        canRequestFocus: widget.canRequestFocus,
       ),
     );
   }

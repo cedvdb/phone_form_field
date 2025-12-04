@@ -26,6 +26,7 @@ void main() {
       bool enabled = true,
       bool limitLength = false,
       bool readOnly = false,
+      bool canRequestFocus = true,
     }) =>
         MaterialApp(
           localizationsDelegates: PhoneFieldLocalization.delegates,
@@ -51,6 +52,7 @@ void main() {
                   validator: validatorBuilder?.call(context),
                   enabled: enabled,
                   readOnly: readOnly,
+                  canRequestFocus: canRequestFocus,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   shouldLimitLengthByCountry: limitLength,
                 ),
@@ -904,6 +906,88 @@ void main() {
         await tester.enterText(textField, '12345');
 
         expect(controller.value.nsn, isEmpty);
+      });
+    });
+
+    group('canRequestFocus parameter', () {
+      testWidgets('Should allow focus when canRequestFocus is true',
+          (tester) async {
+        final focusNode = FocusNode();
+        addTearDown(focusNode.dispose);
+
+        await tester.pumpWidget(
+          getWidget(
+            focusNode: focusNode,
+            canRequestFocus: true,
+          ),
+        );
+
+        final textField = find.byType(TextField);
+        expect(
+          tester.widget<TextField>(textField).canRequestFocus,
+          isTrue,
+        );
+      });
+
+      testWidgets('Should prevent focus when canRequestFocus is false',
+          (tester) async {
+        final focusNode = FocusNode();
+        addTearDown(focusNode.dispose);
+
+        await tester.pumpWidget(
+          getWidget(
+            focusNode: focusNode,
+            canRequestFocus: false,
+          ),
+        );
+
+        final textField = find.byType(TextField);
+        expect(
+          tester.widget<TextField>(textField).canRequestFocus,
+          isFalse,
+        );
+      });
+
+      testWidgets(
+          'Should not receive focus when canRequestFocus is false and focus is requested',
+          (tester) async {
+        final focusNode = FocusNode();
+        addTearDown(focusNode.dispose);
+
+        await tester.pumpWidget(
+          getWidget(
+            focusNode: focusNode,
+            canRequestFocus: false,
+          ),
+        );
+
+        expect(focusNode.hasFocus, isFalse);
+
+        focusNode.requestFocus();
+        await tester.pumpAndSettle();
+
+        expect(focusNode.hasFocus, isFalse);
+      });
+
+      testWidgets(
+          'Should receive focus when canRequestFocus is true and focus is requested',
+          (tester) async {
+        final focusNode = FocusNode();
+        addTearDown(focusNode.dispose);
+
+        await tester.pumpWidget(
+          getWidget(
+            focusNode: focusNode,
+            canRequestFocus: true,
+          ),
+        );
+
+        expect(focusNode.hasFocus, isFalse);
+
+        focusNode.requestFocus();
+        await tester.pumpAndSettle();
+
+        expect(focusNode.hasFocus, isTrue);
       });
     });
   });

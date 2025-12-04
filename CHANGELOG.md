@@ -1,5 +1,6 @@
 ## [10.0.15]
-- Added readOnly parameter
+- Added readOnly
+- Added canRequestFocus
 
 ## [10.0.14]
 
