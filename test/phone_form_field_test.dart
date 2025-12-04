@@ -853,6 +853,7 @@ void main() {
         final controller = PhoneController(
           initialValue: PhoneNumber.parse('+1'),
         );
+        addTearDown(controller.dispose);
 
         await tester.pumpWidget(
           getWidget(
@@ -888,6 +889,7 @@ void main() {
         final controller = PhoneController(
           initialValue: PhoneNumber.parse('+1'),
         );
+        addTearDown(controller.dispose);
 
         await tester.pumpWidget(
           getWidget(
