@@ -98,6 +98,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool enableIMEPersonalizedLearning;
   final List<TextInputFormatter>? inputFormatters;
   final bool shouldLimitLengthByCountry;
+  final bool readOnly;
+  final bool canRequestFocus;
 
   static preloadFlags() => CountrySelector.preloadFlags();
 
@@ -157,6 +159,8 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.autofillHints,
     this.enableIMEPersonalizedLearning = true,
     this.shouldLimitLengthByCountry = false,
+    this.readOnly = false,
+    this.canRequestFocus = true,
   })  : assert(
           initialValue == null || controller == null,
           'One of initialValue or controller can be specified at a time',
