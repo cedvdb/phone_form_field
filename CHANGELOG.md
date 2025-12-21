@@ -1,4 +1,10 @@
+## [10.0.16]
+
+- Fixes build runner issue by updating circle_flags dependency version.
+- Update dependencies to the latest version.
+
 ## [10.0.15]
+
 - Added readOnly
 - Added canRequestFocus
 
