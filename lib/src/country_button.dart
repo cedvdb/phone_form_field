@@ -43,11 +43,10 @@ class CountryButton extends StatelessWidget {
     final countryLocalization = CountrySelectorLocalization.of(context) ??
         CountrySelectorLocalizationEn();
     final countryDialCode = '+ ${countryLocalization.countryDialCode(isoCode)}';
-
     final countryName = countryLocalization.countryName(isoCode);
 
     return Semantics(
-      label: '${countryLocalization.countryName(isoCode)} $countryDialCode',
+      label: '$countryName $countryDialCode',
       button: true,
       enabled: enabled,
       child: InkWell(
