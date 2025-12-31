@@ -1,3 +1,8 @@
+## [10.0.17]
+
+- Fixes issues with semantics
+- Upgraded the [flutter_country_selector](https://github.com/cedvdb/flutter_country_selector) to 1.0.19 to address semantic focus issues
+
 ## [10.0.16]
 
 - Fixes build runner issue by updating circle_flags dependency version.
