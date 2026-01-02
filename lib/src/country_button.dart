@@ -43,52 +43,54 @@ class CountryButton extends StatelessWidget {
     final countryLocalization = CountrySelectorLocalization.of(context) ??
         CountrySelectorLocalizationEn();
     final countryDialCode = '+ ${countryLocalization.countryDialCode(isoCode)}';
+    final countryName = countryLocalization.countryName(isoCode);
 
-    return InkWell(
-      onTap: onTap,
-      borderRadius: borderRadius,
-      child: Padding(
-        padding: padding,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            if (showIsoCode) ...[
-              Text(
-                isoCode.name,
-                style: textStyle.copyWith(
-                  color: enabled ? null : Theme.of(context).disabledColor,
+    return Semantics(
+      label: '$countryName $countryDialCode',
+      button: true,
+      enabled: enabled,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: borderRadius,
+        child: Padding(
+          padding: padding,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              if (showIsoCode) ...[
+                Text(
+                  isoCode.name,
+                  style: textStyle.copyWith(
+                    color: enabled ? null : Theme.of(context).disabledColor,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-            ],
-            if (showFlag) ...[
-              ExcludeSemantics(
-                child: GrayScale(
+                const SizedBox(width: 8),
+              ],
+              if (showFlag) ...[
+                GrayScale(
                   visible: !enabled,
                   child: CircleFlag(
                     isoCode.name,
                     size: flagSize,
                   ),
                 ),
-              ),
-              const SizedBox(width: 8),
-            ],
-            if (showDialCode) ...[
-              Text(
-                countryDialCode,
-                style: textStyle.copyWith(
-                  color: enabled ? null : Theme.of(context).disabledColor,
+                const SizedBox(width: 8),
+              ],
+              if (showDialCode) ...[
+                Text(
+                  countryDialCode,
+                  style: textStyle.copyWith(
+                    color: enabled ? null : Theme.of(context).disabledColor,
+                  ),
                 ),
-              ),
-            ],
-            if (showDropdownIcon)
-              ExcludeSemantics(
-                child: Icon(
+              ],
+              if (showDropdownIcon)
+                Icon(
                   Icons.arrow_drop_down,
                   color: dropdownIconColor,
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
