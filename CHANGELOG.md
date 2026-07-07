@@ -1,3 +1,6 @@
+## [10.0.18]
+- Upgrade [phone_numbers_parser](https://github.com/cedvdb/phone_numbers_parser/releases/tag/v9.0.24) to 9.0.24 to add support for new numbers 
+
 ## [10.0.17]
 
 - Fixes issues with semantics
