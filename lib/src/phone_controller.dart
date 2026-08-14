@@ -26,7 +26,7 @@ class PhoneController extends ChangeNotifier {
           text: initialValue.formatNsn(),
         );
 
-  changeCountry(IsoCode isoCode) {
+  void changeCountry(IsoCode isoCode) {
     _value = PhoneNumber.parse(
       _value.nsn,
       destinationCountry: isoCode,
@@ -35,7 +35,7 @@ class PhoneController extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeNationalNumber(String? text) {
+  void changeNationalNumber(String? text) {
     text = text ?? '';
     final oldFormattedText = _value.formatNsn();
     var newFormattedText = text;
@@ -108,7 +108,7 @@ class PhoneController extends ChangeNotifier {
     }
   }
 
-  selectNationalNumber() {
+  void selectNationalNumber() {
     _formattedNationalNumberController.selection = TextSelection(
       baseOffset: 0,
       extentOffset: _formattedNationalNumberController.value.text.length,

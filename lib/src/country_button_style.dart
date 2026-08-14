@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class CountryButtonStyle {
   /// Text style of the country dial code inside the country button

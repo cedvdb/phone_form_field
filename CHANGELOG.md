@@ -1,3 +1,9 @@
+## [11.0.0]
+- [Breaking]: Require dart >=3.5.0
+- [Breaking]: Require flutter >=3.47.0
+- Migrate to the new material_ui package which has been decoupled from the flutter framework in flutter 3.47.0
+- Bump dependencies
+
 ## [10.0.18]
 - Upgrade [phone_numbers_parser](https://github.com/cedvdb/phone_numbers_parser/releases/tag/v9.0.24) to 9.0.24 to add support for new numbers 
 

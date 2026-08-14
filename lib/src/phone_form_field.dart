@@ -1,10 +1,9 @@
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_country_selector/flutter_country_selector.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-
 import 'package:phone_form_field/src/validation/allowed_characters.dart';
 import 'package:phone_form_field/src/validation/limit_max_length_formatter.dart';
 import 'package:phone_numbers_parser/metadata.dart';
@@ -101,7 +100,7 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final bool readOnly;
   final bool canRequestFocus;
 
-  static preloadFlags() => CountrySelector.preloadFlags();
+  static Future<void> preloadFlags() => CountrySelector.preloadFlags();
 
   PhoneFormField({
     super.key,
