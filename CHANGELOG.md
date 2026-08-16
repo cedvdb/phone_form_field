@@ -1,3 +1,6 @@
+## [11.0.1]
+- Fix codegen error
+
 ## [11.0.0]
 - [Breaking]: Require dart >=3.5.0
 - [Breaking]: Require flutter >=3.47.0
