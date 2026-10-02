@@ -1,3 +1,6 @@
+## [11.0.2]
+- Add Romanian localization
+
 ## [11.0.1]
 - Fix codegen error
 
