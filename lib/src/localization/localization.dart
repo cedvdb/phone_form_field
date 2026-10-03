@@ -1,5 +1,5 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:flutter_country_selector/flutter_country_selector.dart';
+import 'package:phone_form_field/country_selector.dart';
 
 import 'generated/phone_field_localization_impl.dart';
 import 'generated/phone_field_localization_impl_en.dart';

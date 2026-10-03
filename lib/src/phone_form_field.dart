@@ -1,7 +1,7 @@
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 import 'package:flutter/services.dart';
-import 'package:flutter_country_selector/flutter_country_selector.dart';
+import 'package:phone_form_field/country_selector.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_form_field/src/validation/allowed_characters.dart';

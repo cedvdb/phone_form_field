@@ -1,6 +1,6 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:flutter_country_selector/flutter_country_selector.dart';
+import 'package:phone_form_field/country_selector.dart';
 
 @Deprecated('Use [CountryButton] instead')
 typedef CountryChip = CountryButton;
