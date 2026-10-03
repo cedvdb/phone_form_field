@@ -1,0 +1,30 @@
+{
+	"@@locale": "ja",
+	"invalidPhoneNumber": "無効な電話番号です",
+	"invalidCountry": "無効な国です",
+	"invalidMobilePhoneNumber": "無効な携帯電話番号です",
+	"invalidFixedLinePhoneNumber": "無効な固定電話番号です",
+	"requiredPhoneNumber": "電話番号は必須です",
+	"selectACountrySemanticLabel": "国を選択してください。現在の選択: {countryName} {dialCode}",
+	"@selectACountrySemanticLabel": {
+		"description": "国選択ボタンのセマンティック説明",
+		"placeholders": {
+			"countryName": {
+				"type": "String"
+				},
+			"dialCode": {
+				"type": "String"
+			}
+		}
+	},
+	"phoneNumber": "電話番号",
+	"currentValueSemanticLabel": "現在の値: {currentValue}",
+	"@currentValueSemanticLabel": {
+		"description": "電話番号入力欄のセマンティック説明。ラベルまたはヒントは動的に追加されます",
+		"placeholders": {
+			"currentValue": {
+				"type": "String"
+			}
+		}
+	}
+}

@@ -1,5 +1,7 @@
 ## [11.0.2]
 - Add Romanian localization
+- Added Japanese and Thai translations
+
 
 ## [11.0.1]
 - Fix codegen error
