@@ -1,3 +1,9 @@
+## [12.0.0]
+
+- [Breaking]: The [flutter_country_selector](https://github.com/cedvdb/flutter_country_selector) package has been merged into this one. The country selector sources, arbs and generated localizations live here now (they always shipped together, and this removes the dependency cycle between the two packages); `flutter_country_selector` 3.0.0 is a thin re-export of `package:phone_form_field/country_selector.dart`.
+- The country names of the selector are now part of the phone field arbs, so 32 locales are supported by the country selector. They fall back to english for the countries that are not translated.
+- `PhoneFieldLocalization.delegates` now holds the localizations of `material_ui` rather than the ones of `flutter_localizations`, which is what the widgets assert against.
+
 ## [11.0.2]
 - Add Romanian localization
 - Added Japanese and Thai translations

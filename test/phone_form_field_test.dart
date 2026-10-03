@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:phone_form_field/country_selector.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/localization/generated/phone_field_localization_impl_en.dart';
 
 void main() {
   group('PhoneFormField', () {

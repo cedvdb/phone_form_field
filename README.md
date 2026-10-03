@@ -149,7 +149,7 @@ PhoneFormField(
 
 ### Dynamic localization
 
-This package uses the `flutter_country_selector` package under the hood, which exports a method for dynamic localization `CountrySelectorLocalization.of(context).countryName(isoCode)`.
+This package bundles the country selector: use `PhoneFieldLocalization.of(context)?.countryName(isoCode)` for dynamic localization. `CountrySelectorLocalization` is kept as an alias of it.
 
 ### Setup
 
@@ -157,10 +157,7 @@ This package uses the `flutter_country_selector` package under the hood, which e
 
   ```dart
     return MaterialApp(
-      localizationsDelegates: const [
-        ...GlobalMaterialLocalizations.delegates,
-        ...PhoneFieldLocalization.delegates, 
-      ], 
+      localizationsDelegates: PhoneFieldLocalization.delegates,
         supportedLocales: [ 
         const Locale('en', ''), 
         const Locale('es', ''), 
@@ -179,6 +176,7 @@ This package uses the `flutter_country_selector` package under the hood, which e
 
   - ar
   - ca
+  - ckb
   - cs
   - de
   - el
@@ -190,21 +188,26 @@ This package uses the `flutter_country_selector` package under the hood, which e
   - hi
   - hu
   - it
+  - ja
   - ko
+  - ku
   - nb
   - nl
+  - pl
   - pt
   - ro
   - ru
   - sk
   - sv
+  - th
   - tr
   - uk
+  - ur
   - uz
   - vi
   - zh
   
-If one of the language you target is not supported you can submit a pull request in flutter_country_selector and phone_form_field repositories.
+If one of the language you target is not supported you can submit a pull request in the phone_form_field repository.
 
 
 # Overwriting or adding custom flags
