@@ -1,3 +1,8 @@
+## [11.0.2]
+
+- - Added missing Japanese and Thai translations
+
+
 ## [11.0.1]
 - Fix codegen error
 

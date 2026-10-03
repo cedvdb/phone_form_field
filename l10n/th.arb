@@ -1,0 +1,30 @@
+{
+	"@@locale": "th",
+	"invalidPhoneNumber": "หมายเลขโทรศัพท์ไม่ถูกต้อง",
+	"invalidCountry": "ประเทศไม่ถูกต้อง",
+	"invalidMobilePhoneNumber": "หมายเลขโทรศัพท์มือถือไม่ถูกต้อง",
+	"invalidFixedLinePhoneNumber": "หมายเลขโทรศัพท์พื้นฐานไม่ถูกต้อง",
+	"requiredPhoneNumber": "จำเป็นต้องระบุหมายเลขโทรศัพท์",
+	"selectACountrySemanticLabel": "เลือกประเทศ การเลือกปัจจุบัน: {countryName} {dialCode}",
+	"@selectACountrySemanticLabel": {
+		"description": "คำอธิบายเชิงความหมายของปุ่มเลือกประเทศ",
+		"placeholders": {
+			"countryName": {
+				"type": "String"
+			},
+			"dialCode": {
+				"type": "String"
+			}
+		}
+	},
+	"phoneNumber": "หมายเลขโทรศัพท์",
+	"currentValueSemanticLabel": "ค่าปัจจุบัน: {currentValue}",
+	"@currentValueSemanticLabel": {
+		"description": "คำอธิบายเชิงความหมายของช่องกรอกหมายเลขโทรศัพท์ โดยป้ายกำกับหรือคำแนะนำจะถูกเพิ่มแบบไดนามิก",
+		"placeholders": {
+			"currentValue": {
+				"type": "String"
+			}
+		}
+	}
+}

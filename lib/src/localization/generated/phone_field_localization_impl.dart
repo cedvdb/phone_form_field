@@ -19,6 +19,7 @@ import 'phone_field_localization_impl_he.dart';
 import 'phone_field_localization_impl_hi.dart';
 import 'phone_field_localization_impl_hu.dart';
 import 'phone_field_localization_impl_it.dart';
+import 'phone_field_localization_impl_ja.dart';
 import 'phone_field_localization_impl_ku.dart';
 import 'phone_field_localization_impl_nb.dart';
 import 'phone_field_localization_impl_nl.dart';
@@ -27,6 +28,7 @@ import 'phone_field_localization_impl_pt.dart';
 import 'phone_field_localization_impl_ru.dart';
 import 'phone_field_localization_impl_sk.dart';
 import 'phone_field_localization_impl_sv.dart';
+import 'phone_field_localization_impl_th.dart';
 import 'phone_field_localization_impl_tr.dart';
 import 'phone_field_localization_impl_uk.dart';
 import 'phone_field_localization_impl_uz.dart';
@@ -134,6 +136,7 @@ abstract class PhoneFieldLocalizationImpl {
     Locale('hi'),
     Locale('hu'),
     Locale('it'),
+    Locale('ja'),
     Locale('ku'),
     Locale('nb'),
     Locale('nl'),
@@ -142,6 +145,7 @@ abstract class PhoneFieldLocalizationImpl {
     Locale('ru'),
     Locale('sk'),
     Locale('sv'),
+    Locale('th'),
     Locale('tr'),
     Locale('uk'),
     Locale('uz'),
@@ -224,6 +228,7 @@ class _PhoneFieldLocalizationImplDelegate
         'hi',
         'hu',
         'it',
+        'ja',
         'ku',
         'nb',
         'nl',
@@ -232,6 +237,7 @@ class _PhoneFieldLocalizationImplDelegate
         'ru',
         'sk',
         'sv',
+        'th',
         'tr',
         'uk',
         'uz',
@@ -274,6 +280,8 @@ PhoneFieldLocalizationImpl lookupPhoneFieldLocalizationImpl(Locale locale) {
       return PhoneFieldLocalizationImplHu();
     case 'it':
       return PhoneFieldLocalizationImplIt();
+    case 'ja':
+      return PhoneFieldLocalizationImplJa();
     case 'ku':
       return PhoneFieldLocalizationImplKu();
     case 'nb':
@@ -290,6 +298,8 @@ PhoneFieldLocalizationImpl lookupPhoneFieldLocalizationImpl(Locale locale) {
       return PhoneFieldLocalizationImplSk();
     case 'sv':
       return PhoneFieldLocalizationImplSv();
+    case 'th':
+      return PhoneFieldLocalizationImplTh();
     case 'tr':
       return PhoneFieldLocalizationImplTr();
     case 'uk':
