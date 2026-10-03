@@ -1,0 +1,30 @@
+{
+  "@@locale": "ro",
+  "invalidPhoneNumber": "Număr de telefon invalid",
+  "invalidCountry": "Țară invalidă",
+  "invalidMobilePhoneNumber": "Număr de telefon mobil invalid",
+  "invalidFixedLinePhoneNumber": "Număr de telefon fix invalid",
+  "requiredPhoneNumber": "Numărul de telefon este obligatoriu",
+  "selectACountrySemanticLabel": "Selectați o țară. Selecția curentă: {countryName} {dialCode}",
+  "@selectACountrySemanticLabel": {
+    "description": "semantic description of the country button",
+    "placeholders": {
+      "countryName": {
+        "type": "String"
+      },
+      "dialCode": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneNumber": "Număr de telefon",
+  "currentValueSemanticLabel": "Valoare curentă: {currentValue}",
+  "@currentValueSemanticLabel": {
+    "description": "semantic description of the phone input. The label or hint will be dynamically added",
+    "placeholders": {
+      "currentValue": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 ## [11.0.2]
-
-- - Added missing Japanese and Thai translations
+- Add Romanian localization
+- Added Japanese and Thai translations
 
 
 ## [11.0.1]

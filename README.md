@@ -194,6 +194,7 @@ This package uses the `flutter_country_selector` package under the hood, which e
   - nb
   - nl
   - pt
+  - ro
   - ru
   - sk
   - sv
