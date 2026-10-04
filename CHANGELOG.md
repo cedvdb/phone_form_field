@@ -1,3 +1,7 @@
+
+## [12.0.1]
+- Added `PhoneFieldLocalization.delegate` and `PhoneFieldLocalization.supportedLocales`.
+
 ## [12.0.0]
 
 - [Breaking]: The [flutter_country_selector](https://github.com/cedvdb/flutter_country_selector) package has been merged into this one. The country selector sources, arbs and generated localizations live here now, which removes the dependency this package had on `flutter_country_selector` and the lockstep releases it required (both packages always had to be published together). `flutter_country_selector` 3.0.0 is a thin re-export of `package:phone_form_field/country_selector.dart`; the dependency graph of your application does not change as `phone_form_field` 11.x already pulled that package in.
@@ -8,6 +12,7 @@
 - `CountrySelectorNavigator.draggableBottomSheet()` now accepts `useRootNavigator` (it was stored internally but could never be set).
 - Added Romanian localization
 - Added Japanese and Thai translations
+
 
 
 ## [11.0.1]
