@@ -2,7 +2,7 @@ import 'package:circle_flags/circle_flags.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../search/searchable_country.dart';
-import '_no_result_view.dart';
+import 'no_result_view.dart';
 
 class CountryListView extends StatelessWidget {
   /// Callback function triggered when user select a country

@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:phone_form_field/src/country_selector/localization/localization.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
+import 'localization/localization.dart';
 import 'search/country_finder.dart';
 import 'search/searchable_country.dart';
 

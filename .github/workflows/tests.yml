@@ -22,6 +22,9 @@ jobs:
           channel: "stable"
       - run: flutter --version
 
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed lib test example
+
       - name: Analyze project source
         run: flutter analyze
 

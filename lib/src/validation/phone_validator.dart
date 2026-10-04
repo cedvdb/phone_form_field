@@ -120,9 +120,4 @@ abstract class PhoneValidator {
       return null;
     };
   }
-
-  @Deprecated('Use null instead')
-  static PhoneNumberInputValidator get none => (PhoneNumber? valueCandidate) {
-        return null;
-      };
 }

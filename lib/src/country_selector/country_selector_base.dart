@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import '_country_selector_controller.dart';
+import 'country_selector_controller.dart';
 
 abstract class CountrySelectorBase extends StatefulWidget {
   /// List of countries to display in the selector

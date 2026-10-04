@@ -1,13 +1,14 @@
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 import 'package:flutter/services.dart';
-import 'package:phone_form_field/country_selector.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:phone_form_field/country_selector.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/validation/allowed_characters.dart';
-import 'package:phone_form_field/src/validation/limit_max_length_formatter.dart';
 import 'package:phone_numbers_parser/metadata.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
+
+import 'validation/allowed_characters.dart';
+import 'validation/limit_max_length_formatter.dart';
 
 part 'phone_controller.dart';
 part 'phone_form_field_state.dart';
@@ -63,7 +64,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
   final TextInputAction? textInputAction;
   final TextStyle? style;
   final StrutStyle? strutStyle;
-  final TextAlign? textAlign;
   final TextAlignVertical? textAlignVertical;
   final bool autofocus;
   final String obscuringCharacter;
@@ -124,8 +124,6 @@ class PhoneFormField extends FormField<PhoneNumber> {
     this.textInputAction,
     this.style,
     this.strutStyle,
-    @Deprecated('Has no effect, Change text directionality instead')
-    this.textAlign,
     this.textAlignVertical,
     this.autofocus = false,
     this.obscuringCharacter = '*',

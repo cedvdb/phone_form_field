@@ -58,7 +58,7 @@ PhoneFormField(
 * valid fixed line number : `PhoneValidator.validFixedLine`
 * valid type : `PhoneValidator.validType`
 * valid country : `PhoneValidator.validCountry`
-* none : `PhoneValidator.none` (this can be used to disable default valid validator)
+* none : pass `null` as `validator` (this disables the default valid validator)
 
 ### Validators details
 
@@ -90,8 +90,7 @@ Here are the list of the parameters available for all built-in country selector 
 |---|---|---|
 | countries | null | Countries available in list view (all countries are listed when omitted) |
 | favorites | null | List of country code `['FR','UK']` to display on top of the list |
-| addSeparator | true | Whether to add a separator between favorite countries and others one. Useless if `favorites` parameter is null |
-| showCountryCode | true | Whether to display the country dial code as listTile item subtitle |
+| showDialCode | true | Whether to display the country dial code as listTile item subtitle |
 | sortCountries | false | Whether the countries should appear in alphabetic order, if false the countries are displayed in the same order as `countries` property (Note that favorite countries are listed in supplied order whatever the value of this parameter) |
 | noResultMessage | null | The message to be displayed in place of the list when search result is empty (a default localised message is used when omitted) |
 

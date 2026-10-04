@@ -1,8 +1,8 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:phone_form_field/src/country_selector/country_selector_base.dart';
 
-import 'widgets/_country_list_view.dart';
-import 'widgets/_search_box.dart';
+import 'country_selector_base.dart';
+import 'widgets/country_list_view.dart';
+import 'widgets/search_box.dart';
 
 /// Displays a country selector with a search box at the top
 /// and a list of countries underneath.

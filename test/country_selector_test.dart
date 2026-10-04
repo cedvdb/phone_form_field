@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:phone_form_field/country_selector.dart';
-import 'package:phone_form_field/src/country_selector/widgets/_no_result_view.dart';
-import 'package:phone_form_field/src/country_selector/widgets/_search_box.dart';
+import 'package:phone_form_field/src/country_selector/widgets/no_result_view.dart';
+import 'package:phone_form_field/src/country_selector/widgets/search_box.dart';
 
 void main() {
   runTests(isPage: true);
