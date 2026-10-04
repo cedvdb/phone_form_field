@@ -1,10 +1,9 @@
 import 'package:circle_flags/circle_flags.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_country_selector/flutter_country_selector.dart';
+import 'package:phone_form_field/country_selector.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-import 'package:phone_form_field/src/localization/generated/phone_field_localization_impl_en.dart';
 
 void main() {
   group('PhoneFormField', () {
@@ -990,5 +989,29 @@ void main() {
         expect(focusNode.hasFocus, isTrue);
       });
     });
+  });
+
+  group('PhoneFieldLocalization.delegates', () {
+    testWidgets(
+      'Should provide the material_ui localizations for non english locales',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            locale: const Locale('fr'),
+            supportedLocales: const [Locale('en'), Locale('fr')],
+            localizationsDelegates: PhoneFieldLocalization.delegates,
+            home: Scaffold(
+              body: CountrySelector.page(
+                onCountrySelected: (c) {},
+                favoriteCountries: const [IsoCode.FR],
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('France'), findsOneWidget);
+      },
+    );
   });
 }

@@ -1,0 +1,11 @@
+{
+  "@@locale": "ko",
+  "invalidPhoneNumber": "올바른 번호가 아닙니다.",
+  "invalidCountry": "올바른 국가가 아닙니다.",
+  "invalidMobilePhoneNumber": "올바른 핸드폰 번호가 아닙니다.",
+  "invalidFixedLinePhoneNumber": "올바른 전화 번호가 아닙니다.",
+  "requiredPhoneNumber": "전화번호를 입력해 주세요",
+  "selectACountrySemanticLabel": "국가를 선택해주세요. 현재 국가는: {countryName} {dialCode}",
+  "phoneNumber": "핸드폰 번호",
+  "currentValueSemanticLabel": "현재 값: {currentValue}"
+}

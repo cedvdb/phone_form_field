@@ -58,7 +58,7 @@ PhoneFormField(
 * valid fixed line number : `PhoneValidator.validFixedLine`
 * valid type : `PhoneValidator.validType`
 * valid country : `PhoneValidator.validCountry`
-* none : `PhoneValidator.none` (this can be used to disable default valid validator)
+* none : pass `null` as `validator` (this disables the default valid validator)
 
 ### Validators details
 
@@ -90,8 +90,7 @@ Here are the list of the parameters available for all built-in country selector 
 |---|---|---|
 | countries | null | Countries available in list view (all countries are listed when omitted) |
 | favorites | null | List of country code `['FR','UK']` to display on top of the list |
-| addSeparator | true | Whether to add a separator between favorite countries and others one. Useless if `favorites` parameter is null |
-| showCountryCode | true | Whether to display the country dial code as listTile item subtitle |
+| showDialCode | true | Whether to display the country dial code as listTile item subtitle |
 | sortCountries | false | Whether the countries should appear in alphabetic order, if false the countries are displayed in the same order as `countries` property (Note that favorite countries are listed in supplied order whatever the value of this parameter) |
 | noResultMessage | null | The message to be displayed in place of the list when search result is empty (a default localised message is used when omitted) |
 
@@ -149,7 +148,7 @@ PhoneFormField(
 
 ### Dynamic localization
 
-This package uses the `flutter_country_selector` package under the hood, which exports a method for dynamic localization `CountrySelectorLocalization.of(context).countryName(isoCode)`.
+This package bundles the country selector: use `PhoneFieldLocalization.of(context)?.countryName(isoCode)` for dynamic localization. `CountrySelectorLocalization` is kept as an alias of it.
 
 ### Setup
 
@@ -157,10 +156,7 @@ This package uses the `flutter_country_selector` package under the hood, which e
 
   ```dart
     return MaterialApp(
-      localizationsDelegates: const [
-        ...GlobalMaterialLocalizations.delegates,
-        ...PhoneFieldLocalization.delegates, 
-      ], 
+      localizationsDelegates: PhoneFieldLocalization.delegates,
         supportedLocales: [ 
         const Locale('en', ''), 
         const Locale('es', ''), 
@@ -172,6 +168,8 @@ This package uses the `flutter_country_selector` package under the hood, which e
       ],
   ```
 
+  `PhoneFieldLocalization.delegates` holds [`material_ui`](https://pub.dev/packages/material_ui)'s `GlobalMaterialLocalizations.delegates`, as recommended by its [migration guide](https://pub.dev/packages/material_ui#step-2-migrate-localizations-if-needed). This package is built on `material_ui` (decoupled from the framework in Flutter 3.47.0), whose `MaterialLocalizations` is a distinct type from the framework one: the generated `PhoneFieldLocalizationImpl.localizationsDelegates` holds the `flutter_localizations` delegates and throws `No MaterialLocalizations found.` for non english locales.
+
   That's it.
 
   
@@ -179,6 +177,7 @@ This package uses the `flutter_country_selector` package under the hood, which e
 
   - ar
   - ca
+  - ckb
   - cs
   - de
   - el
@@ -190,21 +189,26 @@ This package uses the `flutter_country_selector` package under the hood, which e
   - hi
   - hu
   - it
+  - ja
   - ko
+  - ku
   - nb
   - nl
+  - pl
   - pt
   - ro
   - ru
   - sk
   - sv
+  - th
   - tr
   - uk
+  - ur
   - uz
   - vi
   - zh
   
-If one of the language you target is not supported you can submit a pull request in flutter_country_selector and phone_form_field repositories.
+If one of the language you target is not supported you can submit a pull request in the phone_form_field repository.
 
 
 # Overwriting or adding custom flags

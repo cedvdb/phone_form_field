@@ -22,6 +22,20 @@ jobs:
           channel: "stable"
       - run: flutter --version
 
+      # Dependencies must be resolved before formatting: without the package
+      # config, `dart format` cannot read the language version (which selects
+      # the formatting style) nor the analysis_options include, and reports
+      # nearly every file as changed.
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Install example dependencies
+        run: flutter pub get
+        working-directory: ./example
+
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed lib test example
+
       - name: Analyze project source
         run: flutter analyze
 

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:flutter_country_selector/flutter_country_selector.dart';
+import 'package:phone_form_field/country_selector.dart';
 
 abstract class CountrySelectorNavigator {
   final List<IsoCode>? countries;
@@ -22,9 +22,6 @@ abstract class CountrySelectorNavigator {
   const CountrySelectorNavigator({
     this.countries,
     this.favorites,
-    @Deprecated('This is always on, this can be safely removed')
-    bool addSeparator = true,
-    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
     bool? showDialCode,
     this.sortCountries = false,
     this.noResultMessage,
@@ -38,10 +35,7 @@ abstract class CountrySelectorNavigator {
     this.scrollPhysics,
     this.flagSize = 40,
     this.useRootNavigator = true,
-  }) : showDialCode = showDialCode ?? showCountryCode ?? true;
-
-  @Deprecated('Use [show] instead')
-  Future<IsoCode?> navigate(BuildContext context) => show(context);
+  }) : showDialCode = showDialCode ?? true;
 
   Future<IsoCode?> show(BuildContext context);
 
@@ -82,9 +76,6 @@ abstract class CountrySelectorNavigator {
     double? width,
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
-    @Deprecated('This is always on, this can be safely removed')
-    bool addSeparator,
-    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
     bool? showDialCode,
     bool sortCountries,
     String? noResultMessage,
@@ -101,9 +92,6 @@ abstract class CountrySelectorNavigator {
   const factory CountrySelectorNavigator.page({
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
-    @Deprecated('This is always on, this can be safely removed')
-    bool addSeparator,
-    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
     bool? showDialCode,
     bool sortCountries,
     String? noResultMessage,
@@ -113,16 +101,11 @@ abstract class CountrySelectorNavigator {
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
     ScrollPhysics? scrollPhysics,
-    @Deprecated('Use [Theme] instead to wrap the input, this has no effetct')
-    ThemeData? appBarTheme,
   }) = PageNavigator._;
 
   const factory CountrySelectorNavigator.bottomSheet({
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
-    @Deprecated('This is always on, this can be safely removed')
-    bool addSeparator,
-    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
     bool? showDialCode,
     bool sortCountries,
     String? noResultMessage,
@@ -140,9 +123,6 @@ abstract class CountrySelectorNavigator {
     double? height,
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
-    @Deprecated('This is always on, this can be safely removed')
-    bool addSeparator,
-    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
     bool? showDialCode,
     bool sortCountries,
     String? noResultMessage,
@@ -163,9 +143,6 @@ abstract class CountrySelectorNavigator {
     BorderRadiusGeometry? borderRadius,
     List<IsoCode>? countries,
     List<IsoCode>? favorites,
-    @Deprecated('This is always on, this can be safely removed')
-    bool addSeparator,
-    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
     bool? showDialCode,
     double flagSize,
     bool sortCountries,
@@ -178,6 +155,7 @@ abstract class CountrySelectorNavigator {
     TextStyle? searchBoxTextStyle,
     Color? searchBoxIconColor,
     ScrollPhysics? scrollPhysics,
+    bool useRootNavigator,
   }) = DraggableModalBottomSheetNavigator._;
 }
 
@@ -190,10 +168,7 @@ class DialogNavigator extends CountrySelectorNavigator {
     this.height,
     super.countries,
     super.favorites,
-    @Deprecated('This is always on, this can be safely removed')
-    super.addSeparator,
-    @Deprecated('Use [showDialCode] instead') bool? showCountryCode,
-    bool? showDialCode,
+    super.showDialCode,
     super.sortCountries,
     super.noResultMessage,
     super.searchAutofocus = kIsWeb,
@@ -230,9 +205,7 @@ class PageNavigator extends CountrySelectorNavigator {
   const PageNavigator._({
     super.countries,
     super.favorites,
-    super.addSeparator,
     super.showDialCode,
-    super.showCountryCode,
     super.sortCountries,
     super.noResultMessage,
     super.searchAutofocus = kIsWeb,
@@ -242,11 +215,7 @@ class PageNavigator extends CountrySelectorNavigator {
     super.searchBoxTextStyle,
     super.searchBoxIconColor,
     super.scrollPhysics,
-    @Deprecated('Use [Theme] instead to wrap the input, this has no effetct')
-    this.appBarTheme,
   });
-
-  final ThemeData? appBarTheme;
 
   Localizations _getCountrySelectorPage({
     required ValueChanged<IsoCode> onCountrySelected,
@@ -268,6 +237,10 @@ class PageNavigator extends CountrySelectorNavigator {
           showDialCode: showDialCode,
           titleStyle: titleStyle,
           subtitleStyle: subtitleStyle,
+          searchBoxDecoration: searchBoxDecoration,
+          searchBoxTextStyle: searchBoxTextStyle,
+          searchBoxIconColor: searchBoxIconColor,
+          scrollPhysics: scrollPhysics,
         ),
       ),
     );
@@ -292,9 +265,7 @@ class BottomSheetNavigator extends CountrySelectorNavigator {
   const BottomSheetNavigator._({
     super.countries,
     super.favorites,
-    super.addSeparator,
     super.showDialCode,
-    super.showCountryCode,
     super.sortCountries,
     super.noResultMessage,
     super.searchAutofocus = kIsWeb,
@@ -339,9 +310,7 @@ class ModalBottomSheetNavigator extends CountrySelectorNavigator {
     this.height,
     super.countries,
     super.favorites,
-    super.addSeparator,
     super.showDialCode,
-    super.showCountryCode,
     super.sortCountries,
     super.noResultMessage,
     super.searchAutofocus = kIsWeb,
@@ -386,9 +355,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
     this.borderRadius,
     super.countries,
     super.favorites,
-    super.addSeparator,
     super.showDialCode,
-    super.showCountryCode,
     super.sortCountries,
     super.flagSize,
     super.noResultMessage,
@@ -400,7 +367,7 @@ class DraggableModalBottomSheetNavigator extends CountrySelectorNavigator {
     super.searchBoxIconColor,
     super.scrollPhysics,
     super.backgroundColor,
-    bool useRootNavigator = true,
+    super.useRootNavigator = true,
   });
 
   @override

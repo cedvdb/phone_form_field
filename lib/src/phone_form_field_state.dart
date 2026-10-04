@@ -255,10 +255,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     // supports both, fixed and mobile numbers we need to get the max of them
 
     final maxMobileLengthForSelectedIso =
-        metadataLenghtsByIsoCode[isoCode]?.mobile.last;
+        metadataLengthsByIsoCode[isoCode]?.mobile.last;
 
     final maxFixedLengthForSelectedIso =
-        metadataLenghtsByIsoCode[isoCode]?.fixedLine.last;
+        metadataLengthsByIsoCode[isoCode]?.fixedLine.last;
 
     if (maxMobileLengthForSelectedIso == null &&
         maxFixedLengthForSelectedIso == null) {

@@ -1,5 +1,12 @@
-## [11.0.2]
-- Add Romanian localization
+## [12.0.0]
+
+- [Breaking]: The [flutter_country_selector](https://github.com/cedvdb/flutter_country_selector) package has been merged into this one. The country selector sources, arbs and generated localizations live here now, which removes the dependency this package had on `flutter_country_selector` and the lockstep releases it required (both packages always had to be published together). `flutter_country_selector` 3.0.0 is a thin re-export of `package:phone_form_field/country_selector.dart`; the dependency graph of your application does not change as `phone_form_field` 11.x already pulled that package in.
+- [Breaking]: Removed the members deprecated in the 10.x series: `CountrySelectorNavigator.addSeparator` (it was always on), `CountrySelectorNavigator.showCountryCode` (use `showDialCode`), `CountrySelectorNavigator.appBarTheme` (wrap the input in a `Theme` instead), `CountrySelectorNavigator.navigate` (use `show`), `CountryChip` (use `CountryButton`), `PhoneFormField.textAlign` (it had no effect, change the text directionality instead) and `PhoneValidator.none` (pass `null` as `validator`).
+- The country names of the selector are now part of the phone field arbs, so 32 locales are supported by the country selector. They fall back to english for the countries that are not translated.
+- Fixed `CountrySelectorNavigator.dialog()` ignoring its `showDialCode` parameter.
+- Fixed `CountrySelectorNavigator.page()` ignoring its `searchBoxDecoration`, `searchBoxTextStyle`, `searchBoxIconColor` and `scrollPhysics` parameters.
+- `CountrySelectorNavigator.draggableBottomSheet()` now accepts `useRootNavigator` (it was stored internally but could never be set).
+- Added Romanian localization
 - Added Japanese and Thai translations
 
 
