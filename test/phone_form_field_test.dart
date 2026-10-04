@@ -990,4 +990,28 @@ void main() {
       });
     });
   });
+
+  group('PhoneFieldLocalization.delegates', () {
+    testWidgets(
+      'Should provide the material_ui localizations for non english locales',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            locale: const Locale('fr'),
+            supportedLocales: const [Locale('en'), Locale('fr')],
+            localizationsDelegates: PhoneFieldLocalization.delegates,
+            home: Scaffold(
+              body: CountrySelector.page(
+                onCountrySelected: (c) {},
+                favoriteCountries: const [IsoCode.FR],
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('France'), findsOneWidget);
+      },
+    );
+  });
 }

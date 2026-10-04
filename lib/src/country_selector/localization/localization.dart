@@ -9,12 +9,11 @@ export '../../localization/generated/phone_field_localization_impl.dart'
 export '../../localization/generated/phone_field_localization_impl_en.dart'
     show PhoneFieldLocalizationImplEn;
 
-/// The country selector strings now live in [PhoneFieldLocalizationImpl]
-/// together with the phone field strings: both packages always shared a single
-/// l10n setup (same arbs layout, same template), so folding them together keeps
-/// one delegate and one generated class.
+/// The country selector strings, aliased to [PhoneFieldLocalizationImpl] so that
+/// `CountrySelectorLocalization.of(context)` and `.delegate` keep working.
 ///
-/// Use [PhoneFieldLocalization.delegates] to wire the localizations delegates.
+/// Wire `PhoneFieldLocalization.delegates` in
+/// `MaterialApp.localizationsDelegates`
 typedef CountrySelectorLocalization = PhoneFieldLocalizationImpl;
 
 /// Convenience alias for the english implementation, see

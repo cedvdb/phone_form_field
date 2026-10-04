@@ -7,10 +7,10 @@ abstract class PhoneFieldLocalization {
   /// The localizations delegates needed by the phone field and by the country
   /// selector.
   ///
-  /// The material, cupertino and widgets delegates are the ones shipped by
-  /// `material_ui` rather than the ones from `flutter_localizations`: both
-  /// widgets are built on material_ui, whose [MaterialLocalizations.of] asserts
-  /// that the localizations it finds are its own.
+  /// Prefer these over the generated
+  /// `PhoneFieldLocalizationImpl.localizationsDelegates`: the widgets are built
+  /// on `material_ui`, and only these carry the `material_ui`
+  /// `MaterialLocalizations` they read.
   static const Set<LocalizationsDelegate> delegates = {
     ...GlobalMaterialLocalizations.delegates,
     PhoneFieldLocalizationImpl.delegate,

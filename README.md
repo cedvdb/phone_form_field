@@ -169,6 +169,8 @@ This package bundles the country selector: use `PhoneFieldLocalization.of(contex
       ],
   ```
 
+  `PhoneFieldLocalization.delegates` holds [`material_ui`](https://pub.dev/packages/material_ui)'s `GlobalMaterialLocalizations.delegates`, as recommended by its [migration guide](https://pub.dev/packages/material_ui#step-2-migrate-localizations-if-needed). This package is built on `material_ui` (decoupled from the framework in Flutter 3.47.0), whose `MaterialLocalizations` is a distinct type from the framework one: the generated `PhoneFieldLocalizationImpl.localizationsDelegates` holds the `flutter_localizations` delegates and throws `No MaterialLocalizations found.` for non english locales.
+
   That's it.
 
   
