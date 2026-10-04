@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 import 'country_selector_controller.dart';
+import 'localization/localization.dart';
 
 abstract class CountrySelectorBase extends StatefulWidget {
   /// List of countries to display in the selector
@@ -77,24 +78,36 @@ abstract class CountrySelectorBase extends StatefulWidget {
 
 abstract class CountrySelectorBaseState<W extends CountrySelectorBase>
     extends State<W> {
-  late CountrySelectorController controller;
+  CountrySelectorController? _controller;
   String searchText = '';
+
+  /// The controller backing the country list.
+  ///
+  /// It is rebuilt in [didChangeDependencies] so that the country names
+  /// follow the current localization.
+  CountrySelectorController get controller => _controller!;
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
-    controller = CountrySelectorController(
-      context,
-      widget.countries,
-      widget.favoriteCountries,
+    final localization = CountrySelectorLocalization.of(context) ??
+        CountrySelectorLocalizationEn();
+    final previousController = _controller;
+    _controller = CountrySelectorController.fromLocalization(
+      countries: widget.countries,
+      favorites: widget.favoriteCountries,
+      localization: localization,
     );
-    // language might have changed
+    // the previous controller is now unused, dispose it so that it does not
+    // linger around after a localization change
+    previousController?.dispose();
+    // language might have changed, re-apply the current search
     controller.search(searchText);
   }
 
@@ -104,9 +117,14 @@ abstract class CountrySelectorBaseState<W extends CountrySelectorBase>
     searchText = searchedText;
   }
 
-  /// when the user press enter in the checkbox
+  /// when the user press enter in the search box, select the first matching
+  /// country, favorites first
   void onSubmitted() {
-    final first = controller.findFirst();
+    final favorites = controller.filteredFavorites;
+    final countries = controller.filteredCountries;
+    final first = favorites.isNotEmpty
+        ? favorites.first
+        : (countries.isNotEmpty ? countries.first : null);
     if (first != null) {
       widget.onCountrySelected(first.isoCode);
     }
