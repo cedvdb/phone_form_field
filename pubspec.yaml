@@ -12,16 +12,16 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl: ">=0.18.0 <=1.0.0"
-  diacritic: ^0.1.5
+  intl: ">=0.20.3 <=1.0.0"
+  diacritic: ^0.1.6
   circle_flags: ^7.0.0
-  material_ui: ^1.0.0
+  material_ui: ^1.5.0
   phone_numbers_parser: ^9.0.28
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  leak_tracker_flutter_testing: any
+  leak_tracker_flutter_testing: ^3.0.10
   flutter_lints: ^6.0.0
 
 flutter:
