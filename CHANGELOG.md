@@ -1,4 +1,7 @@
 
+## [12.1.0]
+- Added `CountryButtonStyle.suffix` (and `CountryButton.suffix`), a widget displayed at the end of the country button, after the dropdown icon. Use `CountryButtonStyle(suffix: VerticalDivider())` to separate the country button from the phone number, the divider is as tall as the flag and dial code. With `showDropdownIcon: false` it can also be used to display a custom dropdown icon.
+
 ## [12.0.1]
 - Added `PhoneFieldLocalization.delegate` and `PhoneFieldLocalization.supportedLocales`.
 

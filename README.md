@@ -101,6 +101,25 @@ controller.dispose();
 | `decoration` | `InputDecoration()` | The standard `TextField` decoration |
 | ... | | All the `TextField` and `FormField` parameters are forwarded |
 
+### Separator between the country button and the number
+
+`CountryButtonStyle.suffix` displays a widget at the end of the country button,
+after the dropdown icon. A `VerticalDivider` separates the button from the
+phone number and is as tall as the flag and dial code:
+
+```dart
+PhoneFormField(
+  countryButtonStyle: const CountryButtonStyle(
+    suffix: VerticalDivider(),
+  ),
+);
+```
+
+Customize it with its own parameters, for example
+`VerticalDivider(width: 24, indent: 2, endIndent: 2)`. The suffix is part of
+the button, tapping it opens the country selector, and it is always placed on
+the side of the phone number, whatever the text direction.
+
 ### Preloading flags
 
 On the web the flags are assets downloaded on demand, which can cause a flash

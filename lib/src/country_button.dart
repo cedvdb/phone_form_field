@@ -16,6 +16,9 @@ class CountryButton extends StatelessWidget {
   final Color? dropdownIconColor;
   final bool enabled;
 
+  /// {@macro phone_form_field.CountryButtonStyle.suffix}
+  final Widget? suffix;
+
   const CountryButton({
     super.key,
     required this.isoCode,
@@ -30,6 +33,7 @@ class CountryButton extends StatelessWidget {
     this.dropdownIconColor,
     this.enabled = true,
     this.borderRadius,
+    this.suffix,
   });
 
   @override
@@ -41,6 +45,61 @@ class CountryButton extends StatelessWidget {
         CountrySelectorLocalizationEn();
     final countryDialCode = '+ ${countryLocalization.countryDialCode(isoCode)}';
     final countryName = countryLocalization.countryName(isoCode);
+    final suffix = this.suffix;
+
+    Widget content = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        if (showIsoCode) ...[
+          Text(
+            isoCode.name,
+            style: textStyle.copyWith(
+              color: enabled ? null : Theme.of(context).disabledColor,
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
+        if (showFlag) ...[
+          GrayScale(
+            visible: !enabled,
+            child: CircleFlag(
+              isoCode.name,
+              size: flagSize,
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
+        if (showDialCode) ...[
+          Text(
+            countryDialCode,
+            style: textStyle.copyWith(
+              color: enabled ? null : Theme.of(context).disabledColor,
+            ),
+          ),
+        ],
+        if (showDropdownIcon)
+          Icon(
+            Icons.arrow_drop_down,
+            color: dropdownIconColor,
+          ),
+        if (suffix != null) suffix,
+      ],
+    );
+
+    if (suffix != null) {
+      // Sizes the row to the height of its content, so that a suffix such as
+      // a VerticalDivider is as tall as the flag, dial code and icon. Without
+      // it, the divider would either collapse (unbounded height) or be as tall
+      // as the max height. The Align removes the min height imposed by the
+      // parent (eg: the 48px box of InputDecoration.prefixIcon) while keeping
+      // the size and alignment the button has without a suffix.
+      content = Align(
+        alignment: AlignmentDirectional.centerStart,
+        widthFactor: 1.0,
+        heightFactor: 1.0,
+        child: IntrinsicHeight(child: content),
+      );
+    }
 
     return Semantics(
       label: '$countryName $countryDialCode',
@@ -51,43 +110,7 @@ class CountryButton extends StatelessWidget {
         borderRadius: borderRadius,
         child: Padding(
           padding: padding,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              if (showIsoCode) ...[
-                Text(
-                  isoCode.name,
-                  style: textStyle.copyWith(
-                    color: enabled ? null : Theme.of(context).disabledColor,
-                  ),
-                ),
-                const SizedBox(width: 8),
-              ],
-              if (showFlag) ...[
-                GrayScale(
-                  visible: !enabled,
-                  child: CircleFlag(
-                    isoCode.name,
-                    size: flagSize,
-                  ),
-                ),
-                const SizedBox(width: 8),
-              ],
-              if (showDialCode) ...[
-                Text(
-                  countryDialCode,
-                  style: textStyle.copyWith(
-                    color: enabled ? null : Theme.of(context).disabledColor,
-                  ),
-                ),
-              ],
-              if (showDropdownIcon)
-                Icon(
-                  Icons.arrow_drop_down,
-                  color: dropdownIconColor,
-                ),
-            ],
-          ),
+          child: content,
         ),
       ),
     );
