@@ -1,4 +1,7 @@
 
+## [12.1.0]
+- Added `CountryButtonStyle.suffix` to display a widget after the dropdown icon, eg: a `VerticalDivider` separating the country button from the phone number.
+
 ## [12.0.1]
 - Added `PhoneFieldLocalization.delegate` and `PhoneFieldLocalization.supportedLocales`.
 
