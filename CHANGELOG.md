@@ -1,4 +1,7 @@
 
+## [12.0.2]
+- Fixed the phone number being displayed right to left in RTL locales.
+
 ## [12.0.1]
 - Added `PhoneFieldLocalization.delegate` and `PhoneFieldLocalization.supportedLocales`.
 
