@@ -49,6 +49,20 @@ The key lives in `secrets.GEMINI_API_KEY` and not under a neutral name because t
 reader has to go to find it; pointing the reviewer somewhere else means changing both the endpoint
 and that one line of the workflow.
 
+## Reviewing a pull request on demand
+
+The bot starts on four events — opened, pushed to, reopened, marked ready — which means a pull
+request that was already open when this landed is never read. Ask for it by number:
+
+```shell
+gh workflow run review.yml -f pr=355
+gh run watch $(gh run list --workflow=review.yml --limit=1 --json databaseId --jq '.[0].databaseId')
+```
+
+It writes the same one comment and the same one label, so asking twice costs nothing and replaces
+the earlier answer rather than adding a second opinion. The workflow has to be on the default branch
+for GitHub to accept the dispatch, and a dispatched run skips the draft and bot filters: you asked.
+
 ## Merging automatically, if you want it
 
 Off by default, and silent about it: `ai:accepted` is applied either way, so the bot is useful

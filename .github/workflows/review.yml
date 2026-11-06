@@ -35,9 +35,18 @@ name: Review
 on:
   pull_request_target:
     types: [opened, synchronize, reopened, ready_for_review]
+  # For a pull request that was already open when this landed, or one that deserves a second look:
+  # `gh workflow run review.yml -f pr=355`. It runs the same base-branch code with the same secret,
+  # which is why dispatch needs write access and why the checks below still apply.
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: The number of the pull request to review
+        required: true
+        type: string
 
 concurrency:
-  group: review-${{ github.event.pull_request.number }}
+  group: review-${{ inputs.pr || github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
@@ -49,35 +58,53 @@ jobs:
   review:
     name: Read the change against the rules
     # A draft is not asking to be read, and a bot is not the audience (Dependabot's pull requests
-    # would otherwise be told they are missing a test).
+    # would otherwise be told they are missing a test). A dispatched run is explicit, so it skips
+    # this: the maintainer already decided it is worth reading.
     if: >-
-      github.event.pull_request.draft == false &&
-      github.event.pull_request.user.type != 'Bot'
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.draft == false &&
+       github.event.pull_request.user.type != 'Bot')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
       GH_TOKEN: ${{ github.token }}
       REPO: ${{ github.repository }}
-      PR: ${{ github.event.pull_request.number }}
-      BASE: ${{ github.event.pull_request.base.ref }}
+      PR_NUMBER: ${{ inputs.pr || github.event.pull_request.number }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.base.sha }}
+          ref: ${{ github.event.pull_request.base.sha || github.event.repository.default_branch }}
           persist-credentials: false
 
-      # The whole safety of this trigger in one assertion: if the tree ever stops being the base
-      # branch's, the job stops rather than running something a fork wrote.
+      # The whole safety of the `pull_request_target` trigger in one assertion: the tree has to be
+      # the base commit, never the fork's. A dispatched run has no pull request in its event, so
+      # there is nothing to compare against and the checkout already took the default branch.
       - name: Check that this is the base branch, not the fork
         env:
           EXPECTED: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
           got=$(git rev-parse HEAD)
-          if [ "$got" != "$EXPECTED" ]; then
-            echo "::error title=Wrong tree::This job runs the base branch's scripts, but the tree is $got instead of $EXPECTED. Remove any checkout of the pull request's head."
+          if [ -n "${HEAD_SHA:-}" ] && [ "$got" = "$HEAD_SHA" ]; then
+            echo "::error title=Wrong tree::The tree is the pull request's head ($HEAD_SHA). This job runs the base branch's scripts."
             exit 1
           fi
+          if [ -n "${EXPECTED:-}" ] && [ "$got" != "$EXPECTED" ]; then
+            echo "::error title=Wrong tree::Expected the base commit $EXPECTED, the tree is $got. Remove any checkout of the pull request's head."
+            exit 1
+          fi
+
+      # Both triggers end here, so everything below reads `$PR` and `$BASE` and does not care which
+      # way the run was started.
+      - name: Resolve the pull request
+        run: |
+          set -euo pipefail
+          pr=$(gh pr view "$PR_NUMBER" --repo "$REPO" --json number --jq .number)
+          base=$(gh pr view "$PR_NUMBER" --repo "$REPO" --json baseRefName --jq .baseRefName)
+          echo "PR=$pr" >> "$GITHUB_ENV"
+          echo "BASE=$base" >> "$GITHUB_ENV"
+          echo "reviewing #$pr against $base"
 
       # The bot's own rules are unit-tested before they are allowed to label anything: a broken
       # guard should be a red step in front of the maintainer, not a wrong verdict on a stranger's
