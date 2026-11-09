@@ -49,6 +49,11 @@ The key lives in `secrets.GEMINI_API_KEY` and not under a neutral name because t
 reader has to go to find it; pointing the reviewer somewhere else means changing both the endpoint
 and that one line of the workflow.
 
+Before the change is sent, a **one-word request** goes to the endpoint, with the same key and model.
+A wrong key, a model the key cannot see and a very slow answer all used to look the same — minutes of
+silence and `curl: (28)` — and now the log says which one it is within seconds, with the connect and
+first-byte timings beside it.
+
 ## Reviewing a pull request on demand
 
 The bot starts on four events — opened, pushed to, reopened, marked ready — which means a pull

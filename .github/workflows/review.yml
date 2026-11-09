@@ -163,6 +163,54 @@ jobs:
           add 'ai:out-of-scope'      'Read by the review bot: belongs in another repository'    b60205
           add 'ai:needs-review'      'Read by the review bot: it could not decide, a human should' 6e7781
 
+      # A one-word request first. Without it a wrong key, an unknown model and a slow answer all look
+      # the same — three minutes of silence — and the log says only that curl gave up. This asks the
+      # cheapest possible question, so the failure names itself in seconds.
+      - name: Can the reviewer be reached?
+        id: ping
+        if: steps.configured.outputs.yes == 'true'
+        env:
+          KEY: ${{ secrets.GEMINI_API_KEY }}
+          ENDPOINT: ${{ vars.REVIEW_ENDPOINT || 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions' }}
+          MODEL: ${{ vars.REVIEW_MODEL || 'gemini-3.8-flash' }}
+        run: |
+          set -euo pipefail
+          echo 'ok=false' >> "$GITHUB_OUTPUT"
+
+          jq -n --arg model "$MODEL" \
+                '{model: $model, max_tokens: 16, messages: [
+                   {role: "user", content: "Reply with the single word: ready"}
+                 ]}' > "$RUNNER_TEMP/ping.json"
+
+          if ! curl -sS --connect-timeout 10 --max-time 30 \
+                 -o "$RUNNER_TEMP/ping-response.json" \
+                 -w 'ping: %{http_code} in %{time_total}s (connect %{time_connect}, tls %{time_appconnect}, first byte %{time_starttransfer})\n' \
+                 -H "Authorization: Bearer $KEY" \
+                 -H 'content-type: application/json' \
+                 --data @"$RUNNER_TEMP/ping.json" "$ENDPOINT"; then
+            echo '::warning title=The reviewer could not be reached::The endpoint did not answer a one-word request, so the change was not sent to it. Check secrets.GEMINI_API_KEY and vars.REVIEW_MODEL.'
+            exit 0
+          fi
+
+          error=$(jq -r 'if .error then (.error.message // (.error | tostring)) else empty end' \
+                    "$RUNNER_TEMP/ping-response.json" 2>/dev/null || true)
+          if [ -n "$error" ]; then
+            echo "::warning title=The reviewer refused a one-word request::$error"
+            exit 0
+          fi
+
+          answer=$(jq -r '.choices[0].message.content // empty' "$RUNNER_TEMP/ping-response.json" 2>/dev/null || true)
+          finish=$(jq -r '.choices[0].finish_reason // "none"' "$RUNNER_TEMP/ping-response.json" 2>/dev/null || true)
+          if [ -z "$answer" ]; then
+            # A thinking model can spend the whole budget before it says anything, which looks like
+            # this: a 200 with no content and `finish_reason: length`.
+            echo "::warning title=The reviewer answered with no text::The endpoint returned 200 with an empty message (finish_reason: $finish). A larger max_tokens, or a model that does not think first, is the fix."
+            exit 0
+          fi
+
+          echo "the reviewer answered: $answer"
+          echo 'ok=true' >> "$GITHUB_OUTPUT"
+
       # The prompt is a file, so there is one copy of it and it reads as prose. The change is
       # gathered here rather than fetched by the model, so the question is the same on every run —
       # ordered, and capped, because a diff with thirty `.arb` files in it is not worth paying for.
@@ -175,7 +223,7 @@ jobs:
 
       - name: Ask
         id: ask
-        if: steps.configured.outputs.yes == 'true'
+        if: steps.ping.outputs.ok == 'true'
         env:
           KEY: ${{ secrets.GEMINI_API_KEY }}
           ENDPOINT: ${{ vars.REVIEW_ENDPOINT || 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions' }}
@@ -184,28 +232,32 @@ jobs:
           set -euo pipefail
           echo 'answered=false' >> "$GITHUB_OUTPUT"
 
+          # `max_tokens` is generous on purpose: a Flash line thinks before it answers, and a budget
+          # that only covers the answer comes back empty. It caps what the model may write; it does
+          # not ask it to write that much, because the prompt asks for a few hundred words of JSON.
           jq -n --arg model "$MODEL" \
                 --rawfile rules .github/agent/review-prompt.md \
                 --rawfile change "$RUNNER_TEMP/change.md" \
-                '{model: $model, temperature: 0, max_tokens: 2000, messages: [
+                '{model: $model, temperature: 0, max_tokens: 4000, messages: [
                    {role: "system", content: $rules},
                    {role: "user", content: $change}
                  ]}' > "$RUNNER_TEMP/request.json"
 
-          if ! curl -sS --max-time 180 -o "$RUNNER_TEMP/response.json" \
+          if ! curl -sS --connect-timeout 15 --max-time 300 \
+                 -o "$RUNNER_TEMP/response.json" -w 'the endpoint answered %{http_code} in %{time_total}s (connect %{time_connect}, tls %{time_appconnect}, first byte %{time_starttransfer})\n' \
                  -H "Authorization: Bearer $KEY" \
                  -H 'content-type: application/json' \
                  --data @"$RUNNER_TEMP/request.json" "$ENDPOINT"; then
-            echo '::warning title=The reviewer could not reach the endpoint::Nothing was posted. Check vars.REVIEW_ENDPOINT, and whether the runner can reach it.'
+            echo '::warning title=The reviewer could not be reached::The endpoint did not answer. Check vars.REVIEW_ENDPOINT, and whether the runner can reach it.'
             exit 0
           fi
 
-          answer="$(jq -r '.choices[0].message.content // empty' "$RUNNER_TEMP/response.json")"
+          answer="$(jq -r '.choices[0].message.content // empty' "$RUNNER_TEMP/response.json" 2>/dev/null || true)"
           if [ -z "$answer" ]; then
-            # An expired key, or a request the model refused, looks like this. An annotation and not
-            # a failed job on purpose: a reviewer that turns a pull request red has become a gate,
-            # and this is not one.
-            echo "::warning title=The reviewer returned nothing::$(jq -c '.error // .' "$RUNNER_TEMP/response.json" | head -c 300)"
+            # An expired key, a model the key cannot see, or a request the model refused looks like
+            # this. An annotation and not a failed job on purpose: a reviewer that turns a pull
+            # request red has become a gate, and this is not one.
+            echo "::warning title=The reviewer returned nothing::$(jq -c '.error // .' "$RUNNER_TEMP/response.json" 2>/dev/null | head -c 300)"
             exit 0
           fi
           echo 'answered=true' >> "$GITHUB_OUTPUT"
