@@ -52,16 +52,30 @@ and that one line of the workflow.
 ## Reviewing a pull request on demand
 
 The bot starts on four events — opened, pushed to, reopened, marked ready — which means a pull
-request that was already open when this landed is never read. Ask for it by number:
+request that was already open when this landed is never read. Two ways to ask:
 
 ```shell
+# a comment on the pull request, starting with the word
+/review
+```
+
+```shell
+# or by number, from the Actions tab or a script
 gh workflow run review.yml -f pr=355
 gh run watch $(gh run list --workflow=review.yml --limit=1 --json databaseId --jq '.[0].databaseId')
 ```
 
-It writes the same one comment and the same one label, so asking twice costs nothing and replaces
-the earlier answer rather than adding a second opinion. The workflow has to be on the default branch
-for GitHub to accept the dispatch, and a dispatched run skips the draft and bot filters: you asked.
+Both write the same one comment and the same one label, so asking twice costs nothing and replaces
+the earlier answer rather than adding a second opinion. A `/review` comment gets a 👀 reaction when
+the run starts, because the answer takes a minute.
+
+The comment form only listens to `OWNER`, `MEMBER` and `COLLABORATOR` — anyone can comment on a
+public repository, and an unguarded `/review` would be an open model endpoint that posts on other
+people's pull requests. The dispatch form is limited to write access by GitHub itself, and the
+workflow has to be on the default branch for it to be accepted.
+
+Neither form reads the pull request's tree: the checkout is the base branch, and the command is a
+request for a reading, not a way to run anything.
 
 ## Merging automatically, if you want it
 

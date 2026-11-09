@@ -19,6 +19,10 @@ name: Review
 # applies one label. Merging is off unless `vars.AUTO_MERGE` says otherwise — see
 # `.github/agent/README.md` — because an automerger with no required checks merges before CI runs.
 #
+# Three ways in: a pull request that opens or is pushed to, a comment that starts with `/review`
+# from someone with write access, and `gh workflow run review.yml -f pr=355`. All three end in the
+# same place, and none of them reads the pull request's tree.
+#
 # The call is one HTTPS request to an OpenAI-compatible endpoint. Gemini Flash is the default
 # because its free tier costs nothing and this job does not need a better model: bounded criteria, a
 # capped diff, one fixed output shape, no tool use. `vars.REVIEW_ENDPOINT` and `vars.REVIEW_MODEL`
@@ -35,9 +39,14 @@ name: Review
 on:
   pull_request_target:
     types: [opened, synchronize, reopened, ready_for_review]
-  # For a pull request that was already open when this landed, or one that deserves a second look:
-  # `gh workflow run review.yml -f pr=355`. It runs the same base-branch code with the same secret,
-  # which is why dispatch needs write access and why the checks below still apply.
+  # A comment that starts with `/review` on a pull request reads it again — the way to ask for a
+  # second look at something already open, or to re-run a review that could not reach an answer.
+  # Anyone can comment on a public repository, so the job below only listens to someone with write
+  # access; otherwise this would be an open model endpoint that also posts on other people's work.
+  issue_comment:
+    types: [created]
+  # The same thing without a comment, for a run started from the Actions tab or a script:
+  # `gh workflow run review.yml -f pr=355`.
   workflow_dispatch:
     inputs:
       pr:
@@ -46,7 +55,7 @@ on:
         type: string
 
 concurrency:
-  group: review-${{ inputs.pr || github.event.pull_request.number }}
+  group: review-${{ inputs.pr || github.event.pull_request.number || github.event.issue.number }}
   cancel-in-progress: true
 
 permissions:
@@ -58,18 +67,26 @@ jobs:
   review:
     name: Read the change against the rules
     # A draft is not asking to be read, and a bot is not the audience (Dependabot's pull requests
-    # would otherwise be told they are missing a test). A dispatched run is explicit, so it skips
-    # this: the maintainer already decided it is worth reading.
+    # would otherwise be told they are missing a test). A dispatched run is explicit, and a
+    # `/review` comment is only obeyed from someone with write access, so neither is filtered here.
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event.pull_request.draft == false &&
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request != null &&
+       github.event.issue.state == 'open' &&
+       startsWith(github.event.comment.body, '/review') &&
+       (github.event.comment.author_association == 'OWNER' ||
+        github.event.comment.author_association == 'MEMBER' ||
+        github.event.comment.author_association == 'COLLABORATOR')) ||
+      (github.event_name == 'pull_request_target' &&
+       github.event.pull_request.draft == false &&
        github.event.pull_request.user.type != 'Bot')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
       GH_TOKEN: ${{ github.token }}
       REPO: ${{ github.repository }}
-      PR_NUMBER: ${{ inputs.pr || github.event.pull_request.number }}
+      PR_NUMBER: ${{ inputs.pr || github.event.pull_request.number || github.event.issue.number }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -98,12 +115,22 @@ jobs:
       # Both triggers end here, so everything below reads `$PR` and `$BASE` and does not care which
       # way the run was started.
       - name: Resolve the pull request
+        env:
+          COMMENT: ${{ github.event.comment.id }}
         run: |
           set -euo pipefail
           pr=$(gh pr view "$PR_NUMBER" --repo "$REPO" --json number --jq .number)
           base=$(gh pr view "$PR_NUMBER" --repo "$REPO" --json baseRefName --jq .baseRefName)
           echo "PR=$pr" >> "$GITHUB_ENV"
           echo "BASE=$base" >> "$GITHUB_ENV"
+
+          # A comment that asked for the review gets an acknowledgement: the answer takes a minute,
+          # and silence for a minute reads as nothing having happened.
+          if [ -n "${COMMENT:-}" ]; then
+            gh api -X POST "repos/$REPO/issues/comments/$COMMENT/reactions" \
+              -f content=eyes >/dev/null 2>&1 || true
+          fi
+
           echo "reviewing #$pr against $base"
 
       # The bot's own rules are unit-tested before they are allowed to label anything: a broken
