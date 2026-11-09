@@ -122,7 +122,7 @@ def main(argv: list[str]) -> int:
     ]
 
     try:
-        diff = gh("pr", "diff", number)
+        diff = gh("pr", "diff", number, "--repo", repo)
     except SystemExit as error:
         print(f"warning: the diff could not be read ({error})", file=sys.stderr)
         diff = ""
