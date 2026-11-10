@@ -28,6 +28,10 @@ name: Review
 # capped diff, one fixed output shape, no tool use. `vars.REVIEW_ENDPOINT` and `vars.REVIEW_MODEL`
 # override the endpoint and the model; every provider below takes `Authorization: Bearer <key>`:
 #
+# The default is the *stable* Flash line rather than the newest one, deliberately: the newest is the
+# one most in demand, and `503 This model is currently experiencing high demand` is exactly what made
+# the first reviews return nothing.
+#
 #   Gemini      https://generativelanguage.googleapis.com/v1beta/openai/chat/completions
 #   DeepSeek    https://api.deepseek.com/chat/completions          (deepseek-chat)
 #   OpenRouter  https://openrouter.ai/api/v1/chat/completions      (whatever it lists)
@@ -88,7 +92,7 @@ jobs:
       REPO: ${{ github.repository }}
       PR_NUMBER: ${{ inputs.pr || github.event.pull_request.number || github.event.issue.number }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.base.sha || github.event.repository.default_branch }}
           persist-credentials: false
@@ -172,7 +176,7 @@ jobs:
         env:
           KEY: ${{ secrets.GEMINI_API_KEY }}
           ENDPOINT: ${{ vars.REVIEW_ENDPOINT || 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions' }}
-          MODEL: ${{ vars.REVIEW_MODEL || 'gemini-3.8-flash' }}
+          MODEL: ${{ vars.REVIEW_MODEL || 'gemini-3.6-flash' }}
         run: |
           set -euo pipefail
           echo 'ok=false' >> "$GITHUB_OUTPUT"
@@ -218,8 +222,12 @@ jobs:
           fi
 
           if [ "$CODE" != "200" ]; then
-            body=$(head -c 400 "$RUNNER_TEMP/ping-response.json" 2>/dev/null | tr '\n' ' ' || true)
-            echo "::warning title=The endpoint answered $CODE::${body:-no body} — the request reached the service and was refused, so this is not a network or configuration problem in the workflow."
+            # The message inside the body is the reason, and it is worth more than the raw JSON: the
+            # 503 that stopped the first reviews said "this model is currently experiencing high
+            # demand", which is neither the workflow nor the key being wrong.
+            reason=$(jq -r '.error.message // empty' "$RUNNER_TEMP/ping-response.json" 2>/dev/null || true)
+            [ -n "$reason" ] || reason=$(head -c 300 "$RUNNER_TEMP/ping-response.json" 2>/dev/null | tr '\n' ' ' || true)
+            echo "::warning title=The endpoint answered $CODE::${reason:-no body} — retrying later, or pointing vars.REVIEW_MODEL at another model, is the fix."
             exit 0
           fi
 
@@ -258,7 +266,7 @@ jobs:
         env:
           KEY: ${{ secrets.GEMINI_API_KEY }}
           ENDPOINT: ${{ vars.REVIEW_ENDPOINT || 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions' }}
-          MODEL: ${{ vars.REVIEW_MODEL || 'gemini-3.8-flash' }}
+          MODEL: ${{ vars.REVIEW_MODEL || 'gemini-3.6-flash' }}
           # Whichever protocol answered the one-word request; empty means curl's default.
           PROTOCOL: ${{ steps.ping.outputs.protocol }}
         run: |
@@ -293,8 +301,9 @@ jobs:
           read -r status total <<<"$line"
           echo "the endpoint answered $status in ${total}s"
           if [ "$status" != "200" ]; then
-            body=$(head -c 400 "$RUNNER_TEMP/response.json" 2>/dev/null | tr '\n' ' ' || true)
-            echo "::warning title=The endpoint answered $status::${body:-no body}"
+            reason=$(jq -r '.error.message // empty' "$RUNNER_TEMP/response.json" 2>/dev/null || true)
+            [ -n "$reason" ] || reason=$(head -c 300 "$RUNNER_TEMP/response.json" 2>/dev/null | tr '\n' ' ' || true)
+            echo "::warning title=The endpoint answered $status::${reason:-no body}"
             exit 0
           fi
 
