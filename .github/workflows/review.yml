@@ -181,8 +181,10 @@ jobs:
           set -euo pipefail
           echo 'ok=false' >> "$GITHUB_OUTPUT"
 
+          # 512 rather than 16: this model spends output tokens thinking before it says anything, and
+          # a budget of 16 is spent entirely before the first word of the answer.
           jq -n --arg model "$MODEL" \
-                '{model: $model, max_tokens: 16, messages: [
+                '{model: $model, max_tokens: 512, messages: [
                    {role: "user", content: "Reply with the single word: ready"}
                  ]}' > "$RUNNER_TEMP/ping.json"
 
@@ -241,9 +243,11 @@ jobs:
           answer=$(jq -r '.choices[0].message.content // empty' "$RUNNER_TEMP/ping-response.json" 2>/dev/null || true)
           finish=$(jq -r '.choices[0].finish_reason // "none"' "$RUNNER_TEMP/ping-response.json" 2>/dev/null || true)
           if [ -z "$answer" ]; then
-            # A thinking model can spend the whole budget before it says anything, which looks like
-            # this: a 200 with no content and `finish_reason: length`.
-            echo "::warning title=The reviewer answered with no text::The endpoint returned 200 with an empty message (finish_reason: $finish). A larger max_tokens, or a model that does not think first, is the fix."
+            # A thinking model can spend a whole small budget before it speaks: `finish_reason: length`
+            # with no text. That still proves the key, the model and the connection, which is what this
+            # probe is for, so the review is attempted with the room it actually has.
+            echo "::notice title=The reviewer answered with no text::finish_reason: $finish. The key, the model and the connection work; the review itself asks for more room."
+            echo 'ok=true' >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -273,13 +277,14 @@ jobs:
           set -euo pipefail
           echo 'answered=false' >> "$GITHUB_OUTPUT"
 
-          # `max_tokens` is generous on purpose: a Flash line thinks before it answers, and a budget
-          # that only covers the answer comes back empty. It caps what the model may write; it does
-          # not ask it to write that much, because the prompt asks for a few hundred words of JSON.
+          # `max_tokens` is generous on purpose: the model thinks before it answers, and a budget that
+          # only covers the answer comes back empty with `finish_reason: length`. 8000 is room for the
+          # thinking plus a few hundred words of JSON; it is a cap, not a request, so it costs nothing
+          # when it is not used.
           jq -n --arg model "$MODEL" \
                 --rawfile rules .github/agent/review-prompt.md \
                 --rawfile change "$RUNNER_TEMP/change.md" \
-                '{model: $model, temperature: 0, max_tokens: 4000, messages: [
+                '{model: $model, temperature: 0, max_tokens: 8000, messages: [
                    {role: "system", content: $rules},
                    {role: "user", content: $change}
                  ]}' > "$RUNNER_TEMP/request.json"
