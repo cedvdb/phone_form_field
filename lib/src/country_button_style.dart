@@ -30,6 +30,17 @@ class CountryButtonStyle {
 
   final BorderRadius? borderRadius;
 
+  /// {@template phone_form_field.CountryButtonStyle.suffix}
+  /// A widget displayed at the end of the country button, after the dropdown
+  /// icon, typically a [VerticalDivider] separating the button from the phone
+  /// number.
+  ///
+  /// The suffix is as tall as the rest of the button content and is part of
+  /// the button: tapping it opens the country selector. Its intrinsic height
+  /// is measured, so it must not contain a [LayoutBuilder].
+  /// {@endtemplate}
+  final Widget? suffix;
+
   const CountryButtonStyle({
     this.textStyle,
     this.padding,
@@ -40,6 +51,7 @@ class CountryButtonStyle {
     this.showDropdownIcon = true,
     this.dropdownIconColor,
     this.borderRadius,
+    this.suffix,
   });
 
   CountryButtonStyle copyWith({
@@ -52,6 +64,7 @@ class CountryButtonStyle {
     bool? showDropdownIcon,
     Color? dropdownIconColor,
     BorderRadius? borderRadius,
+    Widget? suffix,
   }) {
     return CountryButtonStyle(
       textStyle: textStyle ?? this.textStyle,
@@ -63,6 +76,7 @@ class CountryButtonStyle {
       showDropdownIcon: showDropdownIcon ?? this.showDropdownIcon,
       dropdownIconColor: dropdownIconColor ?? this.dropdownIconColor,
       borderRadius: borderRadius ?? this.borderRadius,
+      suffix: suffix ?? this.suffix,
     );
   }
 }

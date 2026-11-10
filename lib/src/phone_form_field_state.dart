@@ -201,6 +201,7 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
             flagSize: widget.countryButtonStyle.flagSize,
             enabled: widget.enabled,
             borderRadius: widget.countryButtonStyle.borderRadius,
+            suffix: widget.countryButtonStyle.suffix,
           ),
         ),
       ),
