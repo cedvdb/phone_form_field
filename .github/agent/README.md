@@ -54,6 +54,11 @@ A wrong key, a model the key cannot see and a very slow answer all used to look 
 silence and `curl: (28)` — and now the log says which one it is within seconds, with the connect and
 first-byte timings beside it.
 
+That request is sent over HTTP/1.1 first and over the default protocol second, and whichever answers
+is the one the real request uses. The failure this was written for was a handshake that completed and
+then received nothing at all — the shape of a proxy that mangles HTTP/2 — and asking twice costs
+nothing when the first answer arrives in under a second.
+
 ## Reviewing a pull request on demand
 
 The bot starts on four events — opened, pushed to, reopened, marked ready — which means a pull

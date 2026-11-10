@@ -182,13 +182,25 @@ jobs:
                    {role: "user", content: "Reply with the single word: ready"}
                  ]}' > "$RUNNER_TEMP/ping.json"
 
-          if ! curl -sS --connect-timeout 10 --max-time 30 \
-                 -o "$RUNNER_TEMP/ping-response.json" \
-                 -w 'ping: %{http_code} in %{time_total}s (connect %{time_connect}, tls %{time_appconnect}, first byte %{time_starttransfer})\n' \
-                 -H "Authorization: Bearer $KEY" \
-                 -H 'content-type: application/json' \
-                 --data @"$RUNNER_TEMP/ping.json" "$ENDPOINT"; then
-            echo '::warning title=The reviewer could not be reached::The endpoint did not answer a one-word request, so the change was not sent to it. Check secrets.GEMINI_API_KEY and vars.REVIEW_MODEL.'
+          # The connection is the uncertain part, not the question: one run reported
+          # `tls 0.06s, first byte 0.000000` — handshake done, not one byte back — which is what a
+          # proxy that mishandles HTTP/2 looks like. So ask twice and keep whichever answered:
+          # HTTP/1.1 first, because nothing here needs multiplexing, and the default protocol after.
+          ask() {
+            curl -sS ${1:-} --connect-timeout 10 --max-time 30 \
+              -o "$RUNNER_TEMP/ping-response.json" \
+              -w "ping over ${2}: http/%{http_version} %{http_code} in %{time_total}s (connect %{time_connect}, tls %{time_appconnect}, first byte %{time_starttransfer})\n" \
+              -H "Authorization: Bearer $KEY" \
+              -H 'content-type: application/json' \
+              --data @"$RUNNER_TEMP/ping.json" "$ENDPOINT"
+          }
+
+          if ask '--http1.1' 'HTTP/1.1'; then
+            echo 'protocol=--http1.1' >> "$GITHUB_OUTPUT"
+          elif ask '' 'the default protocol'; then
+            echo 'protocol=' >> "$GITHUB_OUTPUT"
+          else
+            echo '::warning title=The reviewer could not be reached::Neither HTTP/1.1 nor the default protocol got an answer, so the change was not sent. Check secrets.GEMINI_API_KEY, vars.REVIEW_ENDPOINT and vars.REVIEW_MODEL.'
             exit 0
           fi
 
@@ -228,6 +240,8 @@ jobs:
           KEY: ${{ secrets.GEMINI_API_KEY }}
           ENDPOINT: ${{ vars.REVIEW_ENDPOINT || 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions' }}
           MODEL: ${{ vars.REVIEW_MODEL || 'gemini-3.8-flash' }}
+          # Whichever protocol answered the one-word request; empty means curl's default.
+          PROTOCOL: ${{ steps.ping.outputs.protocol }}
         run: |
           set -euo pipefail
           echo 'answered=false' >> "$GITHUB_OUTPUT"
@@ -243,7 +257,7 @@ jobs:
                    {role: "user", content: $change}
                  ]}' > "$RUNNER_TEMP/request.json"
 
-          if ! curl -sS --connect-timeout 15 --max-time 300 \
+          if ! curl -sS ${PROTOCOL:-} --connect-timeout 15 --max-time 300 \
                  -o "$RUNNER_TEMP/response.json" -w 'the endpoint answered %{http_code} in %{time_total}s (connect %{time_connect}, tls %{time_appconnect}, first byte %{time_starttransfer})\n' \
                  -H "Authorization: Bearer $KEY" \
                  -H 'content-type: application/json' \
