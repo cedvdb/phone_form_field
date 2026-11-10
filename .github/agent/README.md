@@ -54,10 +54,14 @@ A wrong key, a model the key cannot see and a very slow answer all used to look 
 silence and `curl: (28)` — and now the log says which one it is within seconds, with the connect and
 first-byte timings beside it.
 
-That request is sent over HTTP/1.1 first and over the default protocol second, and whichever answers
-is the one the real request uses. The failure this was written for was a handshake that completed and
-then received nothing at all — the shape of a proxy that mangles HTTP/2 — and asking twice costs
-nothing when the first answer arrives in under a second.
+That request is sent over HTTP/1.1 first and over the default protocol second, and whichever answers is
+the one the real request uses. That is not a preference: on this repository's runners HTTP/1.1
+completes the handshake and then receives nothing at all, while HTTP/2 answers the same endpoint in
+the same breath — a proxy in the path, deciding per protocol.
+
+A status other than 200 is reported with the code and the first line of its body. A `503` is not a
+network fault: the request arrived and the service refused it, which is a different problem with a
+different fix.
 
 ## Reviewing a pull request on demand
 

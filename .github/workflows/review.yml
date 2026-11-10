@@ -182,17 +182,30 @@ jobs:
                    {role: "user", content: "Reply with the single word: ready"}
                  ]}' > "$RUNNER_TEMP/ping.json"
 
-          # The connection is the uncertain part, not the question: one run reported
-          # `tls 0.06s, first byte 0.000000` — handshake done, not one byte back — which is what a
-          # proxy that mishandles HTTP/2 looks like. So ask twice and keep whichever answered:
-          # HTTP/1.1 first, because nothing here needs multiplexing, and the default protocol after.
+          # The connection is the uncertain part, not the question. One run had HTTP/1.1 hang after
+          # the handshake — `tls 0.03s, first byte 0.000000` — while the default protocol answered in
+          # the same breath, so the two are asked in turn and whichever answers is the one the real
+          # request uses. HTTP/1.1 goes first only because nothing here needs multiplexing.
+          #
+          # An answer is an answer even when it is a 503: that says the transport works and the
+          # service refused, which is a different problem with a different fix, so the status is kept
+          # and reported rather than being read as an empty reply.
+          CODE=000
           ask() {
-            curl -sS ${1:-} --connect-timeout 10 --max-time 30 \
-              -o "$RUNNER_TEMP/ping-response.json" \
-              -w "ping over ${2}: http/%{http_version} %{http_code} in %{time_total}s (connect %{time_connect}, tls %{time_appconnect}, first byte %{time_starttransfer})\n" \
-              -H "Authorization: Bearer $KEY" \
-              -H 'content-type: application/json' \
-              --data @"$RUNNER_TEMP/ping.json" "$ENDPOINT"
+            local flag="$1" label="$2" line
+            CODE=000
+            if ! line=$(curl -sS ${flag:-} --connect-timeout 10 --max-time 30 \
+                         -o "$RUNNER_TEMP/ping-response.json" \
+                         -w '%{http_code} %{time_total} %{http_version} %{time_connect} %{time_appconnect} %{time_starttransfer}' \
+                         -H "Authorization: Bearer $KEY" \
+                         -H 'content-type: application/json' \
+                         --data @"$RUNNER_TEMP/ping.json" "$ENDPOINT"); then
+              echo "ping over $label: no answer"
+              return 1
+            fi
+            read -r CODE TOTAL VERSION CONNECT TLS FIRST <<<"$line"
+            echo "ping over $label: HTTP $CODE over http/$VERSION in ${TOTAL}s (connect $CONNECT, tls $TLS, first byte $FIRST)"
+            return 0
           }
 
           if ask '--http1.1' 'HTTP/1.1'; then
@@ -201,6 +214,12 @@ jobs:
             echo 'protocol=' >> "$GITHUB_OUTPUT"
           else
             echo '::warning title=The reviewer could not be reached::Neither HTTP/1.1 nor the default protocol got an answer, so the change was not sent. Check secrets.GEMINI_API_KEY, vars.REVIEW_ENDPOINT and vars.REVIEW_MODEL.'
+            exit 0
+          fi
+
+          if [ "$CODE" != "200" ]; then
+            body=$(head -c 400 "$RUNNER_TEMP/ping-response.json" 2>/dev/null | tr '\n' ' ' || true)
+            echo "::warning title=The endpoint answered $CODE::${body:-no body} — the request reached the service and was refused, so this is not a network or configuration problem in the workflow."
             exit 0
           fi
 
@@ -257,12 +276,25 @@ jobs:
                    {role: "user", content: $change}
                  ]}' > "$RUNNER_TEMP/request.json"
 
-          if ! curl -sS ${PROTOCOL:-} --connect-timeout 15 --max-time 300 \
-                 -o "$RUNNER_TEMP/response.json" -w 'the endpoint answered %{http_code} in %{time_total}s (connect %{time_connect}, tls %{time_appconnect}, first byte %{time_starttransfer})\n' \
-                 -H "Authorization: Bearer $KEY" \
-                 -H 'content-type: application/json' \
-                 --data @"$RUNNER_TEMP/request.json" "$ENDPOINT"; then
+          # `--retry` is for a busy service, not for the network: the one-word probe has already
+          # established that bytes come back, so a 429 or a 5xx here is the model's answer to a
+          # request that arrived, and a second attempt usually gets a better one.
+          if ! line=$(curl -sS ${PROTOCOL:-} --connect-timeout 15 --max-time 300 \
+                        --retry 2 --retry-delay 3 \
+                        -o "$RUNNER_TEMP/response.json" \
+                        -w '%{http_code} %{time_total}' \
+                        -H "Authorization: Bearer $KEY" \
+                        -H 'content-type: application/json' \
+                        --data @"$RUNNER_TEMP/request.json" "$ENDPOINT"); then
             echo '::warning title=The reviewer could not be reached::The endpoint did not answer. Check vars.REVIEW_ENDPOINT, and whether the runner can reach it.'
+            exit 0
+          fi
+
+          read -r status total <<<"$line"
+          echo "the endpoint answered $status in ${total}s"
+          if [ "$status" != "200" ]; then
+            body=$(head -c 400 "$RUNNER_TEMP/response.json" 2>/dev/null | tr '\n' ' ' || true)
+            echo "::warning title=The endpoint answered $status::${body:-no body}"
             exit 0
           fi
 
