@@ -21,15 +21,26 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "📦 Detected version: $VERSION"
 
-      - name: Fail if tag already exists
+      # A merge that leaves the version alone has nothing to release: the tag for that version is
+      # already there. Failing here turned every ordinary pull request into a red run on main, which
+      # is how a red X stops meaning anything — the one signal that has to stay truthful is the one
+      # that says a change is not shippable.
+      - name: Is this version already tagged?
+        id: tagged
+        env:
+          VERSION: v${{ steps.version.outputs.version }}
         run: |
-          VERSION=v${{ steps.version.outputs.version }}
+          set -euo pipefail
           if git ls-remote --tags origin | grep -q "refs/tags/$VERSION$"; then
-            echo "❌ Tag $VERSION already exists on remote. Failing workflow."
-            exit 1
+            echo "yes=true" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Nothing to release::$VERSION is already tagged, so this push does not change what ships. Bump version: in pubspec.yaml to release one."
+          else
+            echo "yes=false" >> "$GITHUB_OUTPUT"
+            echo "🆕 $VERSION is not tagged yet."
           fi
 
       - name: Check if version exists in CHANGELOG.md
+        if: steps.tagged.outputs.yes == 'false'
         run: |
           VERSION=${{ steps.version.outputs.version }}
           if ! grep -q "##\s*\[$VERSION\]" CHANGELOG.md; then
@@ -40,6 +51,7 @@ jobs:
           echo "✅ Found changelog entry for [$VERSION]"
 
       - name: Create and push tag with gh + PAT
+        if: steps.tagged.outputs.yes == 'false'
         env:
           GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           VERSION: v${{ steps.version.outputs.version }}
