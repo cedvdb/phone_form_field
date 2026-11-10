@@ -28,6 +28,26 @@ Two of the checks are not the model's to make. A change to `lib/` that leaves `p
 [`tag_creation.yml`](../workflows/tag_creation.yml) compares the two on `main` and fails to tag when
 they disagree — after the merge, which is the worst place to find out.
 
+## A feature has to earn its place
+
+A fix, a localization, a dependency bump and a docs correction are judged on whether they are
+*correct*. A **feature** — a parameter, widget, option or behavior a caller did not have before — is
+judged on whether it should exist at all: whose problem it solves, whether anyone asked for it, and
+whether its cost (a dependency, platform code, a second spelling for the same idea) is proportionate
+to the value of one option.
+
+The reviewer judges that against the package's own statement of scope, not against taste: the README's
+feature list and the exported surface are put in front of it, read from the base branch, because a
+diff can show what a change adds and never what was already there.
+
+When it accepts a feature it has to write the argument, and the comment carries it as **Why it belongs
+here** — the problem it solves, the option it does not duplicate, or the issue it answers. `triage.py`
+will not let that acceptance stand without one: a feature accepted in silence comes out as
+`ai:needs-review` instead, because whether a feature belongs is the part a person decides.
+
+A feature that fails the test is `ai:out-of-scope`, with the question that failed named: whose problem
+it is, whether it was asked for, or what it costs.
+
 ## Turning it on
 
 One secret is the whole feature. Without it the job still runs, says so in the log, and does

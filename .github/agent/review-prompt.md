@@ -22,15 +22,32 @@ written it; judge it by the rules of *this* repository.
 A sentence in the description is a **claim**, not evidence, including a ticked box in the checklist.
 Every answer below has to be grounded in the diff.
 
-1. **In scope.** The subject of this package is a phone input: the field itself, its controller and
-   state, the validators and the formatting formatters, the country selector with its search and its
-   navigators, the localized strings, and the styling parameters that are plumbed to those widgets.
-   A new locale in `l10n/`, a dependency bump for `phone_numbers_parser`, `circle_flags` or
-   `material_ui`, and a correction to `README.md` or `example/` are all in scope.
-   Out of scope: a general-purpose widget that is not about phone numbers; a second phone number
-   parser (parsing is delegated to `phone_numbers_parser` on purpose, so a parsing defect belongs
-   upstream); a redesign of the example application; a reformat or a rename with no behavior change;
-   a change to the release machinery in `.github/workflows/`.
+1. **Is it needed, and is this the place for it?** This package is a phone input and nothing else:
+   the field, its controller and state, the validators and formatters, the country selector with its
+   search and navigators, the localized strings, and the style parameters that reach those widgets.
+   *What this package already promises*, below the description, is its own statement of that scope —
+   a feature it already lists, or one that pulls against it, is the first thing to weigh.
+
+   A **feature** — a parameter, widget, option or behavior a caller did not have before — has to be
+   the answer to a problem this package has. Three questions; a "no" to any of them is `out-of-scope`,
+   with the one that failed named in `blocking`:
+
+   - **Whose problem is it?** People using a phone input, or one application's design? A knob for a
+     single app, a general-purpose widget, or a second way to do what an existing option already
+     does is the package growing without an owner.
+   - **Was it asked for?** A `Closes #…` in the description, a request the diff answers, or a case
+     the description makes and the diff supports. A feature nobody asked for and nobody can be shown
+     to want is permanent maintenance bought for nothing.
+   - **Is the cost proportionate?** A new dependency, platform code, or a second public spelling for
+     the same idea is paid by every future reader, for the value of one option.
+
+   A **fix**, a **localization**, a **dependency bump** and a **docs correction** are never judged
+   this way: they repair or translate something that already exists.
+
+   Out of scope in the plain sense too: a second phone number parser (parsing is delegated to
+   `phone_numbers_parser`, so a parsing defect belongs upstream), a redesign of the example
+   application, a reformat or rename with no behavior change, a change to the release machinery in
+   `.github/workflows/`.
 
 2. **The public surface and the version.** Anything exported from `lib/phone_form_field.dart` or
    `lib/country_selector.dart` is public. A new parameter, widget, class or enum value is a minor
@@ -91,17 +108,35 @@ no markdown inside the strings:
 ```json
 {
   "verdict": "accept",
+  "kind": "feature",
   "summary": "One sentence a maintainer can read instead of the diff.",
+  "case": "Why this belongs in this repository, in one to three sentences.",
   "blocking": ["What has to change before this can merge."],
   "suggestions": ["What is worth a look but does not block."]
 }
 ```
 
+`kind` is exactly one of: `feature` (a parameter, widget, option or behavior a caller did not have
+before), `fix` (it repairs existing behavior), `localization` (an `.arb` and its generated files),
+`docs` (prose and comments only), `chore` (CI, dependencies, the example's build).
+
+`case` is **required when `kind` is `feature` and the verdict is `accept`**, and it is an argument, not
+a compliment. It has to name at least one of:
+
+- the problem it solves and whose — this package's users, not one application;
+- the existing option it does *not* duplicate, when a similar one is already there;
+- the issue or request it answers, when the description points at one.
+
+"Useful", "nice to have", "consistent with the API" and "follows Flutter conventions" are not
+arguments; they are true of every feature and therefore choose none. **If you cannot make the
+argument, the answer is not `accept`** — say what is missing and use `out-of-scope` or
+`changes-requested`. Leave `case` empty for everything that is not a feature.
+
 `verdict` is exactly one of these three:
 
-- `accept` — in scope; the version and the changelog move with the change; there is a test where one
-  is owed; nothing in check 9 is touched. A nitpick is allowed in `suggestions` and does not stop it
-  from being accepted.
+- `accept` — in scope, and needed; the version and the changelog move with the change; there is a
+  test where one is owed; nothing in check 9 is touched; and, if it is a feature, the `case` above is
+  written. A nitpick is allowed in `suggestions` and does not stop it from being accepted.
 - `changes-requested` — in scope, but something has to change first: a missing test, a missing or
   mismatched changelog entry, a hand-edited generated file, a leaked controller, a breaking change
   without the major bump, a behavior change with no test.

@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import json
 import os
+import pathlib
 import re
 import subprocess
 import sys
@@ -94,6 +95,42 @@ def version_lines(chunk: str) -> list[str]:
         if line.startswith(("+", "-")):
             lines.append(line[:200])
     return lines
+
+
+# A diff can say what a change adds; it can never say what was already there. The reviewer is asked
+# whether a feature belongs and whether it duplicates one, so it is given the package's own statement
+# of its scope: the README's feature list and the exported surface, both read from the base branch.
+SCOPE_BUDGET = 1800
+EXPORT_BUDGET = 1500
+
+
+def what_it_promises() -> str:
+    blocks = []
+
+    try:
+        readme = pathlib.Path("README.md").read_text(encoding="utf-8")
+    except OSError:
+        readme = ""
+    found = re.search(r"(?ms)^## Features[ \t]*\n(.*?)(?=^## )", readme) if readme else None
+    if found:
+        blocks.append(found.group(1).strip()[:SCOPE_BUDGET])
+
+    exports = []
+    for name in ("lib/phone_form_field.dart", "lib/country_selector.dart"):
+        try:
+            text = pathlib.Path(name).read_text(encoding="utf-8")
+        except OSError:
+            continue
+        exports += [
+            line.strip() for line in text.splitlines() if line.strip().startswith("export ")
+        ]
+    if exports:
+        blocks.append(
+            "What `lib/` exports, which is the public surface a feature would extend:\n\n"
+            "```dart\n" + "\n".join(exports)[:EXPORT_BUDGET] + "\n```"
+        )
+
+    return "\n\n".join(blocks)
 
 
 def main(argv: list[str]) -> int:
@@ -178,7 +215,7 @@ def main(argv: list[str]) -> int:
         "diff_truncated": truncated,
         "diff_omitted": omitted,
     }
-    return _write(meta, pr, included, omitted, dropped, spent, out_md, out_meta)
+    return _write(meta, pr, included, omitted, dropped, spent, what_it_promises(), out_md, out_meta)
 
 
 def _write(
@@ -188,6 +225,7 @@ def _write(
     omitted: list[str],
     dropped: int,
     spent: int,
+    scope: str,
     out_md: str,
     out_meta: str,
 ) -> int:
@@ -217,6 +255,10 @@ Labels: {', '.join(meta['labels']) or 'none'}
 ## The description
 
 {pr.get('body') or '(no description)'}
+
+## What this package already promises
+
+{scope or '(the README and the exports could not be read)'}
 
 ## Every file the pull request touches
 

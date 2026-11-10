@@ -46,6 +46,13 @@ LABELS = {
 }
 
 TRUSTED = {"OWNER", "MEMBER", "COLLABORATOR"}
+
+# What a change is, which decides whether its existence has to be argued.
+KINDS = {"feature", "fix", "localization", "docs", "chore"}
+UNARGUED = (
+    "The reviewer accepted a feature without saying why it belongs here, and that is the part of a "
+    "feature a person decides."
+)
 MAX_ITEMS = 6
 MAX_TEXT = 240
 
@@ -195,15 +202,30 @@ def decide(meta: dict, answer: dict, env: dict) -> dict:
     if verdict not in ("accept", "changes-requested", "out-of-scope"):
         verdict = "needs-review"
 
+    kind = str(answer.get("kind", "")).strip().lower()
+    if kind not in KINDS:
+        kind = "unknown"
+    # A case is the argument for a feature, and only a feature has one. Anything else that arrives in
+    # that field is a model's aside and is dropped rather than shown as if it were a decision.
+    case = sanitize(answer.get("case"), 400) if kind == "feature" else ""
+
     summary = sanitize(answer.get("summary"), 400)
     blocking = clean_list(answer.get("blocking"))
     suggestions = clean_list(answer.get("suggestions"))
     findings = clean_list(mechanical(meta))
 
+    # A feature is the one kind of change whose existence has to be argued, so an acceptance with no
+    # argument is not one. The prompt says as much; this holds whatever the answer says.
+    unargued = verdict == "accept" and kind == "feature" and not case
+    if unargued:
+        blocking = clean_list(blocking + [UNARGUED])
+
     # A finding is a fact, so it outranks the reading: it turns an acceptance into a request for
     # changes, and it survives every verdict.
     if findings and verdict in ("accept", "needs-review"):
         verdict = "changes-requested"
+    if unargued:
+        verdict = "needs-review"
 
     # The contract says blocking is empty exactly when the verdict is accept. Hold it to that in
     # both directions: an accepted change with a blocker is not accepted, and a refusal with no
@@ -218,6 +240,8 @@ def decide(meta: dict, answer: dict, env: dict) -> dict:
     label, heading, lede = LABELS[verdict]
     return {
         "verdict": verdict,
+        "kind": kind,
+        "case": case,
         "label": label,
         "heading": heading,
         "lede": lede,
@@ -233,6 +257,8 @@ def render(meta: dict, plan: dict) -> str:
     repo = os.environ.get("REPO", "cedvdb/phone_form_field")
     base = meta.get("base_ref", "main")
     parts = [MARKER, f"### {plan['heading']}", "", plan["summary"], ""]
+    if plan["case"]:
+        parts += ["**Why it belongs here**", "", plan["case"], ""]
     if plan["lede"]:
         parts += [plan["lede"], ""]
     if plan["blocking"]:
@@ -353,6 +379,34 @@ def _self_test() -> int:
     ok.append(refused["verdict"] == "needs-review" and refused["label"] == "ai:needs-review")
     unknown = decide(whole, {"verdict": "looks nice"}, env())
     ok.append(unknown["verdict"] == "needs-review")
+
+    # A feature has to carry its argument; a fix does not have one to carry.
+    argued = decide(
+        whole,
+        {
+            "verdict": "accept",
+            "kind": "feature",
+            "case": "Closes #123: a divider between the button and the number, which the existing "
+            "suffix cannot express.",
+        },
+        env(AUTO_MERGE="off"),
+    )
+    ok.append(argued["verdict"] == "accept" and argued["kind"] == "feature")
+    ok.append("Why it belongs here" in render(whole, argued))
+
+    silent = decide(whole, {"verdict": "accept", "kind": "feature"}, env())
+    ok.append(silent["verdict"] == "needs-review" and silent["label"] == "ai:needs-review")
+    ok.append(sanitize(UNARGUED) in silent["blocking"] and silent["merge"] is False)
+
+    repaired = decide(whole, {"verdict": "accept", "kind": "fix"}, env(AUTO_MERGE="off"))
+    ok.append(repaired["verdict"] == "accept" and repaired["case"] == "")
+    ok.append("Why it belongs here" not in render(whole, repaired))
+
+    # A case on something that is not a feature is an aside, not a decision.
+    ok.append(decide(whole, {"verdict": "accept", "kind": "fix", "case": "nice"}, env())["case"] == "")
+    # An unknown kind is not a feature, so it does not get the requirement either.
+    odd = decide(whole, {"verdict": "accept", "kind": "improvement"}, env())
+    ok.append(odd["kind"] == "unknown" and odd["verdict"] == "accept")
 
     # The comment is one comment, marked, and says why it is not merging.
     body = render(whole, accepted)
