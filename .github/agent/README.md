@@ -40,6 +40,11 @@ gh secret set GEMINI_API_KEY --repo cedvdb/phone_form_field
 Optional, when you want another provider or model — any OpenAI-compatible endpoint that reads
 `Authorization: Bearer <key>`, such as DeepSeek, OpenRouter or a local Ollama:
 
+The default is the **stable** Gemini Flash line rather than the newest one. The newest is the one most
+in demand, and `503 This model is currently experiencing high demand` is what that looks like: the key
+works, the model exists, and the request is refused for capacity. Retrying later is the fix, and
+`vars.REVIEW_MODEL` points the reviewer at another model without touching the workflow.
+
 ```shell
 gh variable set REVIEW_ENDPOINT --body 'https://api.deepseek.com/chat/completions'
 gh variable set REVIEW_MODEL    --body 'deepseek-chat'
