@@ -1,4 +1,7 @@
 
+## [12.0.3]
+- Assigning a `PhoneNumber` to `PhoneController.value` now keeps that exact value. Before, the formatted national number was parsed again, which could strip a national prefix from the nsn.
+
 ## [12.0.2]
 - Fixed the phone number being displayed right to left in RTL locales.
 

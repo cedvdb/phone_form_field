@@ -315,6 +315,38 @@ void main() {
       controller.dispose();
     });
 
+    testWidgets('Should keep the value assigned to the controller',
+        (tester) async {
+      final controller = PhoneController();
+      await tester.pumpWidget(getWidget(controller: controller));
+      // the national prefix is part of the nsn, assigning the value must not
+      // parse it back and strip it
+      const phoneNumber = PhoneNumber(isoCode: IsoCode.FR, nsn: '0612345678');
+
+      controller.value = phoneNumber;
+      await tester.pumpAndSettle();
+
+      expect(controller.value, equals(phoneNumber));
+      expect(find.text(phoneNumber.formatNsn()), findsOneWidget);
+      controller.dispose();
+    });
+
+    testWidgets('Should reset to the exact initial value', (tester) async {
+      const phoneNumber = PhoneNumber(isoCode: IsoCode.FR, nsn: '0612345678');
+      final controller = PhoneController(initialValue: phoneNumber);
+      await tester.pumpWidget(getWidget(controller: controller));
+      final phoneField = find.byType(PhoneFormField);
+      await tester.enterText(phoneField, '488997722');
+      await tester.pumpAndSettle();
+      expect(controller.value.nsn, equals('488997722'));
+
+      formKey.currentState?.reset();
+      await tester.pumpAndSettle();
+
+      expect(controller.value, equals(phoneNumber));
+      controller.dispose();
+    });
+
     testWidgets('Should change value of input when controller changes',
         (tester) async {
       final controller = PhoneController();

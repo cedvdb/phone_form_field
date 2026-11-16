@@ -9,12 +9,11 @@ class PhoneController extends ChangeNotifier {
 
   set value(PhoneNumber phoneNumber) {
     _value = phoneNumber;
-    final formattedNsn = _value.formatNsn();
-    if (_formattedNationalNumberController.text != formattedNsn) {
-      changeNationalNumber(formattedNsn);
-    } else {
-      notifyListeners();
-    }
+    // Display the new value without parsing it back: parsing the formatted
+    // national number can strip a national prefix from the nsn, which would
+    // silently change the value that was just assigned.
+    _changeFormattedNationalNumber(_value.formatNsn());
+    notifyListeners();
   }
 
   /// text editing controller of the nsn ( where user types the phone number )
