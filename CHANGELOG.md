@@ -1,4 +1,7 @@
 
+## [12.0.4]
+- Fixed the length limit staying on the previous country when the controller changes the country. With `shouldLimitLengthByCountry: true`, a 10 digit number was cut to 9 digits after switching from France to the United States.
+
 ## [12.0.3]
 - Assigning a `PhoneNumber` to `PhoneController.value` now keeps that exact value. Before, the formatted national number was parsed again, which could strip a national prefix from the nsn.
 
