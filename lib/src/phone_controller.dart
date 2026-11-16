@@ -59,15 +59,43 @@ class PhoneController extends ChangeNotifier {
       // Handle case where the phone number contains an area code such as (416), and user has begun to delete it, i.e. the text input is now (416.
       // We need to skip parsing/formatting here, else the parentheses will be added back
     } else {
-      final phoneNumber = PhoneNumber.parse(
-        text,
-        destinationCountry: _value.isoCode,
-      );
+      final phoneNumber = _parseNationalNumber(text);
       _value = phoneNumber;
       newFormattedText = phoneNumber.formatNsn();
     }
     _changeFormattedNationalNumber(newFormattedText);
     notifyListeners();
+  }
+
+  /// Parses [text] typed without a leading `+` as a national number.
+  ///
+  /// [PhoneNumber.parse] reads a leading country calling code as an
+  /// international prefix when the whole input is not valid without it. In a
+  /// national input field that silently removes the first digits the user
+  /// typed: `4705555` in Norway became `05555`. The calling code is only
+  /// honoured when the digits are too long for a national number.
+  PhoneNumber _parseNationalNumber(String text) {
+    final phoneNumber = PhoneNumber.parse(
+      text,
+      destinationCountry: _value.isoCode,
+    );
+    final digits = text.replaceAll(RegExp(r'[^0-9]'), '');
+    final countryCode = phoneNumber.countryCode;
+    final countryCodeWasStripped = digits.startsWith(countryCode) &&
+        digits.substring(countryCode.length) == phoneNumber.nsn;
+    if (countryCodeWasStripped &&
+        digits.length <= _maxNsnLength(phoneNumber.isoCode)) {
+      return PhoneNumber(isoCode: phoneNumber.isoCode, nsn: digits);
+    }
+    return phoneNumber;
+  }
+
+  /// Longest national significant number accepted for [isoCode].
+  int _maxNsnLength(IsoCode isoCode) {
+    final mobileLength = metadataLengthsByIsoCode[isoCode]?.mobile.last ?? 0;
+    final fixedLineLength =
+        metadataLengthsByIsoCode[isoCode]?.fixedLine.last ?? 0;
+    return mobileLength > fixedLineLength ? mobileLength : fixedLineLength;
   }
 
   void _changeFormattedNationalNumber(String newFormattedText) {
