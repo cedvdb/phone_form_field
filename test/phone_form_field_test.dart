@@ -891,6 +891,29 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.text(national), findsOneWidget);
       });
+
+      testWidgets(
+          'Should follow the country of the controller when limitLength is true',
+          (tester) async {
+        final controller = PhoneController(
+          initialValue:
+              PhoneNumber.parse('+33', destinationCountry: IsoCode.FR),
+        );
+        await tester
+            .pumpWidget(getWidget(controller: controller, limitLength: true));
+        await tester.pumpAndSettle();
+
+        // France allows 9 digits, the United States 10. Changing the country
+        // through the controller must also change the length limit.
+        controller.changeCountry(IsoCode.US);
+        await tester.pumpAndSettle();
+        await tester.enterText(find.byType(PhoneFormField), '4165551234');
+        await tester.pumpAndSettle();
+
+        expect(controller.value.nsn, equals('4165551234'));
+        expect(controller.value.isoCode, equals(IsoCode.US));
+        controller.dispose();
+      });
     });
 
     testWidgets(

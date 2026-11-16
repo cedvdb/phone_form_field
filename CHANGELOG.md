@@ -1,4 +1,12 @@
 
+## [12.0.7]
+- With `shouldLimitLengthByCountry: true`, the maximum length was only
+  computed at init and after a country was picked in the selector. When the
+  controller changed the country (`changeCountry` or an assigned value) the
+  old limit stayed and valid digits were cut: a 10 digit US number typed
+  after switching from France was reduced to 9 digits. The limit now follows
+  the controller.
+
 ## [12.0.6]
 - The national prefix is only displayed when the country dial code is
   hidden. With the dial code shown, the field keeps showing `477 88 99 22`
