@@ -801,6 +801,31 @@ void main() {
         final widget = finder.at(1).evaluate().single.widget as Directionality;
         expect(widget.textDirection, TextDirection.ltr);
       });
+
+      for (final textDirection in TextDirection.values) {
+        testWidgets(
+            'Should display the phone number left to right '
+            '(${textDirection.name})', (tester) async {
+          await tester.pumpWidget(MaterialApp(
+            localizationsDelegates: PhoneFieldLocalization.delegates,
+            supportedLocales: const [Locale('en')],
+            // below MaterialApp, which otherwise resets the direction
+            home: Directionality(
+              textDirection: textDirection,
+              child: Scaffold(
+                body: PhoneFormField(
+                  initialValue: PhoneNumber.parse('+33612345678'),
+                ),
+              ),
+            ),
+          ));
+          final editable = tester.widget<EditableText>(
+            find.byType(EditableText),
+          );
+          expect(editable.textDirection, TextDirection.ltr);
+          expect(editable.textAlign, TextAlign.left);
+        });
+      }
     });
 
     group('Dispose controller', () {

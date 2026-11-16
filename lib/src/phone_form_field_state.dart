@@ -114,7 +114,9 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
                 '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
           ],
       onChanged: _onTextfieldChanged,
-      textAlign: _computeTextAlign(),
+      // phone numbers are always written left to right
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.left,
       autofillHints: widget.autofillHints,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
