@@ -1,4 +1,7 @@
 
+## [12.0.4]
+- Fixed a typed national number that starts with the selected country's calling code losing its first digits. `4705555` in Norway is now kept instead of being stored as `05555`.
+
 ## [12.0.3]
 - Assigning a `PhoneNumber` to `PhoneController.value` now keeps that exact value. Before, the formatted national number was parsed again, which could strip a national prefix from the nsn.
 

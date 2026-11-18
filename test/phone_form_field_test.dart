@@ -380,6 +380,63 @@ void main() {
       controller.dispose();
     });
 
+    testWidgets(
+        'Should keep a national number that starts with the country calling code',
+        (tester) async {
+      final controller = PhoneController(
+        initialValue: const PhoneNumber(isoCode: IsoCode.NO, nsn: ''),
+      );
+      await tester.pumpWidget(getWidget(controller: controller));
+      final phoneField = find.byType(PhoneFormField);
+
+      await tester.enterText(phoneField, '4705555');
+      await tester.pumpAndSettle();
+
+      expect(
+        controller.value,
+        equals(const PhoneNumber(isoCode: IsoCode.NO, nsn: '4705555')),
+        reason: 'the 47 calling code must not be removed from the typed nsn',
+      );
+      controller.dispose();
+    });
+
+    testWidgets(
+        'Should strip the calling code of a pasted international number',
+        (tester) async {
+      final controller = PhoneController(
+        initialValue: const PhoneNumber(isoCode: IsoCode.FR, nsn: ''),
+      );
+      await tester.pumpWidget(getWidget(controller: controller));
+      final phoneField = find.byType(PhoneFormField);
+
+      await tester.enterText(phoneField, '33612345678');
+      await tester.pumpAndSettle();
+
+      expect(
+        controller.value,
+        equals(const PhoneNumber(isoCode: IsoCode.FR, nsn: '612345678')),
+      );
+      controller.dispose();
+    });
+
+    testWidgets('Should strip the national prefix of a typed national number',
+        (tester) async {
+      final controller = PhoneController(
+        initialValue: const PhoneNumber(isoCode: IsoCode.FR, nsn: ''),
+      );
+      await tester.pumpWidget(getWidget(controller: controller));
+      final phoneField = find.byType(PhoneFormField);
+
+      await tester.enterText(phoneField, '0612345678');
+      await tester.pumpAndSettle();
+
+      expect(
+        controller.value,
+        equals(const PhoneNumber(isoCode: IsoCode.FR, nsn: '612345678')),
+      );
+      controller.dispose();
+    });
+
     testWidgets('Should call onChange', (tester) async {
       bool changed = false;
       PhoneNumber? phoneNumber =
