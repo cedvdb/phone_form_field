@@ -1,4 +1,7 @@
 
+## [12.0.5]
+- Fixed a number being replaced while typing when its first digits form a short local number. In Guernsey, `778144` became `1481 778144`, so a mobile number such as `7781 441151` could not be entered.
+
 ## [12.0.4]
 - Fixed a typed national number that starts with the selected country's calling code losing its first digits. `4705555` in Norway is now kept instead of being stored as `05555`.
 
