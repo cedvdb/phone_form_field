@@ -419,6 +419,30 @@ void main() {
       controller.dispose();
     });
 
+    testWidgets('Should keep typing a number that starts like a local number',
+        (tester) async {
+      final controller = PhoneController(
+        initialValue: const PhoneNumber(isoCode: IsoCode.GG, nsn: ''),
+      );
+      await tester.pumpWidget(getWidget(controller: controller));
+      final phoneField = find.byType(PhoneFormField);
+
+      // in Guernsey 778144 alone is a local number for +44 1481 778144
+      await tester.enterText(phoneField, '778144');
+      await tester.pumpAndSettle();
+      expect(controller.value.nsn, equals('778144'));
+
+      final textField = tester.widget<TextField>(find.byType(TextField));
+      await tester.enterText(phoneField, '${textField.controller!.text}1151');
+      await tester.pumpAndSettle();
+
+      expect(
+        controller.value,
+        equals(const PhoneNumber(isoCode: IsoCode.GG, nsn: '7781441151')),
+      );
+      controller.dispose();
+    });
+
     testWidgets('Should strip the national prefix of a typed national number',
         (tester) async {
       final controller = PhoneController(

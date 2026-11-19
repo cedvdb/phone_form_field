@@ -80,6 +80,12 @@ class PhoneController extends ChangeNotifier {
       destinationCountry: _value.isoCode,
     );
     final digits = text.replaceAll(RegExp(r'[^0-9]'), '');
+    // A short local number gets its area code prepended (`778144` in Guernsey
+    // becomes `1481778144`), but while typing it is usually the start of a
+    // longer number, so the digits are kept as typed.
+    if (phoneNumber.nsn.length > digits.length) {
+      return PhoneNumber(isoCode: phoneNumber.isoCode, nsn: digits);
+    }
     final countryCode = phoneNumber.countryCode;
     final countryCodeWasStripped = digits.startsWith(countryCode) &&
         digits.substring(countryCode.length) == phoneNumber.nsn;
