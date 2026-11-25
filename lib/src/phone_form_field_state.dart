@@ -6,6 +6,9 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
 
   int? _maxValidLength;
 
+  /// national prefix that is part of the displayed text, when there is one
+  String? _nationalPrefixForDisplay;
+
   @override
   PhoneFormField get widget => super.widget as PhoneFormField;
 
@@ -21,9 +24,29 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     controller.addListener(_onControllerValueChanged);
     focusNode = widget.focusNode ?? FocusNode();
 
+    _syncDisplayFormat();
+
     if (widget.shouldLimitLengthByCountry) {
       _changeMaxValidLength();
     }
+  }
+
+  @override
+  void didUpdateWidget(PhoneFormField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _syncDisplayFormat();
+    if (widget.shouldLimitLengthByCountry) {
+      _changeMaxValidLength();
+    }
+  }
+
+  /// The national prefix is only part of the displayed number when the dial
+  /// code is hidden: `+32` followed by `0477 88 99 22` reads as an invalid
+  /// number.
+  void _syncDisplayFormat() {
+    controller.displayFormat = widget.countryButtonStyle.showDialCode
+        ? PhoneNumberFormat.nsn
+        : PhoneNumberFormat.national;
   }
 
   @override
@@ -109,7 +132,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
       inputFormatters: widget.inputFormatters ??
           [
             if (widget.shouldLimitLengthByCountry && _maxValidLength != null)
-              LimitMaxLengthFormatter(_maxValidLength!),
+              LimitMaxLengthFormatter(
+                _maxValidLength!,
+                nationalPrefix: _nationalPrefixForDisplay,
+              ),
             FilteringTextInputFormatter.allow(RegExp(
                 '[${AllowedCharacters.plus}${AllowedCharacters.digits}${AllowedCharacters.punctuation}]')),
           ],
@@ -281,6 +307,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     }
 
     _maxValidLength = maxLength;
+    _nationalPrefixForDisplay =
+        controller.displayFormat == PhoneNumberFormat.national
+            ? metadataByIsoCode[isoCode]?.nationalPrefix
+            : null;
   }
 }
 

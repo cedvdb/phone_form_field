@@ -1,5 +1,5 @@
 export 'package:phone_numbers_parser/phone_numbers_parser.dart'
-    show PhoneNumber, PhoneNumberType, IsoCode;
+    show PhoneNumber, PhoneNumberType, IsoCode, PhoneNumberFormat;
 
 export 'src/country_button.dart';
 export 'src/country_button_style.dart';

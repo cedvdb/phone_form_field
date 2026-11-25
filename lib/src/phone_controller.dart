@@ -12,9 +12,37 @@ class PhoneController extends ChangeNotifier {
     // Display the new value without parsing it back: parsing the formatted
     // national number can strip a national prefix from the nsn, which would
     // silently change the value that was just assigned.
-    _changeFormattedNationalNumber(_value.formatNsn());
+    _changeFormattedNationalNumber(_formattedNational(_value));
     notifyListeners();
   }
+
+  /// How the [value] is written in the text field.
+  ///
+  /// The national prefix is only part of the display when the dial code is not
+  /// shown next to the field: `+32` followed by `0477 88 99 22` reads as an
+  /// invalid number, while `0477 88 99 22` alone only makes sense in a
+  /// national context.
+  PhoneNumberFormat get displayFormat => _displayFormat;
+  set displayFormat(PhoneNumberFormat format) {
+    if (_displayFormat == format) {
+      return;
+    }
+    _displayFormat = format;
+    _changeFormattedNationalNumber(_formattedNational(_value));
+  }
+
+  PhoneNumberFormat _displayFormat = PhoneNumberFormat.nsn;
+
+  /// Number of national prefix digits that the formatted text contains.
+  int get displayedPrefixLength {
+    if (displayFormat != PhoneNumberFormat.national) {
+      return 0;
+    }
+    return metadataByIsoCode[_value.isoCode]?.nationalPrefix?.length ?? 0;
+  }
+
+  String _formattedNational(PhoneNumber phoneNumber) =>
+      phoneNumber.format(format: displayFormat);
 
   /// text editing controller of the nsn ( where user types the phone number )
   late final TextEditingController _formattedNationalNumberController;
@@ -22,7 +50,7 @@ class PhoneController extends ChangeNotifier {
     this.initialValue = const PhoneNumber(isoCode: IsoCode.US, nsn: ''),
   })  : _value = initialValue,
         _formattedNationalNumberController = TextEditingController(
-          text: initialValue.formatNsn(),
+          text: initialValue.format(format: PhoneNumberFormat.nsn),
         );
 
   void changeCountry(IsoCode isoCode) {
@@ -30,13 +58,13 @@ class PhoneController extends ChangeNotifier {
       _value.nsn,
       destinationCountry: isoCode,
     );
-    _changeFormattedNationalNumber(_value.formatNsn());
+    _changeFormattedNationalNumber(_formattedNational(_value));
     notifyListeners();
   }
 
   void changeNationalNumber(String? text) {
     text = text ?? '';
-    final oldFormattedText = _value.formatNsn();
+    final oldFormattedText = _formattedNational(_value);
     var newFormattedText = text;
 
     bool isDeleting = text.length < oldFormattedText.length;
@@ -51,7 +79,7 @@ class PhoneController extends ChangeNotifier {
       // the national number field to remove the "+ country dial code"
       if (phoneNumber != null) {
         _value = phoneNumber;
-        newFormattedText = _value.formatNsn();
+        newFormattedText = _formattedNational(_value);
       }
     } else if (isDeleting &&
         text.startsWith(
@@ -61,7 +89,7 @@ class PhoneController extends ChangeNotifier {
     } else {
       final phoneNumber = _parseNationalNumber(text);
       _value = phoneNumber;
-      newFormattedText = phoneNumber.formatNsn();
+      newFormattedText = _formattedNational(phoneNumber);
     }
     _changeFormattedNationalNumber(newFormattedText);
     notifyListeners();
@@ -90,7 +118,8 @@ class PhoneController extends ChangeNotifier {
     final countryCodeWasStripped = digits.startsWith(countryCode) &&
         digits.substring(countryCode.length) == phoneNumber.nsn;
     if (countryCodeWasStripped &&
-        digits.length <= _maxNsnLength(phoneNumber.isoCode)) {
+        digits.length <=
+            _maxNsnLength(phoneNumber.isoCode) + displayedPrefixLength) {
       return PhoneNumber(isoCode: phoneNumber.isoCode, nsn: digits);
     }
     return phoneNumber;
