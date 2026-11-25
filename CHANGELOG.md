@@ -7,8 +7,8 @@
 - With `shouldLimitLengthByCountry`, a displayed national prefix no longer
   counts against the length limit, so the number can still be completed
   when the dial code is hidden.
-- Requires phone_numbers_parser 9.1.0, whose national format now includes
-  the national prefix.
+- Requires phone_numbers_parser 9.2.0: the field uses its `format()` API and
+  its national format, which now includes the national prefix.
 
 ## [12.0.5]
 - Fixed a number being replaced while typing when its first digits form a short local number. In Guernsey, `778144` became `1481 778144`, so a mobile number such as `7781 441151` could not be entered.

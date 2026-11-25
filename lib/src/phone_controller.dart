@@ -22,8 +22,8 @@ class PhoneController extends ChangeNotifier {
   /// shown next to the field: `+32` followed by `0477 88 99 22` reads as an
   /// invalid number, while `0477 88 99 22` alone only makes sense in a
   /// national context.
-  NsnFormat get displayFormat => _displayFormat;
-  set displayFormat(NsnFormat format) {
+  PhoneNumberFormat get displayFormat => _displayFormat;
+  set displayFormat(PhoneNumberFormat format) {
     if (_displayFormat == format) {
       return;
     }
@@ -31,18 +31,18 @@ class PhoneController extends ChangeNotifier {
     _changeFormattedNationalNumber(_formattedNational(_value));
   }
 
-  NsnFormat _displayFormat = NsnFormat.nationalWithoutPrefix;
+  PhoneNumberFormat _displayFormat = PhoneNumberFormat.nsn;
 
   /// Number of national prefix digits that the formatted text contains.
   int get displayedPrefixLength {
-    if (displayFormat != NsnFormat.national) {
+    if (displayFormat != PhoneNumberFormat.national) {
       return 0;
     }
     return metadataByIsoCode[_value.isoCode]?.nationalPrefix?.length ?? 0;
   }
 
   String _formattedNational(PhoneNumber phoneNumber) =>
-      phoneNumber.formatNsn(format: displayFormat);
+      phoneNumber.format(format: displayFormat);
 
   /// text editing controller of the nsn ( where user types the phone number )
   late final TextEditingController _formattedNationalNumberController;
@@ -50,9 +50,7 @@ class PhoneController extends ChangeNotifier {
     this.initialValue = const PhoneNumber(isoCode: IsoCode.US, nsn: ''),
   })  : _value = initialValue,
         _formattedNationalNumberController = TextEditingController(
-          text: initialValue.formatNsn(
-            format: NsnFormat.nationalWithoutPrefix,
-          ),
+          text: initialValue.format(format: PhoneNumberFormat.nsn),
         );
 
   void changeCountry(IsoCode isoCode) {

@@ -45,8 +45,8 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   /// number.
   void _syncDisplayFormat() {
     controller.displayFormat = widget.countryButtonStyle.showDialCode
-        ? NsnFormat.nationalWithoutPrefix
-        : NsnFormat.national;
+        ? PhoneNumberFormat.nsn
+        : PhoneNumberFormat.national;
   }
 
   @override
@@ -307,9 +307,10 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
     }
 
     _maxValidLength = maxLength;
-    _nationalPrefixForDisplay = controller.displayFormat == NsnFormat.national
-        ? metadataByIsoCode[isoCode]?.nationalPrefix
-        : null;
+    _nationalPrefixForDisplay =
+        controller.displayFormat == PhoneNumberFormat.national
+            ? metadataByIsoCode[isoCode]?.nationalPrefix
+            : null;
   }
 }
 

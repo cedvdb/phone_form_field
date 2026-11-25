@@ -327,7 +327,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(controller.value, equals(phoneNumber));
-      expect(find.text(phoneNumber.formatNsn()), findsOneWidget);
+      expect(find.text(phoneNumber.format(format: PhoneNumberFormat.nsn)),
+          findsOneWidget);
       controller.dispose();
     });
 
@@ -358,7 +359,7 @@ void main() {
       expect(find.text('+ 33'), findsWidgets);
       expect(
         find.text(
-          controller.value.formatNsn(format: controller.displayFormat),
+          controller.value.format(format: controller.displayFormat),
         ),
         findsOneWidget,
       );
