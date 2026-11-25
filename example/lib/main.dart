@@ -42,6 +42,7 @@ class PhoneFieldView extends StatelessWidget {
   final bool withLabel;
   final bool outlineBorder;
   final bool isCountryButtonPersistant;
+  final bool showSeparator;
   final bool mobileOnly;
   final Locale locale;
 
@@ -53,6 +54,7 @@ class PhoneFieldView extends StatelessWidget {
     required this.withLabel,
     required this.outlineBorder,
     required this.isCountryButtonPersistant,
+    required this.showSeparator,
     required this.mobileOnly,
     required this.locale,
   }) : super(key: key);
@@ -97,7 +99,8 @@ class PhoneFieldView extends StatelessWidget {
                   showIsoCode: false,
                   showDialCode: true,
                   showDropdownIcon: true,
-                  borderRadius: BorderRadius.circular(50)),
+                  borderRadius: BorderRadius.circular(50),
+                  suffix: showSeparator ? const VerticalDivider() : null),
 
               validator: _getValidator(context),
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -147,6 +150,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
   bool outlineBorder = true;
   bool mobileOnly = true;
   bool isCountryButtonPersistent = true;
+  bool showSeparator = false;
   bool withLabel = true;
   CountrySelectorNavigator selectorNavigator =
       const CountrySelectorNavigator.page();
@@ -196,6 +200,11 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                       onChanged: (v) =>
                           setState(() => isCountryButtonPersistent = v),
                       title: const Text('Persistent country chip'),
+                    ),
+                    SwitchListTile(
+                      value: showSeparator,
+                      onChanged: (v) => setState(() => showSeparator = v),
+                      title: const Text('Separator'),
                     ),
                     SwitchListTile(
                       value: mobileOnly,
@@ -284,6 +293,7 @@ class PhoneFormFieldScreenState extends State<PhoneFormFieldScreen> {
                             outlineBorder: outlineBorder,
                             isCountryButtonPersistant:
                                 isCountryButtonPersistent,
+                            showSeparator: showSeparator,
                             mobileOnly: mobileOnly,
                             locale: locale,
                           ),

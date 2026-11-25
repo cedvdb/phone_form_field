@@ -1,4 +1,10 @@
 
+## [12.0.8]
+- Added `CountryButtonStyle.suffix` to display a widget after the dropdown
+  icon, eg: a `VerticalDivider` separating the country button from the phone
+  number. With `showDropdownIcon: false` it can also be used as a custom
+  dropdown icon.
+
 ## [12.0.7]
 - With `shouldLimitLengthByCountry: true`, the maximum length was only
   computed at init and after a country was picked in the selector. When the

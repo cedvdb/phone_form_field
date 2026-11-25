@@ -101,6 +101,17 @@ controller.dispose();
 | `decoration` | `InputDecoration()` | The standard `TextField` decoration |
 | ... | | All the `TextField` and `FormField` parameters are forwarded |
 
+### Separator between the country button and the number
+
+`CountryButtonStyle.suffix` displays a widget after the dropdown icon, for
+example a `VerticalDivider`, which is as tall as the flag and dial code:
+
+```dart
+PhoneFormField(
+  countryButtonStyle: const CountryButtonStyle(suffix: VerticalDivider()),
+);
+```
+
 ### Preloading flags
 
 On the web the flags are assets downloaded on demand, which can cause a flash
