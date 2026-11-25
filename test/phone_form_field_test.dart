@@ -356,7 +356,12 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('+ 33'), findsWidgets);
-      expect(find.text(controller.value.formatNsn()), findsOneWidget);
+      expect(
+        find.text(
+          controller.value.formatNsn(format: controller.displayFormat),
+        ),
+        findsOneWidget,
+      );
       controller.dispose();
     });
 
@@ -885,6 +890,49 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.text(national), findsOneWidget);
       });
+    });
+
+    testWidgets(
+        'Should display the national prefix only when the dial code is hidden',
+        (tester) async {
+      final controller = PhoneController(
+        initialValue: PhoneNumber(isoCode: IsoCode.BE, nsn: '477889922'),
+      );
+      // the dial code is displayed: the text must not repeat the trunk prefix,
+      // otherwise `+32` followed by `0477 88 99 22` reads as an invalid number.
+      await tester.pumpWidget(getWidget(controller: controller));
+      await tester.pumpAndSettle();
+      expect(find.text('477 88 99 22'), findsOneWidget);
+
+      // without the dial code the text has to be dialable on its own.
+      await tester.pumpWidget(
+        getWidget(controller: controller, showDialCode: false),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('0477 88 99 22'), findsOneWidget);
+      expect(controller.value.nsn, equals('477889922'));
+      controller.dispose();
+    });
+
+    testWidgets('Should keep the national prefix within the length limit',
+        (tester) async {
+      final controller = PhoneController(
+        initialValue: PhoneNumber.parse('+32'),
+      );
+      await tester.pumpWidget(
+        getWidget(
+          controller: controller,
+          limitLength: true,
+          showDialCode: false,
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(PhoneFormField), '4778899222');
+      await tester.pumpAndSettle();
+      expect(find.text('0477 88 99 22'), findsOneWidget);
+      expect(controller.value.nsn, equals('477889922'));
+      expect(controller.value.isValid(), isTrue);
+      controller.dispose();
     });
 
     testWidgets(
