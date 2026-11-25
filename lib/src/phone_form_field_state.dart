@@ -75,6 +75,13 @@ class PhoneFormFieldState extends FormFieldState<PhoneNumber> {
   }
 
   void _onControllerValueChanged() {
+    // the controller can change the country without the selector, for example
+    // through changeCountry or by assigning a value. The length limit belongs
+    // to the country, so it has to follow.
+    if (widget.shouldLimitLengthByCountry) {
+      _changeMaxValidLength();
+    }
+
     /// when the controller changes because the user called
     /// controller.value = x we need to change the value of the form field
     if (controller.value != value) {
