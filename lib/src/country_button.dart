@@ -16,6 +16,9 @@ class CountryButton extends StatelessWidget {
   final Color? dropdownIconColor;
   final bool enabled;
 
+  /// {@macro phone_form_field.CountryButtonStyle.suffix}
+  final Widget? suffix;
+
   const CountryButton({
     super.key,
     required this.isoCode,
@@ -30,6 +33,7 @@ class CountryButton extends StatelessWidget {
     this.dropdownIconColor,
     this.enabled = true,
     this.borderRadius,
+    this.suffix,
   });
 
   @override
@@ -41,6 +45,7 @@ class CountryButton extends StatelessWidget {
         CountrySelectorLocalizationEn();
     final countryDialCode = '+ ${countryLocalization.countryDialCode(isoCode)}';
     final countryName = countryLocalization.countryName(isoCode);
+    final suffix = this.suffix;
 
     return Semantics(
       label: '$countryName $countryDialCode',
@@ -51,7 +56,7 @@ class CountryButton extends StatelessWidget {
         borderRadius: borderRadius,
         child: Padding(
           padding: padding,
-          child: Row(
+          child: _fitContentHeight(Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               if (showIsoCode) ...[
@@ -86,10 +91,24 @@ class CountryButton extends StatelessWidget {
                   Icons.arrow_drop_down,
                   color: dropdownIconColor,
                 ),
+              if (suffix != null) suffix,
             ],
-          ),
+          )),
         ),
       ),
+    );
+  }
+
+  /// Sizes the row to its content height, so that a suffix such as a
+  /// VerticalDivider neither collapses nor fills the min height of the parent
+  /// (eg: the 48px box of InputDecoration.prefixIcon).
+  Widget _fitContentHeight(Widget row) {
+    if (suffix == null) return row;
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      widthFactor: 1.0,
+      heightFactor: 1.0,
+      child: IntrinsicHeight(child: row),
     );
   }
 }
